@@ -174,6 +174,7 @@ def main():
     clickButton(waitForObject(names.buttonsFrame_acceptButton_QPushButton))
 
     clickButton(waitForObject(names.settingsScreen_pbBack_QPushButton))
+    
   
     # OPEN STONE ASSISTANT
   
@@ -181,11 +182,14 @@ def main():
    
     # READ EXCEL
 
-    excelpath = "/home/ntc/suite_gemini_Localization_croatian/tst_GEM-LOC-CROATIA-STONE-GUIDED/testdata/Gemini strings.xlsx"
-
+    excelpath = "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Croatia/tst_GEM-LOC-CROATIA-STONE-GUIDED/testdata/Gemini strings.xlsx"
     workbook = openpyxl.load_workbook(excelpath,data_only=True)
 
     sheet = workbook.active
+
+    test.vp("Verify Stone Guided Screen")
+
+  
 
     # STONE GUIDED SELECTION
    

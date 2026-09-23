@@ -4,7 +4,7 @@ import names
 import openpyxl
 import re
 
-EXCEL_PATH = "/home/ntc/suite_gemini_Localization_croatian/tst_GEM-LOC-CROATIA-STONE-GUIDED/testdata/Gemini strings.xlsx"
+EXCEL_PATH = "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Croatia/tst_GEM-LOC-CROATIA-STONE-GUIDED/testdata/Gemini strings.xlsx"
 
 
 def normalize(text):
@@ -166,10 +166,16 @@ def main():
     # Initiate Calibration
     mouseClick(waitForObject(names.pInitiateCalibrationFrame_pCalibrationMessageLabel_QLabel), 400, 280, Qt.NoModifier, Qt.LeftButton)
 
+    test.vp("Verify initial screen")
+
     # Calibration Popup
     calibration_popup = waitForObject(names.calibrationPopupDialog_CalibrationPopupDialog)
     verify_screen(calibration_popup, "Calibration Popup")
     clickButton(waitForObject(names.calibrationPopupDialog_pbMiddleButton_QPushButton))
+
+    test.vp("Verify Countdown screen")
+
+    
 
     # Calibration screen
     mouseClick(waitForObject(names.pInitiateCalibrationFrame_pCalibrationMessageLabel_QLabel), 289, 442, Qt.NoModifier, Qt.LeftButton)

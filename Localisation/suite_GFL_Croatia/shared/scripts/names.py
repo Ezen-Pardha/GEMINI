@@ -144,3 +144,7 @@ treatmentScreen_bottomBar_QFrame = {"container": treatmentScreen_TreatmentScreen
 bottomBar_lbPedalStatusIcon_QLabel = {"container": treatmentScreen_bottomBar_QFrame, "name": "lbPedalStatusIcon", "type": "QLabel", "visible": 1}
 gbSoftTissueProcedures_pbIncision_QPushButton = {"container": softTissueAssistantModeScreen_gbSoftTissueProcedures_QFrame, "name": "pbIncision", "type": "QPushButton", "visible": 1}
 softTissueAssistantModeScreen_pbContinue_QPushButton = {"container": softTissueAssistantModeScreen_SoftTissueAssistantModeScreen, "name": "pbContinue", "type": "QPushButton", "visible": 1}
+o_QSplashScreen = {"type": "QSplashScreen", "unnamed": 1, "visible": 0}
+bottomBar_stateSwitch_StateSwitch = {"container": treatmentScreen_bottomBar_QFrame, "name": "stateSwitch", "type": "StateSwitch", "visible": 1}
+stateSwitch_readyButton_QPushButton = {"container": bottomBar_stateSwitch_StateSwitch, "name": "readyButton", "type": "QPushButton", "visible": 1}
+stateSwitch_standbyButton_QPushButton = {"container": bottomBar_stateSwitch_StateSwitch, "name": "standbyButton", "type": "QPushButton", "visible": 1}

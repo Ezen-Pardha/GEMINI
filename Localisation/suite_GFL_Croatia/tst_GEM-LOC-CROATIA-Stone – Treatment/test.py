@@ -7,15 +7,17 @@ import re
 
 EXCEL_PATH = "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Croatia/tst_GEM-LOC-CROATIA-STONE-GUIDED/testdata/Gemini strings.xlsx"
 
-VERIFIED_RESULTS = set()
+
+# Stores strings already reported during the complete test
+verified_strings = set()
 
 
 def normalize(text):
+
     if text is None:
         return ""
 
-    text = str(text)
-    text = re.sub(r"<[^>]+>", " ", text)
+    text = re.sub(r"<[^>]+>", " ", str(text))
     text = " ".join(text.split())
     text = re.sub(r"\s*<\s*", " < ", text)
     text = re.sub(r"\s*>\s*", " > ", text)
@@ -42,7 +44,6 @@ def get_all_texts(obj):
 
             if value:
                 texts.append(value)
-
     except:
         pass
 
@@ -55,14 +56,12 @@ def get_all_texts(obj):
 
             if value:
                 texts.append(value)
-
     except:
         pass
 
     try:
         for child in object.children(obj):
             texts.extend(get_all_texts(child))
-
     except:
         pass
 
@@ -74,7 +73,7 @@ def load_croatian_strings():
     workbook = openpyxl.load_workbook(EXCEL_PATH, data_only=True)
     sheet = workbook.active
 
-    strings = []
+    strings = {}
 
     for row in sheet.iter_rows(min_row=2, values_only=True):
 
@@ -93,13 +92,15 @@ def load_croatian_strings():
         if not english or not croatian:
             continue
 
-        strings.append({
-            "english": english,
-            "croatian": croatian,
-            "normalized": normalize(croatian)
-        })
+        key = normalize(croatian)
 
-    return strings
+        if key not in strings:
+            strings[key] = {
+                "english": english,
+                "croatian": croatian
+            }
+
+    return list(strings.values())
 
 
 def verify_screen(root_object, screen_name):
@@ -111,43 +112,39 @@ def verify_screen(root_object, screen_name):
 
     for text in screen_texts:
 
-        text = normalize(text)
+        normalized = normalize(text)
 
-        if text:
-            unique_texts.add(text)
+        if normalized:
+            unique_texts.add(normalized)
 
-    for screen_normalized in unique_texts:
+    for screen_text in unique_texts:
 
         matches = []
 
         for item in excel_strings:
 
-            excel_normalized = item["normalized"]
+            excel_text = normalize(item["croatian"])
 
-            if screen_normalized == excel_normalized:
-
+            if screen_text == excel_text:
                 matches.append(item)
 
-            elif len(excel_normalized) >= 4 and excel_normalized in screen_normalized:
-
+            elif len(excel_text) >= 4 and excel_text in screen_text:
                 matches.append(item)
 
         matches.sort(
-            key=lambda x: len(x["normalized"]),
+            key=lambda x: len(normalize(x["croatian"])),
             reverse=True
         )
 
         for item in matches:
 
-            result_key = (
-                normalize(item["english"]),
-                normalize(item["croatian"])
-            )
+            key = normalize(item["croatian"])
 
-            if result_key in VERIFIED_RESULTS:
+            # Do not report the same Croatian string again
+            if key in verified_strings:
                 continue
 
-            VERIFIED_RESULTS.add(result_key)
+            verified_strings.add(key)
 
             test.passes(
                 item["english"] + " -> " + item["croatian"]
@@ -156,35 +153,43 @@ def verify_screen(root_object, screen_name):
 
 def main():
 
-    sendEvent("QMoveEvent", waitForObject(names.o_ScreenSwitcher), 45, 176, 662, 188)
-
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
+    # LOGIN
+    sendEvent("QMoveEvent", waitForObject(names.o_ScreenSwitcher), 33, 192, 737, 203)
+    doubleClick(waitForObject(names.numpad_pushButton_8_NumpadButton), 76, 50, Qt.NoModifier, Qt.LeftButton)
     clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
     clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
     clickButton(waitForObject(names.mainFrame_okButton_QPushButton))
 
+    # LANGUAGE
     clickButton(waitForObject(names.homeScreen_settingsButton_QPushButton))
-
     clickTab(waitForObject(names.settingsScreen_tbSystemInfo_TabWidget), "INFO")
-
     clickButton(waitForObject(names.gbSystemInformation_pbLanguageSettingsUpdate_QPushButton))
     clickButton(waitForObject(names.languagesFrame_pbCroatia_QPushButton))
     clickButton(waitForObject(names.buttonsFrame_acceptButton_QPushButton))
+    clickButton(waitForObject(names.settingsScreen_pbBack_QPushButton))
+    
+    
 
-    test.vp("Verify info screen")
+    # OPEN QUICK START
+    clickButton(waitForObject(names.homeScreen_pbStoneQuickStart_QToolButton))
+    verify_screen(waitForObject(names.o_ScreenSwitcher), "Quick Start")
+
+    # SELECT LEFT PRESET
+    mouseClick(waitForObjectItem(names.tabLeftMainPresets_leftPresetsView_PresetListView, "_1"), 404, 36, Qt.NoModifier, Qt.LeftButton)
+    verify_screen(waitForObject(names.o_ScreenSwitcher), "Quick Start - Left Preset")
+
+    # SELECT RIGHT PRESET
+    mouseClick(waitForObjectItem(names.tabRightMainPresets_rightPresetsView_PresetListView, "_1"), 92, 47, Qt.NoModifier, Qt.LeftButton)
+    verify_screen(waitForObject(names.o_ScreenSwitcher), "Quick Start - Right Preset")
+
+    # CONTINUE TO TREATMENT
+    clickButton(waitForObject(names.quickStartScreen_pbContinue_QPushButton))
+    verify_screen(waitForObject(names.o_ScreenSwitcher), "Treatment Screen")
+
+    test.vp("Verify sonte treatment screen")
 
     
 
-
-    verify_screen(waitForObject(names.o_ScreenSwitcher), "System Information")
-
-
-    mouseClick(waitForObject(names.gbSystemInformation_lbSystemInformation_QLabel), 439, 11, Qt.NoModifier, Qt.LeftButton)
-
-    verify_screen(waitForObject(names.o_ScreenSwitcher), "System Information after click")
-
-
-    mouseClick(waitForObject(names.wdSystemInfoLayout_gbFiberInformation_QGroupBox), 394, 54, Qt.NoModifier, Qt.LeftButton)
-
-    verify_screen(waitForObject(names.o_ScreenSwitcher), "Fiber Information")
+    # CLICK LEFT PEDAL
+    mouseClick(waitForObject(names.treatmentScreen_leftPedalWidgetBorder_QWidget), 629, 48, Qt.NoModifier, Qt.LeftButton)
+    verify_screen(waitForObject(names.o_ScreenSwitcher), "Treatment Screen - Left Pedal")

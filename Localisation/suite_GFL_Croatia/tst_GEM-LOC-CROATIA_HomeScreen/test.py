@@ -80,6 +80,11 @@ def main():
         waitForObject(names.settingsScreen_pbBack_QPushButton)
     )
 
+    test.vp("Verify Home Screen1")
+
+    
+   
+
 
     # Home screen
     mouseClick(
@@ -105,8 +110,7 @@ def main():
 
 
     # Read Excel
-    excelpath = "/home/ntc/suite_gemini_Localization_croatian/tst_GEM-LOC-CROATIA_HomeScreen/testdata/coration home screen.xlsx"
-
+    excelpath = "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Croatia/tst_GEM-LOC-CROATIA_HomeScreen/testdata/coration home screen.xlsx"
     workbook = openpyxl.load_workbook(excelpath)
     sheet = workbook.active
 
