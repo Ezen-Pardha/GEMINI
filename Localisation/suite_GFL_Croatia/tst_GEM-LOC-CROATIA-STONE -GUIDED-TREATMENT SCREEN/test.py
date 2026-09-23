@@ -5,8 +5,7 @@ import openpyxl
 import re
 
 
-EXCEL_PATH = "/home/ntc/suite_gemini_Localization_croatian/tst_GEM-LOC-CROATIA-STONE-GUIDED/testdata/Gemini strings.xlsx"
-
+EXCEL_PATH = "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Croatia/tst_GEM-LOC-CROATIA-STONE-GUIDED/testdata/Gemini strings.xlsx"
 
 def normalize(text):
     if text is None:
@@ -199,6 +198,8 @@ def main():
 
     # CLICK PEDAL STATUS ICON
     mouseClick(waitForObject(names.bottomBar_lbPedalStatusIcon_QLabel), 47, 47, Qt.NoModifier, Qt.LeftButton)
+
+    test.vp("Verify Stone guided Treatment screen")
 
     # VERIFY STRINGS AFTER STATUS ICON CLICK
     verify_screen(waitForObject(names.o_ScreenSwitcher), "Pedal Status")

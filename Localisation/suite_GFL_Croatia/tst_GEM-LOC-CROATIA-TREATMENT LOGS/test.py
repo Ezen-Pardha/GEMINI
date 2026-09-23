@@ -5,7 +5,7 @@ import openpyxl
 import re
 
 
-EXCEL_PATH = "/home/ntc/suite_gemini_Localization_croatian/tst_GEM-LOC-CROATIA-STONE-GUIDED/testdata/Gemini strings.xlsx"
+EXCEL_PATH = "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Croatia/tst_GEM-LOC-CROATIA-STONE-GUIDED/testdata/Gemini strings.xlsx"
 
 
 def normalize(text):
@@ -154,10 +154,15 @@ def main():
     clickButton(waitForObject(names.languagesFrame_pbCroatia_QPushButton))
     clickButton(waitForObject(names.buttonsFrame_acceptButton_QPushButton))
     clickButton(waitForObject(names.settingsScreen_pbBack_QPushButton))
+   
 
     # OPEN TREATMENT LOGS
 
     clickButton(waitForObject(names.homeScreen_logButton_QPushButton))
+
+    test.vp("Verify Treatment Screen")
+
+
 
     # VERIFY TREATMENT LOGS
 

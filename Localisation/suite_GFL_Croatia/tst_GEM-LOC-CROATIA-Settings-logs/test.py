@@ -5,7 +5,7 @@ import openpyxl
 import re
 
 
-EXCEL_PATH = "/home/ntc/suite_gemini_Localization_croatian/tst_GEM-LOC-CROATIA-STONE-GUIDED/testdata/Gemini strings.xlsx"
+EXCEL_PATH = "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Croatia/tst_GEM-LOC-CROATIA-STONE-GUIDED/testdata/Gemini strings.xlsx"
 
 
 VERIFIED_RESULTS = set()
@@ -254,6 +254,7 @@ def main():
             names.buttonsFrame_acceptButton_QPushButton
         )
     )
+   
 
 
     # OPEN LOGS
@@ -262,8 +263,13 @@ def main():
         waitForObject(
             names.settingsScreen_tbSystemInfo_TabWidget
         ),
+        
         "ZAPISNICI"
     )
+
+    test.vp("Verify logs screen")
+
+    
 
 
     # VERIFY LOGS SCREEN

@@ -5,8 +5,7 @@ import openpyxl
 import re
 
 
-EXCEL_PATH = "/home/ntc/suite_gemini_Localization_croatian/tst_GEM-LOC-CROATIA-STONE-GUIDED/testdata/Gemini strings.xlsx"
-
+EXCEL_PATH = "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Croatia/tst_GEM-LOC-CROATIA-STONE-GUIDED/testdata/Gemini strings.xlsx"
 
 def normalize(text):
     if text is None:
@@ -181,6 +180,10 @@ def main():
 
     # VERIFY INITIAL SOFT TISSUE SCREEN
     verify_screen(waitForObject(names.o_ScreenSwitcher), "Soft Tissue Assistant")
+
+    test.vp("Verify Soft Tissue Guided Treatment")
+
+    
 
     # CLICK LEFT PEDAL PRESET TAB
     mouseClick(waitForObject(names.leftPedalWidget_wdPresetTabs_TabWidget), 615, 42, Qt.NoModifier, Qt.LeftButton)

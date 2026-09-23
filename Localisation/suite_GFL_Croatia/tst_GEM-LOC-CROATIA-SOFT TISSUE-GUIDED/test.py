@@ -40,8 +40,7 @@ def get_all_texts(obj):
 
 def main():
     
-    excelpath = "/home/ntc/suite_gemini_Localization_croatian/tst_GEM-LOC-CROATIA-SOFT TISSUE-GUIDED/testdata/Croatia Soft tissue guided.xlsx"
-
+    excelpath = "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Croatia/tst_GEM-LOC-CROATIA-SOFT TISSUE-GUIDED/testdata/Croatia Soft tissue guided.xlsx"
     workbook = openpyxl.load_workbook(excelpath)
 
     sheet = workbook.active

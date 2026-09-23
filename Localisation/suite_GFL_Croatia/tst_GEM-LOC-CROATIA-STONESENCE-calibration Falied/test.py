@@ -5,7 +5,7 @@ import openpyxl
 import re
 
 
-EXCEL_PATH = "/home/ntc/suite_gemini_Localization_croatian/tst_GEM-LOC-CROATIA-STONE-GUIDED/testdata/Gemini strings.xlsx"
+EXCEL_PATH = "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Croatia/tst_GEM-LOC-CROATIA-STONE-GUIDED/testdata/Gemini strings.xlsx"
 
 
 def normalize(text):
@@ -285,6 +285,10 @@ def main():
         error_frame,
         "Calibration Failed"
     )
+
+    test.vp("Verify Calibration Failed Screen")
+
+    
 
 
 

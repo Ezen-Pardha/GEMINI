@@ -170,11 +170,16 @@ def main():
     clickButton(waitForObject(names.gbSystemInformation_pbLanguageSettingsUpdate_QPushButton))
     clickButton(waitForObject(names.languagesFrame_pbCroatia_QPushButton))
     clickButton(waitForObject(names.buttonsFrame_acceptButton_QPushButton))
+    
 
 
     # SYSTEM TAB
 
     clickTab(waitForObject(names.settingsScreen_tbSystemInfo_TabWidget), "SUSTAV")
+
+    test.vp("Verify stystem Screen")
+
+    
 
 
     # VERIFY COMPLETE SYSTEM SETTINGS SCREEN
