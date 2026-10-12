@@ -6,9 +6,6 @@ import openpyxl
 import re
 
 
-# ============================================================
-# EXCEL CONFIGURATION
-# ============================================================
 
 EXCEL_FILE = ("/home/ezen/Test_Automation_Gemini/Localisation/suite_GFL_Czech/tst_GEM-LOC-CZECH-PeakPower-SoftTissueCharacters/testdata/Gemini strings.xlsx")
 
@@ -16,9 +13,7 @@ ENGLISH_COLUMN = 2      # Column B
 CZECH_COLUMN = 13       # Column M
 
 
-# ============================================================
-# NORMALIZE TEXT
-# ============================================================
+
 
 def normalize_text(value):
 
@@ -42,9 +37,7 @@ def normalize_text(value):
     return value.strip().casefold()
 
 
-# ============================================================
-# GET CZECH VALUES FROM COLUMN M
-# ============================================================
+
 
 def get_czech_values(sheet, english_text):
 
@@ -87,9 +80,7 @@ def get_czech_values(sheet, english_text):
     return czech_values
 
 
-# ============================================================
-# VERIFY TEXT
-# ============================================================
+
 
 def verify_text(
         sheet,
@@ -150,15 +141,13 @@ def verify_text(
     )
 
 
-# ============================================================
-# MAIN
-# ============================================================
+
+
 
 def main():
 
-    # ========================================================
-    # LOAD EXCEL
-    # ========================================================
+   
+  
 
     try:
 
@@ -182,9 +171,7 @@ def main():
         return
 
 
-    # ========================================================
-    # LOGIN
-    # ========================================================
+
 
     snooze(2)
 
@@ -234,9 +221,6 @@ def main():
     snooze(6)
 
 
-    # ========================================================
-    # SELECT CZECH LANGUAGE
-    # ========================================================
 
     clickButton(
         waitForObject(
@@ -280,9 +264,7 @@ def main():
     snooze(2)
 
 
-    # ========================================================
-    # HOME
-    # ========================================================
+
 
     clickButton(
         waitForObject(
@@ -293,9 +275,6 @@ def main():
     snooze(6)
 
 
-    # ========================================================
-    # SOFT TISSUE QUICK START
-    # ========================================================
 
     clickButton(
         waitForObject(
@@ -348,9 +327,7 @@ def main():
     snooze(6)
 
 
-    # ========================================================
-    # CANCEL MODE POPUP
-    # ========================================================
+
 
     mouseClick(
         waitForObject(
@@ -373,9 +350,7 @@ def main():
     snooze(3)
 
 
-    # ========================================================
-    # OPEN PEAK POWER
-    # ========================================================
+
 
     mouseClick(
         waitForObject(
@@ -389,50 +364,81 @@ def main():
 
     snooze(2)
 
-
-    # ========================================================
-    # PEAK POWER VERIFICATION
-    # ========================================================
-
     verify_text(
-        sheet,
+        bulgarian_data,
         names.centralWidget_lbTitle_QLabel,
-        "SELECT PEAK POWER",
-        "Peak Power Title"
+        "SELECT PEAK POWER"
     )
 
+    snooze(6)
+
     verify_text(
-        sheet,
+        bulgarian_data,
         names.centralWidget_pw500_QPushButton,
-        "500",
-        "Peak Power High"
+        "High"
     )
 
+    snooze(6)
+
     verify_text(
-        sheet,
+        bulgarian_data,
         names.centralWidget_pw250_QPushButton,
-        "250",
-        "Peak Power Medium"
+        "Medium"
     )
 
+    snooze(6)
+
     verify_text(
-        sheet,
+        bulgarian_data,
         names.centralWidget_pw125_QPushButton,
-        "125",
-        "Peak Power Low"
+        "Low"
     )
+
+    snooze(6)
 
     verify_text(
-        sheet,
+        bulgarian_data,
         names.buttonsFrame_rejectButton_QPushButton,
-        "CANCEL",
-        "Peak Power Cancel"
+        "CANCEL"
     )
 
 
-    # ========================================================
-    # EXIT PEAK POWER
-    # ========================================================
+
+    # verify_text(
+    #     sheet,
+    #     names.centralWidget_lbTitle_QLabel,
+    #     "SELECT PEAK POWER",
+    #     "Peak Power Title"
+    # )
+    #
+    # verify_text(
+    #     sheet,
+    #     names.centralWidget_pw500_QPushButton,
+    #     "500",
+    #     "Peak Power High"
+    # )
+    #
+    # verify_text(
+    #     sheet,
+    #     names.centralWidget_pw250_QPushButton,
+    #     "250",
+    #     "Peak Power Medium"
+    # )
+    #
+    # verify_text(
+    #     sheet,
+    #     names.centralWidget_pw125_QPushButton,
+    #     "125",
+    #     "Peak Power Low"
+    # )
+    #
+    # verify_text(
+    #     sheet,
+    #     names.buttonsFrame_rejectButton_QPushButton,
+    #     "CANCEL",
+    #     "Peak Power Cancel"
+    # )
+
 
     clickButton(
         waitForObject(
@@ -451,9 +457,7 @@ def main():
     snooze(6)
 
 
-    # ========================================================
-    # SOFT TISSUE ASSISTANT
-    # ========================================================
+
 
     clickButton(
         waitForObject(
@@ -482,9 +486,7 @@ def main():
     snooze(6)
 
 
-    # ========================================================
-    # TREATMENT CHARACTERISTICS
-    # ========================================================
+
 
     clickButton(
         waitForObject(
@@ -495,9 +497,7 @@ def main():
     snooze(6)
 
 
-    # ========================================================
-    # SOFT TISSUE CHARACTERISTICS VERIFICATION
-    # ========================================================
+
 
     verify_text(
         sheet,
@@ -538,8 +538,5 @@ def main():
    
 
 
-    # ========================================================
-    # CLOSE EXCEL
-    # ========================================================
 
     workbook.close()

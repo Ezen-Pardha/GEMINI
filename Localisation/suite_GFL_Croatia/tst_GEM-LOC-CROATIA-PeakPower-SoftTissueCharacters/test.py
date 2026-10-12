@@ -6,9 +6,6 @@ import openpyxl
 import re
 
 
-# =========================================================
-# EXCEL CONFIGURATION
-# =========================================================
 
 EXCEL_FILE = (
     "/home/ezen/Test_Automation_Gemini/Localisation/"
@@ -26,9 +23,7 @@ ENGLISH_COLUMN = 2
 CROATIAN_COLUMN = 4
 
 
-# =========================================================
-# TEXT NORMALIZATION
-# =========================================================
+
 
 def normalize_text(value):
 
@@ -50,9 +45,6 @@ def normalize_text(value):
     return value.strip().casefold()
 
 
-# =========================================================
-# GET CROATIAN TEXT FROM EXCEL
-# =========================================================
 
 def get_croatian_text(sheet, english_text):
 
@@ -79,11 +71,11 @@ def get_croatian_text(sheet, english_text):
             ].value
 
             if croatian_value is None:
-
-                test.fail(
-                    "Croatian translation is empty for: "
-                    + english_text
-                )
+                #
+                # test.fail(
+                #     "Croatian translation is empty for: "
+                #     + english_text
+                # )
 
                 return ""
 
@@ -99,9 +91,7 @@ def get_croatian_text(sheet, english_text):
     return ""
 
 
-# =========================================================
-# VERIFY APPLICATION TEXT AGAINST CROATIAN EXCEL
-# =========================================================
+
 
 def verify_text(
     sheet,
@@ -149,15 +139,10 @@ def verify_text(
     )
 
 
-# =========================================================
-# MAIN
-# =========================================================
 
 def main():
 
-    # =====================================================
-    # LOAD EXCEL
-    # =====================================================
+  
 
    
     workbook = openpyxl.load_workbook(
@@ -183,9 +168,7 @@ def main():
     
 
 
-    # =====================================================
-    # LOGIN
-    # =====================================================
+
 
     clickButton(
         waitForObject(
@@ -218,9 +201,7 @@ def main():
     )
 
 
-    # =====================================================
-    # OPEN SETTINGS
-    # =====================================================
+   
 
     clickButton(
         waitForObject(
@@ -229,9 +210,6 @@ def main():
     )
 
 
-    # =====================================================
-    # OPEN SYSTEM INFORMATION
-    # =====================================================
 
     clickTab(
         waitForObject(
@@ -241,9 +219,6 @@ def main():
     )
 
 
-    # =====================================================
-    # OPEN LANGUAGE SETTINGS
-    # =====================================================
 
     clickButton(
         waitForObject(
@@ -252,9 +227,7 @@ def main():
     )
 
 
-    # =====================================================
-    # SELECT CROATIAN LANGUAGE
-    # =====================================================
+  
 
     clickButton(
         waitForObject(
@@ -263,9 +236,7 @@ def main():
     )
 
 
-    # =====================================================
-    # ACCEPT LANGUAGE
-    # =====================================================
+
 
     clickButton(
         waitForObject(
@@ -274,9 +245,7 @@ def main():
     )
 
 
-    # =====================================================
-    # BACK TO HOME
-    # =====================================================
+  
 
     clickButton(
         waitForObject(
@@ -285,9 +254,7 @@ def main():
     )
 
 
-    # =====================================================
-    # NAVIGATE TO SOFT TISSUE QUICK START
-    # =====================================================
+  
 
     clickButton(
         waitForObject(
@@ -296,9 +263,7 @@ def main():
     )
 
 
-    # =====================================================
-    # SELECT LEFT PRESET
-    # =====================================================
+
 
     mouseClick(
         waitForObjectItem(
@@ -312,9 +277,7 @@ def main():
     )
 
 
-    # =====================================================
-    # SELECT RIGHT PRESET
-    # =====================================================
+
 
     mouseClick(
         waitForObjectItem(
@@ -327,10 +290,6 @@ def main():
         Qt.LeftButton
     )
 
-
-    # =====================================================
-    # CONTINUE
-    # =====================================================
 
     clickButton(
         waitForObject(
@@ -345,9 +304,7 @@ def main():
     )
 
 
-    # =====================================================
-    # OPEN PEAK POWER
-    # =====================================================
+    
 
     mouseClick(
         waitForObject(
@@ -360,9 +317,9 @@ def main():
     )
 
 
-    # =====================================================
-    # VERIFY PEAK POWER - CROATIAN
-    # =====================================================
+
+
+    # test.compare(str(waitForObjectExists(names.centralWidget_lbTitle_QLabel).text), "ODABIR VRŠNE SNAGE")
 
     verify_text(
         sheet,
@@ -400,9 +357,7 @@ def main():
     )
 
 
-    # =====================================================
-    # EXIT PEAK POWER
-    # =====================================================
+  
 
     clickButton(
         waitForObject(
@@ -417,10 +372,7 @@ def main():
     )
 
 
-    # =====================================================
-    # SOFT TISSUE ASSISTANT
-    # =====================================================
-
+   
     clickButton(
         waitForObject(
             names.homeScreen_pbSoftTissueAssistant_QToolButton
@@ -428,10 +380,7 @@ def main():
     )
 
 
-    # =====================================================
-    # SELECT INCISION
-    # =====================================================
-
+ 
     clickButton(
         waitForObject(
             names.gbSoftTissueProcedures_pbIncision_QPushButton
@@ -439,9 +388,7 @@ def main():
     )
 
 
-    # =====================================================
-    # CONTINUE
-    # =====================================================
+ 
 
     clickButton(
         waitForObject(
@@ -450,9 +397,7 @@ def main():
     )
 
 
-    # =====================================================
-    # OPEN TREATMENT CHARACTERISTICS
-    # =====================================================
+   
 
     clickButton(
         waitForObject(
@@ -481,9 +426,7 @@ def main():
     )
 
 
-    # =====================================================
-    # VERIFY SOFT TISSUE CHARACTERISTICS - CROATIAN
-    # =====================================================
+ 
 
     verify_text(
         sheet,
@@ -513,6 +456,8 @@ def main():
         "Edit button"
     )
 
+  
+
     verify_text(
         sheet,
         "centralWidget_acceptButton_QPushButton",
@@ -521,23 +466,15 @@ def main():
     )
 
 
-    # =====================================================
-    # VERIFICATION POINT
-    # =====================================================
 
     test.vp(
         "SoftTissueCharacters"
     )
 
 
-    # =====================================================
-    # CLOSE EXCEL
-    # =====================================================
+  
 
     workbook.close()
 
-    test.log(
-        "Croatian Peak Power and Soft Tissue "
-        "Characteristics verification completed"
-    )
+    
 

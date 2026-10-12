@@ -7,9 +7,7 @@ import openpyxl
 import re
 
 
-# =========================================================
-# Excel Configuration
-# =========================================================
+
 
 EXCEL_PATH = (
     "/home/ezen/Test_Automation_Gemini/Localisation/"
@@ -18,9 +16,7 @@ EXCEL_PATH = (
     "testdata/Gemini Split strings.xlsx"
 )
 
-# Excel:
-# Column B = English
-# Column F = Danish
+
 
 ENGLISH_COLUMN = 2
 DANISH_COLUMN = 6
@@ -28,9 +24,6 @@ DANISH_COLUMN = 6
 SHEET_NAME = "Soft tissue"
 
 
-# =========================================================
-# Normalize Text
-# =========================================================
 
 def normalize(text):
 
@@ -67,17 +60,13 @@ def normalize(text):
     return text.strip().casefold()
 
 
-# =========================================================
-# Load Excel
-# =========================================================
+
 
 def load_excel():
 
     try:
 
-        test.log(
-            "Loading Danish localization Excel..."
-        )
+       
 
         workbook = openpyxl.load_workbook(
             EXCEL_PATH,
@@ -98,10 +87,7 @@ def load_excel():
 
         sheet = workbook[SHEET_NAME]
 
-        test.log(
-            "Excel sheet loaded successfully: "
-            + SHEET_NAME
-        )
+        
 
         return workbook, sheet
 
@@ -115,14 +101,7 @@ def load_excel():
         return None, None
 
 
-# =========================================================
-# Get Danish Values
-#
-# Search English text in Column B.
-# Return ALL matching Danish values from Column F.
-#
-# No Excel row numbers are hard-coded.
-# =========================================================
+
 
 def get_danish_values(
     sheet,
@@ -172,9 +151,6 @@ def get_danish_values(
     return danish_values
 
 
-# =========================================================
-# Verify Object Text Against Excel
-# =========================================================
 
 def verify_text(
     sheet,
@@ -212,9 +188,6 @@ def verify_text(
         return
 
 
-    # -----------------------------------------------------
-    # Get Danish translation from Excel
-    # -----------------------------------------------------
 
     expected_values = get_danish_values(
         sheet,
@@ -222,9 +195,6 @@ def verify_text(
     )
 
 
-    # -----------------------------------------------------
-    # English string not found
-    # -----------------------------------------------------
 
     if not expected_values:
 
@@ -243,9 +213,6 @@ def verify_text(
     )
 
 
-    # -----------------------------------------------------
-    # Compare against all matching Danish values
-    # -----------------------------------------------------
 
     for expected in expected_values:
 
@@ -260,22 +227,20 @@ def verify_text(
                 expected_normalized,
                 description
             )
-
-            test.log(
-                description
-                + " | PASS"
-                + " | English: "
-                + english_text
-                + " | Danish: "
-                + expected
-            )
+            #
+            # test.log(
+            #     description
+            #     + " | PASS"
+            #     + " | English: "
+            #     + english_text
+            #     + " | Danish: "
+            #     + expected
+            # )
 
             return
 
 
-    # -----------------------------------------------------
-    # Verification failed
-    # -----------------------------------------------------
+ 
 
     test.fail(
         description
@@ -287,10 +252,6 @@ def verify_text(
         + actual
     )
 
-
-# =========================================================
-# Get Visible centralWidget
-# =========================================================
 
 def get_central_widget():
 
@@ -336,9 +297,6 @@ def get_central_widget():
         )
 
         return None
-# =========================================================
-# Main
-# =========================================================
 
 def main():
 
@@ -347,10 +305,6 @@ def main():
     if workbook is None or sheet is None:
         return
 
-
-    # =====================================================
-    # LOGIN
-    # =====================================================
 
     clickButton(
         waitForObject(
@@ -383,11 +337,6 @@ def main():
             names.mainFrame_okButton_QPushButton
         )
     )
-
-
-    # =====================================================
-    # CHANGE LANGUAGE TO CZECH
-    # =====================================================
 
     clickButton(
         waitForObject(
@@ -427,9 +376,6 @@ def main():
     )
 
 
-    # =====================================================
-    # SOFT TISSUE QUICK START
-    # =====================================================
 
     clickButton(
         waitForObject(
@@ -482,11 +428,6 @@ def main():
         )
     )
 
-
-    # =====================================================
-    # QUICK START EXIT POPUP
-    # =====================================================
-
     mouseClick(
         waitForObject(
             names.modeButton_nameLabel_QLabel
@@ -535,6 +476,11 @@ def main():
 
 
     # Confirm exit
+   
+    test.vp("Quick Start Exit Mode")
+
+    # test.vp("Quick Start Exit Mode")
+
     clickButton(
         waitForObject(
             names.centralWidget_DisableButton_QPushButton_2
@@ -542,20 +488,12 @@ def main():
     )
 
 
-    # =====================================================
-    # RETURN HOME
-    # =====================================================
-
     clickButton(
         waitForObject(
             names.buttonsBar_homeButton_QPushButton_2
         )
     )
 
-
-    # =====================================================
-    # SOFT TISSUE ASSISTANT
-    # =====================================================
 
     clickButton(
         waitForObject(
@@ -576,9 +514,6 @@ def main():
     )
 
 
-    # =====================================================
-    # GUIDED MODE EXIT POPUP
-    # =====================================================
 
     mouseDrag(
         waitForObject(
@@ -592,10 +527,6 @@ def main():
         Qt.LeftButton
     )
 
-
-    # =====================================================
-    # GUIDED MODE POPUP VERIFICATION
-    # =====================================================
 
     verify_text(
         sheet,
@@ -627,11 +558,8 @@ def main():
         "CONFIRM",
         "Guided Mode Confirm Button"
     )
-
-
-    # =====================================================
-    # CLOSE GUIDED MODE POPUP
-    # =====================================================
+    snooze(2)
+    test.vp("Guided Exit Mode")
 
     clickButton(
         waitForObject(
@@ -639,9 +567,5 @@ def main():
         )
     )
 
-
-    # =====================================================
-    # CLOSE EXCEL
-    # =====================================================
 
     workbook.close()
