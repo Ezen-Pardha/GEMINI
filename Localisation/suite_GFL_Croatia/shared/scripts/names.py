@@ -512,3 +512,11 @@ centralWidget_questionLabel_QLabel = {"container": centralWidget_QFrame, "name":
 centralWidget_infoFrame_QFrame = {"container": centralWidget_QFrame, "name": "infoFrame", "type": "QFrame", "visible": 1}
 infoFrame_extInfoLabel_QLabel = {"container": centralWidget_infoFrame_QFrame, "name": "extInfoLabel", "type": "QLabel", "visible": 1}
 centralWidget_backgroundWidget_QWidget = {"container": centralWidget_QFrame, "name": "backgroundWidget", "type": "QWidget", "visible": 1}
+
+treatmentScreen_TreatmentCharacteristicsBar_StoneCharacteristicsBar = {"container": treatmentScreen_TreatmentScreen, "name": "TreatmentCharacteristicsBar", "type": "StoneCharacteristicsBar", "visible": 1}
+treatmentCharacteristicsBar_pbEdit_QPushButton_2 = {"container": treatmentScreen_TreatmentCharacteristicsBar_StoneCharacteristicsBar, "name": "pbEdit", "type": "QPushButton", "visible": 1}
+centralWidget_titleLabel_QLabel_3 = {"container": centralWidget_QFrame, "name": "titleLabel", "occurrence": 3, "type": "QLabel", "visible": 1}
+centralWidget_valueLabel_QLabel_2 = {"container": centralWidget_QFrame, "name": "valueLabel", "occurrence": 2, "type": "QLabel", "visible": 1}
+centralWidget_titleLabel_QLabel_4 = {"container": centralWidget_QFrame, "name": "titleLabel", "occurrence": 4, "type": "QLabel", "visible": 1}
+centralWidget_descriptionLabel_QLabel = {"container": centralWidget_QFrame, "name": "descriptionLabel", "occurrence": 3, "type": "QLabel", "visible": 1}
+centralWidget_valueLabel_QLabel_3 = {"container": centralWidget_QFrame, "name": "valueLabel", "occurrence": 3, "type": "QLabel", "visible": 1}
