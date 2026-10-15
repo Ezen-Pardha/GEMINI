@@ -4,11 +4,6 @@ import names
 import openpyxl
 import re
 
-# =========================================================
-
-# Excel Configuration
-
-# =========================================================
 
 EXCEL_PATH = (
 "/home/ezen/Test_Automation_Gemini/Localisation/"
@@ -17,22 +12,12 @@ EXCEL_PATH = (
 "testdata/Gemini Split strings.xlsx"
 )
 
-# Excel:
-
-# Column B = English
-
-# Column G = Dutch
 
 ENGLISH_COLUMN = 2
 DUTCH_COLUMN = 7
 
 SHEET_NAME = "Soft tissue"
 
-# =========================================================
-
-# Normalize Text
-
-# =========================================================
 
 def normalize(text):
 
@@ -70,20 +55,13 @@ def normalize(text):
     return text.strip().casefold()
     
 
-# =========================================================
-
-# Load Excel
-
-# =========================================================
 
 def load_excel():
 
     
     try:
     
-        test.log(
-            "Loading Dutch localization Excel..."
-        )
+        
     
         workbook = openpyxl.load_workbook(
             EXCEL_PATH,
@@ -104,10 +82,10 @@ def load_excel():
     
         sheet = workbook[SHEET_NAME]
     
-        test.log(
-            "Excel sheet loaded successfully: "
-            + SHEET_NAME
-        )
+        # test.log(
+        #     "Excel sheet loaded successfully: "
+        #     + SHEET_NAME
+        # )
     
         return workbook, sheet
     
@@ -121,21 +99,6 @@ def load_excel():
         return None, None
 
 
-# =========================================================
-
-# Get Dutch Values
-
-#
-
-# Search English text in Column B.
-
-# Return ALL matching Dutch values from Column G.
-
-#
-
-# No Excel row numbers are hard-coded.
-
-# =========================================================
 
 def get_dutch_values(
 sheet,
@@ -185,11 +148,6 @@ english_text
     return dutch_values
 
 
-# =========================================================
-
-# Verify Object Text Against Excel
-
-# =========================================================
 
 def verify_text(
 sheet,
@@ -228,10 +186,6 @@ description
     
         return
     
-    
-# =====================================================
-# Get Dutch translation from Excel
-# =====================================================
 
     expected_values = get_dutch_values(
         sheet,
@@ -239,9 +193,6 @@ description
     )
 
 
-# =====================================================
-# English string not found
-# =====================================================
 
     if not expected_values:
     
@@ -259,10 +210,6 @@ description
     )
 
 
-# =====================================================
-# Compare against all matching Dutch values
-# =====================================================
-
     for expected in expected_values:
     
         expected_normalized = normalize(
@@ -277,21 +224,17 @@ description
                 description
             )
     
-            test.log(
-                description
-                + " | PASS"
-                + " | English: "
-                + english_text
-                + " | Dutch: "
-                + expected
-            )
+            # test.log(
+            #     description
+            #     + " | PASS"
+            #     + " | English: "
+            #     + english_text
+            #     + " | Dutch: "
+            #     + expected
+            # )
     
             return
 
-
-# =====================================================
-# Verification failed
-# =====================================================
 
     test.fail(
         description
@@ -303,12 +246,6 @@ description
         + actual
     )
     
-
-# =========================================================
-
-# Get Visible centralWidget
-
-# =========================================================
 
 def get_central_widget():
 
@@ -357,12 +294,6 @@ def get_central_widget():
         return None
 
 
-# =========================================================
-
-# Main
-
-# =========================================================
-
 def main():
 
 
@@ -371,10 +302,6 @@ def main():
     if workbook is None or sheet is None:
         return
 
-
-# =====================================================
-# LOGIN
-# =====================================================
 
     clickButton(
         waitForObject(
@@ -408,10 +335,6 @@ def main():
         )
     )
     
-    
-    # =====================================================
-    # CHANGE LANGUAGE TO DUTCH
-    # =====================================================
     
     clickButton(
         waitForObject(
@@ -451,10 +374,6 @@ def main():
         )
     )
     
-    
-    # =====================================================
-    # SOFT TISSUE QUICK START
-    # =====================================================
     
     clickButton(
         waitForObject(
@@ -508,10 +427,6 @@ def main():
     )
     
     
-    # =====================================================
-    # QUICK START EXIT POPUP
-    # =====================================================
-    
     mouseClick(
         waitForObject(
             names.modeButton_nameLabel_QLabel
@@ -522,13 +437,8 @@ def main():
         Qt.LeftButton
     )
     
-    
-    # =====================================================
-    # QUICK START EXIT TITLE
-    # English lookup:
-    # EXIT QUICK START MODE?
-    # =====================================================
-    
+    test.vp("Exit Quick Start Mode")
+
     verify_text(
         sheet,
         names.centralWidget_TitleLabel_QLabel_2,
@@ -536,11 +446,7 @@ def main():
         "Quick Start Exit Title"
     )
     
-    
-    # =====================================================
-    # QUICK START EXIT MESSAGE
-    # =====================================================
-    
+   
     verify_text(
         sheet,
         names.centralWidget_MessageLabel_QLabel_2,
@@ -548,10 +454,6 @@ def main():
         "Quick Start Exit Message"
     )
     
-    
-    # =====================================================
-    # QUICK START CANCEL
-    # =====================================================
     
     verify_text(
         sheet,
@@ -561,10 +463,6 @@ def main():
     )
     
     
-    # =====================================================
-    # QUICK START CONFIRM
-    # =====================================================
-    
     verify_text(
         sheet,
         names.centralWidget_DisableButton_QPushButton_2,
@@ -573,10 +471,6 @@ def main():
     )
     
     
-    # =====================================================
-    # CONFIRM EXIT
-    # =====================================================
-    
     clickButton(
         waitForObject(
             names.centralWidget_DisableButton_QPushButton_2
@@ -584,20 +478,11 @@ def main():
     )
     
     
-    # =====================================================
-    # RETURN HOME
-    # =====================================================
-    
     clickButton(
         waitForObject(
             names.buttonsBar_homeButton_QPushButton_2
         )
     )
-    
-    
-    # =====================================================
-    # SOFT TISSUE ASSISTANT
-    # =====================================================
     
     clickButton(
         waitForObject(
@@ -618,10 +503,6 @@ def main():
     )
     
     
-    # =====================================================
-    # GUIDED MODE EXIT POPUP
-    # =====================================================
-    
     mouseDrag(
         waitForObject(
             names.indexPicker_valuePicker_IntervalSlider
@@ -635,21 +516,12 @@ def main():
     )
     
     
-    # =====================================================
-    # GUIDED MODE EXIT TITLE
-    # =====================================================
-    
     verify_text(
         sheet,
         names.centralWidget_TitleLabel_QLabel_2,
         "EXIT GUIDED MODE?",
         "Guided Mode Exit Title"
     )
-    
-    
-    # =====================================================
-    # GUIDED MODE EXIT MESSAGE
-    # =====================================================
     
     verify_text(
         sheet,
@@ -659,10 +531,6 @@ def main():
     )
     
     
-    # =====================================================
-    # GUIDED MODE CANCEL
-    # =====================================================
-    
     verify_text(
         sheet,
         names.centralWidget_CancelButton_QPushButton_3,
@@ -671,10 +539,6 @@ def main():
     )
     
     
-    # =====================================================
-    # GUIDED MODE CONFIRM
-    # =====================================================
-    
     verify_text(
         sheet,
         names.centralWidget_DisableButton_QPushButton_2,
@@ -682,21 +546,13 @@ def main():
         "Guided Mode Confirm Button"
     )
     
-    
-    # =====================================================
-    # CLOSE GUIDED MODE POPUP
-    # =====================================================
-    
+    test.vp("Exit Guided Mode") 
+
     clickButton(
         waitForObject(
             names.centralWidget_DisableButton_QPushButton_2
         )
     )
-    
-    
-    # =====================================================
-    # CLOSE EXCEL
-    # =====================================================
     
     workbook.close()
     

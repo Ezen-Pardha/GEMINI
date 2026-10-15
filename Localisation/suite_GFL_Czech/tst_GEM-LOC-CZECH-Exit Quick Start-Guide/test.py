@@ -6,9 +6,6 @@ import openpyxl
 import re
 
 
-# =========================================================
-# Excel Path
-# =========================================================
 
 EXCEL_PATH = (
     "/home/ezen/Test_Automation_Gemini/Localisation/"
@@ -23,9 +20,8 @@ ENGLISH_COLUMN = 2
 CZECH_COLUMN = 13
 
 
-# =========================================================
-# Normalize Text
-# =========================================================
+
+
 
 def normalize(text):
 
@@ -46,10 +42,6 @@ def normalize(text):
 
     return text.strip().casefold()
 
-
-# =========================================================
-# Load Excel
-# =========================================================
 
 def load_excel():
 
@@ -72,16 +64,6 @@ def load_excel():
         )
 
         return None, None
-
-
-# =========================================================
-# Get Czech Values
-#
-# Match English string in Column B.
-# Return ALL corresponding Czech values from Column M.
-#
-# No Excel row numbers are hard-coded.
-# =========================================================
 
 def get_czech_values(sheet, english_text):
 
@@ -120,9 +102,7 @@ def get_czech_values(sheet, english_text):
     return czech_values
 
 
-# =========================================================
-# Verify Object Text Against Excel
-# =========================================================
+
 
 def verify_text(
     sheet,
@@ -181,9 +161,7 @@ def verify_text(
     )
 
 
-    # -----------------------------------------------------
-    # Compare against all matching Czech values
-    # -----------------------------------------------------
+  
 
     for expected in expected_values:
 
@@ -202,9 +180,7 @@ def verify_text(
             return
 
 
-    # -----------------------------------------------------
-    # Verification failed
-    # -----------------------------------------------------
+
 
     test.fail(
         description
@@ -215,9 +191,7 @@ def verify_text(
     )
 
 
-# =========================================================
-# Get Visible centralWidget
-# =========================================================
+
 
 def get_central_widget():
 
@@ -251,9 +225,7 @@ def get_central_widget():
         return None
 
 
-# =========================================================
-# Main
-# =========================================================
+
 
 def main():
 
@@ -263,9 +235,7 @@ def main():
         return
 
 
-    # =====================================================
-    # LOGIN
-    # =====================================================
+ 
 
     clickButton(
         waitForObject(
@@ -300,9 +270,7 @@ def main():
     )
 
 
-    # =====================================================
-    # CHANGE LANGUAGE TO CZECH
-    # =====================================================
+
 
     clickButton(
         waitForObject(
@@ -342,9 +310,7 @@ def main():
     )
 
 
-    # =====================================================
-    # SOFT TISSUE QUICK START
-    # =====================================================
+
 
     clickButton(
         waitForObject(
@@ -398,9 +364,7 @@ def main():
     )
 
 
-    # =====================================================
-    # QUICK START EXIT POPUP
-    # =====================================================
+ 
 
     mouseClick(
         waitForObject(
@@ -457,9 +421,7 @@ def main():
     )
 
 
-    # =====================================================
-    # RETURN HOME
-    # =====================================================
+   
 
     clickButton(
         waitForObject(
@@ -468,9 +430,7 @@ def main():
     )
 
 
-    # =====================================================
-    # SOFT TISSUE ASSISTANT
-    # =====================================================
+
 
     clickButton(
         waitForObject(
@@ -491,9 +451,7 @@ def main():
     )
 
 
-    # =====================================================
-    # GUIDED MODE EXIT POPUP
-    # =====================================================
+ 
 
     mouseDrag(
         waitForObject(
@@ -508,10 +466,7 @@ def main():
     )
 
 
-    # =====================================================
-    # GUIDED MODE POPUP VERIFICATION
-    # =====================================================
-
+ 
     verify_text(
         sheet,
         names.centralWidget_TitleLabel_QLabel_2,
@@ -544,9 +499,7 @@ def main():
     )
 
 
-    # =====================================================
-    # CLOSE GUIDED MODE POPUP
-    # =====================================================
+ 
 
     clickButton(
         waitForObject(
@@ -555,8 +508,6 @@ def main():
     )
 
 
-    # =====================================================
-    # CLOSE EXCEL
-    # =====================================================
+  
 
     workbook.close()

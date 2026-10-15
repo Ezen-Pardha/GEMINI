@@ -5,22 +5,16 @@ import openpyxl
 from openpyxl import load_workbook
 
 
-# =========================================================
-# EXCEL GLOBALS
-# =========================================================
+
 
 sheet = None
 workbook = None
 
 
-# =========================================================
-# TEXT VERIFICATION
-# =========================================================
+
 
 def get_object_text(obj):
-    # -----------------------------------------------------
-    # Try text property
-    # -----------------------------------------------------
+  
     try:
         value = obj.text
         if value is not None:
@@ -30,9 +24,7 @@ def get_object_text(obj):
     except:
         pass
 
-    # -----------------------------------------------------
-    # Try title property
-    # -----------------------------------------------------
+
     try:
         value = obj.title
         if value is not None:
@@ -42,9 +34,7 @@ def get_object_text(obj):
     except:
         pass
 
-    # -----------------------------------------------------
-    # Try windowTitle property
-    # -----------------------------------------------------
+ 
     try:
         value = obj.windowTitle
         if value is not None:
@@ -54,9 +44,7 @@ def get_object_text(obj):
     except:
         pass
 
-    # -----------------------------------------------------
-    # Try accessibleName property
-    # -----------------------------------------------------
+
     try:
         value = obj.accessibleName
         if value is not None:
@@ -69,9 +57,7 @@ def get_object_text(obj):
     return ""
 
 
-# =========================================================
-# VERIFY TEXT FROM EXCEL
-# =========================================================
+
 
 def verify_text(objectName, row):
     # Wait 6 seconds before every verification
@@ -79,14 +65,10 @@ def verify_text(objectName, row):
 
     obj = waitForObject(objectName)
 
-    # -----------------------------------------------------
-    # Get actual UI text
-    # -----------------------------------------------------
+
     actual = get_object_text(obj)
 
-    # -----------------------------------------------------
-    # Get expected text from Excel column B
-    # -----------------------------------------------------
+
     if sheet is None:
         test.fail("Excel sheet is not initialized")
         return
@@ -108,9 +90,7 @@ def verify_text(objectName, row):
         )
         return
 
-    # -----------------------------------------------------
-    # Normalize spaces and line breaks
-    # -----------------------------------------------------
+
     actual = " ".join(actual.split())
     expected = " ".join(expected.split())
 
@@ -122,9 +102,7 @@ def verify_text(objectName, row):
     )
 
 
-# =========================================================
-# VERIFICATION GROUP
-# =========================================================
+
 
 def verify_group(group_name):
     
@@ -138,10 +116,10 @@ def verify_group(group_name):
 
 
 def verify_popup(group_name):
-    test.log(
-        "Popup verification started: "
-        + group_name
-    )
+    # test.log(
+    #     "Popup verification started: "
+    #     + group_name
+    # )
 
     verify_group(group_name)
 
@@ -156,9 +134,7 @@ def verify_popup(group_name):
 
 
 
-# =========================================================
-# CLICK INCREMENT UNTIL POPUP OPENS
-# =========================================================
+
 
 def click_until_popup_opens():
     max_clicks = 50
@@ -180,9 +156,7 @@ def click_until_popup_opens():
         # Give application time to update
         snooze(0.2)
 
-        # -------------------------------------------------
-        # Check popup
-        # -------------------------------------------------
+    
         try:
             central_widget = findObject({
                 "name": "centralWidget",
@@ -191,11 +165,11 @@ def click_until_popup_opens():
             })
 
             if central_widget.visible:
-                test.log(
-                    "Popup opened after "
-                    + str(i + 1)
-                    + " clicks"
-                )
+                # test.log(
+                #     "Popup opened after "
+                #     + str(i + 1)
+                #     + " clicks"
+                # )
 
                 # Wait 6 seconds after popup opens
                 snooze(6)
@@ -205,23 +179,17 @@ def click_until_popup_opens():
         except:
             pass
 
-    # -----------------------------------------------------
-    # Popup did not open
-    # -----------------------------------------------------
+
     
 
     return False
 
 
-# =========================================================
-# ALL VERIFICATION OBJECTS
-# =========================================================
+
 
 verification_objects = {
 
-    # -----------------------------------------------------
-    # Main Screen
-    # -----------------------------------------------------
+    
     "main": [
         (names.centralWidget_lbTitle_QLabel, 2),
         (names.centralWidget_label_2_QLabel, 3),
@@ -230,9 +198,7 @@ verification_objects = {
         (names.centralWidget_label_QLabel, 6)
     ],
 
-    # -----------------------------------------------------
-    # Pulse Buttons
-    # -----------------------------------------------------
+  
     "pulse_buttons": [
         (names.centralWidget_MRP_QPushButton, 7),
         (names.centralWidget_Fragmentation_QPushButton, 8),
@@ -241,9 +207,7 @@ verification_objects = {
         (names.buttonsFrame_rejectButton_QPushButton, 11)
     ],
 
-    # -----------------------------------------------------
-    # Power Mode Update
-    # -----------------------------------------------------
+   
     "power_mode": [
         (names.centralWidget_TitleLabel_QLabel, 12),
         (names.centralWidget_MessageLabel_QLabel, 13),
@@ -251,54 +215,42 @@ verification_objects = {
         (names.centralWidget_DisableButton_QPushButton, 15)
     ],
 
-    # -----------------------------------------------------
-    # Standard Pulse Popup
-    # -----------------------------------------------------
+    
     "standard_pulse": [
         (names.centralWidget_TitleLabel_QLabel, 16),
         (names.centralWidget_MessageLabel_QLabel, 17),
         (names.centralWidget_OKButton_QPushButton_2, 18)
     ],
 
-    # -----------------------------------------------------
-    # CW Popup
-    # -----------------------------------------------------
+    
     "cw": [
         (names.centralWidget_TitleLabel_QLabel, 19),
         (names.centralWidget_MessageLabel_QLabel, 20),
         (names.centralWidget_OKButton_QPushButton_2, 18)
     ],
 
-    # -----------------------------------------------------
-    # MRP Popup
-    # -----------------------------------------------------
+    
     "mrp": [
         (names.centralWidget_TitleLabel_QLabel, 21),
         (names.centralWidget_MessageLabel_QLabel, 22),
         (names.centralWidget_OKButton_QPushButton_2, 18)
     ],
 
-    # -----------------------------------------------------
-    # Fragmentation Popup
-    # -----------------------------------------------------
+   
     "fragmentation": [
         (names.centralWidget_TitleLabel_QLabel, 23),
         (names.centralWidget_MessageLabel_QLabel, 24),
         (names.centralWidget_OKButton_QPushButton_2, 18)
     ],
 
-    # -----------------------------------------------------
-    # Cleaning Popup
-    # -----------------------------------------------------
+   
     "cleaning": [
         (names.centralWidget_TitleLabel_QLabel, 25),
         (names.centralWidget_MessageLabel_QLabel, 26),
         (names.centralWidget_OKButton_QPushButton_2, 18)
     ],
 
-    # -----------------------------------------------------
-    # Enucleation Popup
-    # -----------------------------------------------------
+    
     "enucleation": [
         (names.centralWidget_TitleLabel_QLabel, 27),
         (names.centralWidget_MessageLabel_QLabel, 28),
@@ -307,18 +259,12 @@ verification_objects = {
 }
 
 
-# =========================================================
-# MAIN
-# =========================================================
+
 
 def main():
 
     global sheet
     global workbook
-
-    # =====================================================
-    # EXCEL
-    # =====================================================
 
     excel_file = (
         "/home/ezen/Test_Automation_Katana/"
@@ -330,9 +276,7 @@ def main():
    
     
 
-    # -----------------------------------------------------
-    # Load Excel workbook
-    # -----------------------------------------------------
+   
 
     try:
         workbook = load_workbook(
@@ -353,9 +297,7 @@ def main():
         )
         return
 
-    # =====================================================
-    # LOGIN
-    # =====================================================
+   
 
     
 
@@ -378,9 +320,7 @@ def main():
         )
     )
 
-    # =====================================================
-    # LANGUAGE SETTINGS
-    # =====================================================
+  
 
    
 
@@ -433,10 +373,7 @@ def main():
         )
     )
 
-    # =====================================================
-    # EXPERT MODE
-    # =====================================================
-
+   
     
 
     snooze(6)
@@ -447,9 +384,7 @@ def main():
         )
     )
 
-    # =====================================================
-    # OPEN MODE SELECTION
-    # =====================================================
+    
 
     snooze(6)
 
@@ -463,24 +398,15 @@ def main():
         Qt.LeftButton
     )
 
-    # =====================================================
-    # MAIN SCREEN VERIFICATION
-    # Rows 2 - 6
-    # =====================================================
+    
 
     verify_group("main")
 
-    # =====================================================
-    # PULSE BUTTON VERIFICATION
-    # Rows 7 - 11
-    # =====================================================
+   
 
     verify_group("pulse_buttons")
 
-    # =====================================================
-    # OPEN CW
-    # =====================================================
-
+    
     snooze(6)
 
     mouseClick(
@@ -501,17 +427,11 @@ def main():
         )
     )
 
-    # =====================================================
-    # POWER MODE UPDATE
-    # Rows 12 - 15
-    # =====================================================
+  
 
     verify_group("power_mode")
 
-    # =====================================================
-    # CLOSE POWER MODE UPDATE
-    # =====================================================
-
+   
     snooze(6)
 
     clickButton(
@@ -520,10 +440,7 @@ def main():
         )
     )
 
-    # =====================================================
-    # STANDARD PULSE
-    # Rows 16 - 18
-    # =====================================================
+    
 
     snooze(6)
 
@@ -536,11 +453,7 @@ def main():
     if click_until_popup_opens():
         verify_popup("standard_pulse")
 
-    # =====================================================
-    # CONTINUOUS WAVE
-    # Rows 19 - 20 + OK row 18
-    # =====================================================
-
+   
     snooze(6)
 
     clickButton(
@@ -552,11 +465,7 @@ def main():
     if click_until_popup_opens():
         verify_popup("cw")
 
-    # =====================================================
-    # MRP
-    # Rows 21 - 22 + OK row 18
-    # =====================================================
-
+   
     snooze(6)
 
     clickButton(
@@ -568,10 +477,7 @@ def main():
     if click_until_popup_opens():
         verify_popup("mrp")
 
-    # =====================================================
-    # FRAGMENTATION
-    # Rows 23 - 24 + OK row 18
-    # =====================================================
+   
 
     snooze(6)
 
@@ -584,11 +490,7 @@ def main():
     if click_until_popup_opens():
         verify_popup("fragmentation")
 
-    # =====================================================
-    # CLEANING
-    # Rows 25 - 26 + OK row 18
-    # =====================================================
-
+ 
     snooze(6)
 
     clickButton(
@@ -600,10 +502,7 @@ def main():
     if click_until_popup_opens():
         verify_popup("cleaning")
 
-    # =====================================================
-    # ENUCLEATION
-    # Rows 27 - 28 + OK row 18
-    # =====================================================
+   
 
     snooze(6)
 
@@ -616,9 +515,7 @@ def main():
     if click_until_popup_opens():
         verify_popup("enucleation")
 
-    # =====================================================
-    # FINAL REJECT
-    # =====================================================
+   
 
     snooze(6)
 

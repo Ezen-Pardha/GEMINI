@@ -6,9 +6,6 @@ import re
 import time
 
 
-# ---------------------------------------------------------
-# Normalize text for comparison
-# ---------------------------------------------------------
 def normalize(text):
     if text is None:
         return ""
@@ -39,15 +36,6 @@ def normalize(text):
     return text.strip().casefold()
 
 
-# ---------------------------------------------------------
-# Load Excel and create:
-# English -> Dutch dictionary
-#
-# Excel:
-# Column B = English
-# Column G = Dutch
-# Sheet   = Treatment Modes
-# ---------------------------------------------------------
 def load_dutch_excel(excelpath):
 
     start_time = time.time()
@@ -77,13 +65,6 @@ def load_dutch_excel(excelpath):
         return None, None, {}
 
     sheet = workbook["Treatment Modes"]
-
-    # -----------------------------------------------------
-    # Excel columns
-    # -----------------------------------------------------
-    # English = B = 2
-    # Dutch   = G = 7
-    # -----------------------------------------------------
 
     english_column = 2
     dutch_column = 7
@@ -118,18 +99,11 @@ def load_dutch_excel(excelpath):
 
     dictionary_time = time.time() - start_time
 
-    # test.log(
-    #     "English -> Dutch dictionary created in "
-    #     + str(round(dictionary_time, 2))
-    #     + " seconds"
-    # )
+   
 
     return workbook, sheet, dutch_data
 
 
-# ---------------------------------------------------------
-# Get Dutch expected text using English text
-# ---------------------------------------------------------
 def get_dutch_text(dutch_data, english_text):
 
     key = normalize(
@@ -150,9 +124,6 @@ def get_dutch_text(dutch_data, english_text):
     return expected
 
 
-# ---------------------------------------------------------
-# Compare application text with Excel Dutch text
-# ---------------------------------------------------------
 def verify_text(
     dutch_data,
     object_name,
@@ -227,9 +198,6 @@ def verify_text(
         return False
 
 
-# ---------------------------------------------------------
-# MAIN
-# ---------------------------------------------------------
 def main():
 
     excelpath = (
@@ -240,9 +208,6 @@ def main():
     )
 
 
-    # =====================================================
-    # LOGIN
-    # =====================================================
 
     clickButton(
         waitForObject(
@@ -277,9 +242,6 @@ def main():
     )
 
 
-    # =====================================================
-    # CHANGE LANGUAGE TO DUTCH
-    # =====================================================
 
     clickButton(
         waitForObject(
@@ -300,12 +262,6 @@ def main():
         )
     )
 
-    # -----------------------------------------------------
-    # DUTCH LANGUAGE BUTTON
-    #
-    # Change this object name if your Squish Object Map
-    # has a different Dutch button name.
-    # -----------------------------------------------------
 
     clickButton(
         waitForObject(
@@ -326,9 +282,6 @@ def main():
     )
 
 
-    # =====================================================
-    # SOFT TISSUE QUICK START
-    # =====================================================
 
     clickButton(
         waitForObject(
@@ -371,9 +324,6 @@ def main():
     )
 
 
-    # =====================================================
-    # PEAK POWER
-    # =====================================================
 
     mouseClick(
         waitForObject(
@@ -388,25 +338,12 @@ def main():
     snooze(6)
 
 
-    # =====================================================
-    # LOAD EXCEL
-    #
-    # Excel is loaded only after reaching Peak Power.
-    # =====================================================
 
     workbook, sheet, dutch_data = load_dutch_excel(
         excelpath
     )
 
 
-    # =====================================================
-    # PEAK POWER DUTCH VERIFICATION
-    #
-    # NO ROW NUMBER
-    # NO COLUMN NUMBER
-    #
-    # English text is used as the lookup key.
-    # =====================================================
 
     snooze(6)
 
@@ -442,6 +379,8 @@ def main():
 
     snooze(6)
 
+    test.vp("Power Modes")
+
     verify_text(
         dutch_data,
         names.buttonsFrame_rejectButton_QPushButton,
@@ -449,9 +388,6 @@ def main():
     )
 
 
-    # =====================================================
-    # CLOSE PEAK POWER
-    # =====================================================
 
     mouseClick(
         waitForObject(
@@ -470,9 +406,6 @@ def main():
     )
 
 
-    # =====================================================
-    # SOFT TISSUE ASSISTANT
-    # =====================================================
 
     clickButton(
         waitForObject(
@@ -507,14 +440,7 @@ def main():
     snooze(6)
 
 
-    # =====================================================
-    # SOFT TISSUE CHARACTERISTICS DUTCH VERIFICATION
-    #
-    # NO ROW NUMBER
-    # NO COLUMN NUMBER
-    # =====================================================
 
-    snooze(6)
 
     verify_text(
         dutch_data,
@@ -548,15 +474,13 @@ def main():
 
     snooze(6)
 
+    test.vp("Soft tissue characteristics") 
+
     verify_text(
         dutch_data,
         names.centralWidget_acceptButton_QPushButton,
         "OK"
     )
 
-
-    # =====================================================
-    # CLOSE EXCEL
-    # =====================================================
 
     workbook.close()
