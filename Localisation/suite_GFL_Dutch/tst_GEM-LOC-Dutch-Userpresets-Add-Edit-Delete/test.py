@@ -5,15 +5,25 @@ import openpyxl
 import re
 import unicodedata
 from openpyxl import load_workbook
+import os 
 
-
-
-EXCEL_PATH = (
-"/home/ezen/Test_Automation_Gemini/Localisation/"
-"suite_GFL_Dutch/"
-"tst_GEM-LOC-Dutch-PeakPower-SoftTissueCharacters/"
-"testdata/Gemini Split strings.xlsx"
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
 )
+
+# EXCEL_PATH = (
+# "/home/ezen/Test_Automation_Gemini/Localisation/"
+# "suite_GFL_Dutch/"
+# "tst_GEM-LOC-Dutch-PeakPower-SoftTissueCharacters/"
+# "testdata/Gemini Split strings.xlsx"
+# )
 
 SHEET_NAME = "Treatment Modes"
 LANGUAGE_NAME = "Dutch"
@@ -869,7 +879,8 @@ def main():
     )
     
     # test.vp("Delete Preset Popup")
-
+    snooze(2)
     clickButton(waitForObject(names.centralWidget_acceptButton_QPushButton))
+    snooze(2)
     workbook.close()
     

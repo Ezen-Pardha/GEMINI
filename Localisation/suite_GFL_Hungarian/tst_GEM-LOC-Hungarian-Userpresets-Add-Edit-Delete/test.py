@@ -4,14 +4,20 @@ import names
 import re
 import unicodedata
 from openpyxl import load_workbook
+import os 
 
-
-EXCEL_PATH = (
-    "/home/ezen/Test_Automation_Gemini/Localisation/"
-    "suite_GFL_Hungarian/"
-    "tst_GEM-LOC-Hungarian-PeakPower-SoftTissueCharacters/"
-    "testdata/Gemini Split strings.xlsx"
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
 )
+
+
 
 ENGLISH_COLUMN = 2
 HUNGARIAN_COLUMN = 13
@@ -804,12 +810,6 @@ def main():
     finally:
 
         try:
-
-            clickButton(
-                waitForObject(
-                    names.centralWidget_acceptButton_QPushButton
-                )
-            )
 
             snooze(2)
 

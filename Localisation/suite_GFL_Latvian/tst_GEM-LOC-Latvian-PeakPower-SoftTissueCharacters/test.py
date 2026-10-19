@@ -5,7 +5,17 @@ import names
 import openpyxl
 import re
 import unicodedata
-
+import os 
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
 
 
 
@@ -66,12 +76,12 @@ def normalize(text):
 
 
 
-def load_Latvian_excel(excelpath):
+def load_Latvian_excel(EXCEL_PATH):
 
     try:
 
         workbook = openpyxl.load_workbook(
-            excelpath,
+            EXCEL_PATH,
             data_only=True,
             read_only=True
         )
@@ -394,12 +404,6 @@ def verify_text(
 
 def main():
 
-    excelpath = (
-        "/home/ezen/Test_Automation_Gemini/Localisation/"
-        "suite_GFL_Latvian/"
-        "tst_GEM-LOC-Latvian-PeakPower-SoftTissueCharacters/"
-        "testdata/Gemini Split strings.xlsx"
-    )
 
     clickButton(
         waitForObject(
@@ -529,7 +533,7 @@ def main():
 
 
     workbook, sheet, Latvian_data = load_Latvian_excel(
-        excelpath
+        EXCEL_PATH
     )
 
     if workbook is None:

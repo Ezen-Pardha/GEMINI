@@ -5,7 +5,18 @@ import names
 import openpyxl
 import re
 import time
+import os
 
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
 
 
 def normalize(text):
@@ -26,14 +37,14 @@ def normalize(text):
 
 
 
-def load_danish_excel(excelpath):
+def load_danish_excel(EXCEL_PATh):
 
    
 
     start_time = time.time()
 
     workbook = openpyxl.load_workbook(
-        excelpath,
+        EXCEL_PATh,
         data_only=True,
         read_only=True
     )
@@ -166,7 +177,7 @@ def verify_text(danish_data, object_name, english_text):
 
 def main():
 
-    excelpath = (
+    EXCEL_PATh = (
         "/home/ezen/Test_Automation_Gemini/Localisation/"
         "suite_GFL_Danish/tst_GEM-LOC-Danish-PeakPower-SoftTissueCharacters/"
         "testdata/Gemini Split strings.xlsx"
@@ -314,7 +325,7 @@ def main():
  
 
     workbook, sheet, danish_data = load_danish_excel(
-        excelpath
+        EXCEL_PATh
     )
 
    

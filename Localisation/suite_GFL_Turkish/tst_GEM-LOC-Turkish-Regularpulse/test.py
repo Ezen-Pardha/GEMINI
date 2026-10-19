@@ -4,14 +4,20 @@ import names
 import re
 import unicodedata
 from openpyxl import load_workbook
+import os
 
-
-EXCEL_PATH = (
-    "/home/ezen/Test_Automation_Gemini/Localisation/"
-    "suite_GFL_Turkish/"
-    "tst_GEM-LOC-Turkish-PeakPower-SoftTissueCharacters/"
-    "testdata/Gemini Split strings.xlsx"
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
 )
+
+
 
 ENGLISH_COLUMN = 2
 Turkish_COLUMN = 26

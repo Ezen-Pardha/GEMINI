@@ -4,6 +4,19 @@ import names
 import openpyxl
 import re
 import unicodedata
+import os
+
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
+
 
 
 def normalize(text):
@@ -51,11 +64,11 @@ def normalize(text):
     return text.casefold()
 
 
-def load_Swedish_excel(excelpath):
+def load_Swedish_excel(EXCEL_PATH):
 
     try:
         workbook = openpyxl.load_workbook(
-            excelpath,
+            EXCEL_PATH,
             data_only=True,
             read_only=True
         )
@@ -282,13 +295,6 @@ def verify_text(Swedish_data, object_name, english_text):
 
 def main():
 
-    excelpath = (
-        "/home/ezen/Test_Automation_Gemini/Localisation/"
-        "suite_GFL_Swedish/"
-        "tst_GEM-LOC-Swedish-PeakPower-SoftTissueCharacters/"
-        "testdata/Gemini Split strings.xlsx"
-    )
-
     workbook = None
 
     try:
@@ -317,7 +323,7 @@ def main():
             )
         )
 
-        snooze(6)
+        snooze(2)
 
         clickButton(
             waitForObject(
@@ -412,16 +418,16 @@ def main():
             Qt.LeftButton
         )
 
-        snooze(6)
+        snooze(2)
 
         workbook, sheet, Swedish_data = load_Swedish_excel(
-            excelpath
+            EXCEL_PATH
         )
 
         if workbook is None:
             return
 
-        snooze(6)
+        snooze(2)
 
         verify_text(
             Swedish_data,
@@ -429,7 +435,7 @@ def main():
             "SELECT PEAK POWER"
         )
 
-        snooze(6)
+        snooze(2)
 
         verify_text(
             Swedish_data,
@@ -437,7 +443,7 @@ def main():
             "High"
         )
 
-        snooze(6)
+        snooze(2)
 
         verify_text(
             Swedish_data,
@@ -445,7 +451,7 @@ def main():
             "Medium"
         )
 
-        snooze(6)
+        snooze(2)
 
         verify_text(
             Swedish_data,
@@ -453,7 +459,7 @@ def main():
             "Low"
         )
 
-        snooze(6)
+        snooze(2)
 
         verify_text(
             Swedish_data,
@@ -507,7 +513,7 @@ def main():
             )
         )
 
-        snooze(6)
+        snooze(2)
 
         verify_text(
             Swedish_data,
@@ -515,7 +521,7 @@ def main():
             "SOFT TISSUE CHARACTERISTICS"
         )
 
-        snooze(6)
+        snooze(2)
 
         verify_text(
             Swedish_data,
@@ -523,7 +529,7 @@ def main():
             "PROCEDURE"
         )
 
-        snooze(6)
+        snooze(2)
 
         verify_text(
             Swedish_data,
@@ -531,7 +537,7 @@ def main():
             "Incision"
         )
 
-        snooze(6)
+        snooze(2)
 
         verify_text(
             Swedish_data,
@@ -539,7 +545,7 @@ def main():
             "EDIT"
         )
 
-        snooze(6)
+        snooze(2)
 
         verify_text(
             Swedish_data,

@@ -4,8 +4,19 @@ import names
 import openpyxl
 import re
 import unicodedata
+import os 
 
 
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
 def normalize(text):
 
     if text is None:
@@ -37,18 +48,18 @@ def normalize(text):
     return text.casefold()
 
 
-def load_finnish_excel(excelpath):
+def load_finnish_excel(EXCEL_PATH):
 
     try:
         workbook = openpyxl.load_workbook(
-            excelpath,
+            EXCEL_PATH,
             data_only=True,
             read_only=True
         )
     except Exception as e:
         test.fail(
             "Unable to open Excel file: "
-            + str(excelpath)
+            + str(EXCEL_PATH)
             + " | Error: "
             + str(e)
         )
@@ -178,12 +189,7 @@ def verify_text(finnish_data, object_name, english_text):
 
 def main():
 
-    excelpath = (
-        "/home/ezen/Test_Automation_Gemini/Localisation/"
-        "suite_GFL_Finnish/"
-        "tst_GEM-LOC-Finnish-PeakPower-SoftTissueCharacters/"
-        "testdata/Gemini Split strings.xlsx"
-    )
+   
 
     workbook = None
 
@@ -308,7 +314,7 @@ def main():
 
     snooze(6)
 
-    workbook, finnish_data = load_finnish_excel(excelpath)
+    workbook, finnish_data = load_finnish_excel(EXCEL_PATH)
 
     if workbook is None:
         return

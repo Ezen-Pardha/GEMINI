@@ -3,16 +3,18 @@
 import names
 import openpyxl
 import re
+import os 
 
-
-
-EXCEL_PATH = (
-"/home/ezen/Test_Automation_Gemini/Localisation/"
-"suite_GFL_Estonian/"
-"tst_GEM-LOC-Estonian-PeakPower-SoftTissueCharacters/"
-"testdata/Gemini Split strings.xlsx"
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
 )
-
 
 ENGLISH_COLUMN = 2
 ESTONIAN_COLUMN = 8
@@ -403,9 +405,14 @@ def main():
         Qt.LeftButton
     )
 
+    # test.compare(str(waitForObjectExists(names.centralWidget_TitleLabel_QLabel_2).text), "KAS VÄLJUDA KIIRKÄIVITUSE REŽIIMIST?")
+    # test.compare(str(waitForObjectExists(names.centralWidget_MessageLabel_QLabel_2).text), "Kinnitage, et soovite kiirolekurežiimist väljuda.")
+    # test.compare(str(waitForObjectExists(names.centralWidget_CancelButton_QPushButton_3).text), "TÜHISTA")
+    # test.compare(str(waitForObjectExists(names.centralWidget_DisableButton_QPushButton_2).text), "CONFIRM")
+
     verify_text(
         sheet,
-        names.centralWidget_TitleLabel_QLabel,
+        names.centralWidget_TitleLabel_QLabel_2,
         "EXIT QUICK START MODE?",
         "Quick Start Exit Title"
     )
@@ -413,7 +420,7 @@ def main():
     
     verify_text(
         sheet,
-        names.centralWidget_MessageLabel_QLabel,
+        names.centralWidget_MessageLabel_QLabel_2,
         "Please confirm that you want to exit quick start mode.",
         "Quick Start Exit Message"
     )
@@ -421,7 +428,7 @@ def main():
     
     verify_text(
         sheet,
-        names.centralWidget_CancelButton_QPushButton,
+        names.centralWidget_CancelButton_QPushButton_3,
         "CANCEL",
         "Quick Start Cancel Button"
     )
@@ -430,17 +437,35 @@ def main():
 
     verify_text(
         sheet,
-        names.centralWidget_DisableButton_QPushButton,
+        names.centralWidget_DisableButton_QPushButton_2,
         "CONFIRM",
         "Quick Start Confirm Button"
     )
     
-    
-    clickButton(
-        waitForObject(
-            names.centralWidget_CancelButton_QPushButton
-        )
-    )
+    # clickButton(waitForObject(names.centralWidget_DisableButton_QPushButton_2))
+    # clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_2))
+    # clickButton(waitForObject(names.homeScreen_pbSoftTissueAssistant_QToolButton))
+    # clickButton(waitForObject(names.gbSoftTissueProcedures_pbIncision_QPushButton))
+    # clickButton(waitForObject(names.softTissueAssistantModeScreen_pbContinue_QPushButton))
+    # mouseClick(waitForObject(names.peakPowerButton_nameLabel_QLabel), 36, 22, Qt.NoModifier, Qt.LeftButton)
+    # clickButton(waitForObject(names.buttonsFrame_rejectButton_QPushButton))
+    # clickButton(waitForObject(names.pulseEnergyWidget_incrementButton_QPushButton))
+    # clickButton(waitForObject(names.pulseEnergyWidget_incrementButton_QPushButton))
+    # doubleClick(waitForObject(names.pulseEnergyWidget_incrementButton_QPushButton), 30, 31, Qt.NoModifier, Qt.LeftButton)
+    # doubleClick(waitForObject(names.pulseEnergyWidget_incrementButton_QPushButton), 30, 31, Qt.NoModifier, Qt.LeftButton)
+    # doubleClick(waitForObject(names.pulseEnergyWidget_incrementButton_QPushButton), 30, 31, Qt.NoModifier, Qt.LeftButton)
+    # clickButton(waitForObject(names.pulseEnergyWidget_incrementButton_QPushButton))
+    # clickButton(waitForObject(names.pulseEnergyWidget_incrementButton_QPushButton))
+    # clickButton(waitForObject(names.pulseEnergyWidget_incrementButton_QPushButton))
+    # clickButton(waitForObject(names.pulseEnergyWidget_incrementButton_QPushButton))
+    # test.compare(str(waitForObjectExists(names.centralWidget_TitleLabel_QLabel_2).text), "KAS VÄLJUDA JUHENDATUD REŽIIMIST?")
+    # test.compare(str(waitForObjectExists(names.centralWidget_MessageLabel_QLabel_2).text), "Kinnitage, et soovite juhendatud režiimist väljuda.")
+    # test.compare(str(waitForObjectExists(names.centralWidget_CancelButton_QPushButton_3).text), "TÜHISTA")
+    # test.compare(str(waitForObjectExists(names.centralWidget_DisableButton_QPushButton_2).text), "CONFIRM")
+
+    clickButton(waitForObject(names.centralWidget_CancelButton_QPushButton_3))
+
+   
     
     clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_2))
    
@@ -483,20 +508,24 @@ def main():
                 break
             except:
                 pass
-        
+
+                # test.compare(str(waitForObjectExists(names.centralWidget_TitleLabel_QLabel_2).text), "KAS VÄLJUDA JUHENDATUD REŽIIMIST?")
+                # test.compare(str(waitForObjectExists(names.centralWidget_MessageLabel_QLabel_2).text), "Kinnitage, et soovite juhendatud režiimist väljuda.")
+                # test.compare(str(waitForObjectExists(names.centralWidget_CancelButton_QPushButton_3).text), "TÜHISTA")
+                # test.compare(str(waitForObjectExists(names.centralWidget_DisableButton_QPushButton_2).text), "CONFIRM")
 
     verify_text(
         sheet,
-        names.centralWidget_TitleLabel_QLabel,
+        names.centralWidget_TitleLabel_QLabel_2,
         "EXIT GUIDED MODE?",
         "Guided Mode Exit Title"
     )
-    
+     
     
     
     verify_text(
         sheet,
-        names.centralWidget_MessageLabel_QLabel,
+        names.centralWidget_MessageLabel_QLabel_2,
         "Please confirm that you want to exit guided mode.",
         "Guided Mode Exit Message"
     )
@@ -505,7 +534,7 @@ def main():
     
     verify_text(
         sheet,
-        names.centralWidget_CancelButton_QPushButton,
+        names.centralWidget_CancelButton_QPushButton_3,
         "CANCEL",
         "Guided Mode Cancel Button"
     )
@@ -514,7 +543,7 @@ def main():
 
     verify_text(
         sheet,
-        names.centralWidget_DisableButton_QPushButton,
+        names.centralWidget_DisableButton_QPushButton_2,
         "CONFIRM",
         "Guided Mode Confirm Button"
     )
@@ -522,7 +551,7 @@ def main():
     
     clickButton(
         waitForObject(
-            names.centralWidget_DisableButton_QPushButton
+            names.centralWidget_DisableButton_QPushButton_2
         )
     )
     

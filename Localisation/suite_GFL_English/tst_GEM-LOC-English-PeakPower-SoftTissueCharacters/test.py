@@ -5,11 +5,19 @@ import names
 import openpyxl
 import re
 import time
+import os
 
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
 
-# ---------------------------------------------------------
-# Normalize text for comparison
-# ---------------------------------------------------------
 def normalize(text):
 
     if text is None:
@@ -40,22 +48,12 @@ def normalize(text):
 
     return text.strip().casefold()
 
-
-# ---------------------------------------------------------
-# Load Excel and create English dictionary
-#
-# Excel:
-# Column B = English
-#
-# The English text itself is used as the lookup key.
-# No row number is required during verification.
-# ---------------------------------------------------------
-def load_english_excel(excelpath):
+def load_english_excel(EXCEL_PATH):
 
     start_time = time.time()
 
     workbook = openpyxl.load_workbook(
-        excelpath,
+        EXCEL_PATH,
         data_only=True,
         read_only=True
     )
@@ -116,10 +114,6 @@ def load_english_excel(excelpath):
 
     return workbook, sheet, english_data
 
-
-# ---------------------------------------------------------
-# Get English expected text using English lookup text
-# ---------------------------------------------------------
 def get_english_text(english_data, english_text):
 
     key = normalize(english_text)
@@ -137,10 +131,6 @@ def get_english_text(english_data, english_text):
 
     return expected
 
-
-# ---------------------------------------------------------
-# Compare application English text with Excel English text
-# ---------------------------------------------------------
 def verify_text(english_data, object_name, english_text):
 
     actual_text = ""
@@ -171,9 +161,6 @@ def verify_text(english_data, object_name, english_text):
     actual_normalized = normalize(actual_text)
     expected_normalized = normalize(expected_text)
 
-    # -----------------------------------------------------
-    # Compare
-    # -----------------------------------------------------
     if actual_normalized == expected_normalized:
 
         # test.log(
@@ -205,24 +192,17 @@ def verify_text(english_data, object_name, english_text):
 
         return False
 
-
-# ---------------------------------------------------------
-# MAIN
-# ---------------------------------------------------------
 def main():
 
-    excelpath = (
-        "/home/ezen/Test_Automation_Gemini/Localisation/"
-        "suite_GFL_English/"
-        "tst_GEM-LOC-English-PeakPower-SoftTissueCharacters/"
-        "testdata/Gemini Split strings.xlsx"
-    )
+    # EXECL_PATH = (
+    #     "/home/ezen/Test_Automation_Gemini/Localisation/"
+    #     "suite_GFL_English/"
+    #     "tst_GEM-LOC-English-PeakPower-SoftTissueCharacters/"
+    #     "testdata/Gemini Split strings.xlsx"
+    # )
 
 
-    # -----------------------------------------------------
-    # Login
-    # -----------------------------------------------------
-
+   
     clickButton(
         waitForObject(
             names.numpad_pushButton_8_NumpadButton
@@ -255,17 +235,6 @@ def main():
         )
     )
 
-
-    # -----------------------------------------------------
-    # English is already selected
-    #
-    # No language-selection step is required.
-    # -----------------------------------------------------
-
-
-    # -----------------------------------------------------
-    # Soft Tissue Quick Start
-    # -----------------------------------------------------
 
     clickButton(
         waitForObject(
@@ -308,10 +277,6 @@ def main():
     )
 
 
-    # -----------------------------------------------------
-    # Peak Power
-    # -----------------------------------------------------
-
     mouseClick(
         waitForObject(
             names.peakPowerButton_nameLabel_QLabel
@@ -325,26 +290,10 @@ def main():
     snooze(2)
 
 
-    # -----------------------------------------------------
-    # Load Excel
-    #
-    # Excel is loaded only after reaching Peak Power.
-    # -----------------------------------------------------
-
     workbook, sheet, english_data = load_english_excel(
-        excelpath
+        EXCEL_PATH
     )
 
-
-    # -----------------------------------------------------
-    # Peak Power verification
-    #
-    # NO ROW NUMBER
-    # NO COLUMN NUMBER
-    #
-    # English text is used as lookup key.
-    # Expected value comes from Excel Column B.
-    # -----------------------------------------------------
 
     verify_text(
         english_data,
@@ -377,10 +326,6 @@ def main():
     )
 
 
-    # -----------------------------------------------------
-    # Close Peak Power
-    # -----------------------------------------------------
-
     mouseClick(
         waitForObject(
             names.centralWidget_mainWidget_QWidget
@@ -396,11 +341,6 @@ def main():
             names.buttonsFrame_rejectButton_QPushButton
         )
     )
-
-
-    # -----------------------------------------------------
-    # Soft Tissue Assistant
-    # -----------------------------------------------------
 
     clickButton(
         waitForObject(
@@ -435,15 +375,6 @@ def main():
     snooze(2)
 
 
-    # -----------------------------------------------------
-    # Soft Tissue Characteristics verification
-    #
-    # NO ROW NUMBER
-    # NO COLUMN NUMBER
-    #
-    # Expected English values are taken from Excel.
-    # -----------------------------------------------------
-
     verify_text(
         english_data,
         names.centralWidget_titleLabel_QLabel,
@@ -474,10 +405,6 @@ def main():
         "OK"
     )
 
-
-    # -----------------------------------------------------
-    # Close Excel
-    # -----------------------------------------------------
 
     if workbook is not None:
         workbook.close()

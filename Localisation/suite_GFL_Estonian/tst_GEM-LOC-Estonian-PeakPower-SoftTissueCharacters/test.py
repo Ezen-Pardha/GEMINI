@@ -5,7 +5,18 @@ import names
 import openpyxl
 import re
 import time
+import os 
 
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
 
 def normalize(text):
 
@@ -43,12 +54,12 @@ def normalize(text):
     return text.strip().casefold()
 
 
-def load_estonian_excel(excelpath):
+def load_estonian_excel(EXCEL_PATH):
 
     start_time = time.time()
 
     workbook = openpyxl.load_workbook(
-        excelpath,
+        EXCEL_PATH,
         data_only=True,
         read_only=True
     )
@@ -188,13 +199,6 @@ def verify_text(
 
 def main():
 
-    excelpath = (
-        "/home/ezen/Test_Automation_Gemini/Localisation/"
-        "suite_GFL_Estonian/"
-        "tst_GEM-LOC-Estonian-PeakPower-SoftTissueCharacters/"
-        "testdata/Gemini Split strings.xlsx"
-    )
-
 
     clickButton(
         waitForObject(
@@ -310,23 +314,17 @@ def main():
         )
     )
 
+    mouseClick(waitForObject(names.peakPowerButton_nameLabel_QLabel), 29, 17, Qt.NoModifier, Qt.LeftButton)
 
-    mouseClick(
-        waitForObject(
-            names.peakPowerButton_nameLabel_QLabel_2
-        ),
-        34,
-        34,
-        Qt.NoModifier,
-        Qt.LeftButton
-    )
+   
+   
 
     snooze(6)
 
 
 
     workbook, sheet, estonian_data = load_estonian_excel(
-        excelpath
+        EXCEL_PATH
     )
 
     if workbook is None:

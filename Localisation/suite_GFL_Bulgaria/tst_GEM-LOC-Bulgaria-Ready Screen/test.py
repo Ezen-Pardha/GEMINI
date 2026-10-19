@@ -3,38 +3,37 @@
 
 import names
 from openpyxl import load_workbook
+import os
 
-
-# ============================================================
-# EXCEL CONFIGURATION
-# ============================================================
-
-EXCEL_PATH = (
-    "/home/ezen/Test_Automation_Gemini/Localisation/"
-    "suite_GFL_Bulgaria/"
-    "tst_GEM-LOC-Bulgaria-PeakPower-SoftTissueCharacters/"
-    "testdata/Gemini Split strings.xlsx"
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
 )
+
+
+# EXCEL_PATH = (
+#     "/home/ezen/Test_Automation_Gemini/Localisation/"
+#     "suite_GFL_Bulgaria/"
+#     "tst_GEM-LOC-Bulgaria-PeakPower-SoftTissueCharacters/"
+#     "testdata/Gemini Split strings.xlsx"
+# )
 
 EXCEL_SHEET_NAME = "Treatment Modes"
 
-# ------------------------------------------------------------
-# Column B = English
-# ------------------------------------------------------------
 
 ENGLISH_COLUMN = 2
 
-# ------------------------------------------------------------
-# Column C = Bulgarian
-# ------------------------------------------------------------
 
 BULGARIAN_COLUMN = 3
 
 
-# ============================================================
-# TEXT NORMALIZATION
-# ============================================================
-
+#
 def normalize_text(value):
 
     if value is None:
@@ -49,18 +48,6 @@ def normalize_text(value):
     ).strip().casefold()
 
 
-# ============================================================
-# LOAD EXCEL DATA
-#
-# English Column B
-# Bulgarian Column C
-#
-# Creates:
-#
-# English text -> Bulgarian text
-#
-# No Excel row numbers are hard-coded.
-# ============================================================
 
 def load_excel_data():
 
@@ -74,9 +61,6 @@ def load_excel_data():
             data_only=True
         )
 
-        # ----------------------------------------------------
-        # Check sheet
-        # ----------------------------------------------------
 
         if EXCEL_SHEET_NAME not in workbook.sheetnames:
 
@@ -95,10 +79,7 @@ def load_excel_data():
             EXCEL_SHEET_NAME
         ]
 
-        # ----------------------------------------------------
-        # Create English -> Bulgarian dictionary
-        # ----------------------------------------------------
-
+   
         bulgarian_data = {}
 
         for row in sheet.iter_rows(
@@ -113,10 +94,7 @@ def load_excel_data():
                 BULGARIAN_COLUMN - ENGLISH_COLUMN
             ]
 
-            # ------------------------------------------------
-            # Ignore empty English cells
-            # ------------------------------------------------
-
+    
             if english_value is None:
                 continue
 
@@ -127,10 +105,7 @@ def load_excel_data():
             if english_key == "":
                 continue
 
-            # ------------------------------------------------
-            # Convert empty Bulgarian value to empty string
-            # ------------------------------------------------
-
+  
             if bulgarian_value is None:
                 bulgarian_value = ""
 
@@ -138,10 +113,7 @@ def load_excel_data():
                 bulgarian_value
             ).strip()
 
-            # ------------------------------------------------
-            # Keep first non-empty translation
-            # ------------------------------------------------
-
+ 
             if english_key not in bulgarian_data:
 
                 bulgarian_data[
@@ -164,10 +136,7 @@ def load_excel_data():
                         english_key
                     ] = bulgarian_value
 
-        # ----------------------------------------------------
-        # Make sure data was loaded
-        # ----------------------------------------------------
-
+   
         if not bulgarian_data:
 
             test.fail(
@@ -198,9 +167,6 @@ def load_excel_data():
         return None, None
 
 
-# ============================================================
-# GET BULGARIAN TEXT USING ENGLISH TEXT
-# ============================================================
 
 def get_bulgarian_text(
     bulgarian_data,
@@ -211,10 +177,7 @@ def get_bulgarian_text(
         english_text
     )
 
-    # --------------------------------------------------------
-    # English text not found
-    # --------------------------------------------------------
-
+  
     if search_text not in bulgarian_data:
 
         test.fail(
@@ -228,10 +191,7 @@ def get_bulgarian_text(
         search_text
     ]
 
-    # --------------------------------------------------------
-    # Bulgarian translation empty
-    # --------------------------------------------------------
-
+   
     if normalize_text(
         bulgarian_value
     ) == "":
@@ -246,9 +206,6 @@ def get_bulgarian_text(
     return bulgarian_value
 
 
-# ============================================================
-# VERIFY NORMAL OBJECT TEXT
-# ============================================================
 
 def verify_text(
     bulgarian_data,
@@ -257,16 +214,10 @@ def verify_text(
     description
 ):
 
-    # --------------------------------------------------------
-    # Wait before verification
-    # --------------------------------------------------------
 
     snooze(2)
 
-    # --------------------------------------------------------
-    # Get Bulgarian expected value
-    # --------------------------------------------------------
-
+  
     expected_text = get_bulgarian_text(
         bulgarian_data,
         english_text
@@ -281,10 +232,7 @@ def verify_text(
 
         return
 
-    # --------------------------------------------------------
-    # Find Squish object
-    # --------------------------------------------------------
-
+ 
     try:
 
         obj = waitForObjectExists(
@@ -306,10 +254,7 @@ def verify_text(
 
         return
 
-    # --------------------------------------------------------
-    # Read actual object text
-    # --------------------------------------------------------
-
+ 
     try:
 
         actual_text = obj.text
@@ -324,10 +269,7 @@ def verify_text(
 
         return
 
-    # --------------------------------------------------------
-    # Normalize values
-    # --------------------------------------------------------
-
+   
     actual_normalized = normalize_text(
         actual_text
     )
@@ -336,10 +278,7 @@ def verify_text(
         expected_text
     )
 
-    # --------------------------------------------------------
-    # Compare
-    # --------------------------------------------------------
-
+ 
     test.compare(
         actual_normalized,
         expected_normalized,
@@ -348,11 +287,6 @@ def verify_text(
     )
 
 
-# ============================================================
-# RECURSIVE SEARCH FOR TREATMENT NAME
-#
-# Does not create an object name from Bulgarian text.
-# ============================================================
 
 def find_text_recursively(
     parent_object,
@@ -368,10 +302,7 @@ def find_text_recursively(
 
         pass
 
-    # --------------------------------------------------------
-    # Check current object
-    # --------------------------------------------------------
-
+   
     try:
 
         current_text = normalize_text(
@@ -386,10 +317,7 @@ def find_text_recursively(
 
         pass
 
-    # --------------------------------------------------------
-    # Get children
-    # --------------------------------------------------------
-
+ 
     try:
 
         children = object.children(
@@ -400,10 +328,7 @@ def find_text_recursively(
 
         children = []
 
-    # --------------------------------------------------------
-    # Search children recursively
-    # --------------------------------------------------------
-
+   
     for child in children:
 
         found = find_text_recursively(
@@ -418,13 +343,6 @@ def find_text_recursively(
     return None
 
 
-# ============================================================
-# VERIFY TREATMENT NAME
-#
-# English treatment name is used only as Excel lookup key.
-#
-# Actual Bulgarian treatment name comes from Excel.
-# ============================================================
 
 def verify_treatment_name(
     bulgarian_data,
@@ -432,16 +350,10 @@ def verify_treatment_name(
     description
 ):
 
-    # --------------------------------------------------------
-    # Wait before verification
-    # --------------------------------------------------------
-
+  
     snooze(6)
 
-    # --------------------------------------------------------
-    # Get Bulgarian translation
-    # --------------------------------------------------------
-
+ 
     expected_text = get_bulgarian_text(
         bulgarian_data,
         english_text
@@ -460,9 +372,6 @@ def verify_treatment_name(
         expected_text
     )
 
-    # --------------------------------------------------------
-    # Find ScreenSwitcher
-    # --------------------------------------------------------
 
     try:
 
@@ -480,10 +389,7 @@ def verify_treatment_name(
 
         return
 
-    # --------------------------------------------------------
-    # Search for Bulgarian treatment text
-    # --------------------------------------------------------
-
+  
     found_object = find_text_recursively(
         screen_switcher,
         expected_normalized
@@ -501,10 +407,7 @@ def verify_treatment_name(
 
         return
 
-    # --------------------------------------------------------
-    # Read actual text
-    # --------------------------------------------------------
-
+ 
     try:
 
         actual_text = normalize_text(
@@ -515,10 +418,7 @@ def verify_treatment_name(
 
         actual_text = ""
 
-    # --------------------------------------------------------
-    # Compare
-    # --------------------------------------------------------
-
+  
     test.compare(
         actual_text,
         expected_normalized,
@@ -527,9 +427,6 @@ def verify_treatment_name(
     )
 
 
-# ============================================================
-# VERIFY LEFT TREATMENT NAME
-# ============================================================
 
 def verify_left_treatment_name(
     bulgarian_data,
@@ -544,9 +441,6 @@ def verify_left_treatment_name(
     )
 
 
-# ============================================================
-# VERIFY RIGHT TREATMENT NAME
-# ============================================================
 
 def verify_right_treatment_name(
     bulgarian_data,
@@ -561,25 +455,16 @@ def verify_right_treatment_name(
     )
 
 
-# ============================================================
-# MAIN
-# ============================================================
 
 def main():
 
     workbook = None
     bulgarian_data = None
 
-    # ========================================================
-    # LOAD EXCEL
-    # ========================================================
-
+ 
     result = load_excel_data()
 
-    # --------------------------------------------------------
-    # Safety check
-    # --------------------------------------------------------
-
+ 
     if result is None:
 
         test.fail(
@@ -588,10 +473,7 @@ def main():
 
         return
 
-    # --------------------------------------------------------
-    # Unpack Excel data
-    # --------------------------------------------------------
-
+  
     try:
 
         workbook, bulgarian_data = result
@@ -615,10 +497,7 @@ def main():
 
     try:
 
-        # ====================================================
-        # LOGIN
-        # ====================================================
-
+  
         for i in range(4):
 
             clickButton(
@@ -636,9 +515,6 @@ def main():
         )
 
 
-        # ====================================================
-        # OPEN SETTINGS
-        # ====================================================
 
         clickButton(
             waitForObject(
@@ -647,9 +523,6 @@ def main():
         )
 
 
-        # ====================================================
-        # OPEN SYSTEM INFORMATION
-        # ====================================================
 
         clickTab(
             waitForObject(
@@ -659,10 +532,7 @@ def main():
         )
 
 
-        # ====================================================
-        # OPEN LANGUAGE SETTINGS
-        # ====================================================
-
+ 
         clickButton(
             waitForObject(
                 names.gbSystemInformation_pbLanguageSettingsUpdate_QPushButton
@@ -670,10 +540,7 @@ def main():
         )
 
 
-        # ====================================================
-        # SELECT BULGARIAN
-        # ====================================================
-
+ 
         clickButton(
             waitForObject(
                 names.languagesFrame_pbBulgaria_QPushButton
@@ -681,9 +548,6 @@ def main():
         )
 
 
-        # ====================================================
-        # ACCEPT LANGUAGE
-        # ====================================================
 
         clickButton(
             waitForObject(
@@ -692,10 +556,7 @@ def main():
         )
 
 
-        # ====================================================
-        # RETURN HOME
-        # ====================================================
-
+    
         clickButton(
             waitForObject(
                 names.buttonsBar_homeButton_QPushButton
@@ -703,10 +564,7 @@ def main():
         )
 
 
-        # ====================================================
-        # OPEN SOFT TISSUE QUICK START
-        # ====================================================
-
+    
         clickButton(
             waitForObject(
                 names.homeScreen_pbSoftTissueQuickStart_QToolButton
@@ -714,9 +572,8 @@ def main():
         )
 
 
-        # ====================================================
-        # SELECT LEFT TREATMENT
-        # ====================================================
+     
+       
 
         mouseClick(
             waitForObjectItem(
@@ -730,10 +587,7 @@ def main():
         )
 
 
-        # ====================================================
-        # SELECT RIGHT TREATMENT
-        # ====================================================
-
+      
         mouseClick(
             waitForObjectItem(
                 names.tabRightMainPresets_rightPresetsView_PresetListView,
@@ -746,9 +600,7 @@ def main():
         )
 
 
-        # ====================================================
-        # QUICK START BOTTOM WIDGET
-        # ====================================================
+    
 
         mouseClick(
             waitForObject(
@@ -760,10 +612,6 @@ def main():
             Qt.LeftButton
         )
 
-
-        # ====================================================
-        # MOVE SCREEN
-        # ====================================================
 
         sendEvent(
             "QMoveEvent",
@@ -777,9 +625,8 @@ def main():
         )
 
 
-        # ====================================================
-        # CONTINUE
-        # ====================================================
+   
+       
 
         clickButton(
             waitForObject(
@@ -788,20 +635,13 @@ def main():
         )
 
 
-        # ====================================================
-        # OK
-        # ====================================================
-
+     
         clickButton(
             waitForObject(
                 names.mainFrame_okButton_QPushButton_2
             )
         )
 
-
-        # ====================================================
-        # SELECT READY
-        # ====================================================
 
         clickButton(
             waitForObject(
@@ -810,20 +650,12 @@ def main():
         )
 
 
-        # ====================================================
-        # LEFT TREATMENT NAME
-        # ====================================================
-
         verify_left_treatment_name(
             bulgarian_data,
             "PROSTATE ENUCLEATION-(HIGH ENERGY)",
             "Left Treatment Name"
         )
 
-
-        # ====================================================
-        # LEFT AVERAGE POWER
-        # ====================================================
 
         verify_text(
             bulgarian_data,
@@ -833,10 +665,6 @@ def main():
         )
 
 
-        # ====================================================
-        # LEFT PULSE ENERGY
-        # ====================================================
-
         verify_text(
             bulgarian_data,
             "pulseEnergyWidgetEmission_nameLabel_QLabel",
@@ -844,10 +672,6 @@ def main():
             "Left Pulse Energy"
         )
 
-
-        # ====================================================
-        # LEFT FREQUENCY
-        # ====================================================
 
         verify_text(
             bulgarian_data,
@@ -857,10 +681,6 @@ def main():
         )
 
 
-        # ====================================================
-        # LEFT PULSE MODE
-        # ====================================================
-
         verify_text(
             bulgarian_data,
             "modeButtonEmission_nameLabel_QLabel",
@@ -868,10 +688,6 @@ def main():
             "Left Pulse Mode"
         )
 
-
-        # ====================================================
-        # LEFT PEAK POWER
-        # ====================================================
 
         verify_text(
             bulgarian_data,
@@ -881,10 +697,6 @@ def main():
         )
 
 
-        # ====================================================
-        # LEFT TOTAL ENERGY
-        # ====================================================
-
         verify_text(
             bulgarian_data,
             "totalEnergyFrame_nameLabel_QLabel",
@@ -892,10 +704,6 @@ def main():
             "Left Total Energy"
         )
 
-
-        # ====================================================
-        # LEFT TOTAL LASING TIME
-        # ====================================================
 
         verify_text(
             bulgarian_data,
@@ -905,21 +713,12 @@ def main():
         )
 
 
-        # ====================================================
-        # LEFT POWER UNIT
-        # ====================================================
-
         verify_text(
             bulgarian_data,
             "averagePowerWidgetEmission_unitsOfMeasureLabel_QLabel",
             "W",
             "Left Power Unit"
         )
-
-
-        # ====================================================
-        # LEFT ENERGY UNIT
-        # ====================================================
 
         verify_text(
             bulgarian_data,
@@ -928,22 +727,13 @@ def main():
             "Left Energy Unit"
         )
 
-
-        # ====================================================
-        # LEFT FREQUENCY UNIT
-        # ====================================================
-
         verify_text(
             bulgarian_data,
             "frequencyWidgetEmission_unitsOfMeasureLabel_QLabel",
             "Hz",
             "Left Frequency Unit"
         )
-
-
-        # ====================================================
-        # LEFT FIBER
-        # ====================================================
+    
 
         verify_text(
             bulgarian_data,
@@ -964,10 +754,7 @@ def main():
             "Left Fiber Uses Remaining"
         )
 
-
-        # ====================================================
-        # LEFT AIMING BEAM
-        # ====================================================
+   
 
         verify_text(
             bulgarian_data,
@@ -977,9 +764,7 @@ def main():
         )
 
 
-        # ====================================================
-        # LEFT STANDBY
-        # ====================================================
+   
 
         verify_text(
             bulgarian_data,
@@ -989,10 +774,6 @@ def main():
         )
 
 
-        # ====================================================
-        # LEFT READY
-        # ====================================================
-
         verify_text(
             bulgarian_data,
             "stateSwitch_readyButton_QPushButton",
@@ -1001,9 +782,6 @@ def main():
         )
 
 
-        # ====================================================
-        # RIGHT TREATMENT NAME
-        # ====================================================
 
         verify_right_treatment_name(
             bulgarian_data,
@@ -1012,9 +790,6 @@ def main():
         )
 
 
-        # ====================================================
-        # RIGHT AVERAGE POWER
-        # ====================================================
 
         verify_text(
             bulgarian_data,
@@ -1024,10 +799,6 @@ def main():
         )
 
 
-        # ====================================================
-        # RIGHT PULSE ENERGY
-        # ====================================================
-
         verify_text(
             bulgarian_data,
             "pulseEnergyWidgetEmission_nameLabel_QLabel_2",
@@ -1035,10 +806,6 @@ def main():
             "Right Pulse Energy"
         )
 
-
-        # ====================================================
-        # RIGHT FREQUENCY
-        # ====================================================
 
         verify_text(
             bulgarian_data,
@@ -1048,10 +815,6 @@ def main():
         )
 
 
-        # ====================================================
-        # RIGHT PULSE MODE
-        # ====================================================
-
         verify_text(
             bulgarian_data,
             "modeButtonEmission_nameLabel_QLabel_2",
@@ -1059,10 +822,6 @@ def main():
             "Right Pulse Mode"
         )
 
-
-        # ====================================================
-        # RIGHT PEAK POWER
-        # ====================================================
 
         verify_text(
             bulgarian_data,
@@ -1072,10 +831,6 @@ def main():
         )
 
 
-        # ====================================================
-        # RIGHT POWER UNIT
-        # ====================================================
-
         verify_text(
             bulgarian_data,
             "averagePowerWidgetEmission_unitsOfMeasureLabel_QLabel_2",
@@ -1083,10 +838,6 @@ def main():
             "Right Power Unit"
         )
 
-
-        # ====================================================
-        # RIGHT ENERGY UNIT
-        # ====================================================
 
         verify_text(
             bulgarian_data,
@@ -1096,10 +847,6 @@ def main():
         )
 
 
-        # ====================================================
-        # RIGHT FREQUENCY UNIT
-        # ====================================================
-
         verify_text(
             bulgarian_data,
             "frequencyWidgetEmission_unitsOfMeasureLabel_QLabel_2",
@@ -1108,10 +855,6 @@ def main():
         )
 
 
-        # ====================================================
-        # READY SCREEN
-        # ====================================================
-
         clickButton(
             waitForObject(
                 names.stateSwitch_readyButton_QPushButton
@@ -1119,18 +862,10 @@ def main():
         )
 
 
-        # ====================================================
-        # READY SCREEN IMAGE
-        # ====================================================
-
         test.imagePresent(
             "Ready screen header image"
         )
 
-
-        # ====================================================
-        # RETURN TO STANDBY
-        # ====================================================
     
         clickButton(
                 waitForObject(
@@ -1148,10 +883,7 @@ def main():
 
     finally:
 
-        # ====================================================
-        # CLOSE EXCEL
-        # ====================================================
-
+ 
         if workbook is not None:
 
             try:

@@ -4,6 +4,18 @@ import names
 import openpyxl
 import re
 import unicodedata
+import os 
+
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
 
 
 def normalize(text):
@@ -53,11 +65,11 @@ def normalize(text):
     return text.casefold()
 
 
-def load_greek_excel(excelpath):
+def load_greek_excel(EXCEL_PATH):
 
     try:
         workbook = openpyxl.load_workbook(
-            excelpath,
+            EXCEL_PATH,
             data_only=True,
             read_only=True
         )
@@ -312,13 +324,7 @@ def verify_text(greek_data, object_name, english_text):
 
 def main():
 
-    excelpath = (
-        "/home/ezen/Test_Automation_Gemini/Localisation/"
-        "suite_GFL_Greek/"
-        "tst_GEM-LOC-Greek-PeakPower-SoftTissueCharacters/"
-        "testdata/Gemini Split strings.xlsx"
-    )
-
+    
     workbook = None
 
     clickButton(
@@ -443,7 +449,7 @@ def main():
     snooze(6)
 
     workbook, sheet, greek_data = load_greek_excel(
-        excelpath
+        EXCEL_PATH
     )
 
     if workbook is None:

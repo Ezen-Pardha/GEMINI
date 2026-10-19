@@ -8,6 +8,16 @@ import unicodedata
 import html
 import os
 
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
 
 def normalize(text):
     if text is None:
@@ -36,13 +46,13 @@ def comparison_key(text):
     return re.sub(r"\s+", "", normalize(text))
 
 
-def load_czech_excel(excelpath):
-    if not os.path.isfile(excelpath):
-        test.fail("Excel file not found: " + excelpath)
+def load_czech_excel(EXCEL_PATH):
+    if not os.path.isfile(EXCEL_PATH):
+        test.fail("Excel file not found: " + EXCEL_PATH)
         return None, {}
 
     workbook = openpyxl.load_workbook(
-        excelpath,
+        EXCEL_PATH,
         data_only=True,
         read_only=True
     )
@@ -129,12 +139,12 @@ def verify_text(czech_data, object_name, english_text):
 
 
 def main():
-    excelpath = (
-        "/home/ezen/Test_Automation_Gemini/Localisation/"
-        "suite_GFL_Croatia/"
-        "tst_GEM-LOC-CROATIA-PeakPower-SoftTissueCharacters/"
-        "testdata/Gemini Split strings.xlsx"
-    )
+    # EXCEL_PATH = (
+    #     "/home/ezen/Test_Automation_Gemini/Localisation/"
+    #     "suite_GFL_Croatia/"
+    #     "tst_GEM-LOC-CROATIA-PeakPower-SoftTissueCharacters/"
+    #     "testdata/Gemini Split strings.xlsx"
+    # )
 
     workbook = None
 
@@ -170,25 +180,7 @@ def main():
             )
         )
         
-        # clickButton(waitForObject(names.languagesFrame_pbCzech_QPushButton))
-        # clickButton(waitForObject(names.buttonsFrame_acceptButton_QPushButton))
-        # clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
-        # clickButton(waitForObject(names.homeScreen_pbStoneAssistant_QToolButton))
-        # clickButton(waitForObject(names.locationFrame_kidneyPcnlLocationButton_QPushButton))
-        # clickButton(waitForObject(names.flowRateFrame_lowFlowRateButton_QPushButton))
-        # clickButton(waitForObject(names.hardnessFrame_smallHardnessButton_QPushButton))
-        # clickButton(waitForObject(names.stoneAssistantModeScreen_continueButton_QPushButton))
-        # clickButton(waitForObject(names.treatmentCharacteristicsBar_pbEdit_QPushButton_2))
-        # test.compare(str(waitForObjectExists(names.centralWidget_titleLabel_QLabel).text), "VLASTNOSTI KAMENE")
-        # test.compare(str(waitForObjectExists(names.centralWidget_titleLabel_QLabel_2).text), "UMÍSTĚNÍ")
-        # test.compare(str(waitForObjectExists(names.centralWidget_valueLabel_QLabel).text), "LEDVINA (PCNL)")
-        # test.compare(str(waitForObjectExists(names.centralWidget_titleLabel_QLabel_3).text), "PRŮTOK")
-        # test.compare(str(waitForObjectExists(names.centralWidget_valueLabel_QLabel_2).text), "NÍZKÝ")
-        # test.compare(str(waitForObjectExists(names.centralWidget_titleLabel_QLabel_4).text), "TVRDOST")
-        # test.compare(str(waitForObjectExists(names.centralWidget_descriptionLabel_QLabel).text), "Hounsfieldova stupnice < 500")
-        # test.compare(str(waitForObjectExists(names.centralWidget_valueLabel_QLabel_3).text), "Měkké")
-        # test.compare(str(waitForObjectExists(names.centralWidget_rejectButton_QPushButton).text), "UPRAVIT")
-        # test.compare(str(waitForObjectExists(names.centralWidget_acceptButton_QPushButton).text), "OK")
+       
 
         clickButton(waitForObject(names.languagesFrame_pbCzech_QPushButton))
 
@@ -234,7 +226,7 @@ def main():
             )
         )
 
-        workbook, czech_data = load_czech_excel(excelpath)
+        workbook, czech_data = load_czech_excel(EXCEL_PATH)
 
         if workbook is None:
             return

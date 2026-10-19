@@ -6,7 +6,18 @@ import openpyxl
 import re
 import unicodedata
 import html
+import os
 
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
 
 def normalize(text):
     if text is None:
@@ -35,9 +46,9 @@ def comparison_key(text):
     return re.sub(r"\s+", "", normalize(text))
 
 
-def load_bulgarian_excel(excelpath):
+def load_bulgarian_excel(EXCEL_PATH):
     workbook = openpyxl.load_workbook(
-        excelpath,
+        EXCEL_PATH,
         data_only=True,
         read_only=True
     )
@@ -127,12 +138,7 @@ def verify_text(bulgarian_data, object_name, english_text):
 
 
 def main():
-    excelpath = (
-        "/home/ezen/Test_Automation_Gemini/Localisation/"
-        "suite_GFL_Bulgaria/"
-        "tst_GEM-LOC-Bulgaria-PeakPower-SoftTissueCharacters/"
-        "testdata/Gemini Split strings.xlsx"
-    )
+
 
     workbook = None
 
@@ -177,7 +183,7 @@ def main():
             waitForObject(names.treatmentCharacteristicsBar_pbEdit_QPushButton_2)
         )
 
-        workbook, bulgarian_data = load_bulgarian_excel(excelpath)
+        workbook, bulgarian_data = load_bulgarian_excel(EXCEL_PATH)
 
         if workbook is None:
             return

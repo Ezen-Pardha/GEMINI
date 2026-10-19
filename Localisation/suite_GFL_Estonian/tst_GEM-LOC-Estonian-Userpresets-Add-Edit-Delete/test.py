@@ -3,12 +3,20 @@ import names
 import re
 import unicodedata
 from openpyxl import load_workbook
-EXCEL_PATH = (
-    "/home/ezen/Test_Automation_Gemini/Localisation/"
-    "suite_GFL_Estonian/"
-    "tst_GEM-LOC-Estonian-Userpresets-Add-Edit-Delete/"
-    "testdata/Gemini Split strings.xlsx"
+import os 
+
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
 )
+
+
 def normalize_text(value):
     if value is None:
         return ""
@@ -468,11 +476,6 @@ def main():
         "Cancel Button"
     )
   
-
-    
-    
-
-    
     verify_excel_string(
         names.centralWidget_acceptButton_QPushButton,
         translation_map,

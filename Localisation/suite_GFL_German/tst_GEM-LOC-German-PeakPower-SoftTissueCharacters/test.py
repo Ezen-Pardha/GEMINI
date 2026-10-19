@@ -4,6 +4,17 @@ import names
 import openpyxl
 import re
 import unicodedata
+import os 
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
 
 
 def normalize(text):
@@ -51,10 +62,10 @@ def normalize(text):
     return text.casefold()
 
 
-def load_german_excel(excelpath):
+def load_german_excel(EXCEL_PATH):
 
     workbook = openpyxl.load_workbook(
-        excelpath,
+        EXCEL_PATH,
         data_only=True,
         read_only=True
     )
@@ -256,12 +267,7 @@ def verify_text(german_data, object_name, english_text):
 
 def main():
 
-    excelpath = (
-        "/home/ezen/Test_Automation_Gemini/Localisation/"
-        "suite_GFL_German/"
-        "tst_GEM-LOC-German-PeakPower-SoftTissueCharacters/"
-        "testdata/Gemini Split strings.xlsx"
-    )
+   
 
     clickButton(
         waitForObject(
@@ -385,7 +391,7 @@ def main():
     snooze(6)
 
     workbook, sheet, german_data = load_german_excel(
-        excelpath
+        EXCEL_PATH
     )
 
     if workbook is None:
@@ -515,7 +521,7 @@ def main():
 
         snooze(6)
 
-        test.vp("Soft Tisssue Character")
+        # test.vp("Soft Tisssue Character")
 
         verify_text(
             german_data,

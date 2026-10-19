@@ -4,11 +4,19 @@
 import names
 import openpyxl
 import re
+import os
 
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
 
-# ============================================================
-# TEXT NORMALIZATION
-# ============================================================
 
 def normalize(text):
 
@@ -40,18 +48,10 @@ def normalize(text):
     return text.strip().casefold()
 
 
-# ============================================================
-# LOAD BULGARIAN TRANSLATIONS FROM EXCEL
-#
-# Sheet        : Treatment Modes
-# English      : Column B
-# Bulgarian    : Column C
-# ============================================================
-
-def load_bulgarian_excel(excelpath):
+def load_bulgarian_excel(EXCEL_PATH ):
 
     workbook = openpyxl.load_workbook(
-        excelpath,
+        EXCEL_PATH ,
         data_only=True,
         read_only=True
     )
@@ -101,10 +101,6 @@ def load_bulgarian_excel(excelpath):
     return workbook, sheet, bulgarian_data
 
 
-# ============================================================
-# GET BULGARIAN TEXT
-# ============================================================
-
 def get_bulgarian_text(
     bulgarian_data,
     english_text
@@ -125,10 +121,6 @@ def get_bulgarian_text(
 
     return bulgarian_data[key]
 
-
-# ============================================================
-# VERIFY APPLICATION TEXT AGAINST EXCEL
-# ============================================================
 
 def verify_text(
     bulgarian_data,
@@ -193,29 +185,12 @@ def verify_text(
 
     return False
 
-
-# ============================================================
-# MAIN
-# ============================================================
-
 def main():
 
     workbook = None
 
-    # ========================================================
-    # EXCEL PATH
-    # ========================================================
-
-    excelpath = (
-        "/home/ezen/Test_Automation_Gemini/Localisation/"
-        "suite_GFL_Bulgaria/"
-        "tst_GEM-LOC-Bulgaria-PeakPower-SoftTissueCharacters/"
-        "testdata/Gemini Split strings.xlsx"
-    )
-
-    # ========================================================
-    # LOGIN
-    # ========================================================
+  
+   
 
     clickButton(
         names.numpad_pushButton_8_NumpadButton
@@ -241,9 +216,6 @@ def main():
 
  
 
-    # ========================================================
-    # SETTINGS
-    # ========================================================
     snooze(3) 
 
     clickButton(waitForObject(names.homeScreen_settingsButton_QPushButton))
@@ -270,19 +242,12 @@ def main():
 
     snooze(5)
 
-    # ========================================================
-    # SOFT TISSUE QUICK START
-    # ========================================================
-
+   
     clickButton(
         names.homeScreen_pbSoftTissueQuickStart_QToolButton
     )
 
     snooze(3)
-
-    # ========================================================
-    # SELECT LEFT PRESET
-    # ========================================================
 
     mouseClick(waitForObjectItem(names.tabLeftMainPresets_leftPresetsView_PresetListView, "_1"), 336, 37, Qt.NoModifier, Qt.LeftButton)
     mouseClick(waitForObjectItem(names.tabRightMainPresets_rightPresetsView_PresetListView, "_1"), 241, 78, Qt.NoModifier, Qt.LeftButton)
@@ -299,9 +264,6 @@ def main():
     
     snooze(2)
 
-    # ========================================================
-    # CONTINUE
-    # ========================================================
 
     clickButton(
         names.quickStartScreen_pbContinue_QPushButton
@@ -314,33 +276,18 @@ def main():
     )
 
     snooze(5)
-
-    # ========================================================
-    # PEAK POWER
-    # ========================================================
-
-    # clickButton(
-    #     names.peakPowerButton_nameLabel_QLabel
-    # )
     mouseClick(waitForObject(names.pulseModeWidget_peakPowerButton_ParameterSettingsButton), 4, 34, Qt.NoModifier, Qt.LeftButton)
     snooze(6)
 
-    # ========================================================
-    # LOAD EXCEL ONLY AFTER APPLICATION IS READY
-    # ========================================================
 
     workbook, sheet, bulgarian_data = (
         load_bulgarian_excel(
-            excelpath
+            EXCEL_PATH 
         )
     )
 
     if workbook is None:
         return
-
-    # ========================================================
-    # VERIFY PEAK POWER SCREEN
-    # ========================================================
 
     snooze(6)
 
@@ -382,10 +329,7 @@ def main():
         "CANCEL"
     )
 
-    # ========================================================
-    # CLOSE PEAK POWER POPUP
-    # ========================================================
-
+  
     snooze(2)
     
     clickButton(waitForObject(names.buttonsFrame_rejectButton_QPushButton))
@@ -453,10 +397,7 @@ def main():
 
     snooze(6)
 
-    # ========================================================
-    # VERIFY SOFT TISSUE CHARACTERISTICS
-    # ========================================================
-
+   
     verify_text(
         bulgarian_data,
         names.centralWidget_titleLabel_QLabel,
@@ -495,10 +436,7 @@ def main():
         "OK"
     )
 
-    # ========================================================
-    # CLOSE EXCEL
-    # ========================================================
-
+ 
     if workbook is not None:
         workbook.close()
 

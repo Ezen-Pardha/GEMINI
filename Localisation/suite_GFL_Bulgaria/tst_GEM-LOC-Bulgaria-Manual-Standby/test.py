@@ -3,18 +3,25 @@
 
 import names
 from openpyxl import load_workbook
+import os
 
-
-# ============================================================
-# EXCEL CONFIGURATION
-# ============================================================
-
-EXCEL_PATH = (
-    "/home/ezen/Test_Automation_Gemini/Localisation/"
-    "suite_GFL_Bulgaria/"
-    "tst_GEM-LOC-Bulgaria-PeakPower-SoftTissueCharacters/"
-    "testdata/Gemini Split strings.xlsx"
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
 )
+
+# EXCEL_PATH = (
+#     "/home/ezen/Test_Automation_Gemini/Localisation/"
+#     "suite_GFL_Bulgaria/"
+#     "tst_GEM-LOC-Bulgaria-PeakPower-SoftTissueCharacters/"
+#     "testdata/Gemini Split strings.xlsx"
+# )
 
 EXCEL_SHEET_NAME = "Treatment Modes"
 
@@ -25,9 +32,7 @@ ENGLISH_COLUMN = 2
 BULGARIAN_COLUMN = 3
 
 
-# ============================================================
-# TEXT NORMALIZATION
-# ============================================================
+#
 
 def normalize_text(value):
 
@@ -41,15 +46,6 @@ def normalize_text(value):
         .split()
     ).strip().casefold()
 
-
-# ============================================================
-# LOAD BULGARIAN TRANSLATIONS
-#
-# English = Column B
-# Bulgarian = Column C
-#
-# NO ROW NUMBERS ARE USED
-# ============================================================
 
 def load_bulgarian_data(sheet):
 
@@ -108,15 +104,6 @@ def load_bulgarian_data(sheet):
     return bulgarian_data
 
 
-# ============================================================
-# GET BULGARIAN TEXT FROM EXCEL
-#
-# Searches English Column B.
-# Returns Bulgarian Column C.
-#
-# NO ROW NUMBER REQUIRED.
-# ============================================================
-
 def get_bulgarian_text(
     bulgarian_data,
     english_text
@@ -140,20 +127,12 @@ def get_bulgarian_text(
     ]
 
 
-# ============================================================
-# GET ACTUAL OBJECT TEXT
-# ============================================================
-
 def get_actual_text(
     obj,
     description
 ):
 
     actual_value = None
-
-    # --------------------------------------------------------
-    # First try normal Qt text property
-    # --------------------------------------------------------
 
     try:
 
@@ -163,10 +142,6 @@ def get_actual_text(
 
         actual_value = None
 
-
-    # --------------------------------------------------------
-    # If text is unavailable, try property("text")
-    # --------------------------------------------------------
 
     if actual_value is None:
 
@@ -181,10 +156,6 @@ def get_actual_text(
             actual_value = None
 
 
-    # --------------------------------------------------------
-    # If still unavailable, try windowTitle
-    # --------------------------------------------------------
-
     if actual_value is None:
 
         try:
@@ -195,10 +166,6 @@ def get_actual_text(
 
             actual_value = None
 
-
-    # --------------------------------------------------------
-    # If still unavailable, try accessibleName
-    # --------------------------------------------------------
 
     if actual_value is None:
 
@@ -211,18 +178,10 @@ def get_actual_text(
             actual_value = None
 
 
-    # --------------------------------------------------------
-    # Normalize actual value
-    # --------------------------------------------------------
-
     actual_text = normalize_text(
         actual_value
     )
 
-
-    # --------------------------------------------------------
-    # Never allow empty text to pass
-    # --------------------------------------------------------
 
     if actual_text == "":
 
@@ -236,13 +195,6 @@ def get_actual_text(
     return actual_text
 
 
-# ============================================================
-# VERIFY TEXT AGAINST EXCEL
-#
-# No Excel row number is used.
-# English text is the lookup key.
-# ============================================================
-
 def verify_text(
     bulgarian_data,
     object_name,
@@ -250,16 +202,8 @@ def verify_text(
     description
 ):
 
-    # --------------------------------------------------------
-    # Wait before every verification
-    # --------------------------------------------------------
-
     snooze(6)
 
-
-    # --------------------------------------------------------
-    # Get expected Bulgarian value
-    # --------------------------------------------------------
 
     expected_text = get_bulgarian_text(
         bulgarian_data,
@@ -297,27 +241,15 @@ def verify_text(
     )
 
 
-    # --------------------------------------------------------
-    # Get actual application text
-    # --------------------------------------------------------
-
     actual_text = get_actual_text(
         obj,
         description
     )
 
 
-    # --------------------------------------------------------
-    # Stop if application text unavailable
-    # --------------------------------------------------------
-
     if actual_text is None:
         return
 
-
-    # --------------------------------------------------------
-    # Compare
-    # --------------------------------------------------------
 
     test.compare(
         actual_text,
@@ -326,17 +258,6 @@ def verify_text(
         + " - Bulgarian text verification"
     )
 
-
-# ============================================================
-# VERIFY LEFT MANUAL TAB
-#
-# The recorded object contains:
-# text = "MANUAL"
-#
-# Bulgarian changes the displayed text.
-# Therefore remove the localized text property
-# and locate the tab using the remaining properties.
-# ============================================================
 
 def verify_left_manual_tab(
     bulgarian_data,
@@ -347,10 +268,6 @@ def verify_left_manual_tab(
     snooze(6)
 
 
-    # --------------------------------------------------------
-    # Get expected Bulgarian value
-    # --------------------------------------------------------
-
     expected_text = get_bulgarian_text(
         bulgarian_data,
         english_text
@@ -371,37 +288,21 @@ def verify_left_manual_tab(
         return
 
 
-    # --------------------------------------------------------
-    # Get recorded object definition
-    # --------------------------------------------------------
-
     manual_tab_object = getattr(
         names,
         "mANUEL_TabItem"
     ).copy()
 
 
-    # --------------------------------------------------------
-    # Remove localized text property
-    # --------------------------------------------------------
-
     if "text" in manual_tab_object:
 
         del manual_tab_object["text"]
 
 
-    # --------------------------------------------------------
-    # Find Manual tab
-    # --------------------------------------------------------
-
     obj = waitForObjectExists(
         manual_tab_object
     )
 
-
-    # --------------------------------------------------------
-    # Get actual application text
-    # --------------------------------------------------------
 
     actual_text = get_actual_text(
         obj,
@@ -413,10 +314,6 @@ def verify_left_manual_tab(
         return
 
 
-    # --------------------------------------------------------
-    # Compare
-    # --------------------------------------------------------
-
     test.compare(
         actual_text,
         expected_normalized,
@@ -424,10 +321,6 @@ def verify_left_manual_tab(
         + " - Bulgarian text verification"
     )
 
-
-# ============================================================
-# VERIFY RIGHT MANUAL TAB
-# ============================================================
 
 def verify_right_manual_tab(
     bulgarian_data,
@@ -438,9 +331,6 @@ def verify_right_manual_tab(
     snooze(6)
 
 
-    # --------------------------------------------------------
-    # Get expected Bulgarian value
-    # --------------------------------------------------------
 
     expected_text = get_bulgarian_text(
         bulgarian_data,
@@ -462,37 +352,21 @@ def verify_right_manual_tab(
         return
 
 
-    # --------------------------------------------------------
-    # Get recorded object definition
-    # --------------------------------------------------------
-
     manual_tab_object = getattr(
         names,
         "mANUEL_TabItem_2"
     ).copy()
 
 
-    # --------------------------------------------------------
-    # Remove localized text property
-    # --------------------------------------------------------
-
     if "text" in manual_tab_object:
 
         del manual_tab_object["text"]
 
 
-    # --------------------------------------------------------
-    # Find Manual tab
-    # --------------------------------------------------------
-
     obj = waitForObjectExists(
         manual_tab_object
     )
 
-
-    # --------------------------------------------------------
-    # Get actual application text
-    # --------------------------------------------------------
 
     actual_text = get_actual_text(
         obj,
@@ -504,10 +378,6 @@ def verify_right_manual_tab(
         return
 
 
-    # --------------------------------------------------------
-    # Compare
-    # --------------------------------------------------------
-
     test.compare(
         actual_text,
         expected_normalized,
@@ -516,15 +386,7 @@ def verify_right_manual_tab(
     )
 
 
-# ============================================================
-# MAIN
-# ============================================================
-
 def main():
-
-    # ========================================================
-    # LOAD EXCEL
-    # ========================================================
 
     workbook = load_workbook(
         EXCEL_PATH,
@@ -532,10 +394,6 @@ def main():
         data_only=True
     )
 
-
-    # ========================================================
-    # CHECK SHEET
-    # ========================================================
 
     if EXCEL_SHEET_NAME not in workbook.sheetnames:
 
@@ -554,21 +412,10 @@ def main():
     ]
 
 
-    # ========================================================
-    # BUILD ENGLISH -> BULGARIAN LOOKUP
-    #
-    # Column B -> Column C
-    # No row numbers.
-    # ========================================================
-
     bulgarian_data = load_bulgarian_data(
         sheet
     )
 
-
-    # ========================================================
-    # LOGIN
-    # ========================================================
 
     doubleClick(
         waitForObject(
@@ -606,10 +453,6 @@ def main():
     snooze(2)
 
 
-    # ========================================================
-    # OPEN SETTINGS
-    # ========================================================
-
     clickButton(
         waitForObject(
             names.homeScreen_settingsButton_QPushButton
@@ -619,10 +462,7 @@ def main():
     snooze(2)
 
 
-    # ========================================================
-    # OPEN SYSTEM INFORMATION
-    # ========================================================
-
+   
     clickTab(
         waitForObject(
             names.settingsScreen_tbSystemInfo_TabWidget
@@ -633,10 +473,6 @@ def main():
     snooze(2)
 
 
-    # ========================================================
-    # OPEN LANGUAGE SETTINGS
-    # ========================================================
-
     clickButton(
         waitForObject(
             names.gbSystemInformation_pbLanguageSettingsUpdate_QPushButton
@@ -645,10 +481,6 @@ def main():
 
     snooze(2)
 
-
-    # ========================================================
-    # SELECT BULGARIAN
-    # ========================================================
 
     clickButton(
         waitForObject(
@@ -659,10 +491,6 @@ def main():
     snooze(1)
 
 
-    # ========================================================
-    # ACCEPT LANGUAGE
-    # ========================================================
-
     clickButton(
         waitForObject(
             names.buttonsFrame_acceptButton_QPushButton
@@ -671,10 +499,6 @@ def main():
 
     snooze(3)
 
-
-    # ========================================================
-    # RETURN TO HOME
-    # ========================================================
 
     clickButton(
         waitForObject(
@@ -685,10 +509,6 @@ def main():
     snooze(2)
 
 
-    # ========================================================
-    # OPEN EXPERT MODE
-    # ========================================================
-
     clickButton(
         waitForObject(
             names.gbExpert_expertButton_QPushButton
@@ -698,25 +518,14 @@ def main():
     snooze(3)
 
 
-    # ========================================================
-    # LEFT SIDE VERIFICATION
-    # ========================================================
 
-
-    # --------------------------------------------------------
-    # MANUAL TAB
-    # --------------------------------------------------------
-
+    
     verify_left_manual_tab(
         bulgarian_data,
         "MANUAL",
         "Left Manual Tab"
     )
 
-
-    # --------------------------------------------------------
-    # AVERAGE POWER
-    # --------------------------------------------------------
 
     verify_text(
         bulgarian_data,
@@ -726,10 +535,7 @@ def main():
     )
 
 
-    # --------------------------------------------------------
-    # POWER UNIT
-    # --------------------------------------------------------
-
+   
     verify_text(
         bulgarian_data,
         "averagePowerWidget_unitsOfMeasureLabel_QLabel_2",
@@ -737,10 +543,6 @@ def main():
         "Left Power Unit"
     )
 
-
-    # --------------------------------------------------------
-    # PULSE ENERGY
-    # --------------------------------------------------------
 
     verify_text(
         bulgarian_data,
@@ -750,10 +552,6 @@ def main():
     )
 
 
-    # --------------------------------------------------------
-    # ENERGY UNIT
-    # --------------------------------------------------------
-
     verify_text(
         bulgarian_data,
         "pulseEnergyWidget_unitsOfMeasureLabel_QLabel_2",
@@ -761,10 +559,6 @@ def main():
         "Left Energy Unit"
     )
 
-
-    # --------------------------------------------------------
-    # FREQUENCY
-    # --------------------------------------------------------
 
     verify_text(
         bulgarian_data,
@@ -774,10 +568,6 @@ def main():
     )
 
 
-    # --------------------------------------------------------
-    # FREQUENCY UNIT
-    # --------------------------------------------------------
-
     verify_text(
         bulgarian_data,
         "frequencyWidget_unitsOfMeasureLabel_QLabel_2",
@@ -785,10 +575,6 @@ def main():
         "Left Frequency Unit"
     )
 
-
-    # --------------------------------------------------------
-    # REGULAR PULSE
-    # --------------------------------------------------------
 
     verify_text(
         bulgarian_data,
@@ -798,10 +584,6 @@ def main():
     )
 
 
-    # --------------------------------------------------------
-    # PEAK POWER
-    # --------------------------------------------------------
-
     verify_text(
         bulgarian_data,
         "peakPowerButton_nameLabel_QLabel",
@@ -809,10 +591,6 @@ def main():
         "Left Peak Power"
     )
 
-
-    # --------------------------------------------------------
-    # SAVE
-    # --------------------------------------------------------
 
     verify_text(
         bulgarian_data,
@@ -822,10 +600,6 @@ def main():
     )
 
 
-    # --------------------------------------------------------
-    # TOTAL ENERGY
-    # --------------------------------------------------------
-
     verify_text(
         bulgarian_data,
         "totalEnergyFrame_nameLabel_QLabel",
@@ -833,10 +607,6 @@ def main():
         "Left Total Energy"
     )
 
-
-    # --------------------------------------------------------
-    # TOTAL LASING TIME
-    # --------------------------------------------------------
 
     verify_text(
         bulgarian_data,
@@ -846,25 +616,13 @@ def main():
     )
 
 
-    # ========================================================
-    # RIGHT SIDE VERIFICATION
-    # ========================================================
-
-
-    # --------------------------------------------------------
-    # MANUAL TAB
-    # --------------------------------------------------------
-
+  
     verify_right_manual_tab(
         bulgarian_data,
         "MANUAL",
         "Right Manual Tab"
     )
 
-
-    # --------------------------------------------------------
-    # AVERAGE POWER
-    # --------------------------------------------------------
 
     verify_text(
         bulgarian_data,
@@ -874,10 +632,6 @@ def main():
     )
 
 
-    # --------------------------------------------------------
-    # POWER UNIT
-    # --------------------------------------------------------
-
     verify_text(
         bulgarian_data,
         "averagePowerWidget_unitsOfMeasureLabel_QLabel_3",
@@ -885,10 +639,6 @@ def main():
         "Right Power Unit"
     )
 
-
-    # --------------------------------------------------------
-    # PULSE ENERGY
-    # --------------------------------------------------------
 
     verify_text(
         bulgarian_data,
@@ -898,10 +648,6 @@ def main():
     )
 
 
-    # --------------------------------------------------------
-    # ENERGY UNIT
-    # --------------------------------------------------------
-
     verify_text(
         bulgarian_data,
         "pulseEnergyWidget_unitsOfMeasureLabel_QLabel_3",
@@ -909,10 +655,6 @@ def main():
         "Right Energy Unit"
     )
 
-
-    # --------------------------------------------------------
-    # FREQUENCY
-    # --------------------------------------------------------
 
     verify_text(
         bulgarian_data,
@@ -922,10 +664,6 @@ def main():
     )
 
 
-    # --------------------------------------------------------
-    # SAVE
-    # --------------------------------------------------------
-
     verify_text(
         bulgarian_data,
         "pulseModeWidget_saveButton_QPushButton_3",
@@ -933,10 +671,6 @@ def main():
         "Right Save Button"
     )
 
-
-    # --------------------------------------------------------
-    # PEAK POWER
-    # --------------------------------------------------------
 
     verify_text(
         bulgarian_data,
@@ -946,10 +680,7 @@ def main():
     )
 
 
-    # --------------------------------------------------------
-    # REGULAR PULSE
-    # --------------------------------------------------------
-
+  
     verify_text(
         bulgarian_data,
         "modeButton_nameLabel_QLabel_2",
@@ -957,10 +688,6 @@ def main():
         "Right Pulse Mode"
     )
 
-
-    # ========================================================
-    # READY BUTTON
-    # ========================================================
 
     verify_text(
         bulgarian_data,
@@ -970,10 +697,6 @@ def main():
     )
 
 
-    # ========================================================
-    # STANDBY BUTTON
-    # ========================================================
-
     verify_text(
         bulgarian_data,
         "stateSwitch_standbyButton_QPushButton",
@@ -981,10 +704,6 @@ def main():
         "Standby Button"
     )
 
-
-    # ========================================================
-    # FIBER
-    # ========================================================
 
     verify_text(
         bulgarian_data,
@@ -994,10 +713,6 @@ def main():
     )
 
 
-    # ========================================================
-    # FIBER USES REMAINING
-    # ========================================================
-
     verify_text(
         bulgarian_data,
         "fiberUsesFrame_nameLabel_QLabel",
@@ -1006,10 +721,6 @@ def main():
     )
 
 
-    # ========================================================
-    # AIMING BEAM
-    # ========================================================
-
     verify_text(
         bulgarian_data,
         "bottomBar_aimingBeamButton_AimingBeamModeButton",
@@ -1017,10 +728,6 @@ def main():
         "Aiming Beam"
     )
 
-
-    # ========================================================
-    # CLOSE EXCEL
-    # ========================================================
 
     workbook.close()
 
