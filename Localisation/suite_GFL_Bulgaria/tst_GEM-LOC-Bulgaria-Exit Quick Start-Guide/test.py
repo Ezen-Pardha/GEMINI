@@ -4,22 +4,18 @@
 import names
 import openpyxl
 import re
+import os
 
-
-# =========================================================
-# Excel Configuration
-# =========================================================
-
-EXCEL_PATH = (
-    "/home/ezen/Test_Automation_Gemini/Localisation/"
-    "suite_GFL_Bulgaria/"
-    "tst_GEM-LOC-Bulgaria-PeakPower-SoftTissueCharacters/"
-    "testdata/Gemini Split strings.xlsx"
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
 )
-
-# Excel:
-# Column B = English
-# Column C = Bulgarian
 
 ENGLISH_COLUMN = 2
 BULGARIAN_COLUMN = 3
@@ -27,9 +23,7 @@ BULGARIAN_COLUMN = 3
 SHEET_NAME = "Soft tissue"
 
 
-# =========================================================
-# Normalize Text
-# =========================================================
+
 
 def normalize(text):
 
@@ -66,9 +60,7 @@ def normalize(text):
     return text.strip().casefold()
 
 
-# =========================================================
-# Load Excel
-# =========================================================
+
 
 def load_excel():
 
@@ -105,14 +97,6 @@ def load_excel():
         return None, None
 
 
-# =========================================================
-# Get Bulgarian Values
-#
-# Search English text in Column B.
-# Return ALL matching Bulgarian values from Column C.
-#
-# No Excel row numbers are hard-coded.
-# =========================================================
 
 def get_bulgarian_values(
     sheet,
@@ -159,9 +143,7 @@ def get_bulgarian_values(
     return bulgarian_values
 
 
-# =========================================================
-# Verify Object Text Against Excel
-# =========================================================
+
 
 def verify_text(
     sheet,
@@ -199,18 +181,13 @@ def verify_text(
 
         return
 
-    # =====================================================
-    # Get Bulgarian translation from Excel
-    # =====================================================
+   
 
     expected_values = get_bulgarian_values(
         sheet,
         english_text
     )
 
-    # =====================================================
-    # English string not found
-    # =====================================================
 
     if not expected_values:
 
@@ -226,9 +203,7 @@ def verify_text(
         actual
     )
 
-    # =====================================================
-    # Compare against all matching Bulgarian values
-    # =====================================================
+ 
 
     for expected in expected_values:
 
@@ -246,9 +221,6 @@ def verify_text(
 
             return
 
-    # =====================================================
-    # Verification failed
-    # =====================================================
 
     test.fail(
         description
@@ -261,9 +233,6 @@ def verify_text(
     )
 
 
-# =========================================================
-# Main
-# =========================================================
 
 def main():
 
@@ -272,10 +241,6 @@ def main():
     if workbook is None or sheet is None:
         return
 
-
-    # =====================================================
-    # LOGIN
-    # =====================================================
 
     clickButton(
         waitForObject(
@@ -310,10 +275,7 @@ def main():
     )
 
 
-    # =====================================================
-    # CHANGE LANGUAGE TO BULGARIAN
-    # =====================================================
-
+    
     clickButton(
         waitForObject(
             names.homeScreen_settingsButton_QPushButton
@@ -353,9 +315,6 @@ def main():
     )
 
 
-    # =====================================================
-    # SOFT TISSUE QUICK START
-    # =====================================================
 
     clickButton(
         waitForObject(
@@ -409,9 +368,6 @@ def main():
     )
 
 
-    # =====================================================
-    # QUICK START EXIT POPUP
-    # =====================================================
 
     mouseClick(
         waitForObject(
@@ -424,12 +380,6 @@ def main():
     )
 
 
-    # =====================================================
-    # QUICK START EXIT TITLE
-    #
-    # English lookup:
-    # EXIT QUICK START MODE?
-    # =====================================================
 
     verify_text(
         sheet,
@@ -439,9 +389,6 @@ def main():
     )
 
 
-    # =====================================================
-    # QUICK START EXIT MESSAGE
-    # =====================================================
 
     verify_text(
         sheet,
@@ -451,10 +398,6 @@ def main():
     )
 
 
-    # =====================================================
-    # QUICK START CANCEL
-    # =====================================================
-
     verify_text(
         sheet,
         names.centralWidget_CancelButton_QPushButton_3,
@@ -462,10 +405,6 @@ def main():
         "Quick Start Cancel Button"
     )
 
-
-    # =====================================================
-    # QUICK START CONFIRM
-    # =====================================================
 
     verify_text(
         sheet,
@@ -475,10 +414,6 @@ def main():
     )
 
 
-    # =====================================================
-    # CONFIRM EXIT
-    # =====================================================
-
     clickButton(
         waitForObject(
             names.centralWidget_DisableButton_QPushButton_2
@@ -486,20 +421,12 @@ def main():
     )
 
 
-    # =====================================================
-    # RETURN HOME
-    # =====================================================
-
     clickButton(
         waitForObject(
             names.buttonsBar_homeButton_QPushButton_2
         )
     )
 
-
-    # =====================================================
-    # SOFT TISSUE ASSISTANT
-    # =====================================================
 
     clickButton(
         waitForObject(
@@ -520,10 +447,6 @@ def main():
     )
 
 
-    # =====================================================
-    # GUIDED MODE EXIT
-    # =====================================================
-
     mouseDrag(
         waitForObject(
             names.indexPicker_valuePicker_IntervalSlider
@@ -537,10 +460,6 @@ def main():
     )
 
 
-    # =====================================================
-    # GUIDED MODE EXIT TITLE
-    # =====================================================
-
     verify_text(
         sheet,
         names.centralWidget_TitleLabel_QLabel_2,
@@ -549,10 +468,7 @@ def main():
     )
 
 
-    # =====================================================
-    # GUIDED MODE EXIT MESSAGE
-    # =====================================================
-
+    
     verify_text(
         sheet,
         names.centralWidget_MessageLabel_QLabel_2,
@@ -560,10 +476,6 @@ def main():
         "Guided Mode Exit Message"
     )
 
-
-    # =====================================================
-    # GUIDED MODE CANCEL
-    # =====================================================
 
     verify_text(
         sheet,
@@ -573,10 +485,6 @@ def main():
     )
 
 
-    # =====================================================
-    # GUIDED MODE CONFIRM
-    # =====================================================
-
     verify_text(
         sheet,
         names.centralWidget_DisableButton_QPushButton_2,
@@ -585,20 +493,12 @@ def main():
     )
 
 
-    # =====================================================
-    # CLOSE GUIDED MODE POPUP
-    # =====================================================
-
     clickButton(
         waitForObject(
             names.centralWidget_DisableButton_QPushButton_2
         )
     )
 
-
-    # =====================================================
-    # CLOSE EXCEL
-    # =====================================================
 
     workbook.close()
 

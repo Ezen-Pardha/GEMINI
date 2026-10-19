@@ -4,6 +4,18 @@ import names
 import openpyxl
 import re
 import unicodedata
+import os
+
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
 
 
 def normalize(text):

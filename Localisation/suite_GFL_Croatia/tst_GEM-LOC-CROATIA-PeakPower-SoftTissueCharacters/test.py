@@ -4,15 +4,20 @@
 import names
 import openpyxl
 import re
+import os
 
-
-
-EXCEL_FILE = (
-    "/home/ezen/Test_Automation_Gemini/Localisation/"
-    "suite_GFL_Croatia/"
-    "tst_GEM-LOC-CROATIA-PeakPower-SoftTissueCharacters/"
-    "testdata/Gemini Split strings.xlsx"
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
 )
+
+
 
 SHEET_NAME = "Treatment Modes"
 
@@ -146,7 +151,7 @@ def main():
 
    
     workbook = openpyxl.load_workbook(
-        EXCEL_FILE,
+        EXCEL_PATH,
         data_only=True,
         read_only=True
     )

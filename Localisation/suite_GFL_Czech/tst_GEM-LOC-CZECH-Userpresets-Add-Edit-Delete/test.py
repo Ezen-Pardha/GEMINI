@@ -1,730 +1,824 @@
-
 # -*- coding: utf-8 -*-
 
 import names
-import openpyxl
 import re
 import unicodedata
+from openpyxl import load_workbook
+import os 
 
-
-
-EXCEL_PATH = (
-    "/home/ezen/Test_Automation_Gemini/Localisation/"
-    "suite_GFL_Czech/"
-    "tst_GEM-LOC-CZECH-PeakPower-SoftTissueCharacters/"
-    "testdata/Gemini strings.xlsx"
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
 )
 
+
+
 ENGLISH_COLUMN = 2
-CZECH_COLUMN = 13
+Czech_COLUMN = 5
+SHEET_NAME = "Treatment Modes"
 
 
+def normalize_text(value):
 
-
-PRESET_NAME = "preset one"
-PRESET_PARAMETER_VALUES = "6 J     3 Hz     18 W"
-
-
-
-
-def normalize_localization(text):
-
-    if text is None:
+    if value is None:
         return ""
 
-    text = str(text)
+    text = str(value)
 
-    # Remove HTML/XML tags
-    text = re.sub(r"<[^>]+>", " ", text)
+    text = re.sub(
+        r"<[^>]+>",
+        "",
+        text
+    )
 
-    # Normalize escaped line breaks
-    text = text.replace("\\n", " ")
+    text = (
+        text
+        .replace("\u00A0", " ")
+        .replace("\u2007", " ")
+        .replace("\u202F", " ")
+    )
 
-    # Normalize real line breaks
-    text = text.replace("\n", " ")
-    text = text.replace("\r", " ")
+    text = re.sub(
+        r"[\r\n\t]+",
+        " ",
+        text
+    )
 
-    # Normalize tabs
-    text = text.replace("\t", " ")
+    text = (
+        text
+        .replace("™", "")
+        .replace("®", "")
+        .replace("©", "")
+    )
 
-    # Normalize special spaces
-    text = text.replace("\u00A0", " ")
-    text = text.replace("\u2007", " ")
-    text = text.replace("\u202F", " ")
-
-    # Remove trademark/copyright symbols
-    text = text.replace("™", "")
-    text = text.replace("®", "")
-    text = text.replace("©", "")
-
-    # Normalize Unicode
     try:
-        text = unicodedata.normalize("NFKC", text)
+
+        text = unicodedata.normalize(
+            "NFKC",
+            text
+        )
+
     except Exception:
         pass
 
-    # Remove whitespace differences
-    text = re.sub(r"\s+", "", text)
-
-    return text.casefold()
-
-
-
-
-def load_gemini_strings():
-
-    workbook = openpyxl.load_workbook(
-        EXCEL_PATH,
-        data_only=True
+    text = re.sub(
+        r"\s+",
+        " ",
+        text
     )
 
-    sheet = workbook.active
+    text = re.sub(
+        r"\s+([.,;:!?])",
+        r"\1",
+        text
+    )
 
-    excel_strings = []
+    return text.strip().casefold()
+
+
+def comparison_key(value):
+
+    return re.sub(
+        r"\s+",
+        "",
+        normalize_text(value)
+    )
+
+
+def get_Czech_values(sheet, english_text):
+
+    expected_english = comparison_key(
+        english_text
+    )
+
+    Czech_values = []
+
+    Czech_index = (
+        Czech_COLUMN - ENGLISH_COLUMN
+    )
 
     for row in sheet.iter_rows(
         min_row=2,
-        max_col=CZECH_COLUMN
+        min_col=ENGLISH_COLUMN,
+        max_col=Czech_COLUMN,
+        values_only=True
     ):
 
-        english = row[ENGLISH_COLUMN - 1].value
-        czech = row[CZECH_COLUMN - 1].value
+        english_value = row[0]
 
-        if english is not None and czech is not None:
+        if english_value is None:
+            continue
 
-            english_text = str(english).strip()
-            czech_text = str(czech).strip()
+        if comparison_key(
+            english_value
+        ) != expected_english:
+            continue
 
-            if english_text and czech_text:
+        if Czech_index >= len(row):
+            continue
 
-                excel_strings.append(
-                    {
-                        "english": english_text,
-                        "czech": czech_text
-                    }
-                )
+        Czech_value = row[
+            Czech_index
+        ]
 
-    workbook.close()
+        if Czech_value is None:
+            continue
 
-    return excel_strings
+        Czech_value = str(
+            Czech_value
+        ).strip()
+
+        if not Czech_value:
+            continue
+
+        duplicate_found = False
+
+        for existing_value in Czech_values:
+
+            if comparison_key(
+                existing_value
+            ) == comparison_key(
+                Czech_value
+            ):
+
+                duplicate_found = True
+                break
+
+        if not duplicate_found:
+
+            Czech_values.append(
+                Czech_value
+            )
+
+    return Czech_values
 
 
+def get_object_text(obj):
 
+    for attribute in (
+        "text",
+        "plainText",
+        "title",
+        "windowTitle",
+        "accessibleName"
+    ):
 
-def verify_excel_text(
-        object_name,
-        excel_strings,
-        description=""):
+        try:
 
-    # Wait before every verification
-    snooze(6)
+            value = getattr(
+                obj,
+                attribute
+            )
 
-    actual_text = str(
-        waitForObjectExists(object_name).text
-    )
+            if value is not None:
 
-    actual_normalized = normalize_localization(
-        actual_text
-    )
+                value = str(value)
 
-    matches = []
+                if value.strip():
 
-    for item in excel_strings:
+                    return value
 
-        excel_czech = item["czech"]
+        except Exception:
+            pass
 
-        excel_normalized = normalize_localization(
-            excel_czech
+    try:
+
+        value = obj.property(
+            "text"
         )
 
-        if actual_normalized == excel_normalized:
+        if value is not None:
 
-            matches.append(item)
+            value = str(value)
 
-    if len(matches) == 0:
+            if value.strip():
+
+                return value
+
+    except Exception:
+        pass
+
+    return ""
+
+
+def verify_excel_string(
+        object_name,
+        sheet,
+        english_text,
+        description
+        ):
+
+    snooze(2)
+
+    try:
+
+        obj = waitForObjectExists(
+            object_name
+        )
+
+    except Exception as e:
 
         test.fail(
-            "{} | Czech text not found in Excel Column M | "
-            "UI text: {}".format(
-                description,
-                actual_text
-            )
+            description
+            + " | Object not found: "
+            + str(object_name)
+            + " | "
+            + str(e)
         )
 
         return False
 
-    match = matches[0]
-
-    test.compare(
-        actual_normalized,
-        normalize_localization(
-            match["czech"]
-        ),
-        "{} | English: {}".format(
-            description,
-            match["english"]
-        )
+    actual = get_object_text(
+        obj
     )
 
-    return True
+    if actual is None:
+        actual = ""
+
+    actual = str(actual).strip()
+
+    if not actual:
+
+        test.fail(
+            description
+            + " | UI text is empty"
+        )
+
+        return False
+
+    expected_values = get_Czech_values(
+        sheet,
+        english_text
+    )
+
+    if not expected_values:
+
+        test.fail(
+            description
+            + " | English string not found in Column B: "
+            + english_text
+        )
+
+        return False
+
+    actual_key = comparison_key(
+        actual
+    )
+
+    for expected in expected_values:
+
+        expected_key = comparison_key(
+            expected
+        )
+
+        if actual_key == expected_key:
+
+            test.compare(
+                actual_key,
+                expected_key,
+                description
+                + " - Czech text verification"
+            )
+
+            return True
+
+    test.fail(
+        description
+        + " | Expected Czech value from Column M: "
+        + " / ".join(expected_values)
+        + " | Actual: "
+        + actual
+    )
+
+    return False
 
 
+def verify_direct_text(
+        actual,
+        expected,
+        description
+        ):
+
+    actual_key = comparison_key(
+        actual
+    )
+
+    expected_key = comparison_key(
+        expected
+    )
+
+    test.compare(
+        actual_key,
+        expected_key,
+        description
+    )
 
 
 def main():
 
- 
+    try:
 
-    excel_strings = load_gemini_strings()
-
-
-  
-
-    doubleClick(
-        waitForObject(
-            names.numpad_pushButton_8_NumpadButton
-        ),
-        91,
-        78,
-        Qt.NoModifier,
-        Qt.LeftButton
-    )
-
-    doubleClick(
-        waitForObject(
-            names.numpad_pushButton_8_NumpadButton
-        ),
-        91,
-        78,
-        Qt.NoModifier,
-        Qt.LeftButton
-    )
-
-    clickButton(
-        waitForObject(
-            names.mainFrame_okButton_QPushButton
+        workbook = load_workbook(
+            EXCEL_PATH,
+            read_only=True,
+            data_only=True
         )
-    )
 
+    except Exception as e:
 
-   
-
-    clickButton(
-        waitForObject(
-            names.homeScreen_settingsButton_QPushButton
+        test.fail(
+            "Unable to load Czech localization Excel: "
+            + str(e)
         )
-    )
 
+        return
 
- 
+    if SHEET_NAME not in workbook.sheetnames:
 
-    clickTab(
-        waitForObject(
+        test.fail(
+            "Excel sheet not found: "
+            + SHEET_NAME
+            + " | Available sheets: "
+            + ", ".join(
+                workbook.sheetnames
+            )
+        )
+
+        workbook.close()
+
+        return
+
+    sheet = workbook[
+        SHEET_NAME
+    ]
+
+    try:
+
+        clickButton(
+            waitForObject(
+                names.numpad_pushButton_8_NumpadButton
+            )
+        )
+
+        clickButton(
+            waitForObject(
+                names.numpad_pushButton_8_NumpadButton
+            )
+        )
+
+        clickButton(
+            waitForObject(
+                names.numpad_pushButton_8_NumpadButton
+            )
+        )
+
+        clickButton(
+            waitForObject(
+                names.numpad_pushButton_8_NumpadButton
+            )
+        )
+
+        clickButton(
+            waitForObject(
+                names.mainFrame_okButton_QPushButton
+            )
+        )
+
+        clickButton(
+            waitForObject(
+                names.homeScreen_settingsButton_QPushButton
+            )
+        )
+
+        clickTab(
+            waitForObject(
+                names.settingsScreen_tbSystemInfo_TabWidget
+            ),
+            "INFO"
+        )
+
+        clickButton(
+            waitForObject(
+                names.gbSystemInformation_pbLanguageSettingsUpdate_QPushButton
+            )
+        )
+
+        clickButton(
+            waitForObject(
+                names.languagesFrame_pbCzech_QPushButton
+            )
+        )
+
+        clickButton(
+            waitForObject(
+                names.buttonsFrame_acceptButton_QPushButton
+            )
+        )
+
+        snooze(3)
+
+        tabWidget = waitForObject(
             names.settingsScreen_tbSystemInfo_TabWidget
-        ),
-        "INFO"
-    )
-
-    clickButton(
-        waitForObject(
-            names.gbSystemInformation_pbLanguageSettingsUpdate_QPushButton
         )
-    )
 
-    clickButton(
-        waitForObject(
-            names.languagesFrame_pbCzech_QPushButton
+        tabWidget.setCurrentIndex(2)
+
+        snooze(3)
+
+        tabWidget.setCurrentIndex(2)
+
+        snooze(3)
+
+        sendEvent(
+            "QMoveEvent",
+            waitForObject(
+                names.o_ScreenSwitcher
+            ),
+            0,
+            -66,
+            1285,
+            233
         )
-    )
 
-    clickButton(
-        waitForObject(
-            names.buttonsFrame_acceptButton_QPushButton
+        clickButton(
+            waitForObject(
+                names.settingsScreen_addButton_QPushButton
+            )
         )
-    )
 
-    snooze(6)
-
-
-
-    clickButton(
-        waitForObject(
-            names.buttonsBar_homeButton_QPushButton
+        verify_excel_string(
+            names.centralWidget_lbOperation_QLabel,
+            sheet,
+            "ADD PRESET",
+            "Add Preset Operation"
         )
-    )
 
-    snooze(6)
-
-
-    
-
-    clickButton(
-        waitForObject(
-            names.homeScreen_settingsButton_QPushButton
+        verify_excel_string(
+            names.centralWidget_pbName_QPushButton,
+            sheet,
+            "NAME",
+            "Preset Name"
         )
-    )
 
-    snooze(6)
-
-
-
-    clickTab(
-        waitForObject(
-            names.settingsScreen_tbSystemInfo_TabWidget
-        ),
-        "PŘEDVOLBY\n UŽIVATELE"
-    )
-
-    snooze(6)
-
-
-
-    clickButton(
-        waitForObject(
-            names.settingsScreen_addButton_QPushButton
+        verify_excel_string(
+            names.averagePowerWidget_nameLabel_QLabel,
+            sheet,
+            "AVERAGE POWER",
+            "Average Power"
         )
-    )
 
-    snooze(6)
-
-
-    # ========================================================
-    # ADD PRESET LOCALIZATION
-    # ========================================================
-
-    verify_excel_text(
-        names.centralWidget_lbOperation_QLabel,
-        excel_strings,
-        "Add Preset Title"
-    )
-
-    verify_excel_text(
-        names.centralWidget_pbName_QPushButton,
-        excel_strings,
-        "Preset Name Field"
-    )
-
-    verify_excel_text(
-        names.averagePowerWidget_nameLabel_QLabel,
-        excel_strings,
-        "Average Power Label"
-    )
-
-    verify_excel_text(
-        names.pulseEnergyWidget_nameLabel_QLabel,
-        excel_strings,
-        "Pulse Energy Label"
-    )
-
-    verify_excel_text(
-        names.frequencyWidget_nameLabel_QLabel,
-        excel_strings,
-        "Frequency Label"
-    )
-
-    verify_excel_text(
-        names.modeButton_nameLabel_QLabel_3,
-        excel_strings,
-        "Standard Pulse Label"
-    )
-
-    verify_excel_text(
-        names.peakPowerButton_nameLabel_QLabel_2,
-        excel_strings,
-        "Peak Power Label"
-    )
-
-    verify_excel_text(
-        names.pulseModeWidget_saveButton_QPushButton,
-        excel_strings,
-        "Add Button"
-    )
-
-
-  
-
-    snooze(6)
-
-    test.compare(
-        str(
-            waitForObjectExists(
-                names.averagePowerWidget_unitsOfMeasureLabel_QLabel
-            ).text
-        ),
-        "W",
-        "Average Power Unit"
-    )
-
-    snooze(6)
-
-    test.compare(
-        str(
-            waitForObjectExists(
-                names.pulseEnergyWidget_unitsOfMeasureLabel_QLabel
-            ).text
-        ),
-        "J",
-        "Pulse Energy Unit"
-    )
-
-    snooze(6)
-
-    test.compare(
-        str(
-            waitForObjectExists(
-                names.frequencyWidget_unitsOfMeasureLabel_QLabel
-            ).text
-        ),
-        "Hz",
-        "Frequency Unit"
-    )
-
-
- 
-
-    clickButton(
-        waitForObject(
-            names.centralWidget_pbName_QPushButton
+        verify_excel_string(
+            names.averagePowerWidget_unitsOfMeasureLabel_QLabel,
+            sheet,
+            "W",
+            "Average Power Unit"
         )
-    )
 
-    clickButton(
-        waitForObject(
-            names.keyboardPopup_p_KeyButton
+        verify_excel_string(
+            names.pulseEnergyWidget_nameLabel_QLabel,
+            sheet,
+            "PULSE ENERGY",
+            "Pulse Energy"
         )
-    )
 
-    clickButton(
-        waitForObject(
-            names.keyboardPopup_r_KeyButton
+        # mouseClick(
+        #     waitForObject(
+        #         names.centralWidget_frame_QFrame
+        #     ),
+        #     271,
+        #     13,
+        #     Qt.NoModifier,
+        #     Qt.LeftButton
+        # )
+
+        verify_excel_string(
+            names.pulseEnergyWidget_unitsOfMeasureLabel_QLabel,
+            sheet,
+            "J",
+            "Pulse Energy Unit"
         )
-    )
 
-    clickButton(
-        waitForObject(
-            names.keyboardPopup_e_KeyButton
+        verify_excel_string(
+            names.frequencyWidget_nameLabel_QLabel,
+            sheet,
+            "FREQUENCY",
+            "Frequency"
         )
-    )
 
-    clickButton(
-        waitForObject(
-            names.keyboardPopup_s_KeyButton
+        verify_excel_string(
+            names.frequencyWidget_unitsOfMeasureLabel_QLabel,
+            sheet,
+            "Hz",
+            "Frequency Unit"
         )
-    )
 
-    clickButton(
-        waitForObject(
-            names.keyboardPopup_e_KeyButton
+        verify_excel_string(
+            names.modeButton_nameLabel_QLabel_3,
+            sheet,
+            "REGULAR PULSE",
+            "Regular Pulse"
         )
-    )
 
-    clickButton(
-        waitForObject(
-            names.keyboardPopup_t_KeyButton
+        verify_excel_string(
+            names.peakPowerButton_nameLabel_QLabel_2,
+            sheet,
+            "PEAK POWER",
+            "Peak Power"
         )
-    )
 
-    clickButton(
-        waitForObject(
-            names.keyboardPopup_KeyButton_4
+        verify_excel_string(
+            names.pulseModeWidget_saveButton_QPushButton,
+            sheet,
+            "ADD",
+            "Add Button"
         )
-    )
 
-    clickButton(
-        waitForObject(
-            names.keyboardPopup_o_KeyButton
+        # mouseClick(
+        #     waitForObject(
+        #         names.pulseModeWidget_buttonsWidget_QWidget
+        #     ),
+        #     508,
+        #     46,
+        #     Qt.NoModifier,
+        #     Qt.LeftButton
+        # )
+        #
+        # mouseClick(
+        #     waitForObject(
+        #         names.pulseModeWidget_buttonsWidget_QWidget
+        #     ),
+        #     411,
+        #     1,
+        #     Qt.NoModifier,
+        #     Qt.LeftButton
+        # )
+
+        clickButton(
+            waitForObject(
+                names.centralWidget_pbName_QPushButton
+            )
         )
-    )
 
-    clickButton(
-        waitForObject(
-            names.keyboardPopup_n_KeyButton
+        type(
+            waitForObject(
+                names.keyboardPopup_wdEdit_WdLineEdit
+            ),
+            "preset one"
         )
-    )
 
-    clickButton(
-        waitForObject(
-            names.keyboardPopup_e_KeyButton
+        mouseClick(
+            waitForObject(
+                names.keyboardPopup_lbText_QLabel
+            ),
+            77,
+            26,
+            Qt.NoModifier,
+            Qt.LeftButton
         )
-    )
 
-    mouseClick(
-        waitForObject(
-            names.keyboardPopup_lbText_QLabel
-        ),
-        66,
-        23,
-        Qt.NoModifier,
-        Qt.LeftButton
-    )
-
-    snooze(3)
-
-
-
-
-    clickButton(
-        waitForObject(
-            names.pulseModeWidget_saveButton_QPushButton
+        clickButton(
+            waitForObject(
+                names.pulseModeWidget_saveButton_QPushButton
+            )
         )
-    )
 
-    snooze(6)
-
-
-
-
-    verify_excel_text(
-        names.tabBarPresetsForSettings_K_MEN_TabItem,
-        excel_strings,
-        "Stone Preset Tab"
-    )
-
-    verify_excel_text(
-        names.tabBarPresetsForSettings_M_KK_TK_TabItem,
-        excel_strings,
-        "Soft Tissue Preset Tab"
-    )
-
-
-
-
-    clickButton(
-        waitForObject(
-            names.settingsScreen_editButton_QPushButton
+        mouseClick(
+            waitForObject(
+                names.tabSettingsPresetsUserStonePresets_presetListView_PresetListView
+            ),
+            546,
+            72,
+            Qt.NoModifier,
+            Qt.LeftButton
         )
-    )
 
-    snooze(3)
+        clickButton(
+            waitForObject(
+                names.settingsScreen_editButton_QPushButton
+            )
+        )
 
-    mouseClick(
-        waitForObject(
-            names.tabSettingsPresetsUserStonePresets_presetListView_PresetListView
-        ),
-        406,
-        53,
-        Qt.NoModifier,
-        Qt.LeftButton
-    )
+        mouseClick(
+            waitForObject(
+                names.tabSettingsPresetsUserStonePresets_presetListView_PresetListView
+            ),
+            494,
+            66,
+            Qt.NoModifier,
+            Qt.LeftButton
+        )
 
-    snooze(6)
+        verify_excel_string(
+            names.centralWidget_lbOperation_QLabel,
+            sheet,
+            "EDIT PRESET",
+            "Edit Preset Operation"
+        )
 
+        snooze(2)
 
-
-    verify_excel_text(
-        names.centralWidget_lbOperation_QLabel,
-        excel_strings,
-        "Edit Preset Title"
-    )
-
-
-
-    snooze(6)
-
-    test.compare(
-        str(
+        actualEditName = str(
             waitForObjectExists(
                 names.centralWidget_pbName_QPushButton
             ).text
-        ),
-        PRESET_NAME,
-        "Preset Name"
-    )
-
-
-
-    verify_excel_text(
-        names.averagePowerWidget_nameLabel_QLabel,
-        excel_strings,
-        "Average Power Label - Edit"
-    )
-
-    verify_excel_text(
-        names.pulseEnergyWidget_nameLabel_QLabel,
-        excel_strings,
-        "Pulse Energy Label - Edit"
-    )
-
-    verify_excel_text(
-        names.frequencyWidget_nameLabel_QLabel,
-        excel_strings,
-        "Frequency Label - Edit"
-    )
-
-    verify_excel_text(
-        names.modeButton_nameLabel_QLabel_3,
-        excel_strings,
-        "Standard Pulse Label - Edit"
-    )
-
-    verify_excel_text(
-        names.peakPowerButton_nameLabel_QLabel_2,
-        excel_strings,
-        "Peak Power Label - Edit"
-    )
-
-    verify_excel_text(
-        names.pulseModeWidget_saveButton_QPushButton,
-        excel_strings,
-        "Update Button"
-    )
-
-
-
-
-    snooze(6)
-
-    test.compare(
-        str(
-            waitForObjectExists(
-                names.averagePowerWidget_unitsOfMeasureLabel_QLabel
-            ).text
-        ),
-        "W",
-        "Average Power Unit - Edit"
-    )
-
-    snooze(6)
-
-    test.compare(
-        str(
-            waitForObjectExists(
-                names.pulseEnergyWidget_unitsOfMeasureLabel_QLabel
-            ).text
-        ),
-        "J",
-        "Pulse Energy Unit - Edit"
-    )
-
-    snooze(6)
-
-    test.compare(
-        str(
-            waitForObjectExists(
-                names.frequencyWidget_unitsOfMeasureLabel_QLabel
-            ).text
-        ),
-        "Hz",
-        "Frequency Unit - Edit"
-    )
-
-
-
-    clickButton(
-        waitForObject(
-            names.pulseModeWidget_saveButton_QPushButton
         )
-    )
 
-    snooze(6)
-
-
-
-
-    clickButton(
-        waitForObject(
-            names.settingsScreen_deletePresetButton_QPushButton
+        verify_direct_text(
+            actualEditName,
+            "preset one",
+            "Edit Preset Name"
         )
-    )
 
-    snooze(3)
+        verify_excel_string(
+            names.averagePowerWidget_nameLabel_QLabel,
+            sheet,
+            "AVERAGE POWER",
+            "Edit - Average Power"
+        )
 
-    mouseClick(
-        waitForObject(
-            names.tabSettingsPresetsUserStonePresets_presetListView_PresetListView
-        ),
-        494,
-        79,
-        Qt.NoModifier,
-        Qt.LeftButton
-    )
+        verify_excel_string(
+            names.averagePowerWidget_unitsOfMeasureLabel_QLabel,
+            sheet,
+            "W",
+            "Edit - Average Power Unit"
+        )
 
-    snooze(6)
+        verify_excel_string(
+            names.pulseEnergyWidget_nameLabel_QLabel,
+            sheet,
+            "PULSE ENERGY",
+            "Edit - Pulse Energy"
+        )
 
+        verify_excel_string(
+            names.pulseEnergyWidget_unitsOfMeasureLabel_QLabel,
+            sheet,
+            "J",
+            "Edit - Pulse Energy Unit"
+        )
 
-    
-    verify_excel_text(
-        names.centralWidget_lbDialogTitle_QLabel,
-        excel_strings,
-        "Delete Preset Dialog Title"
-    )
+        verify_excel_string(
+            names.frequencyWidget_nameLabel_QLabel,
+            sheet,
+            "FREQUENCY",
+            "Edit - Frequency"
+        )
 
+        verify_excel_string(
+            names.frequencyWidget_unitsOfMeasureLabel_QLabel,
+            sheet,
+            "Hz",
+            "Edit - Frequency Unit"
+        )
 
-   
+        verify_excel_string(
+            names.modeButton_nameLabel_QLabel_3,
+            sheet,
+            "REGULAR PULSE",
+            "Edit - Regular Pulse"
+        )
 
-    snooze(6)
+        verify_excel_string(
+            names.peakPowerButton_nameLabel_QLabel_2,
+            sheet,
+            "PEAK POWER",
+            "Edit - Peak Power"
+        )
 
-    test.compare(
-        str(
+        verify_excel_string(
+            names.pulseModeWidget_saveButton_QPushButton,
+            sheet,
+            "UPDATE",
+            "Update Button"
+        )
+
+        # mouseClick(
+        #     waitForObject(
+        #         names.pulseModeWidget_buttonsWidget_QWidget
+        #     ),
+        #     531,
+        #     22,
+        #     Qt.NoModifier,
+        #     Qt.LeftButton
+        # )
+        #
+        # mouseClick(
+        #     waitForObject(
+        #         names.pulseModeWidget_buttonsWidget_QWidget
+        #     ),
+        #     509,
+        #     30,
+        #     Qt.NoModifier,
+        #     Qt.LeftButton
+        # )
+
+        clickButton(
+            waitForObject(
+                names.pulseModeWidget_saveButton_QPushButton
+            )
+        )
+
+        clickButton(
+            waitForObject(
+                names.settingsScreen_deletePresetButton_QPushButton
+            )
+        )
+
+        mouseClick(
+            waitForObject(
+                names.tabSettingsPresetsUserStonePresets_presetListView_PresetListView
+            ),
+            553,
+            80,
+            Qt.NoModifier,
+            Qt.LeftButton
+        )
+
+        verify_excel_string(
+            names.centralWidget_lbDialogTitle_QLabel,
+            sheet,
+            "DELETE PRESET",
+            "Delete Dialog Title"
+        )
+
+        snooze(2)
+
+        actualDeleteName = str(
             waitForObjectExists(
                 names.centralWidget_questionLabel_QLabel
             ).text
-        ),
-        PRESET_NAME,
-        "Preset Name in Delete Dialog"
-    )
+        )
 
+        verify_direct_text(
+            actualDeleteName,
+            "preset one",
+            "Delete Preset Name"
+        )
 
+        snooze(2)
 
-
-    verify_excel_text(
-        names.buttonsFrame_rejectButton_QPushButton,
-        excel_strings,
-        "Cancel Button"
-    )
-
-
-   
-
-    verify_excel_text(
-        names.centralWidget_acceptButton_QPushButton,
-        excel_strings,
-        "Delete Button"
-    )
-
-
-  
-
-    snooze(6)
-
-    test.compare(
-        str(
+        actualInfo = str(
             waitForObjectExists(
                 names.infoFrame_extInfoLabel_QLabel
             ).text
-        ),
-        PRESET_PARAMETER_VALUES,
-        "Preset Parameter Values"
-    )
-
-
- 
-
-    clickButton(
-        waitForObject(
-            names.centralWidget_acceptButton_QPushButton
         )
-    )
 
-    snooze(6)
+        expectedInfo = "6 J     3 Hz     18 W"
 
+        verify_direct_text(
+            actualInfo,
+            expectedInfo,
+            "Preset Information"
+        )
 
-   
+        verify_excel_string(
+            names.buttonsFrame_rejectButton_QPushButton,
+            sheet,
+            "CANCEL",
+            "Cancel Button"
+        )
 
-    verify_excel_text(
-        names.tabBarPresetsForSettings_K_MEN_TabItem,
-        excel_strings,
-        "Stone Tab"
-    )
+        verify_excel_string(
+            names.centralWidget_acceptButton_QPushButton,
+            sheet,
+            "DELETE",
+            "Delete Button"
+        )
 
-    verify_excel_text(
-        names.tabBarPresetsForSettings_M_KK_TK_TabItem,
-        excel_strings,
-        "Soft Tissue Tab"
-    )
+        test.vp("Delete Preset")
+        snooze(2)
+        clickButton(
+            waitForObject(
+                names.centralWidget_acceptButton_QPushButton
+            )
+        )
+ 
+    except Exception as e:
 
-    verify_excel_text(
-        names.settingsScreen_pbBack_QPushButton,
-        excel_strings,
-        "Back Button"
-    )
+        test.fail(
+            "Czech User Presets Add/Edit/Delete "
+            "localization test failed: "
+            + str(e)
+        )
+
+    finally:
+
+        try:
+
+            snooze(2)
+
+        except Exception:
+            pass
+
+        try:
+
+            workbook.close()
+
+        except Exception:
+            pass

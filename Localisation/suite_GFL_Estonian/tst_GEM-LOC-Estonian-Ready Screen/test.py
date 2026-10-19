@@ -4,15 +4,25 @@ import names
 import re
 import unicodedata
 from openpyxl import load_workbook
+import os
 
-
-
-EXCEL_PATH = (
-"/home/ezen/Test_Automation_Gemini/Localisation/"
-"suite_GFL_Estonian/"
-"tst_GEM-LOC-Estonian-PeakPower-SoftTissueCharacters/"
-"testdata/Gemini Split strings.xlsx"
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
 )
+
+# EXCEL_PATH = (
+# "/home/ezen/Test_Automation_Gemini/Localisation/"
+# "suite_GFL_Estonian/"
+# "tst_GEM-LOC-Estonian-PeakPower-SoftTissueCharacters/"
+# "testdata/Gemini Split strings.xlsx"
+# )
 
 EXCEL_SHEET_NAME = "Treatment Modes"
 

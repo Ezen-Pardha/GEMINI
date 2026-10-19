@@ -4,6 +4,18 @@ import names
 import openpyxl
 import re
 import unicodedata
+import os 
+
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
 
 
 def normalize(text):
@@ -51,11 +63,11 @@ def normalize(text):
     return text.casefold()
 
 
-def load_italian_excel(excelpath):
+def load_italian_excel(EXCEL_PATH):
 
     try:
         workbook = openpyxl.load_workbook(
-            excelpath,
+            EXCEL_PATH,
             data_only=True,
             read_only=True
         )
@@ -282,13 +294,7 @@ def verify_text(italian_data, object_name, english_text):
 
 def main():
 
-    excelpath = (
-        "/home/ezen/Test_Automation_Gemini/Localisation/"
-        "suite_GFL_Italian/"
-        "tst_GEM-LOC-Italian-PeakPower-SoftTissueCharacters/"
-        "testdata/Gemini Split strings.xlsx"
-    )
-
+      
     clickButton(
         waitForObject(
             names.numpad_pushButton_8_NumpadButton
@@ -411,7 +417,7 @@ def main():
     snooze(6)
 
     workbook, sheet, italian_data = load_italian_excel(
-        excelpath
+        EXCEL_PATH
     )
 
     if workbook is None:
@@ -419,7 +425,7 @@ def main():
 
     try:
 
-        snooze(6)
+        
 
         test.vp("Peakpower")
 
@@ -429,7 +435,7 @@ def main():
             "SELECT PEAK POWER"
         )
 
-        snooze(6)
+        
 
         verify_text(
             italian_data,
@@ -437,7 +443,7 @@ def main():
             "High"
         )
 
-        snooze(6)
+       
 
         verify_text(
             italian_data,
@@ -445,7 +451,7 @@ def main():
             "Medium"
         )
 
-        snooze(6)
+     
 
         verify_text(
             italian_data,
@@ -453,7 +459,7 @@ def main():
             "Low"
         )
 
-        snooze(6)
+        
 
         verify_text(
             italian_data,
@@ -507,7 +513,7 @@ def main():
             )
         )
 
-        snooze(6)
+        
 
         verify_text(
             italian_data,
@@ -515,7 +521,7 @@ def main():
             "SOFT TISSUE CHARACTERISTICS"
         )
 
-        snooze(6)
+        
 
         verify_text(
             italian_data,
@@ -523,7 +529,7 @@ def main():
             "PROCEDURE"
         )
 
-        snooze(6)
+       
 
         verify_text(
             italian_data,
@@ -531,7 +537,7 @@ def main():
             "Incision"
         )
 
-        snooze(6)
+        
 
         verify_text(
             italian_data,
@@ -539,7 +545,7 @@ def main():
             "EDIT"
         )
 
-        snooze(6)
+     
 
         verify_text(
             italian_data,

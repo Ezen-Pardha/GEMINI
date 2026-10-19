@@ -1,42 +1,36 @@
-
 # -*- coding: utf-8 -*-
 
 import names
 import openpyxl
 import re
+import os
 
 
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-EXCEL_PATH = (
-    "/home/ezen/Test_Automation_Gemini/Localisation/"
-    "suite_GFL_Czech/"
-    "tst_GEM-LOC-CZECH-Exit Quick Start-Guide/"
-    "testdata/Gemini strings.xlsx"
+EXCEL_PATH = os.path.abspath(
+    os.path.join(
+        TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
 )
 
-# Column B = English
-# Column M = Czech
 ENGLISH_COLUMN = 2
-CZECH_COLUMN = 13
-
-
-
+CZECH_COLUMN = 5
+SHEET_NAME = "Soft tissue"
 
 
 def normalize(text):
-
     if text is None:
         return ""
 
     text = str(text)
-
-    # Remove HTML tags
     text = re.sub(r"<[^>]+>", " ", text)
-
-    # Normalize spaces
     text = " ".join(text.split())
 
-    # Normalize angle brackets
     text = re.sub(r"\s*<\s*", " < ", text)
     text = re.sub(r"\s*>\s*", " > ", text)
 
@@ -44,159 +38,119 @@ def normalize(text):
 
 
 def load_excel():
-
     try:
-
         workbook = openpyxl.load_workbook(
             EXCEL_PATH,
-            data_only=True
+            data_only=True,
+            read_only=True
         )
 
-        sheet = workbook.active
+        if SHEET_NAME not in workbook.sheetnames:
+            test.fail("Excel sheet not found: " + SHEET_NAME)
+            workbook.close()
+            return None, None
 
-        return workbook, sheet
+        return workbook, workbook[SHEET_NAME]
 
     except Exception as e:
-
         test.fail(
-            "Unable to load Gemini Strings Excel: "
-            + str(e)
+            "Unable to load Czech localization Excel: " + str(e)
         )
-
         return None, None
 
-def get_czech_values(sheet, english_text):
 
-    expected_english = normalize(english_text)
+def build_excel_lookup(sheet):
+    """
+    Read the worksheet once and build a normal Python dictionary.
+    Dictionary .get() is used later; ReadOnlyWorksheet.get() is never used.
+    """
+    excel_lookup = {}
 
-    czech_values = []
-
-    for row in range(2, sheet.max_row + 1):
-
-        english_value = sheet.cell(
-            row=row,
-            column=ENGLISH_COLUMN
-        ).value
-
-        if english_value is None:
+    for row in sheet.iter_rows(min_row=2, values_only=True):
+        if len(row) < max(ENGLISH_COLUMN, CZECH_COLUMN):
             continue
 
-        if normalize(english_value) == expected_english:
+        english_value = row[ENGLISH_COLUMN - 1]
+        czech_value = row[CZECH_COLUMN - 1]
 
-            czech_value = sheet.cell(
-                row=row,
-                column=CZECH_COLUMN
-            ).value
+        if english_value is None or czech_value is None:
+            continue
 
-            if czech_value is not None:
+        english_key = normalize(english_value)
+        czech_translation = str(czech_value).strip()
 
-                czech_value = str(
-                    czech_value
-                ).strip()
+        if not english_key or not czech_translation:
+            continue
 
-                if czech_value:
-                    czech_values.append(
-                        czech_value
-                    )
+        excel_lookup.setdefault(english_key, [])
 
-    return czech_values
+        if czech_translation not in excel_lookup[english_key]:
+            excel_lookup[english_key].append(czech_translation)
 
+    return excel_lookup
 
 
+def get_CZECH_values(excel_lookup, english_text):
+    english_key = normalize(english_text)
+    return excel_lookup.get(english_key, [])
 
-def verify_text(
-    sheet,
-    object_name,
-    english_text,
-    description
-):
 
-    snooze(6)
-
+def verify_text(excel_lookup, object_name, english_text, description):
     try:
+        obj = waitForObjectExists(object_name, 10000)
+        actual_value = getattr(obj, "text", "")
 
-        obj = waitForObjectExists(
-            object_name
-        )
+        if actual_value is None:
+            actual_value = ""
 
-        actual_value = obj.text
-
-        actual = ""
-
-        if actual_value is not None:
-            actual = str(
-                actual_value
-            ).strip()
+        actual = str(actual_value).strip()
 
     except Exception as e:
-
         test.fail(
-            description
-            + " | Unable to read object: "
-            + str(e)
+            description + " | Unable to read UI object: " + str(e)
         )
-
         return
 
-
-    expected_values = get_czech_values(
-        sheet,
-        english_text
-    )
-
+    expected_values = get_CZECH_values(excel_lookup, english_text)
 
     if not expected_values:
-
         test.fail(
             description
-            + " | English string not found in Column B: "
+            + " | English string not found in Excel Column B: "
             + english_text
         )
-
         return
 
-
-    actual_normalized = normalize(
-        actual
-    )
-
-
-  
+    actual_normalized = normalize(actual)
 
     for expected in expected_values:
-
-        expected_normalized = normalize(
-            expected
-        )
+        expected_normalized = normalize(expected)
 
         if actual_normalized == expected_normalized:
-
             test.compare(
                 actual_normalized,
                 expected_normalized,
                 description
+                + " | English: "
+                + english_text
+                + " | Czech: "
+                + expected
             )
-
             return
-
-
-
 
     test.fail(
         description
-        + " | Expected Czech value from Column M: "
+        + " | Expected Czech value from Excel Column "
+        + str(CZECH_COLUMN)
+        + ": "
         + " / ".join(expected_values)
-        + " | Actual: "
+        + " | Actual UI text: "
         + actual
     )
 
 
-
-
 def get_central_widget():
-
     try:
-
         central_widget = findObject(
             {
                 "name": "centralWidget",
@@ -205,309 +159,275 @@ def get_central_widget():
             }
         )
 
-        for i in range(20):
-
+        for _ in range(20):
             try:
-
                 if central_widget.visible:
-
                     return central_widget
-
-            except:
+            except Exception:
                 pass
 
             snooze(0.5)
 
+        test.log("centralWidget was found but is not visible")
         return None
 
-    except:
-
+    except Exception as e:
+        test.log("centralWidget not found: " + str(e))
         return None
-
-
 
 
 def main():
-
     workbook, sheet = load_excel()
 
     if workbook is None or sheet is None:
         return
 
+    try:
+        # Build the lookup once. All UI comparisons use this dictionary.
+        excel_lookup = build_excel_lookup(sheet)
 
- 
+        if not excel_lookup:
+            test.fail(
+                "No English/Czech translations were loaded from Excel. "
+                "Check the sheet and column settings."
+            )
+            return
 
-    clickButton(
-        waitForObject(
-            names.numpad_pushButton_8_NumpadButton
+        clickButton(
+            waitForObject(
+                names.numpad_pushButton_8_NumpadButton
+            )
         )
-    )
 
-    doubleClick(
-        waitForObject(
-            names.numpad_pushButton_8_NumpadButton
-        ),
-        94,
-        77,
-        Qt.NoModifier,
-        Qt.LeftButton
-    )
-
-    doubleClick(
-        waitForObject(
-            names.numpad_pushButton_8_NumpadButton
-        ),
-        94,
-        77,
-        Qt.NoModifier,
-        Qt.LeftButton
-    )
-
-    clickButton(
-        waitForObject(
-            names.mainFrame_okButton_QPushButton
+        doubleClick(
+            waitForObject(
+                names.numpad_pushButton_8_NumpadButton
+            ),
+            94,
+            77,
+            Qt.NoModifier,
+            Qt.LeftButton
         )
-    )
 
-
-
-
-    clickButton(
-        waitForObject(
-            names.homeScreen_settingsButton_QPushButton
+        doubleClick(
+            waitForObject(
+                names.numpad_pushButton_8_NumpadButton
+            ),
+            94,
+            77,
+            Qt.NoModifier,
+            Qt.LeftButton
         )
-    )
 
-    clickTab(
-        waitForObject(
-            names.settingsScreen_tbSystemInfo_TabWidget
-        ),
-        "INFO"
-    )
-
-    clickButton(
-        waitForObject(
-            names.gbSystemInformation_pbLanguageSettingsUpdate_QPushButton
+        clickButton(
+            waitForObject(
+                names.mainFrame_okButton_QPushButton
+            )
         )
-    )
 
-    clickButton(
-        waitForObject(
-            names.languagesFrame_pbCzech_QPushButton
+        clickButton(
+            waitForObject(
+                names.homeScreen_settingsButton_QPushButton
+            )
         )
-    )
 
-    clickButton(
-        waitForObject(
-            names.buttonsFrame_acceptButton_QPushButton
+        clickTab(
+            waitForObject(
+                names.settingsScreen_tbSystemInfo_TabWidget
+            ),
+            "INFO"
         )
-    )
 
-    clickButton(
-        waitForObject(
-            names.buttonsBar_homeButton_QPushButton
+        clickButton(
+            waitForObject(
+                names.gbSystemInformation_pbLanguageSettingsUpdate_QPushButton
+            )
         )
-    )
 
-
-
-
-    clickButton(
-        waitForObject(
-            names.homeScreen_pbSoftTissueQuickStart_QToolButton
+        clickButton(
+            waitForObject(
+                names.languagesFrame_pbCzech_QPushButton
+            )
         )
-    )
 
-    mouseClick(
-        waitForObjectItem(
-            names.tabLeftMainPresets_leftPresetsView_PresetListView,
-            "_1"
-        ),
-        377,
-        65,
-        Qt.NoModifier,
-        Qt.LeftButton
-    )
-
-    mouseClick(
-        waitForObjectItem(
-            names.tabRightMainPresets_rightPresetsView_PresetListView,
-            "_1"
-        ),
-        150,
-        37,
-        Qt.NoModifier,
-        Qt.LeftButton
-    )
-
-    sendEvent(
-        "QMoveEvent",
-        waitForObject(
-            names.o_ScreenSwitcher
-        ),
-        0,
-        -50,
-        1288,
-        292
-    )
-
-    clickButton(
-        waitForObject(
-            names.quickStartScreen_pbContinue_QPushButton
+        clickButton(
+            waitForObject(
+                names.buttonsFrame_acceptButton_QPushButton
+            )
         )
-    )
 
-    clickButton(
-        waitForObject(
-            names.mainFrame_okButton_QPushButton_2
+        clickButton(
+            waitForObject(
+                names.buttonsBar_homeButton_QPushButton
+            )
         )
-    )
 
-
- 
-
-    mouseClick(
-        waitForObject(
-            names.modeButton_nameLabel_QLabel
-        ),
-        115,
-        15,
-        Qt.NoModifier,
-        Qt.LeftButton
-    )
-
-
-    # Title
-    verify_text(
-        sheet,
-        names.centralWidget_TitleLabel_QLabel_2,
-        "EXIT QUICK START MODE?",
-        "Quick Start Exit Title"
-    )
-
-
-    # Message
-    verify_text(
-        sheet,
-        names.centralWidget_MessageLabel_QLabel_2,
-        "Please confirm that you want to exit quick start mode.",
-        "Quick Start Exit Message"
-    )
-
-
-    # Cancel
-    verify_text(
-        sheet,
-        names.centralWidget_CancelButton_QPushButton_3,
-        "CANCEL",
-        "Quick Start Cancel Button"
-    )
-
-
-    # Confirm
-    verify_text(
-        sheet,
-        names.centralWidget_DisableButton_QPushButton_2,
-        "CONFIRM",
-        "Quick Start Confirm Button"
-    )
-
-
-    # Confirm exit
-    clickButton(
-        waitForObject(
-            names.centralWidget_DisableButton_QPushButton_2
+        clickButton(
+            waitForObject(
+                names.homeScreen_pbSoftTissueQuickStart_QToolButton
+            )
         )
-    )
 
-
-   
-
-    clickButton(
-        waitForObject(
-            names.buttonsBar_homeButton_QPushButton_2
+        mouseClick(
+            waitForObjectItem(
+                names.tabLeftMainPresets_leftPresetsView_PresetListView,
+                "_1"
+            ),
+            377,
+            65,
+            Qt.NoModifier,
+            Qt.LeftButton
         )
-    )
 
-
-
-
-    clickButton(
-        waitForObject(
-            names.homeScreen_pbSoftTissueAssistant_QToolButton
+        mouseClick(
+            waitForObjectItem(
+                names.tabRightMainPresets_rightPresetsView_PresetListView,
+                "_1"
+            ),
+            150,
+            37,
+            Qt.NoModifier,
+            Qt.LeftButton
         )
-    )
 
-    clickButton(
-        waitForObject(
-            names.gbSoftTissueProcedures_pbIncision_QPushButton
+        sendEvent(
+            "QMoveEvent",
+            waitForObject(
+                names.o_ScreenSwitcher
+            ),
+            0,
+            -50,
+            1288,
+            292
         )
-    )
 
-    clickButton(
-        waitForObject(
-            names.softTissueAssistantModeScreen_pbContinue_QPushButton
+        clickButton(
+            waitForObject(
+                names.quickStartScreen_pbContinue_QPushButton
+            )
         )
-    )
 
-
- 
-
-    mouseDrag(
-        waitForObject(
-            names.indexPicker_valuePicker_IntervalSlider
-        ),
-        195,
-        15,
-        211,
-        29,
-        1,
-        Qt.LeftButton
-    )
-
-
- 
-    verify_text(
-        sheet,
-        names.centralWidget_TitleLabel_QLabel_2,
-        "EXIT GUIDED MODE?",
-        "Guided Mode Exit Title"
-    )
-
-
-    verify_text(
-        sheet,
-        names.centralWidget_MessageLabel_QLabel_2,
-        "Please confirm that you want to exit guided mode.",
-        "Guided Mode Exit Message"
-    )
-
-
-    verify_text(
-        sheet,
-        names.centralWidget_CancelButton_QPushButton_3,
-        "CANCEL",
-        "Guided Mode Cancel Button"
-    )
-
-
-    verify_text(
-        sheet,
-        names.centralWidget_DisableButton_QPushButton_2,
-        "CONFIRM",
-        "Guided Mode Confirm Button"
-    )
-
-
- 
-
-    clickButton(
-        waitForObject(
-            names.centralWidget_DisableButton_QPushButton_2
+        clickButton(
+            waitForObject(
+                names.mainFrame_okButton_QPushButton_2
+            )
         )
-    )
 
+        mouseClick(
+            waitForObject(
+                names.modeButton_nameLabel_QLabel
+            ),
+            115,
+            15,
+            Qt.NoModifier,
+            Qt.LeftButton
+        )
 
-  
+        verify_text(
+            excel_lookup,
+            names.centralWidget_TitleLabel_QLabel_2,
+            "EXIT QUICK START MODE?",
+            "Quick Start Exit Title"
+        )
 
-    workbook.close()
+        verify_text(
+            excel_lookup,
+            names.centralWidget_MessageLabel_QLabel_2,
+            "Please confirm that you want to exit quick start mode.",
+            "Quick Start Exit Message"
+        )
+
+        verify_text(
+            excel_lookup,
+            names.centralWidget_CancelButton_QPushButton_3,
+            "CANCEL",
+            "Quick Start Cancel Button"
+        )
+
+        verify_text(
+            excel_lookup,
+            names.centralWidget_DisableButton_QPushButton_2,
+            "CONFIRM",
+            "Quick Start Confirm Button"
+        )
+
+        clickButton(
+            waitForObject(
+                names.centralWidget_DisableButton_QPushButton_2
+            )
+        )
+
+        clickButton(
+            waitForObject(
+                names.buttonsBar_homeButton_QPushButton_2
+            )
+        )
+
+        clickButton(
+            waitForObject(
+                names.homeScreen_pbSoftTissueAssistant_QToolButton
+            )
+        )
+
+        clickButton(
+            waitForObject(
+                names.gbSoftTissueProcedures_pbIncision_QPushButton
+            )
+        )
+
+        clickButton(
+            waitForObject(
+                names.softTissueAssistantModeScreen_pbContinue_QPushButton
+            )
+        )
+
+        mouseDrag(
+            waitForObject(
+                names.indexPicker_valuePicker_IntervalSlider
+            ),
+            195,
+            15,
+            211,
+            29,
+            1,
+            Qt.LeftButton
+        )
+
+        verify_text(
+            excel_lookup,
+            names.centralWidget_TitleLabel_QLabel_2,
+            "EXIT GUIDED MODE?",
+            "Guided Mode Exit Title"
+        )
+
+        verify_text(
+            excel_lookup,
+            names.centralWidget_MessageLabel_QLabel_2,
+            "Please confirm that you want to exit guided mode.",
+            "Guided Mode Exit Message"
+        )
+
+        verify_text(
+            excel_lookup,
+            names.centralWidget_CancelButton_QPushButton_3,
+            "CANCEL",
+            "Guided Mode Cancel Button"
+        )
+
+        verify_text(
+            excel_lookup,
+            names.centralWidget_DisableButton_QPushButton_2,
+            "CONFIRM",
+            "Guided Mode Confirm Button"
+        )
+
+        # test.vp("Exit Guided Mode")
+
+        clickButton(
+            waitForObject(
+                names.centralWidget_DisableButton_QPushButton_2
+            )
+        )
+
+    finally:
+        workbook.close()

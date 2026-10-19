@@ -4,7 +4,18 @@ import names
 import openpyxl
 import re
 import time
+import os
 
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
 
 def normalize(text):
     if text is None:
@@ -36,12 +47,12 @@ def normalize(text):
     return text.strip().casefold()
 
 
-def load_dutch_excel(excelpath):
+def load_dutch_excel(EXCEL_PATH):
 
     start_time = time.time()
 
     workbook = openpyxl.load_workbook(
-        excelpath,
+        EXCEL_PATH,
         data_only=True,
         read_only=True
     )
@@ -200,12 +211,12 @@ def verify_text(
 
 def main():
 
-    excelpath = (
-        "/home/ezen/Test_Automation_Gemini/Localisation/"
-        "suite_GFL_Dutch/"
-        "tst_GEM-LOC-Dutch-PeakPower-SoftTissueCharacters/"
-        "testdata/Gemini Split strings.xlsx"
-    )
+    # EXCEL_PATH = (
+    #     "/home/ezen/Test_Automation_Gemini/Localisation/"
+    #     "suite_GFL_Dutch/"
+    #     "tst_GEM-LOC-Dutch-PeakPower-SoftTissueCharacters/"
+    #     "testdata/Gemini Split strings.xlsx"
+    # )
 
 
 
@@ -340,7 +351,7 @@ def main():
 
 
     workbook, sheet, dutch_data = load_dutch_excel(
-        excelpath
+        EXCEL_PATH
     )
 
 

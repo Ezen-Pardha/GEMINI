@@ -4,11 +4,18 @@
 import names
 from openpyxl import load_workbook
 import re
+import os
 
-
-# ============================================================
-# NORMALIZE TEXT
-# ============================================================
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
 
 def normalize(text):
 
@@ -37,18 +44,10 @@ def normalize(text):
     return text.strip().casefold()
 
 
-# ============================================================
-# LOAD BULGARIAN EXCEL DATA
-#
-# Sheet       : Treatment Modes
-# English     : Column B
-# Bulgarian   : Column C
-# ============================================================
-
-def load_bulgarian_excel(excelpath):
+def load_bulgarian_excel(EXCEL_PATH):
 
     workbook = load_workbook(
-        excelpath,
+        EXCEL_PATH,
         read_only=True,
         data_only=True
     )
@@ -99,10 +98,6 @@ def load_bulgarian_excel(excelpath):
     return workbook, bulgarian_data
 
 
-# ============================================================
-# GET BULGARIAN TRANSLATION
-# ============================================================
-
 def get_bulgarian_text(
     bulgarian_data,
     english_text
@@ -123,10 +118,6 @@ def get_bulgarian_text(
 
     return bulgarian_data[key]
 
-
-# ============================================================
-# VERIFY APPLICATION STRING AGAINST EXCEL
-# ============================================================
 
 def verify_excel_string(
     object_name,
@@ -175,55 +166,28 @@ def verify_excel_string(
         description
     )
 
-    # if actual_normalized != expected_normalized:
-    #
-    #     test.fail(
-    #         "Bulgarian text mismatch | "
-    #         + description
-    #         + " | Actual: "
-    #         + actual
-    #         + " | Expected: "
-    #         + expected
-    #     )
-
-
-# ============================================================
-# MAIN
-# ============================================================
 
 def main():
 
     workbook = None
 
-    # ========================================================
-    # EXCEL FILE
-    # ========================================================
+    # EXCEL_PATH = (
+    #     "/home/ezen/Test_Automation_Gemini/Localisation/"
+    #     "suite_GFL_Bulgaria/"
+    #     "tst_GEM-LOC-Bulgaria-Userpresets-Add-Edit-Delete/"
+    #     "testdata/Gemini Split strings.xlsx"
+    # )
 
-    excelpath = (
-        "/home/ezen/Test_Automation_Gemini/Localisation/"
-        "suite_GFL_Bulgaria/"
-        "tst_GEM-LOC-Bulgaria-Userpresets-Add-Edit-Delete/"
-        "testdata/Gemini Split strings.xlsx"
-    )
-
-
-    # ========================================================
-    # LOAD EXCEL
-    # ========================================================
 
     workbook, bulgarian_data = (
         load_bulgarian_excel(
-            excelpath
+            EXCEL_PATH
         )
     )
 
     if workbook is None:
         return
 
-
-    # ========================================================
-    # LOGIN
-    # ========================================================
 
     clickButton(
         waitForObject(
@@ -256,10 +220,6 @@ def main():
     )
 
 
-    # ========================================================
-    # OPEN SETTINGS
-    # ========================================================
-
     clickButton(
         waitForObject(
             names.homeScreen_settingsButton_QPushButton
@@ -280,10 +240,6 @@ def main():
     )
 
 
-    # ========================================================
-    # CHANGE LANGUAGE TO BULGARIAN
-    # ========================================================
-
     clickButton(
         waitForObject(
             names.languagesFrame_pbBulgaria_QPushButton
@@ -299,20 +255,8 @@ def main():
     snooze(6)
 
 
-    # ========================================================
-    # OPEN USER PRESETS
-    # ========================================================
-
     snooze(3)
 
-
-    # ========================================================
-    # SELECT TAB 3
-    #
-    # Tab 1 = index 0
-    # Tab 2 = index 1
-    # Tab 3 = index 2
-    # ========================================================
 
     tabWidget = waitForObject(
         names.settingsScreen_tbSystemInfo_TabWidget
@@ -323,18 +267,10 @@ def main():
     snooze(3)
 
 
-    # ========================================================
-    # SELECT TAB 3 AGAIN
-    # ========================================================
-
     tabWidget.setCurrentIndex(2)
 
     snooze(3)
 
-
-    # ========================================================
-    # SCREEN SWITCHER
-    # ========================================================
 
     sendEvent(
         "QMoveEvent",
@@ -348,20 +284,11 @@ def main():
     )
 
 
-    # ========================================================
-    # ADD PRESET
-    # ========================================================
-
     clickButton(
         waitForObject(
             names.settingsScreen_addButton_QPushButton
         )
     )
-
-
-    # ========================================================
-    # 1. ADD PRESET OPERATION
-    # ========================================================
 
     verify_excel_string(
         names.centralWidget_lbOperation_QLabel,
@@ -371,10 +298,6 @@ def main():
     )
 
 
-    # ========================================================
-    # 2. PRESET NAME
-    # ========================================================
-
     verify_excel_string(
         names.centralWidget_pbName_QPushButton,
         bulgarian_data,
@@ -382,10 +305,6 @@ def main():
         "Preset Name"
     )
 
-
-    # ========================================================
-    # 3. AVERAGE POWER
-    # ========================================================
 
     verify_excel_string(
         names.averagePowerWidget_nameLabel_QLabel,
@@ -395,10 +314,6 @@ def main():
     )
 
 
-    # ========================================================
-    # 4. AVERAGE POWER UNIT
-    # ========================================================
-
     verify_excel_string(
         names.averagePowerWidget_unitsOfMeasureLabel_QLabel,
         bulgarian_data,
@@ -407,10 +322,6 @@ def main():
     )
 
 
-    # ========================================================
-    # 5. PULSE ENERGY
-    # ========================================================
-
     verify_excel_string(
         names.pulseEnergyWidget_nameLabel_QLabel,
         bulgarian_data,
@@ -418,10 +329,6 @@ def main():
         "Pulse Energy"
     )
 
-
-    # ========================================================
-    # 6. PULSE ENERGY UNIT
-    # ========================================================
 
     mouseClick(
         waitForObject(
@@ -440,11 +347,6 @@ def main():
         "Pulse Energy Unit"
     )
 
-
-    # ========================================================
-    # 7. FREQUENCY
-    # ========================================================
-
     verify_excel_string(
         names.frequencyWidget_nameLabel_QLabel,
         bulgarian_data,
@@ -452,10 +354,6 @@ def main():
         "Frequency"
     )
 
-
-    # ========================================================
-    # 8. FREQUENCY UNIT
-    # ========================================================
 
     verify_excel_string(
         names.frequencyWidget_unitsOfMeasureLabel_QLabel,
@@ -465,10 +363,6 @@ def main():
     )
 
 
-    # ========================================================
-    # 9. REGULAR PULSE
-    # ========================================================
-
     verify_excel_string(
         names.modeButton_nameLabel_QLabel_3,
         bulgarian_data,
@@ -477,9 +371,6 @@ def main():
     )
 
 
-    # ========================================================
-    # 10. PEAK POWER
-    # ========================================================
 
     verify_excel_string(
         names.peakPowerButton_nameLabel_QLabel_2,
@@ -489,10 +380,6 @@ def main():
     )
 
 
-    # ========================================================
-    # 11. ADD BUTTON
-    # ========================================================
-
     verify_excel_string(
         names.pulseModeWidget_saveButton_QPushButton,
         bulgarian_data,
@@ -500,10 +387,6 @@ def main():
         "Add Button"
     )
 
-
-    # ========================================================
-    # ENTER PRESET NAME
-    # ========================================================
 
     mouseClick(
         waitForObject(
@@ -557,10 +440,6 @@ def main():
     snooze(6)
 
 
-    # ========================================================
-    # SELECT PRESET
-    # ========================================================
-
     mouseClick(
         waitForObject(
             names.tabSettingsPresetsUserStonePresets_presetListView_PresetListView
@@ -571,10 +450,6 @@ def main():
         Qt.LeftButton
     )
 
-
-    # ========================================================
-    # EDIT PRESET
-    # ========================================================
 
     clickButton(
         waitForObject(
@@ -595,10 +470,6 @@ def main():
     snooze(6)
 
 
-    # ========================================================
-    # EDIT OPERATION
-    # ========================================================
-
     verify_excel_string(
         names.centralWidget_lbOperation_QLabel,
         bulgarian_data,
@@ -606,10 +477,6 @@ def main():
         "Edit Preset Operation"
     )
 
-
-    # ========================================================
-    # EDIT PRESET NAME
-    # ========================================================
 
     snooze(6)
 
@@ -626,10 +493,6 @@ def main():
     )
 
 
-    # ========================================================
-    # EDIT - AVERAGE POWER
-    # ========================================================
-
     verify_excel_string(
         names.averagePowerWidget_nameLabel_QLabel,
         bulgarian_data,
@@ -637,10 +500,6 @@ def main():
         "Edit - Average Power"
     )
 
-
-    # ========================================================
-    # EDIT - AVERAGE POWER UNIT
-    # ========================================================
 
     verify_excel_string(
         names.averagePowerWidget_unitsOfMeasureLabel_QLabel,
@@ -650,10 +509,6 @@ def main():
     )
 
 
-    # ========================================================
-    # EDIT - PULSE ENERGY
-    # ========================================================
-
     verify_excel_string(
         names.pulseEnergyWidget_nameLabel_QLabel,
         bulgarian_data,
@@ -661,10 +516,6 @@ def main():
         "Edit - Pulse Energy"
     )
 
-
-    # ========================================================
-    # EDIT - PULSE ENERGY UNIT
-    # ========================================================
 
     verify_excel_string(
         names.pulseEnergyWidget_unitsOfMeasureLabel_QLabel,
@@ -674,10 +525,6 @@ def main():
     )
 
 
-    # ========================================================
-    # EDIT - FREQUENCY
-    # ========================================================
-
     verify_excel_string(
         names.frequencyWidget_nameLabel_QLabel,
         bulgarian_data,
@@ -685,10 +532,6 @@ def main():
         "Edit - Frequency"
     )
 
-
-    # ========================================================
-    # EDIT - FREQUENCY UNIT
-    # ========================================================
 
     verify_excel_string(
         names.frequencyWidget_unitsOfMeasureLabel_QLabel,
@@ -698,10 +541,6 @@ def main():
     )
 
 
-    # ========================================================
-    # EDIT - REGULAR PULSE
-    # ========================================================
-
     verify_excel_string(
         names.modeButton_nameLabel_QLabel_3,
         bulgarian_data,
@@ -709,10 +548,6 @@ def main():
         "Edit - Regular Pulse"
     )
 
-
-    # ========================================================
-    # EDIT - PEAK POWER
-    # ========================================================
 
     verify_excel_string(
         names.peakPowerButton_nameLabel_QLabel_2,
@@ -722,10 +557,6 @@ def main():
     )
 
 
-    # ========================================================
-    # UPDATE BUTTON
-    # ========================================================
-
     verify_excel_string(
         names.pulseModeWidget_saveButton_QPushButton,
         bulgarian_data,
@@ -733,10 +564,6 @@ def main():
         "Update Button"
     )
 
-
-    # ========================================================
-    # SAVE EDITED PRESET
-    # ========================================================
 
     mouseClick(
         waitForObject(
@@ -767,10 +594,6 @@ def main():
     snooze(6)
 
 
-    # ========================================================
-    # DELETE PRESET
-    # ========================================================
-
     clickButton(
         waitForObject(
             names.settingsScreen_deletePresetButton_QPushButton
@@ -790,10 +613,6 @@ def main():
     snooze(6)
 
 
-    # ========================================================
-    # DELETE DIALOG TITLE
-    # ========================================================
-
     verify_excel_string(
         names.centralWidget_lbDialogTitle_QLabel,
         bulgarian_data,
@@ -801,10 +620,6 @@ def main():
         "Delete Dialog Title"
     )
 
-
-    # ========================================================
-    # DELETE PRESET NAME
-    # ========================================================
 
     snooze(6)
 
@@ -820,10 +635,6 @@ def main():
         "Delete Preset Name"
     )
 
-
-    # ========================================================
-    # PRESET INFORMATION
-    # ========================================================
 
     snooze(6)
 
@@ -842,9 +653,7 @@ def main():
     )
 
 
-    # ========================================================
-    # CANCEL BUTTON
-    # ========================================================
+ 
 
     verify_excel_string(
         names.buttonsFrame_rejectButton_QPushButton,
@@ -854,22 +663,19 @@ def main():
     )
 
 
-    # ========================================================
-    # DELETE BUTTON
-    # ========================================================
+
 
     verify_excel_string(
         names.centralWidget_acceptButton_QPushButton,
         bulgarian_data,
         "DELETE",
         "Delete Button"
-    )
+    ) 
 
-
-    # ========================================================
-    # CLOSE EXCEL
-    # ========================================================
-
+    
+   
     if workbook is not None:
+        
+        clickButton(waitForObject(names.centralWidget_acceptButton_QPushButton))
         workbook.close()
 

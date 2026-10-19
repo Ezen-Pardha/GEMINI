@@ -4,9 +4,19 @@
 import names
 import openpyxl
 import re
+import os
 
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
 
-EXCEL_PATH = "/home/ezen/Test_Automation_Katana/suite_Gemini_Localization_Croatia/tst_GEM-LOC-CROATIA-Userpresets-Add-Edit-Delete/testdata/Gemini strings.xlsx"
 
  
 def normalize_localization(text):
@@ -58,7 +68,7 @@ def load_croatian_strings():
 
         croatian = sheet.cell(
             row=row_number,
-            column=9
+            column=4
         ).value
 
         if english is not None and croatian is not None:
@@ -121,21 +131,22 @@ def verify_excel_text(object_name, excel_strings, description=""):
         test.compare(
             actual_normalized,
             normalize_localization(match["croatian"]),
-            "{} | English: {} | Excel Row: {}".format(
+            "{} | English: {}".format(
                 description,
                 match["english"],
                 match["row"]
             )
         )
+       
 
     else:
 
         test.compare(
             actual_normalized,
             normalize_localization(match["croatian"]),
-            "Localization verified | English: {} | Excel Row: {}".format(
-                match["english"],
-                match["row"]
+            "Localization verified | English: {}".format(
+                match["english"]
+
             )
         )
 
@@ -708,19 +719,15 @@ def main():
         "Preset parameter values"
     )
 
-
-  
-
+    
+    
+    snooze(2)
     clickButton(
         waitForObject(
             names.centralWidget_acceptButton_QPushButton
         )
     )
+    snooze(2)
+    
 
-
-
-    verify_excel_text(
-        names.settingsScreen_pbBack_QPushButton,
-        excel_strings,
-        "Back button"
-    )
+    

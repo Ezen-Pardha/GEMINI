@@ -1,542 +1,212 @@
-
 # -*- coding: utf-8 -*-
 
 import names
 import openpyxl
 import re
+import time
+import os
+
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+EXCEL_PATH = os.path.abspath(os.path.join(
+    TESTCASE_DIR, "..", "shared", "testdata", "Gemini Split strings.xlsx"
+))
+
+SHEET_NAME = "Treatment Modes"
+ENGLISH_COLUMN = 2
+CZECH_COLUMN = 5
 
 
-
-EXCEL_FILE = ("/home/ezen/Test_Automation_Gemini/Localisation/suite_GFL_Czech/tst_GEM-LOC-CZECH-PeakPower-SoftTissueCharacters/testdata/Gemini strings.xlsx")
-
-ENGLISH_COLUMN = 2      # Column B
-CZECH_COLUMN = 13       # Column M
-
-
-
-
-def normalize_text(value):
-
-    if value is None:
+def normalize(text):
+    if text is None:
         return ""
-
-    value = str(value)
-
-    value = re.sub(
-        r"<[^>]+>",
-        "",
-        value
-    )
-
-    value = re.sub(
-        r"\s+",
-        " ",
-        value
-    )
-
-    return value.strip().casefold()
+    text = str(text)
+    text = re.sub(r"<br\s*/?>", " ", text, flags=re.IGNORECASE)
+    text = re.sub(r"<[^>]+>", " ", text)
+    text = text.replace("\xa0", " ")
+    return " ".join(text.split()).strip().casefold()
 
 
-
-
-def get_czech_values(sheet, english_text):
-
-    expected_english = normalize_text(
-        english_text
-    )
-
-    czech_values = []
-
-    for row in range(2, sheet.max_row + 1):
-
-        english_value = sheet.cell(
-            row=row,
-            column=ENGLISH_COLUMN
-        ).value
-
-        if english_value is None:
-            continue
-
-        if normalize_text(
-            english_value
-        ) == expected_english:
-
-            czech_value = sheet.cell(
-                row=row,
-                column=CZECH_COLUMN
-            ).value
-
-            if czech_value is not None:
-
-                czech_value = str(
-                    czech_value
-                ).strip()
-
-                if czech_value:
-                    czech_values.append(
-                        czech_value
-                    )
-
-    return czech_values
-
-
-
-
-def verify_text(
-        sheet,
-        obj,
-        english_text,
-        description):
-
-    snooze(6)
-
-    actual_value = waitForObjectExists(
-        obj
-    ).text
-
-    actual = (
-        ""
-        if actual_value is None
-        else str(actual_value).strip()
-    )
-
-    czech_values = get_czech_values(
-        sheet,
-        english_text
-    )
-
-    if not czech_values:
-
-        test.fail(
-            "English string not found in Column B: "
-            + english_text
+def load_Czech_excel(excel_path):
+    workbook = None
+    try:
+        start_time = time.time()
+        workbook = openpyxl.load_workbook(
+            excel_path, data_only=True, read_only=True
         )
+        load_time = time.time() - start_time
 
-        return
+        if SHEET_NAME not in workbook.sheetnames:
+            test.fail("Worksheet '" + SHEET_NAME + "' does not exist in: " + excel_path)
+            workbook.close()
+            return None, None, {}
 
-    normalized_actual = normalize_text(
-        actual
-    )
+        sheet = workbook[SHEET_NAME]
+        Czech_data = {}
 
-    for expected in czech_values:
-
-        if normalized_actual == normalize_text(
-            expected
+        # Range B:E returns four values: row[0] is B, row[3] is E.
+        for row in sheet.iter_rows(
+            min_row=1,
+            min_col=ENGLISH_COLUMN,
+            max_col=CZECH_COLUMN,
+            values_only=True
         ):
+            if len(row) < (CZECH_COLUMN - ENGLISH_COLUMN + 1):
+                continue
 
-            test.compare(
-                normalized_actual,
-                normalize_text(expected),
-                description
-            )
+            english_value = row[0]
+            Czech_value = row[CZECH_COLUMN - ENGLISH_COLUMN]
 
-            return
+            if english_value is None or Czech_value is None:
+                continue
+
+            english_key = normalize(english_value)
+            Czech_text = str(Czech_value).strip()
+
+            if not english_key or not Czech_text:
+                continue
+
+            if english_key not in Czech_data:
+                Czech_data[english_key] = []
+            if Czech_text not in Czech_data[english_key]:
+                Czech_data[english_key].append(Czech_text)
+
+        if not Czech_data:
+            test.fail("No English/Czech translations loaded. Check worksheet and columns B/E.")
+            workbook.close()
+            return None, None, {}
+
+        return workbook, sheet, Czech_data
+
+    except Exception as e:
+        if workbook is not None:
+            try:
+                workbook.close()
+            except Exception:
+                pass
+        test.fail("Unable to load Czech localization Excel: " + str(e))
+        return None, None, {}
+
+
+def get_Czech_text(Czech_data, english_text):
+    key = normalize(english_text)
+    values = Czech_data.get(key, [])
+
+    if isinstance(values, list):
+        for value in values:
+            if value:
+                return value
+        return ""
+    return str(values) if values else ""
+
+
+def verify_text(Czech_data, object_name, english_text):
+    try:
+        obj = waitForObjectExists(object_name, 10000)
+        actual_value = getattr(obj, "text", "")
+        actual_text = "" if actual_value is None else str(actual_value).strip()
+    except Exception as e:
+        test.fail(
+            "Unable to read application object: " + str(object_name)
+            + " | Error: " + str(e)
+        )
+        return False
+
+    expected_text = get_Czech_text(Czech_data, english_text)
+    if not expected_text:
+        test.fail(
+            "English text not found in Excel Column B, or Czech translation "
+            "is empty in Column E: " + str(english_text)
+        )
+        return False
+
+    actual_normalized = normalize(actual_text)
+    expected_normalized = normalize(expected_text)
+
+    if actual_normalized == expected_normalized:
+        test.compare(
+            actual_normalized,
+            expected_normalized,
+            "Czech text verification: " + str(english_text) + " -> " + expected_text
+        )
+        return True
 
     test.fail(
-        description
-        + " | Expected: "
-        + " / ".join(czech_values)
-        + " | Actual: "
-        + actual
+        "Czech text mismatch for: " + str(english_text)
+        + " | Actual: " + actual_text
+        + " | Expected: " + expected_text
     )
-
-
-
+    return False
 
 
 def main():
-
-   
-  
-
-    try:
-
-        workbook = openpyxl.load_workbook(
-            EXCEL_FILE,
-            data_only=True
-        )
-
-        if "Sheet1" in workbook.sheetnames:
-            sheet = workbook["Sheet1"]
-        else:
-            sheet = workbook.active
-
-    except Exception as e:
-
-        test.fail(
-            "Unable to load Gemini Strings Excel: "
-            + str(e)
-        )
-
+    workbook, sheet, Czech_data = load_Czech_excel(EXCEL_PATH)
+    if workbook is None or sheet is None or not Czech_data:
         return
 
+    try:
+        clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
+        clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
+        clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
+        clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
+        snooze(6)
 
-
-
-    snooze(2)
-
-    waitForObject(
-        names.numpad_pushButton_8_NumpadButton,
-        30000
-    )
-
-    clickButton(
-        waitForObject(
-            names.numpad_pushButton_8_NumpadButton
-        )
-    )
-
-    snooze(1)
-
-    clickButton(
-        waitForObject(
-            names.numpad_pushButton_8_NumpadButton
-        )
-    )
-
-    snooze(1)
-
-    clickButton(
-        waitForObject(
-            names.numpad_pushButton_8_NumpadButton
-        )
-    )
-
-    snooze(1)
-
-    clickButton(
-        waitForObject(
-            names.numpad_pushButton_8_NumpadButton
-        )
-    )
-
-    snooze(2)
-
-    clickButton(
-        waitForObject(
-            names.mainFrame_okButton_QPushButton
-        )
-    )
-
-    snooze(6)
-
-
-
-    clickButton(
-        waitForObject(
-            names.homeScreen_settingsButton_QPushButton
-        )
-    )
-
-    snooze(2)
-
-    clickTab(
-        waitForObject(
-            names.settingsScreen_tbSystemInfo_TabWidget
-        ),
-        "INFO"
-    )
-
-    snooze(2)
-
-    clickButton(
-        waitForObject(
+        clickButton(waitForObject(names.mainFrame_okButton_QPushButton))
+        clickButton(waitForObject(names.homeScreen_settingsButton_QPushButton))
+        clickTab(waitForObject(names.settingsScreen_tbSystemInfo_TabWidget), "INFO")
+        clickButton(waitForObject(
             names.gbSystemInformation_pbLanguageSettingsUpdate_QPushButton
+        ))
+        clickButton(waitForObject(names.languagesFrame_pbCzech_QPushButton))
+        clickButton(waitForObject(names.buttonsFrame_acceptButton_QPushButton))
+        clickButton(waitForObject(names.settingsScreen_pbBack_QPushButton))
+
+        clickButton(waitForObject(names.homeScreen_pbSoftTissueQuickStart_QToolButton))
+        mouseClick(
+            waitForObjectItem(
+                names.tabLeftMainPresets_leftPresetsView_PresetListView, "_1"
+            ),
+            305, 35, Qt.NoModifier, Qt.LeftButton
         )
-    )
-
-    snooze(2)
-
-    clickButton(
-        waitForObject(
-            names.languagesFrame_pbCzech_QPushButton
+        mouseClick(
+            waitForObjectItem(
+                names.tabRightMainPresets_rightPresetsView_PresetListView, "_1"
+            ),
+            299, 49, Qt.NoModifier, Qt.LeftButton
         )
-    )
+        clickButton(waitForObject(names.quickStartScreen_pbContinue_QPushButton))
+        clickButton(waitForObject(names.mainFrame_okButton_QPushButton_2))
 
-    snooze(2)
-
-    clickButton(
-        waitForObject(
-            names.buttonsFrame_acceptButton_QPushButton
+        mouseClick(
+            waitForObject(names.peakPowerButton_nameLabel_QLabel),
+            34, 34, Qt.NoModifier, Qt.LeftButton
         )
-    )
+        snooze(2)
 
-    snooze(2)
+        verify_text(Czech_data, names.centralWidget_lbTitle_QLabel, "SELECT PEAK POWER")
+        verify_text(Czech_data, names.centralWidget_pw500_QPushButton, "High")
+        verify_text(Czech_data, names.centralWidget_pw250_QPushButton, "Medium")
+        verify_text(Czech_data, names.centralWidget_pw125_QPushButton, "Low")
+        verify_text(Czech_data, names.buttonsFrame_rejectButton_QPushButton, "CANCEL")
 
-
-
-
-    clickButton(
-        waitForObject(
-            names.buttonsBar_homeButton_QPushButton
+        mouseClick(
+            waitForObject(names.centralWidget_mainWidget_QWidget),
+            460, 549, Qt.NoModifier, Qt.LeftButton
         )
-    )
-
-    snooze(6)
-
-
-
-    clickButton(
-        waitForObject(
-            names.homeScreen_pbSoftTissueQuickStart_QToolButton
-        )
-    )
-
-    snooze(3)
-
-    mouseClick(
-        waitForObjectItem(
-            names.tabLeftMainPresets_leftPresetsView_PresetListView,
-            "_1"
-        ),
-        369,
-        57,
-        Qt.NoModifier,
-        Qt.LeftButton
-    )
-
-    snooze(2)
-
-    mouseClick(
-        waitForObjectItem(
-            names.tabRightMainPresets_rightPresetsView_PresetListView,
-            "_1"
-        ),
-        206,
-        54,
-        Qt.NoModifier,
-        Qt.LeftButton
-    )
-
-    snooze(2)
-
-    clickButton(
-        waitForObject(
-            names.quickStartScreen_pbContinue_QPushButton
-        )
-    )
-
-    snooze(3)
-
-    clickButton(
-        waitForObject(
-            names.mainFrame_okButton_QPushButton_2
-        )
-    )
-
-    snooze(6)
-
-
-
-
-    mouseClick(
-        waitForObject(
-            names.modeButton_nameLabel_QLabel
-        ),
-        77,
-        33,
-        Qt.NoModifier,
-        Qt.LeftButton
-    )
-
-    snooze(3)
-
-    clickButton(
-        waitForObject(
-            names.centralWidget_CancelButton_QPushButton_3
-        )
-    )
-
-    snooze(3)
-
-
-
-
-    mouseClick(
-        waitForObject(
-            names.peakPowerButton_nameLabel_QLabel
-        ),
-        46,
-        29,
-        Qt.NoModifier,
-        Qt.LeftButton
-    )
-
-    snooze(2)
-
-    verify_text(
-        bulgarian_data,
-        names.centralWidget_lbTitle_QLabel,
-        "SELECT PEAK POWER"
-    )
-
-    snooze(6)
-
-    verify_text(
-        bulgarian_data,
-        names.centralWidget_pw500_QPushButton,
-        "High"
-    )
-
-    snooze(6)
-
-    verify_text(
-        bulgarian_data,
-        names.centralWidget_pw250_QPushButton,
-        "Medium"
-    )
-
-    snooze(6)
-
-    verify_text(
-        bulgarian_data,
-        names.centralWidget_pw125_QPushButton,
-        "Low"
-    )
-
-    snooze(6)
-
-    verify_text(
-        bulgarian_data,
-        names.buttonsFrame_rejectButton_QPushButton,
-        "CANCEL"
-    )
-
-
-
-    # verify_text(
-    #     sheet,
-    #     names.centralWidget_lbTitle_QLabel,
-    #     "SELECT PEAK POWER",
-    #     "Peak Power Title"
-    # )
-    #
-    # verify_text(
-    #     sheet,
-    #     names.centralWidget_pw500_QPushButton,
-    #     "500",
-    #     "Peak Power High"
-    # )
-    #
-    # verify_text(
-    #     sheet,
-    #     names.centralWidget_pw250_QPushButton,
-    #     "250",
-    #     "Peak Power Medium"
-    # )
-    #
-    # verify_text(
-    #     sheet,
-    #     names.centralWidget_pw125_QPushButton,
-    #     "125",
-    #     "Peak Power Low"
-    # )
-    #
-    # verify_text(
-    #     sheet,
-    #     names.buttonsFrame_rejectButton_QPushButton,
-    #     "CANCEL",
-    #     "Peak Power Cancel"
-    # )
-
-
-    clickButton(
-        waitForObject(
-            names.buttonsFrame_rejectButton_QPushButton
-        )
-    )
-
-    snooze(3)
-
-    clickButton(
-        waitForObject(
-            names.buttonsBar_homeButton_QPushButton_2
-        )
-    )
-
-    snooze(6)
-
-
-
-
-    clickButton(
-        waitForObject(
-            names.homeScreen_pbSoftTissueAssistant_QToolButton
-        )
-    )
-
-    snooze(3)
-
-    clickButton(
-        waitForObject(
-            names.gbSoftTissueProcedures_pbIncision_QPushButton
-        )
-    )
-
-    snooze(3)
-
-    
-
-    clickButton(
-        waitForObject(
-            names.softTissueAssistantModeScreen_pbContinue_QPushButton
-        )
-    )
-
-    snooze(6)
-
-
-
-
-    clickButton(
-        waitForObject(
-            names.treatmentCharacteristicsBar_pbEdit_QPushButton
-        )
-    )
-
-    snooze(6)
-
-
-
-
-    verify_text(
-        sheet,
-        names.centralWidget_titleLabel_QLabel,
-        "SOFT TISSUE CHARACTERISTICS",
-        "Soft Tissue Characteristics Title"
-    )
-
-    verify_text(
-        sheet,
-        names.centralWidget_titleLabel_QLabel_2,
-        "PROCEDURE",
-        "Procedure Label"
-    )
-
-    verify_text(
-        sheet,
-        names.centralWidget_valueLabel_QLabel,
-        "INCISION",
-        "Procedure Value"
-    )
-
-    verify_text(
-        sheet,
-        names.centralWidget_rejectButton_QPushButton,
-        "EDIT",
-        "Edit Button"
-    )
-
-    verify_text(
-        sheet,
-        names.centralWidget_acceptButton_QPushButton,
-        "ACCEPT",
-        "Accept Button"
-    )
-
-
-   
-
-
-
-    workbook.close()
+        clickButton(waitForObject(names.buttonsFrame_rejectButton_QPushButton))
+        clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_2))
+        clickButton(waitForObject(names.homeScreen_pbSoftTissueAssistant_QToolButton))
+        clickButton(waitForObject(names.gbSoftTissueProcedures_pbIncision_QPushButton))
+        clickButton(waitForObject(names.softTissueAssistantModeScreen_pbContinue_QPushButton))
+        clickButton(waitForObject(names.treatmentCharacteristicsBar_pbEdit_QPushButton))
+        snooze(2)
+
+        verify_text(Czech_data, names.centralWidget_titleLabel_QLabel, "SOFT TISSUE CHARACTERISTICS")
+        verify_text(Czech_data, names.centralWidget_titleLabel_QLabel_2, "PROCEDURE")
+        verify_text(Czech_data, names.centralWidget_valueLabel_QLabel, "Incision")
+        verify_text(Czech_data, names.centralWidget_rejectButton_QPushButton, "EDIT")
+
+       
+        verify_text(Czech_data, names.centralWidget_acceptButton_QPushButton, "OK")
+
+    finally:
+        workbook.close()

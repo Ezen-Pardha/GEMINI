@@ -520,3 +520,5 @@ centralWidget_valueLabel_QLabel_2 = {"container": centralWidget_QFrame, "name": 
 centralWidget_titleLabel_QLabel_4 = {"container": centralWidget_QFrame, "name": "titleLabel", "occurrence": 4, "type": "QLabel", "visible": 1}
 centralWidget_descriptionLabel_QLabel = {"container": centralWidget_QFrame, "name": "descriptionLabel", "occurrence": 3, "type": "QLabel", "visible": 1}
 centralWidget_valueLabel_QLabel_3 = {"container": centralWidget_QFrame, "name": "valueLabel", "occurrence": 3, "type": "QLabel", "visible": 1}
+centralWidget_TitleLabel_QLabel_2 = {"container": centralWidget_QFrame_2, "name": "TitleLabel", "type": "QLabel", "visible": 1}
+centralWidget_MessageLabel_QLabel_2 = {"container": centralWidget_QFrame_2, "name": "MessageLabel", "type": "QLabel", "visible": 1}

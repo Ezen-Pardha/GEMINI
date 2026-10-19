@@ -1,342 +1,193 @@
-
 # -*- coding: utf-8 -*-
 
 import names
-import openpyxl
 import re
+import unicodedata
 from openpyxl import load_workbook
+import os
 
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
 
-
-EXCEL_PATH = ("/home/ezen/Test_Automation_Gemini/Localisation/suite_GFL_Czech/tst_GEM-LOC-CZECH-PeakPower-SoftTissueCharacters/testdata/Gemini strings.xlsx")
-
-
-# Gemini Strings:
-# Column B = English
-# Column M = Czech
+# EXCEL_PATH = (
+#     "/home/ezen/Test_Automation_Gemini/Localisation/"
+#     "suite_GFL_Czech/tst_GEM-LOC-Czech-PeakPower-SoftTissueCharacters/"
+#     "testdata/Gemini Split strings.xlsx"
+# )
 
 ENGLISH_COLUMN = 2
-CZECH_COLUMN = 13
-
-
-
+Czech_COLUMN = 5
 
 workbook = None
 sheet = None
-
-
+Czech_strings = {}
 
 
 def get_object_text(obj):
-
-
-    try:
-        value = obj.text
-
-        if value is not None:
-            value = str(value)
-
-            if value.strip():
-                return value
-
-    except:
-        pass
-
-
- 
-
-    try:
-        value = obj.title
-
-        if value is not None:
-            value = str(value)
-
-            if value.strip():
-                return value
-
-    except:
-        pass
-
-
-
-    try:
-        value = obj.windowTitle
-
-        if value is not None:
-            value = str(value)
-
-            if value.strip():
-                return value
-
-    except:
-        pass
-
-
- 
-
-    try:
-        value = obj.accessibleName
-
-        if value is not None:
-            value = str(value)
-
-            if value.strip():
-                return value
-
-    except:
-        pass
-
-
+    for attribute in ("text", "title", "windowTitle", "accessibleName"):
+        try:
+            value = getattr(obj, attribute)
+            if value is not None:
+                value = str(value)
+                if value.strip():
+                    return value
+        except Exception:
+            pass
     return ""
 
 
-
-
-def normalize_text(text):
-
-    if text is None:
+def normalize_text(value):
+    if value is None:
         return ""
 
-    text = str(text)
+    text = str(value)
 
+    text = re.sub(r"<[^>]*>", " ", text)
 
+    text = text.replace("\u00A0", " ")
+    text = text.replace("\u2007", " ")
+    text = text.replace("\u202F", " ")
 
+    text = re.sub(r"[\r\n\t]+", " ", text)
 
-    text = re.sub(
-        r"<[^>]*>",
-        " ",
-        text
-    )
-
-
- 
-
-    text = text.replace(
-        "\u00A0",
-        " "
-    )
-
-    text = text.replace(
-        "\u2007",
-        " "
-    )
-
-    text = text.replace(
-        "\u202F",
-        " "
-    )
-
-
-
-
-    text = re.sub(
-        r"[\r\n\t]+",
-        " ",
-        text
-    )
-
-
- 
-
-    text = text.replace(
-        "™",
-        ""
-    )
-
-    text = text.replace(
-        "®",
-        ""
-    )
-
-    text = text.replace(
-        "©",
-        ""
-    )
-
-
- 
+    text = text.replace("™", "")
+    text = text.replace("®", "")
+    text = text.replace("©", "")
 
     try:
-        import unicodedata
-
-        text = unicodedata.normalize(
-            "NFKC",
-            text
-        )
-
-    except:
+        text = unicodedata.normalize("NFKC", text)
+    except Exception:
         pass
 
-
-
-
-    text = re.sub(
-        r"\s+",
-        " ",
-        text
-    )
-
-
-   
-
-    text = re.sub(
-        r"\s+([.,;:!?])",
-        r"\1",
-        text
-    )
-
-
-  
+    text = re.sub(r"\s+", " ", text)
+    text = re.sub(r"\s+([.,;:!?])", r"\1", text)
 
     return text.strip().casefold()
 
 
+def comparison_key(value):
+    """
+    Normalize the text and concatenate it by removing all whitespace.
+
+    Examples:
+        'GEMIDDELDE VERMOGEN' -> 'gemiddeldevermogen'
+        'GEMIDDELDE\\nVERMOGEN' -> 'gemiddeldevermogen'
+        'GEMIDDELDEVERMOGEN' -> 'gemiddeldevermogen'
+    """
+    return re.sub(r"\s+", "", normalize_text(value))
 
 
-def find_czech_text(actual_text):
+def load_Czech_strings():
+    global workbook
+    global sheet
+    global Czech_strings
 
-    if sheet is None:
-        return None
-
-    actual_normalized = normalize_text(
-        actual_text
-    )
-
-    if not actual_normalized:
-        return None
-
-
-   
-
-    for row in sheet.iter_rows(
-        min_row=2,
-        min_col=CZECH_COLUMN,
-        max_col=CZECH_COLUMN
-    ):
-
-        czech_value = row[0].value
-
-        if czech_value is None:
-            continue
-
-        excel_normalized = normalize_text(
-            czech_value
+    try:
+        workbook = load_workbook(
+            EXCEL_PATH,
+            read_only=True,
+            data_only=True
         )
+        sheet = workbook["Treatment Modes"]
 
-        if not excel_normalized:
-            continue
+        Czech_strings = {}
+
+        for row in sheet.iter_rows(
+            min_row=2,
+            min_col=Czech_COLUMN,
+            max_col=Czech_COLUMN
+        ):
+            value = row[0].value
+
+            if value is None:
+                continue
+
+            key = comparison_key(value)
+
+            if key and key not in Czech_strings:
+                Czech_strings[key] = value
+
+        return True
+
+    except Exception as e:
+        test.fail(
+            "Failed to load Gemini Split strings Excel / Treatment Modes: "
+            + str(e)
+        )
+        return False
 
 
-        
+def find_Czech_text(actual_text):
+    if not actual_text:
+        return None
 
-        if actual_normalized == excel_normalized:
-            return czech_value
+    key = comparison_key(actual_text)
 
+    if not key:
+        return None
 
-    return None
-
-
+    return Czech_strings.get(key)
 
 
 def verify_text(object_name, description):
-
-    # Wait before every verification
     snooze(6)
 
-
-  
-
     try:
-        obj = waitForObject(
-            object_name
-        )
-
+        obj = waitForObject(object_name)
     except Exception as e:
-
         test.fail(
             description
             + " | Object not found: "
             + str(e)
         )
-
         return False
 
-
- 
-
-    actual_text = get_object_text(
-        obj
-    )
-
+    actual_text = get_object_text(obj)
 
     if not actual_text:
-
         test.fail(
             description
             + " | UI text is empty"
         )
-
         return False
 
+    expected_text = find_Czech_text(actual_text)
 
-   
-
-    matched_czech = find_czech_text(
-        actual_text
-    )
-
-
-   
-
-    if matched_czech is not None:
-
-        actual_normalized = normalize_text(
-            actual_text
-        )
-
-        expected_normalized = normalize_text(
-            matched_czech
-        )
-
-        test.compare(
-            actual_normalized,
-            expected_normalized,
+    if expected_text is None:
+        test.fail(
             description
+            + " | Czech text not found in Excel: "
+            + str(actual_text)
         )
+        return False
 
-        return True
+    actual_key = comparison_key(actual_text)
+    expected_key = comparison_key(expected_text)
 
-
-   
-
-    test.fail(
+    test.compare(
+        actual_key,
+        expected_key,
         description
-        + " | Czech text not found in Column M: "
-        + str(actual_text)
     )
 
-    return False
-
-
+    return True
 
 
 def verify_group(group_name):
-
     for object_name, description in verification_objects[group_name]:
-
-        verify_text(
-            object_name,
-            description
-        )
-
-
+        verify_text(object_name, description)
 
 
 def verify_popup(group_name):
-
-    verify_group(
-        group_name
-    )
+    verify_group(group_name)
 
     snooze(6)
 
@@ -347,184 +198,134 @@ def verify_popup(group_name):
     )
 
 
-
-
 verification_objects = {
-
-
-
     "main": [
-
         (
             names.centralWidget_lbTitle_QLabel,
             "Mode Selection Title"
         ),
-
         (
             names.centralWidget_label_2_QLabel,
             "Standard Mode Label"
         ),
-
         (
             names.centralWidget_Square_QPushButton,
             "Standard Pulse Button"
         ),
-
         (
             names.centralWidget_CW_QPushButton,
             "Continuous Wave Button"
         ),
-
         (
             names.centralWidget_MRP_QPushButton,
             "MRP Button"
         ),
-
         (
             names.centralWidget_label_QLabel,
             "Expert Mode Label"
         ),
-
         (
             names.centralWidget_Fragmentation_QPushButton,
             "Fragmentation Pulse Button"
         ),
-
         (
             names.centralWidget_Cleaning_QPushButton,
             "Cleaning Pulse Button"
         ),
-
         (
             names.centralWidget_Enucleation_QPushButton,
             "Enucleation Pulse Button"
         ),
-
         (
             names.buttonsFrame_rejectButton_QPushButton,
             "Cancel Button"
         )
     ],
 
-
-   
-
     "standard_pulse": [
-
         (
             names.centralWidget_TitleLabel_QLabel_3,
             "Standard Pulse Popup Title"
         ),
-
         (
             names.centralWidget_MessageLabel_QLabel_3,
             "Standard Pulse Popup Message"
         ),
-
         (
             names.centralWidget_OKButton_QPushButton,
             "Standard Pulse Popup OK Button"
         )
     ],
 
-
-  
-
     "cw": [
-
         (
             names.centralWidget_TitleLabel_QLabel_3,
             "Continuous Wave Popup Title"
         ),
-
         (
             names.centralWidget_MessageLabel_QLabel_3,
             "Continuous Wave Popup Message"
         ),
-
         (
             names.centralWidget_OKButton_QPushButton,
             "Continuous Wave Popup OK Button"
         )
     ],
 
-
-  
-
     "mrp": [
-
         (
             names.centralWidget_TitleLabel_QLabel_3,
             "MRP Popup Title"
         ),
-
         (
             names.centralWidget_MessageLabel_QLabel_3,
             "MRP Popup Message"
         ),
-
         (
             names.centralWidget_OKButton_QPushButton,
             "MRP Popup OK Button"
         )
     ],
 
-
-
     "fragmentation": [
-
         (
             names.centralWidget_TitleLabel_QLabel_3,
             "Fragmentation Popup Title"
         ),
-
         (
             names.centralWidget_MessageLabel_QLabel_3,
             "Fragmentation Popup Message"
         ),
-
         (
             names.centralWidget_OKButton_QPushButton,
             "Fragmentation Popup OK Button"
         )
     ],
 
-
-   
-
     "cleaning": [
-
         (
             names.centralWidget_TitleLabel_QLabel_3,
             "Cleaning Popup Title"
         ),
-
         (
             names.centralWidget_MessageLabel_QLabel_3,
             "Cleaning Popup Message"
         ),
-
         (
             names.centralWidget_OKButton_QPushButton,
             "Cleaning Popup OK Button"
         )
     ],
 
-
- 
-
     "enucleation": [
-
         (
             names.centralWidget_TitleLabel_QLabel_3,
             "Enucleation Popup Title"
         ),
-
         (
             names.centralWidget_MessageLabel_QLabel_3,
             "Enucleation Popup Message"
         ),
-
         (
             names.centralWidget_OKButton_QPushButton,
             "Enucleation Popup OK Button"
@@ -533,36 +334,11 @@ verification_objects = {
 }
 
 
-
-
 def main():
-
     global workbook
-    global sheet
 
-
-  
-
-    try:
-
-        workbook = load_workbook(
-            EXCEL_PATH,
-            data_only=True
-        )
-
-        sheet = workbook.active
-
-    except Exception as e:
-
-        test.fail(
-            "Failed to load Gemini Strings Excel: "
-            + str(e)
-        )
-
+    if not load_Czech_strings():
         return
-
-
-   
 
     doubleClick(
         waitForObject(
@@ -574,7 +350,7 @@ def main():
         Qt.LeftButton
     )
 
-    snooze(6)
+    snooze(2)
 
     clickButton(
         waitForObject(
@@ -582,7 +358,7 @@ def main():
         )
     )
 
-    snooze(6)
+    snooze(2)
 
     clickButton(
         waitForObject(
@@ -590,7 +366,7 @@ def main():
         )
     )
 
-    snooze(6)
+    snooze(2)
 
     clickButton(
         waitForObject(
@@ -598,10 +374,7 @@ def main():
         )
     )
 
-
-   
-
-    snooze(6)
+    snooze(2)
 
     clickButton(
         waitForObject(
@@ -609,10 +382,7 @@ def main():
         )
     )
 
-
-    
-
-    snooze(6)
+    snooze(2)
 
     clickTab(
         waitForObject(
@@ -621,11 +391,7 @@ def main():
         "INFO"
     )
 
-
-   
-   
-
-    snooze(6)
+    snooze(2)
 
     clickButton(
         waitForObject(
@@ -633,10 +399,7 @@ def main():
         )
     )
 
-
-  
-
-    snooze(6)
+    snooze(2)
 
     clickButton(
         waitForObject(
@@ -644,20 +407,13 @@ def main():
         )
     )
 
-
-   
-
-    snooze(6)
-
     clickButton(
         waitForObject(
             names.buttonsFrame_acceptButton_QPushButton
         )
     )
 
-  
-
-    snooze(6)
+    snooze(2)
 
     clickButton(
         waitForObject(
@@ -665,8 +421,7 @@ def main():
         )
     )
 
-
-    snooze(6)
+    snooze(2)
 
     clickButton(
         waitForObject(
@@ -674,8 +429,7 @@ def main():
         )
     )
 
-
-    snooze(6)
+    snooze(2)
 
     mouseClick(
         waitForObject(
@@ -687,13 +441,9 @@ def main():
         Qt.LeftButton
     )
 
+    verify_group("main")
 
-    verify_group(
-        "main"
-    )
-
-
-    snooze(6)
+    snooze(2)
 
     clickButton(
         waitForObject(
@@ -701,13 +451,9 @@ def main():
         )
     )
 
-    verify_popup(
-        "standard_pulse"
-    )
+    verify_popup("standard_pulse")
 
-
-   
-    snooze(6)
+    snooze(2)
 
     clickButton(
         waitForObject(
@@ -715,14 +461,9 @@ def main():
         )
     )
 
-    verify_popup(
-        "cw"
-    )
+    verify_popup("cw")
 
-
-   
-
-    snooze(6)
+    snooze(2)
 
     clickButton(
         waitForObject(
@@ -730,14 +471,9 @@ def main():
         )
     )
 
-    verify_popup(
-        "mrp"
-    )
+    verify_popup("mrp")
 
-
-  
-
-    snooze(6)
+    snooze(2)
 
     clickButton(
         waitForObject(
@@ -745,14 +481,9 @@ def main():
         )
     )
 
-    verify_popup(
-        "fragmentation"
-    )
+    verify_popup("fragmentation")
 
-
-   
-
-    snooze(6)
+    snooze(2)
 
     clickButton(
         waitForObject(
@@ -760,14 +491,9 @@ def main():
         )
     )
 
-    verify_popup(
-        "cleaning"
-    )
+    verify_popup("cleaning")
 
-
-    
-
-    snooze(6)
+    snooze(2)
 
     clickButton(
         waitForObject(
@@ -775,13 +501,11 @@ def main():
         )
     )
 
-    verify_popup(
-        "enucleation"
-    )
+    verify_popup("enucleation")
 
+    snooze(2)
 
-
-    snooze(6)
+    # test.vp("RegularPulse")
 
     clickButton(
         waitForObject(
@@ -789,19 +513,9 @@ def main():
         )
     )
 
-
-   
-
-    snooze(6)
-
-    # test.vp(
-    #     "Regularpulsemodes"
-    # )
-
-
-    
+    snooze(2)
 
     try:
         workbook.close()
-    except:
+    except Exception:
         pass

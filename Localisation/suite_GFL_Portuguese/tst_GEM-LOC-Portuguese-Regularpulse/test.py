@@ -4,14 +4,18 @@ import names
 import re
 import unicodedata
 from openpyxl import load_workbook
-
-
-EXCEL_PATH = (
-    "/home/ezen/Test_Automation_Gemini/Localisation/"
-    "suite_GFL_Portuguese/"
-    "tst_GEM-LOC-Portuguese-PeakPower-SoftTissueCharacters/"
-    "testdata/Gemini Split strings.xlsx"
+import os 
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
 )
+
 
 ENGLISH_COLUMN = 2
 Portuguese_COLUMN = 20
@@ -296,7 +300,7 @@ def find_Portuguese_text(actual_text):
 
 def verify_text(object_name, description):
 
-    snooze(6)
+    snooze(2)
 
     try:
 
@@ -394,7 +398,7 @@ def verify_popup(group_name):
         group_name
     )
 
-    snooze(6)
+    snooze(2)
 
     clickButton(
         waitForObject(
@@ -588,7 +592,7 @@ def main():
             Qt.LeftButton
         )
 
-        snooze(6)
+        snooze(2)
 
         clickButton(
             waitForObject(
@@ -596,7 +600,7 @@ def main():
             )
         )
 
-        snooze(6)
+        snooze(2)
 
         clickButton(
             waitForObject(
@@ -604,7 +608,7 @@ def main():
             )
         )
 
-        snooze(6)
+        snooze(2)
 
         clickButton(
             waitForObject(
@@ -612,7 +616,7 @@ def main():
             )
         )
 
-        snooze(6)
+        snooze(2)
 
         clickButton(
             waitForObject(
@@ -620,7 +624,7 @@ def main():
             )
         )
 
-        snooze(6)
+        snooze(2)
 
         clickTab(
             waitForObject(
@@ -629,7 +633,7 @@ def main():
             "INFO"
         )
 
-        snooze(6)
+        snooze(2)
 
         clickButton(
             waitForObject(
@@ -637,7 +641,7 @@ def main():
             )
         )
 
-        snooze(6)
+        snooze(2)
 
         clickButton(
             waitForObject(
@@ -651,7 +655,7 @@ def main():
             )
         )
 
-        snooze(6)
+        snooze(2)
 
         clickButton(
             waitForObject(
@@ -659,7 +663,7 @@ def main():
             )
         )
 
-        snooze(6)
+        snooze(2)
 
         clickButton(
             waitForObject(
@@ -667,7 +671,7 @@ def main():
             )
         )
 
-        snooze(6)
+        snooze(2)
 
         mouseClick(
             waitForObject(
@@ -679,13 +683,13 @@ def main():
             Qt.LeftButton
         )
 
-        snooze(6)
+        snooze(2)
 
         verify_group(
             "main"
         )
 
-        snooze(6)
+        snooze(2)
 
         clickButton(
             waitForObject(
@@ -697,7 +701,7 @@ def main():
             "standard_pulse"
         )
 
-        snooze(6)
+        snooze(2)
 
         clickButton(
             waitForObject(
@@ -709,7 +713,7 @@ def main():
             "cw"
         )
 
-        snooze(6)
+        snooze(2)
 
         clickButton(
             waitForObject(
@@ -721,7 +725,7 @@ def main():
             "mrp"
         )
 
-        snooze(6)
+        snooze(2)
 
         clickButton(
             waitForObject(
@@ -733,7 +737,7 @@ def main():
             "fragmentation"
         )
 
-        snooze(6)
+        snooze(2)
 
         clickButton(
             waitForObject(
@@ -745,7 +749,7 @@ def main():
             "cleaning"
         )
 
-        snooze(6)
+        snooze(2)
 
         clickButton(
             waitForObject(
@@ -757,7 +761,7 @@ def main():
             "enucleation"
         )
 
-        snooze(6)
+        snooze(2)
 
         clickButton(
             waitForObject(
@@ -765,7 +769,7 @@ def main():
             )
         )
 
-        snooze(6)
+        snooze(2)
 
     except Exception as e:
 
