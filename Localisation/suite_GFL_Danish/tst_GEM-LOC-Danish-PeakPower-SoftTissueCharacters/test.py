@@ -5,11 +5,20 @@ import names
 import openpyxl
 import re
 import time
+import os
+
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
 
 
-# ---------------------------------------------------------
-# Normalize text for comparison
-# ---------------------------------------------------------
 def normalize(text):
     if text is None:
         return ""
@@ -27,21 +36,15 @@ def normalize(text):
     return text.strip().casefold()
 
 
-# ---------------------------------------------------------
-# Load Excel and create English -> Danish dictionary
-#
-# Excel:
-# Column B = English
-# Column F = Danish
-# ---------------------------------------------------------
-def load_danish_excel(excelpath):
+
+def load_danish_excel(EXCEL_PATh):
 
    
 
     start_time = time.time()
 
     workbook = openpyxl.load_workbook(
-        excelpath,
+        EXCEL_PATh,
         data_only=True,
         read_only=True
     )
@@ -61,8 +64,6 @@ def load_danish_excel(excelpath):
 
     sheet = workbook["Treatment Modes"]
 
-    # English Column B = 2
-    # Danish Column F = 6
     english_column = 2
     danish_column = 6
 
@@ -92,18 +93,15 @@ def load_danish_excel(excelpath):
 
     dictionary_time = time.time() - start_time
 
-    test.log(
-        "Excel data dictionary created in "
-        + str(round(dictionary_time, 2))
-        + " seconds"
-    )
+    # test.log(
+    #     "Excel data dictionary created in "
+    #     + str(round(dictionary_time, 2))
+    #     + " seconds"
+    # )
 
     return workbook, sheet, danish_data
 
 
-# ---------------------------------------------------------
-# Get Danish expected text using English text/key
-# ---------------------------------------------------------
 def get_danish_text(danish_data, english_text):
 
     key = normalize(english_text)
@@ -123,9 +121,6 @@ def get_danish_text(danish_data, english_text):
     return expected
 
 
-# ---------------------------------------------------------
-# Compare application text with Excel Danish text
-# ---------------------------------------------------------
 def verify_text(danish_data, object_name, english_text):
 
     actual_text = ""
@@ -155,12 +150,7 @@ def verify_text(danish_data, object_name, english_text):
 
     if actual_normalized == expected_normalized:
 
-        test.log(
-            "PASS - Text verified: "
-            + str(english_text)
-            + " -> "
-            + actual_text
-        )
+        
 
         test.compare(
             actual_normalized,
@@ -184,23 +174,16 @@ def verify_text(danish_data, object_name, english_text):
         return False
 
 
-# ---------------------------------------------------------
-# MAIN
-# ---------------------------------------------------------
+
 def main():
 
-    excelpath = (
+    EXCEL_PATh = (
         "/home/ezen/Test_Automation_Gemini/Localisation/"
         "suite_GFL_Danish/tst_GEM-LOC-Danish-PeakPower-SoftTissueCharacters/"
         "testdata/Gemini Split strings.xlsx"
     )
 
    
-
-
-    # -----------------------------------------------------
-    # Login
-    # -----------------------------------------------------
 
    
     clickButton(
@@ -236,9 +219,6 @@ def main():
     )
 
 
-    # -----------------------------------------------------
-    # Change language to Danish
-    # -----------------------------------------------------
 
     
 
@@ -282,9 +262,7 @@ def main():
     )
 
 
-    # -----------------------------------------------------
-    # Soft Tissue Quick Start
-    # -----------------------------------------------------
+  
 
     
     clickButton(
@@ -328,10 +306,7 @@ def main():
     )
 
 
-    # -----------------------------------------------------
-    # Peak Power
-    # -----------------------------------------------------
-
+ 
    
 
     mouseClick(
@@ -347,27 +322,14 @@ def main():
     snooze(2)
 
 
-    # -----------------------------------------------------
-    # NOW load Excel
-    #
-    # Excel loading happens only after application
-    # navigation reaches Peak Power.
-    # -----------------------------------------------------
+ 
 
     workbook, sheet, danish_data = load_danish_excel(
-        excelpath
+        EXCEL_PATh
     )
 
    
 
-    # -----------------------------------------------------
-    # Peak Power verification
-    #
-    # NO ROW NUMBER
-    # NO COLUMN NUMBER
-    #
-    # English text is used as lookup key.
-    # -----------------------------------------------------
 
     verify_text(
         danish_data,
@@ -393,6 +355,8 @@ def main():
         "Low"
     )
 
+    test.vp("Peak Power Screen")
+
     verify_text(
         danish_data,
         names.buttonsFrame_rejectButton_QPushButton,
@@ -400,10 +364,7 @@ def main():
     )
 
 
-    # -----------------------------------------------------
-    # Close Peak Power
-    # -----------------------------------------------------
-
+  
     
 
     mouseClick(
@@ -423,9 +384,6 @@ def main():
     )
 
 
-    # -----------------------------------------------------
-    # Soft Tissue Assistant
-    # -----------------------------------------------------
 
    
     clickButton(
@@ -462,15 +420,6 @@ def main():
     snooze(2)
 
 
-    # -----------------------------------------------------
-    # Soft Tissue Characteristics verification
-    #
-    # Again:
-    # NO ROW NUMBER
-    # NO COLUMN NUMBER
-    # -----------------------------------------------------
-
-    
     verify_text(
         danish_data,
         names.centralWidget_titleLabel_QLabel,
@@ -495,16 +444,15 @@ def main():
         "EDIT"
     )
 
+    
+
     verify_text(
         danish_data,
         names.centralWidget_acceptButton_QPushButton,
         "OK"
     )
+    test.vp("Soft Tissue Characteristics")
 
-
-    # -----------------------------------------------------
-    # Close Excel
-    # -----------------------------------------------------
 
     workbook.close()
 

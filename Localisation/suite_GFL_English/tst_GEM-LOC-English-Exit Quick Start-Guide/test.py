@@ -5,30 +5,32 @@ import names
 import openpyxl
 import re
 from openpyxl import load_workbook
+import os
 
-
-# =========================================================
-# Excel Configuration
-# =========================================================
-
-EXCEL_PATH = (
-    "/home/ezen/Test_Automation_Gemini/Localisation/"
-    "suite_GFL_English/"
-    "tst_GEM-LOC-English-PeakPower-SoftTissueCharacters/"
-    "testdata/Gemini Split strings.xlsx"
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
 )
 
-# Excel:
-# Column B = English
+# EXCEL_PATH = (
+#     "/home/ezen/Test_Automation_Gemini/Localisation/"
+#     "suite_GFL_English/"
+#     "tst_GEM-LOC-English-PeakPower-SoftTissueCharacters/"
+#     "testdata/Gemini Split strings.xlsx"
+# )
+
+
 
 ENGLISH_COLUMN = 2
 
 SHEET_NAME = "Soft tissue"
 
-
-# =========================================================
-# Normalize Text
-# =========================================================
 
 def normalize(text):
 
@@ -37,27 +39,15 @@ def normalize(text):
 
     text = str(text)
 
-    # -----------------------------------------------------
-    # Remove HTML tags
-    # -----------------------------------------------------
-
     text = re.sub(
         r"<[^>]+>",
         " ",
         text
     )
 
-    # -----------------------------------------------------
-    # Normalize spaces and new lines
-    # -----------------------------------------------------
-
     text = " ".join(
         text.split()
     )
-
-    # -----------------------------------------------------
-    # Normalize angle brackets
-    # -----------------------------------------------------
 
     text = re.sub(
         r"\s*<\s*",
@@ -73,10 +63,6 @@ def normalize(text):
 
     return text.strip().casefold()
 
-
-# =========================================================
-# Load Excel
-# =========================================================
 
 def load_excel():
 
@@ -118,15 +104,6 @@ def load_excel():
         return None, None
 
 
-# =========================================================
-# Find English Value in Column B
-#
-# The lookup text is used to locate the English value
-# in Excel.
-#
-# No Excel row numbers are hard-coded.
-# =========================================================
-
 def get_english_value(
     sheet,
     english_text
@@ -138,10 +115,6 @@ def get_english_value(
 
     if not expected_english:
         return None
-
-    # -----------------------------------------------------
-    # Search complete English Column B
-    # -----------------------------------------------------
 
     for row in sheet.iter_rows(
         min_row=2,
@@ -161,10 +134,6 @@ def get_english_value(
         if not english_value:
             continue
 
-        # -------------------------------------------------
-        # Exact normalized match
-        # -------------------------------------------------
-
         if normalize(
             english_value
         ) == expected_english:
@@ -174,10 +143,6 @@ def get_english_value(
     return None
 
 
-# =========================================================
-# Verify Object Text Against English Excel
-# =========================================================
-
 def verify_text(
     sheet,
     object_name,
@@ -185,15 +150,7 @@ def verify_text(
     description
 ):
 
-    # -----------------------------------------------------
-    # Wait before every verification
-    # -----------------------------------------------------
-
     snooze(6)
-
-    # -----------------------------------------------------
-    # Get object
-    # -----------------------------------------------------
 
     try:
 
@@ -210,10 +167,6 @@ def verify_text(
         )
 
         return False
-
-    # -----------------------------------------------------
-    # Get actual UI text
-    # -----------------------------------------------------
 
     try:
 
@@ -237,10 +190,6 @@ def verify_text(
 
         return False
 
-    # -----------------------------------------------------
-    # UI text empty
-    # -----------------------------------------------------
-
     if not actual:
 
         test.fail(
@@ -250,18 +199,10 @@ def verify_text(
 
         return False
 
-    # -----------------------------------------------------
-    # Find English value in Excel Column B
-    # -----------------------------------------------------
-
     expected_value = get_english_value(
         sheet,
         english_text
     )
-
-    # -----------------------------------------------------
-    # English string not found
-    # -----------------------------------------------------
 
     if expected_value is None:
 
@@ -273,10 +214,6 @@ def verify_text(
 
         return False
 
-    # -----------------------------------------------------
-    # Normalize actual and expected
-    # -----------------------------------------------------
-
     actual_normalized = normalize(
         actual
     )
@@ -285,28 +222,20 @@ def verify_text(
         expected_value
     )
 
-    # -----------------------------------------------------
-    # Compare
-    # -----------------------------------------------------
-
     test.compare(
         actual_normalized,
         expected_normalized,
         description
     )
 
-    # -----------------------------------------------------
-    # Log result
-    # -----------------------------------------------------
-
     if actual_normalized == expected_normalized:
 
-        test.log(
-            description
-            + " | PASS"
-            + " | English: "
-            + expected_value
-        )
+        # test.log(
+        #     description
+        #     + " | PASS"
+        #     + " | English: "
+        #     + expected_value
+        # )
 
         return True
 
@@ -322,10 +251,6 @@ def verify_text(
 
         return False
 
-
-# =========================================================
-# Get Visible centralWidget
-# =========================================================
 
 def get_central_widget():
 
@@ -373,15 +298,7 @@ def get_central_widget():
         return None
 
 
-# =========================================================
-# Main
-# =========================================================
-
 def main():
-
-    # =====================================================
-    # LOAD EXCEL
-    # =====================================================
 
     workbook, sheet = load_excel()
 
@@ -389,10 +306,6 @@ def main():
 
         return
 
-
-    # =====================================================
-    # LOGIN
-    # =====================================================
 
     
 
@@ -435,22 +348,6 @@ def main():
     )
 
 
-    # =====================================================
-    # ENGLISH LANGUAGE
-    # =====================================================
-    #
-    # The application is already in English.
-    #
-    # No language settings are opened.
-    # No Denmark/Czech language button is clicked.
-    #
-    # =====================================================
-
-
-    # =====================================================
-    # SOFT TISSUE QUICK START
-    # =====================================================
-
     snooze(6)
 
     clickButton(
@@ -459,10 +356,6 @@ def main():
         )
     )
 
-
-    # =====================================================
-    # SELECT LEFT PRESET
-    # =====================================================
 
     snooze(6)
 
@@ -478,10 +371,6 @@ def main():
     )
 
 
-    # =====================================================
-    # SELECT RIGHT PRESET
-    # =====================================================
-
     snooze(6)
 
     mouseClick(
@@ -496,10 +385,6 @@ def main():
     )
 
 
-    # =====================================================
-    # MOVE SCREEN
-    # =====================================================
-
     snooze(6)
 
     sendEvent(
@@ -513,10 +398,6 @@ def main():
         292
     )
 
-
-    # =====================================================
-    # QUICK START CONTINUE
-    # =====================================================
 
     snooze(6)
 
@@ -535,10 +416,6 @@ def main():
     )
 
 
-    # =====================================================
-    # QUICK START EXIT POPUP
-    # =====================================================
-
     snooze(6)
 
     mouseClick(
@@ -552,10 +429,6 @@ def main():
     )
 
 
-    # =====================================================
-    # QUICK START EXIT TITLE
-    # =====================================================
-
     verify_text(
         sheet,
         names.centralWidget_TitleLabel_QLabel_2,
@@ -563,10 +436,6 @@ def main():
         "Quick Start Exit Title"
     )
 
-
-    # =====================================================
-    # QUICK START EXIT MESSAGE
-    # =====================================================
 
     verify_text(
         sheet,
@@ -576,21 +445,12 @@ def main():
     )
 
 
-    # =====================================================
-    # QUICK START CANCEL
-    # =====================================================
-
     verify_text(
         sheet,
         names.centralWidget_CancelButton_QPushButton_3,
         "CANCEL",
         "Quick Start Cancel Button"
     )
-
-
-    # =====================================================
-    # QUICK START CONFIRM
-    # =====================================================
 
     verify_text(
         sheet,
@@ -599,11 +459,6 @@ def main():
         "Quick Start Confirm Button"
     )
 
-
-    # =====================================================
-    # CONFIRM EXIT
-    # =====================================================
-
     snooze(6)
 
     clickButton(
@@ -611,11 +466,6 @@ def main():
             names.centralWidget_DisableButton_QPushButton_2
         )
     )
-
-
-    # =====================================================
-    # RETURN HOME
-    # =====================================================
 
     snooze(6)
 
@@ -626,10 +476,6 @@ def main():
     )
 
 
-    # =====================================================
-    # SOFT TISSUE ASSISTANT
-    # =====================================================
-
     snooze(6)
 
     clickButton(
@@ -639,10 +485,6 @@ def main():
     )
 
 
-    # =====================================================
-    # INCISION
-    # =====================================================
-
     snooze(6)
 
     clickButton(
@@ -650,11 +492,6 @@ def main():
             names.gbSoftTissueProcedures_pbIncision_QPushButton
         )
     )
-
-
-    # =====================================================
-    # CONTINUE
-    # =====================================================
 
     snooze(6)
 
@@ -664,10 +501,6 @@ def main():
         )
     )
 
-
-    # =====================================================
-    # GUIDED MODE EXIT
-    # =====================================================
 
     snooze(6)
 
@@ -683,11 +516,6 @@ def main():
         Qt.LeftButton
     )
 
-
-    # =====================================================
-    # GUIDED MODE EXIT TITLE
-    # =====================================================
-
     verify_text(
         sheet,
         names.centralWidget_TitleLabel_QLabel_2,
@@ -695,22 +523,12 @@ def main():
         "Guided Mode Exit Title"
     )
 
-
-    # =====================================================
-    # GUIDED MODE EXIT MESSAGE
-    # =====================================================
-
     verify_text(
         sheet,
         names.centralWidget_MessageLabel_QLabel_2,
         "Please confirm that you want to exit guided mode.",
         "Guided Mode Exit Message"
     )
-
-
-    # =====================================================
-    # GUIDED MODE CANCEL
-    # =====================================================
 
     verify_text(
         sheet,
@@ -720,10 +538,6 @@ def main():
     )
 
 
-    # =====================================================
-    # GUIDED MODE CONFIRM
-    # =====================================================
-
     verify_text(
         sheet,
         names.centralWidget_DisableButton_QPushButton_2,
@@ -732,10 +546,6 @@ def main():
     )
 
 
-    # =====================================================
-    # CLOSE GUIDED MODE POPUP
-    # =====================================================
-
     snooze(6)
 
     clickButton(
@@ -743,11 +553,6 @@ def main():
             names.centralWidget_DisableButton_QPushButton_2
         )
     )
-
-
-    # =====================================================
-    # CLOSE EXCEL
-    # =====================================================
 
     try:
 
@@ -758,6 +563,4 @@ def main():
         pass
 
 
-    test.log(
-        "English Soft Tissue localization verification completed"
-    )
+    

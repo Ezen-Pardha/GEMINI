@@ -5,17 +5,20 @@ import names
 import openpyxl
 import re
 from openpyxl import load_workbook
+import os 
 
-
-# ============================================================
-# EXCEL CONFIGURATION
-# ============================================================
-
-EXCEL_PATH = (
-    "/home/ezen/Test_Automation_Gemini/Localisation/"
-    "suite_GFL_English/tst_GEM-LOC-English-PeakPower-SoftTissueCharacters/"
-    "testdata/Gemini Split strings.xlsx"
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
 )
+
+
 
 # Gemini Split strings.xlsx
 # Column B = English
@@ -24,23 +27,11 @@ ENGLISH_COLUMN = 2
 SHEET_NAME = "Treatment Modes"
 
 
-# ============================================================
-# GLOBALS
-# ============================================================
-
 workbook = None
 sheet = None
 
 
-# ============================================================
-# GET OBJECT TEXT
-# ============================================================
-
 def get_object_text(obj):
-
-    # --------------------------------------------------------
-    # text
-    # --------------------------------------------------------
 
     try:
         value = obj.text
@@ -55,10 +46,6 @@ def get_object_text(obj):
         pass
 
 
-    # --------------------------------------------------------
-    # title
-    # --------------------------------------------------------
-
     try:
         value = obj.title
 
@@ -71,11 +58,6 @@ def get_object_text(obj):
     except:
         pass
 
-
-    # --------------------------------------------------------
-    # windowTitle
-    # --------------------------------------------------------
-
     try:
         value = obj.windowTitle
 
@@ -87,11 +69,6 @@ def get_object_text(obj):
 
     except:
         pass
-
-
-    # --------------------------------------------------------
-    # accessibleName
-    # --------------------------------------------------------
 
     try:
         value = obj.accessibleName
@@ -109,10 +86,6 @@ def get_object_text(obj):
     return ""
 
 
-# ============================================================
-# NORMALIZE TEXT
-# ============================================================
-
 def normalize_text(text):
 
     if text is None:
@@ -120,21 +93,12 @@ def normalize_text(text):
 
     text = str(text)
 
-
-    # --------------------------------------------------------
-    # Remove HTML/XML tags
-    # --------------------------------------------------------
-
     text = re.sub(
         r"<[^>]*>",
         " ",
         text
     )
 
-
-    # --------------------------------------------------------
-    # Normalize special spaces
-    # --------------------------------------------------------
 
     text = text.replace(
         "\u00A0",
@@ -151,21 +115,12 @@ def normalize_text(text):
         " "
     )
 
-
-    # --------------------------------------------------------
-    # Normalize line breaks and tabs
-    # --------------------------------------------------------
-
     text = re.sub(
         r"[\r\n\t]+",
         " ",
         text
     )
 
-
-    # --------------------------------------------------------
-    # Remove trademark/copyright symbols
-    # --------------------------------------------------------
 
     text = text.replace(
         "™",
@@ -182,11 +137,6 @@ def normalize_text(text):
         ""
     )
 
-
-    # --------------------------------------------------------
-    # Normalize Unicode
-    # --------------------------------------------------------
-
     try:
 
         import unicodedata
@@ -198,22 +148,11 @@ def normalize_text(text):
 
     except:
         pass
-
-
-    # --------------------------------------------------------
-    # Normalize multiple spaces
-    # --------------------------------------------------------
-
     text = re.sub(
         r"\s+",
         " ",
         text
     )
-
-
-    # --------------------------------------------------------
-    # Remove spaces before punctuation
-    # --------------------------------------------------------
 
     text = re.sub(
         r"\s+([.,;:!?])",
@@ -221,17 +160,8 @@ def normalize_text(text):
         text
     )
 
-
-    # --------------------------------------------------------
-    # Final normalization
-    # --------------------------------------------------------
-
     return text.strip().casefold()
 
-
-# ============================================================
-# FIND ENGLISH TEXT IN COLUMN B
-# ============================================================
 
 def find_english_text(actual_text):
 
@@ -244,11 +174,6 @@ def find_english_text(actual_text):
 
     if not actual_normalized:
         return None
-
-
-    # --------------------------------------------------------
-    # Search complete English Column B
-    # --------------------------------------------------------
 
     for row in sheet.iter_rows(
         min_row=2,
@@ -269,33 +194,16 @@ def find_english_text(actual_text):
             continue
 
 
-        # ----------------------------------------------------
-        # Exact normalized match
-        # ----------------------------------------------------
-
         if actual_normalized == english_normalized:
             return english_value
 
 
     return None
 
-
-# ============================================================
-# VERIFY TEXT AGAINST ENGLISH COLUMN B
-# ============================================================
-
 def verify_text(object_name, description):
-
-    # --------------------------------------------------------
-    # Wait before every verification
-    # --------------------------------------------------------
 
     snooze(6)
 
-
-    # --------------------------------------------------------
-    # Get object
-    # --------------------------------------------------------
 
     try:
 
@@ -313,11 +221,6 @@ def verify_text(object_name, description):
 
         return False
 
-
-    # --------------------------------------------------------
-    # Get actual UI text
-    # --------------------------------------------------------
-
     actual_text = get_object_text(
         obj
     )
@@ -333,18 +236,9 @@ def verify_text(object_name, description):
         return False
 
 
-    # --------------------------------------------------------
-    # Search actual English text in Column B
-    # --------------------------------------------------------
-
     matched_english = find_english_text(
         actual_text
     )
-
-
-    # --------------------------------------------------------
-    # Match found
-    # --------------------------------------------------------
 
     if matched_english is not None:
 
@@ -365,10 +259,6 @@ def verify_text(object_name, description):
         return True
 
 
-    # --------------------------------------------------------
-    # Match not found
-    # --------------------------------------------------------
-
     test.fail(
         description
         + " | English text not found in Column B: "
@@ -378,10 +268,6 @@ def verify_text(object_name, description):
     return False
 
 
-# ============================================================
-# VERIFY GROUP
-# ============================================================
-
 def verify_group(group_name):
 
     for object_name, description in verification_objects[group_name]:
@@ -390,11 +276,6 @@ def verify_group(group_name):
             object_name,
             description
         )
-
-
-# ============================================================
-# VERIFY POPUP
-# ============================================================
 
 def verify_popup(group_name):
 
@@ -410,17 +291,8 @@ def verify_popup(group_name):
         )
     )
 
-
-# ============================================================
-# VERIFICATION OBJECTS
-# ============================================================
-
 verification_objects = {
 
-
-    # ========================================================
-    # MAIN MODE SCREEN
-    # ========================================================
 
     "main": [
 
@@ -476,10 +348,6 @@ verification_objects = {
     ],
 
 
-    # ========================================================
-    # STANDARD PULSE POPUP
-    # ========================================================
-
     "standard_pulse": [
 
         (
@@ -499,10 +367,6 @@ verification_objects = {
     ],
 
 
-    # ========================================================
-    # CONTINUOUS WAVE POPUP
-    # ========================================================
-
     "cw": [
 
         (
@@ -521,11 +385,6 @@ verification_objects = {
         )
     ],
 
-
-    # ========================================================
-    # MRP POPUP
-    # ========================================================
-
     "mrp": [
 
         (
@@ -543,11 +402,6 @@ verification_objects = {
             "MRP Popup OK Button"
         )
     ],
-
-
-    # ========================================================
-    # FRAGMENTATION POPUP
-    # ========================================================
 
     "fragmentation": [
 
@@ -568,10 +422,6 @@ verification_objects = {
     ],
 
 
-    # ========================================================
-    # CLEANING POPUP
-    # ========================================================
-
     "cleaning": [
 
         (
@@ -590,10 +440,6 @@ verification_objects = {
         )
     ],
 
-
-    # ========================================================
-    # ENUCLEATION POPUP
-    # ========================================================
 
     "enucleation": [
 
@@ -615,23 +461,11 @@ verification_objects = {
 }
 
 
-# ============================================================
-# MAIN
-# ============================================================
-
 def main():
 
     global workbook
     global sheet
 
-
-    # ========================================================
-    # LOGIN
-    # ========================================================
-
-    # test.log(
-    #     "Entering login PIN"
-    # )
 
     doubleClick(
         waitForObject(
@@ -667,11 +501,6 @@ def main():
         )
     )
 
-
-    # ========================================================
-    # OPEN SETTINGS
-    # ========================================================
-
     snooze(6)
 
     # test.log(
@@ -685,15 +514,6 @@ def main():
     )
 
 
-    # ========================================================
-    # OPEN INFO
-    # ========================================================
-    #
-    # The application is already in English.
-    # No language-selection step is required.
-    #
-    # ========================================================
-
     snooze(6)
 
     clickTab(
@@ -702,11 +522,6 @@ def main():
         ),
         "INFO"
     )
-
-
-    # ========================================================
-    # RETURN HOME
-    # ========================================================
 
     snooze(6)
 
@@ -717,10 +532,6 @@ def main():
     )
 
 
-    # ========================================================
-    # EXPERT MODE
-    # ========================================================
-
     snooze(6)
 
     clickButton(
@@ -728,11 +539,6 @@ def main():
             names.gbExpert_expertButton_QPushButton
         )
     )
-
-
-    # ========================================================
-    # OPEN MODE SELECTION
-    # ========================================================
 
     snooze(6)
 
@@ -746,10 +552,6 @@ def main():
         Qt.LeftButton
     )
 
-
-    # ========================================================
-    # LOAD ENGLISH EXCEL
-    # ========================================================
 
     snooze(2)
 
@@ -774,11 +576,6 @@ def main():
 
         return
 
-
-    # ========================================================
-    # CHECK SHEET
-    # ========================================================
-
     if SHEET_NAME not in workbook.sheetnames:
 
         test.fail(
@@ -793,27 +590,14 @@ def main():
         return
 
 
-    # ========================================================
-    # GET TREATMENT MODES SHEET
-    # ========================================================
-
     sheet = workbook[
         SHEET_NAME
     ]
 
 
-    # ========================================================
-    # MAIN SCREEN VERIFICATION
-    # ========================================================
-
     verify_group(
         "main"
     )
-
-
-    # ========================================================
-    # STANDARD PULSE POPUP
-    # ========================================================
 
     snooze(6)
 
@@ -827,11 +611,6 @@ def main():
         "standard_pulse"
     )
 
-
-    # ========================================================
-    # CONTINUOUS WAVE POPUP
-    # ========================================================
-
     snooze(6)
 
     clickButton(
@@ -843,11 +622,6 @@ def main():
     verify_popup(
         "cw"
     )
-
-
-    # ========================================================
-    # MRP POPUP
-    # ========================================================
 
     snooze(6)
 
@@ -861,11 +635,6 @@ def main():
         "mrp"
     )
 
-
-    # ========================================================
-    # FRAGMENTATION POPUP
-    # ========================================================
-
     snooze(6)
 
     clickButton(
@@ -877,12 +646,6 @@ def main():
     verify_popup(
         "fragmentation"
     )
-
-
-    # ========================================================
-    # CLEANING POPUP
-    # ========================================================
-
     snooze(6)
 
     clickButton(
@@ -894,12 +657,6 @@ def main():
     verify_popup(
         "cleaning"
     )
-
-
-    # ========================================================
-    # ENUCLEATION POPUP
-    # ========================================================
-
     snooze(6)
 
     clickButton(
@@ -911,12 +668,6 @@ def main():
     verify_popup(
         "enucleation"
     )
-
-
-    # ========================================================
-    # CANCEL MODE SELECTION
-    # ========================================================
-
     snooze(6)
 
     clickButton(
@@ -924,11 +675,6 @@ def main():
             names.buttonsFrame_rejectButton_QPushButton
         )
     )
-
-
-    # ========================================================
-    # CLOSE EXCEL
-    # ========================================================
 
     try:
 
@@ -940,7 +686,5 @@ def main():
         pass
 
 
-    test.log(
-        "English Treatment Modes localization verification completed"
-    )
+    
 

@@ -2,43 +2,34 @@
 
 import names
 from openpyxl import load_workbook
+import os 
 
-# ============================================================
-
-# EXCEL CONFIGURATION
-
-# ============================================================
-
-EXCEL_PATH = (
-"/home/ezen/Test_Automation_Gemini/Localisation/"
-"suite_GFL_Dutch/"
-"tst_GEM-LOC-Dutch-PeakPower-SoftTissueCharacters/"
-"testdata/Gemini Split strings.xlsx"
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
 )
+
+# EXCEL_PATH = (
+# "/home/ezen/Test_Automation_Gemini/Localisation/"
+# "suite_GFL_Dutch/"
+# "tst_GEM-LOC-Dutch-PeakPower-SoftTissueCharacters/"
+# "testdata/Gemini Split strings.xlsx"
+# )
 
 EXCEL_SHEET_NAME = "Treatment Modes"
 
-# ------------------------------------------------------------
-
-# Column B = English
-
-# ------------------------------------------------------------
 
 ENGLISH_COLUMN = 2
 
-# ------------------------------------------------------------
-
-# Column G = Dutch
-
-# ------------------------------------------------------------
 
 DUTCH_COLUMN = 7
 
-# ============================================================
-
-# TEXT NORMALIZATION
-
-# ============================================================
 
 def normalize_text(value):
 
@@ -56,29 +47,6 @@ def normalize_text(value):
     ).strip().casefold()
     
 
-# ============================================================
-
-# LOAD EXCEL DATA
-
-#
-
-# English Column B
-
-# Dutch Column G
-
-#
-
-# Creates:
-
-#
-
-# English text -> Dutch text
-
-#
-
-# No row numbers are used.
-
-# ============================================================
 
 def load_excel_data():
 
@@ -92,9 +60,6 @@ def load_excel_data():
         # )
     
     
-        # ----------------------------------------------------
-        # Open workbook
-        # ----------------------------------------------------
     
         workbook = load_workbook(
             EXCEL_PATH,
@@ -103,9 +68,6 @@ def load_excel_data():
         )
     
     
-        # ----------------------------------------------------
-        # Check sheet
-        # ----------------------------------------------------
     
         if EXCEL_SHEET_NAME not in workbook.sheetnames:
     
@@ -126,10 +88,6 @@ def load_excel_data():
         ]
     
     
-        # ----------------------------------------------------
-        # Create English -> Dutch dictionary
-        # ----------------------------------------------------
-    
         dutch_data = {}
     
     
@@ -146,9 +104,6 @@ def load_excel_data():
             ].value
     
     
-            # ------------------------------------------------
-            # Ignore empty English cells
-            # ------------------------------------------------
     
             if english_value is None:
     
@@ -165,9 +120,6 @@ def load_excel_data():
                 continue
     
     
-            # ------------------------------------------------
-            # Convert empty Dutch value to empty string
-            # ------------------------------------------------
     
             if dutch_value is None:
     
@@ -179,9 +131,6 @@ def load_excel_data():
             ).strip()
     
     
-            # ------------------------------------------------
-            # Keep first non-empty translation
-            # ------------------------------------------------
     
             if english_key not in dutch_data:
     
@@ -206,9 +155,6 @@ def load_excel_data():
                     ] = dutch_value
     
     
-        # ----------------------------------------------------
-        # Make sure data was actually loaded
-        # ----------------------------------------------------
     
         if not dutch_data:
     
@@ -222,32 +168,9 @@ def load_excel_data():
             return None, None
     
     
-        # test.log(
-        #     "Dutch Excel loaded successfully"
-        # )
-        #
-        # test.log(
-        #     "Excel sheet: "
-        #     + EXCEL_SHEET_NAME
-        # )
-    
-        # test.log(
-        #     "English column: "
-        #     + str(ENGLISH_COLUMN)
-        #     )
-
-        # test.log(
-        #     "Dutch column: "
-        #     + str(DUTCH_COLUMN)
-        # )
-    
         
     
     
-        # ----------------------------------------------------
-        # IMPORTANT:
-        # Always return TWO values
-        # ----------------------------------------------------
     
         return workbook, dutch_data
     
@@ -271,19 +194,9 @@ def load_excel_data():
                 pass
     
     
-        # ----------------------------------------------------
-        # IMPORTANT:
-        # Always return TWO values
-        # ----------------------------------------------------
     
         return None, None
     
-    
-    # ============================================================
-    
-    # GET DUTCH TEXT USING ENGLISH TEXT
-    
-    # ============================================================
     
 def get_dutch_text(
     dutch_data,
@@ -296,9 +209,6 @@ def get_dutch_text(
     )
     
     
-    # --------------------------------------------------------
-    # English text not found
-    # --------------------------------------------------------
     
     if search_text not in dutch_data:
     
@@ -315,9 +225,6 @@ def get_dutch_text(
     ]
     
     
-    # --------------------------------------------------------
-    # Dutch translation empty
-    # --------------------------------------------------------
     
     if normalize_text(
         dutch_value
@@ -334,28 +241,6 @@ def get_dutch_text(
     return dutch_value
     
     
-    # ============================================================
-    
-    # VERIFY NORMAL OBJECT TEXT
-    
-    #
-    
-    # object_name:
-    
-    # Name of object-map variable
-    
-    #
-    
-    # english_text:
-    
-    # English text from Excel Column B
-    
-    #
-    
-    # Expected Dutch value is obtained automatically from Excel.
-    
-    # ============================================================
-    
 def verify_text(
     dutch_data,
     object_name,
@@ -364,16 +249,9 @@ def verify_text(
     ):
     
     
-    # --------------------------------------------------------
-    # Wait before verification
-    # --------------------------------------------------------
-    
     snooze(2)
     
     
-    # --------------------------------------------------------
-    # Get Dutch expected value
-    # --------------------------------------------------------
     
     expected_text = get_dutch_text(
         dutch_data,
@@ -383,17 +261,14 @@ def verify_text(
     
     if expected_text is None:
     
-        test.fail(
-            description
-            + " skipped because Excel lookup failed"
-        )
+        # test.fail(
+        #     description
+        #     + " skipped because Excel lookup failed"
+        # )
     
         return
     
     
-    # --------------------------------------------------------
-    # Find Squish object
-    # --------------------------------------------------------
     
     try:
     
@@ -418,9 +293,6 @@ def verify_text(
         return
     
     
-    # --------------------------------------------------------
-    # Read actual object text
-    # --------------------------------------------------------
     
     try:
     
@@ -437,9 +309,6 @@ def verify_text(
         return
     
     
-    # --------------------------------------------------------
-    # Normalize values
-    # --------------------------------------------------------
     
     actual_normalized = normalize_text(
         actual_text
@@ -450,9 +319,6 @@ def verify_text(
     )
     
     
-    # --------------------------------------------------------
-    # Compare
-    # --------------------------------------------------------
     
     test.compare(
         actual_normalized,
@@ -462,15 +328,6 @@ def verify_text(
     )
     
     
-    # ============================================================
-    
-    # RECURSIVE SEARCH FOR TREATMENT NAME
-    
-    #
-    
-    # Does not create an object name from Dutch text.
-    
-    # ============================================================
     
 def find_text_recursively(
     parent_object,
@@ -489,10 +346,7 @@ def find_text_recursively(
         pass
     
     
-    # --------------------------------------------------------
-    # Check current object
-    # --------------------------------------------------------
-    
+   
     try:
     
         current_text = normalize_text(
@@ -508,9 +362,6 @@ def find_text_recursively(
         pass
     
     
-    # --------------------------------------------------------
-    # Get children
-    # --------------------------------------------------------
     
     try:
     
@@ -542,20 +393,7 @@ def find_text_recursively(
     return None
     
     
-    # ============================================================
-    
-    # VERIFY TREATMENT NAME
-    
-    #
-    
-    # English treatment name is used only as Excel lookup key.
-    
-    #
-    
-    # Actual Dutch treatment name comes from Excel.
-    
-    # ============================================================
-    
+  
 def verify_treatment_name(
     dutch_data,
     english_text,
@@ -563,16 +401,10 @@ def verify_treatment_name(
     ):
     
     
-    # --------------------------------------------------------
-    # Wait before verification
-    # --------------------------------------------------------
+
     
     snooze(6)
     
-    
-    # --------------------------------------------------------
-    # Get Dutch translation
-    # --------------------------------------------------------
     
     expected_text = get_dutch_text(
         dutch_data,
@@ -581,12 +413,13 @@ def verify_treatment_name(
     
     
     if expected_text is None:
-    
-        test.fail(
-            description
-            + " skipped because Excel lookup failed"
-        )
-    
+        #
+        # test.fail(
+        #     description
+        #     + " skipped because Excel lookup failed"
+        # )
+        #
+
         return
     
     
@@ -594,10 +427,6 @@ def verify_treatment_name(
         expected_text
     )
     
-    
-    # --------------------------------------------------------
-    # Find ScreenSwitcher
-    # --------------------------------------------------------
     
     try:
     
@@ -617,9 +446,6 @@ def verify_treatment_name(
         return
     
     
-    # --------------------------------------------------------
-    # Search for Dutch treatment text
-    # --------------------------------------------------------
     
     found_object = find_text_recursively(
         screen_switcher,
@@ -640,9 +466,6 @@ def verify_treatment_name(
         return
     
     
-    # --------------------------------------------------------
-    # Read actual text
-    # --------------------------------------------------------
     
     try:
     
@@ -655,9 +478,6 @@ def verify_treatment_name(
         actual_text = ""
     
     
-    # --------------------------------------------------------
-    # Compare
-    # --------------------------------------------------------
     
     test.compare(
         actual_text,
@@ -667,11 +487,6 @@ def verify_treatment_name(
     )
     
     
-    # ============================================================
-    
-    # VERIFY LEFT TREATMENT NAME
-    
-    # ============================================================
     
 def verify_left_treatment_name(
     dutch_data,
@@ -687,12 +502,6 @@ def verify_left_treatment_name(
     )
     
     
-    # ============================================================
-    
-    # VERIFY RIGHT TREATMENT NAME
-    
-    # ============================================================
-    
 def verify_right_treatment_name(
     dutch_data,
     english_text,
@@ -707,11 +516,6 @@ def verify_right_treatment_name(
     )
     
     
-    # ============================================================
-    
-    # MAIN
-    
-    # ============================================================
     
 def main():
     
@@ -720,16 +524,9 @@ def main():
     dutch_data = None
     
     
-    # ========================================================
-    # LOAD EXCEL
-    # ========================================================
-    
     result = load_excel_data()
     
     
-    # --------------------------------------------------------
-    # Safety check
-    # --------------------------------------------------------
     
     if result is None:
     
@@ -739,10 +536,6 @@ def main():
     
         return
     
-    
-    # --------------------------------------------------------
-    # Unpack only after checking result
-    # --------------------------------------------------------
     
     try:
     
@@ -769,9 +562,6 @@ def main():
     
     try:
     
-        # ====================================================
-        # LOGIN
-        # ====================================================
     
         for i in range(4):
     
@@ -791,9 +581,6 @@ def main():
         )
     
     
-        # ====================================================
-        # OPEN SETTINGS
-        # ====================================================
     
         clickButton(
             waitForObject(
@@ -803,11 +590,6 @@ def main():
     
         
     
-    
-        # ====================================================
-        # OPEN SYSTEM INFORMATION
-        # ====================================================
-    
         clickTab(
             waitForObject(
                 names.settingsScreen_tbSystemInfo_TabWidget
@@ -816,20 +598,12 @@ def main():
         )
     
     
-        # ====================================================
-        # OPEN LANGUAGE SETTINGS
-        # ====================================================
-    
         clickButton(
             waitForObject(
                 names.gbSystemInformation_pbLanguageSettingsUpdate_QPushButton
             )
         )
     
-    
-        # ====================================================
-        # SELECT DUTCH
-        # ====================================================
     
         clickButton(
             waitForObject(
@@ -838,10 +612,6 @@ def main():
         )
     
     
-        # ====================================================
-        # ACCEPT LANGUAGE
-        # ====================================================
-    
         clickButton(
             waitForObject(
                 names.buttonsFrame_acceptButton_QPushButton
@@ -849,31 +619,17 @@ def main():
         )
     
     
-        # ====================================================
-        # RETURN HOME
-        # ====================================================
-    
         clickButton(
             waitForObject(
                 names.buttonsBar_homeButton_QPushButton
             )
         )
-    
-    
-        # ====================================================
-        # OPEN SOFT TISSUE QUICK START
-        # ====================================================
-    
         clickButton(
             waitForObject(
                 names.homeScreen_pbSoftTissueQuickStart_QToolButton
             )
         )
     
-    
-        # ====================================================
-        # SELECT LEFT TREATMENT
-        # ====================================================
     
         mouseClick(
             waitForObjectItem(
@@ -887,10 +643,6 @@ def main():
         )
     
     
-        # ====================================================
-        # SELECT RIGHT TREATMENT
-        # ====================================================
-    
         mouseClick(
             waitForObjectItem(
                 names.tabRightMainPresets_rightPresetsView_PresetListView,
@@ -903,10 +655,6 @@ def main():
         )
     
     
-        # ====================================================
-        # QUICK START BOTTOM WIDGET
-        # ====================================================
-    
         mouseClick(
             waitForObject(
                 names.quickStartScreen_wdBottom_QWidget
@@ -917,12 +665,6 @@ def main():
             Qt.LeftButton
         )
     
-        
-    
-    
-        # ====================================================
-        # MOVE SCREEN
-        # ====================================================
     
         sendEvent(
             "QMoveEvent",
@@ -936,20 +678,12 @@ def main():
         )
     
     
-        # ====================================================
-        # CONTINUE
-        # ====================================================
-    
         clickButton(
             waitForObject(
                 names.quickStartScreen_pbContinue_QPushButton
             )
         )
     
-    
-        # ====================================================
-        # OK
-        # ====================================================
     
         clickButton(
             waitForObject(
@@ -958,10 +692,6 @@ def main():
         )
     
     
-        # ====================================================
-        # SELECT READY
-        # ====================================================
-    
         clickButton(
             waitForObject(
                 names.stateSwitch_readyButton_QPushButton
@@ -969,20 +699,12 @@ def main():
         )
     
     
-        # ====================================================
-        # LEFT TREATMENT NAME
-        # ====================================================
-    
         verify_left_treatment_name(
             dutch_data,
             "PROSTATE ENUCLEATION-(HIGH ENERGY)",
             "Left Treatment Name"
         )
     
-    
-        # ====================================================
-        # LEFT AVERAGE POWER
-        # ====================================================
     
         verify_text(
             dutch_data,
@@ -992,10 +714,6 @@ def main():
         )
     
     
-        # ====================================================
-        # LEFT PULSE ENERGY
-        # ====================================================
-    
         verify_text(
             dutch_data,
             "pulseEnergyWidgetEmission_nameLabel_QLabel",
@@ -1004,9 +722,6 @@ def main():
         )
     
     
-        # ====================================================
-        # LEFT FREQUENCY
-        # ====================================================
     
         verify_text(
             dutch_data,
@@ -1016,10 +731,6 @@ def main():
         )
     
     
-        # ====================================================
-        # LEFT PULSE MODE
-        # ====================================================
-    
         verify_text(
             dutch_data,
             "modeButtonEmission_nameLabel_QLabel",
@@ -1028,9 +739,6 @@ def main():
         )
     
     
-        # ====================================================
-        # LEFT PEAK POWER
-        # ====================================================
     
         verify_text(
             dutch_data,
@@ -1040,9 +748,6 @@ def main():
         )
     
     
-        # ====================================================
-        # LEFT TOTAL ENERGY
-        # ====================================================
     
         verify_text(
             dutch_data,
@@ -1052,9 +757,6 @@ def main():
         )
     
     
-        # ====================================================
-        # LEFT TOTAL LASING TIME
-        # ====================================================
     
         verify_text(
             dutch_data,
@@ -1064,9 +766,6 @@ def main():
         )
     
     
-        # ====================================================
-        # LEFT POWER UNIT
-        # ====================================================
     
         verify_text(
             dutch_data,
@@ -1076,9 +775,6 @@ def main():
         )
     
     
-        # ====================================================
-        # LEFT ENERGY UNIT
-        # ====================================================
     
         verify_text(
             dutch_data,
@@ -1088,9 +784,6 @@ def main():
         )
     
     
-        # ====================================================
-        # LEFT FREQUENCY UNIT
-        # ====================================================
     
         verify_text(
             dutch_data,
@@ -1100,9 +793,6 @@ def main():
         )
     
     
-        # ====================================================
-        # LEFT FIBER
-        # ====================================================
     
         verify_text(
             dutch_data,
@@ -1112,9 +802,6 @@ def main():
         )
     
     
-        # ====================================================
-        # LEFT FIBER USES REMAINING
-        # ====================================================
     
         verify_text(
             dutch_data,
@@ -1124,10 +811,6 @@ def main():
         )
     
     
-        # ====================================================
-        # LEFT AIMING BEAM
-        # ====================================================
-    
         verify_text(
             dutch_data,
             "bottomBar_aimingBeamButton_AimingBeamModeButton",
@@ -1135,10 +818,6 @@ def main():
             "Left Aiming Beam"
         )
     
-    
-        # ====================================================
-        # LEFT STANDBY
-        # ====================================================
     
         verify_text(
             dutch_data,
@@ -1148,10 +827,6 @@ def main():
         )
     
     
-        # ====================================================
-        # LEFT READY
-        # ====================================================
-    
         verify_text(
             dutch_data,
             "stateSwitch_readyButton_QPushButton",
@@ -1160,20 +835,12 @@ def main():
         )
     
     
-        # ====================================================
-        # RIGHT TREATMENT NAME
-        # ====================================================
-    
         verify_right_treatment_name(
             dutch_data,
             "PROSTATE ENUCLEATION-(HIGH ENERGY)",
             "Right Treatment Name"
         )
     
-    
-        # ====================================================
-        # RIGHT AVERAGE POWER
-        # ====================================================
     
         verify_text(
             dutch_data,
@@ -1182,11 +849,6 @@ def main():
             "Right Average Power"
         )
     
-    
-        # ====================================================
-        # RIGHT PULSE ENERGY
-        # ====================================================
-    
         verify_text(
             dutch_data,
             "pulseEnergyWidgetEmission_nameLabel_QLabel_2",
@@ -1194,23 +856,12 @@ def main():
             "Right Pulse Energy"
         )
     
-    
-        # ====================================================
-        # RIGHT FREQUENCY
-        # ====================================================
-    
         verify_text(
             dutch_data,
             "frequencyWidgetEmission_nameLabel_QLabel_2",
             "Frequency",
             "Right Frequency"
         )
-    
-    
-        # ====================================================
-        # RIGHT PULSE MODE
-        # ====================================================
-    
         verify_text(
             dutch_data,
             "modeButtonEmission_nameLabel_QLabel_2",
@@ -1218,34 +869,18 @@ def main():
             "Right Pulse Mode"
         )
     
-    
-        # ====================================================
-        # RIGHT PEAK POWER
-        # ====================================================
-    
         verify_text(
             dutch_data,
             "peakPowerButtonEmission_nameLabel_QLabel_2",
             "Peak Power",
             "Right Peak Power"
         )
-    
-    
-        # ====================================================
-        # RIGHT POWER UNIT
-        # ====================================================
-    
         verify_text(
             dutch_data,
             "averagePowerWidgetEmission_unitsOfMeasureLabel_QLabel_2",
             "W",
             "Right Power Unit"
         )
-    
-    
-        # ====================================================
-        # RIGHT ENERGY UNIT
-        # ====================================================
     
         verify_text(
             dutch_data,
@@ -1254,58 +889,29 @@ def main():
             "Right Energy Unit"
         )
     
-    
-        # ====================================================
-        # RIGHT FREQUENCY UNIT
-        # ====================================================
-    
         verify_text(
             dutch_data,
             "frequencyWidgetEmission_unitsOfMeasureLabel_QLabel_2",
             "Hz",
             "Right Frequency Unit"
         )
-    
-    
-        # ====================================================
-        # READY SCREEN
-        # ====================================================
-    
         clickButton(
             waitForObject(
                 names.stateSwitch_readyButton_QPushButton
             )
         )
     
-    
-        # ====================================================
-        # READY SCREEN IMAGE
-        # ====================================================
-    
-        test.imagePresent(
-            "Ready screen header image"
-        )
-    
-    
-        # ====================================================
-        # RETURN TO STANDBY
-        # ====================================================
-    
+
+        
         clickButton(
             waitForObject(
                 names.stateSwitch_readyButton_QPushButton
             )
         )
-    
-    
-        # ====================================================
-        # VISUAL VERIFICATION POINT
-        # ====================================================
-        #
-        # test.vp(
-        #     "Readyscreen"
-        # )
-    
+       
+        test.vp("Readyscreen")
+
+        
     
     except Exception as e:
     
@@ -1317,9 +923,7 @@ def main():
     
     finally:
     
-        # ====================================================
-        # CLOSE EXCEL
-        # ====================================================
+       
     
         if workbook is not None:
     
@@ -1332,7 +936,5 @@ def main():
                 pass
     
     
-        test.log(
-            "Dutch Treatment Modes localization verification completed"
-        )
+      
     

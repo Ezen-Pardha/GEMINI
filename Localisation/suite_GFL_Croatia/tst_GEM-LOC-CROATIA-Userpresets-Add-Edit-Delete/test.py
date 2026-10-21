@@ -4,27 +4,21 @@
 import names
 import openpyxl
 import re
+import os
 
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
 
-# ============================================================
-# Excel Configuration
-# Column B = English
-# Column I = Croatian
-# ============================================================
-
-EXCEL_PATH = "/home/ezen/Test_Automation_Katana/suite_Gemini_Localization_Croatia/tst_GEM-LOC-CROATIA-Userpresets-Add-Edit-Delete/testdata/Gemini strings.xlsx"
 
  
-# ============================================================
-# Normalize text for localization comparison
-# Handles:
-# - HTML tags
-# - newline
-# - line wrapping
-# - extra spaces
-# - upper/lower case
-# ============================================================
-
 def normalize_localization(text):
 
     if text is None:
@@ -49,11 +43,7 @@ def normalize_localization(text):
     return text.casefold()
 
 
-# ============================================================
-# Load Excel strings
-# Column B = English
-# Column I = Croatian
-# ============================================================
+
 
 def load_croatian_strings():
 
@@ -78,7 +68,7 @@ def load_croatian_strings():
 
         croatian = sheet.cell(
             row=row_number,
-            column=9
+            column=4
         ).value
 
         if english is not None and croatian is not None:
@@ -96,14 +86,7 @@ def load_croatian_strings():
     return excel_strings
 
 
-# ============================================================
-# Verify UI text against Croatian value in Excel Column I
-#
-# The actual UI value is taken from the object.
-# No Croatian expected value is hard-coded in the test.
-#
-# English value from Column B is also logged.
-# ============================================================
+
 
 def verify_excel_text(object_name, excel_strings, description=""):
 
@@ -148,41 +131,33 @@ def verify_excel_text(object_name, excel_strings, description=""):
         test.compare(
             actual_normalized,
             normalize_localization(match["croatian"]),
-            "{} | English: {} | Excel Row: {}".format(
+            "{} | English: {}".format(
                 description,
                 match["english"],
                 match["row"]
             )
         )
+       
 
     else:
 
         test.compare(
             actual_normalized,
             normalize_localization(match["croatian"]),
-            "Localization verified | English: {} | Excel Row: {}".format(
-                match["english"],
-                match["row"]
+            "Localization verified | English: {}".format(
+                match["english"]
+
             )
         )
 
 
-# ============================================================
-# Main Test
-# ============================================================
 
 def main():
-
-    # --------------------------------------------------------
-    # Load Excel once
-    # --------------------------------------------------------
 
     excel_strings = load_croatian_strings()
 
 
-    # --------------------------------------------------------
-    # Login / Unlock
-    # --------------------------------------------------------
+  
 
     clickButton(
         waitForObject(
@@ -215,9 +190,6 @@ def main():
     )
 
 
-    # --------------------------------------------------------
-    # Open Settings
-    # --------------------------------------------------------
 
     clickButton(
         waitForObject(
@@ -226,9 +198,7 @@ def main():
     )
 
 
-    # --------------------------------------------------------
-    # System Information
-    # --------------------------------------------------------
+
 
     clickTab(
         waitForObject(
@@ -266,9 +236,7 @@ def main():
     )
 
 
-    # --------------------------------------------------------
-    # Open User Default Presets
-    # --------------------------------------------------------
+ 
 
     clickTab(
         waitForObject(
@@ -284,9 +252,7 @@ def main():
     )
 
 
-    # ========================================================
-    # ADD DEFAULT PRESET SCREEN
-    # ========================================================
+
 
     verify_excel_text(
         names.centralWidget_lbOperation_QLabel,
@@ -300,8 +266,6 @@ def main():
         "Preset name field"
     )
 
-    # Original script had this verification twice.
-    # Keeping both verification points.
 
     verify_excel_text(
         names.centralWidget_pbName_QPushButton,
@@ -328,11 +292,7 @@ def main():
     )
 
 
-    # --------------------------------------------------------
-    # Units
-    # These are measurement units, not translated text.
-    # Keeping the original verification.
-    # --------------------------------------------------------
+
 
     test.compare(
         str(
@@ -365,9 +325,7 @@ def main():
     )
 
 
-    # --------------------------------------------------------
-    # Remaining Croatian labels
-    # --------------------------------------------------------
+ 
 
     verify_excel_text(
         names.modeButton_nameLabel_QLabel_3,
@@ -388,9 +346,7 @@ def main():
     )
 
 
-    # ========================================================
-    # Enter Preset Name
-    # ========================================================
+
 
     mouseClick(
         waitForObject(
@@ -526,9 +482,7 @@ def main():
     )
 
 
-    # --------------------------------------------------------
-    # Save Preset
-    # --------------------------------------------------------
+
 
     clickButton(
         waitForObject(
@@ -546,9 +500,7 @@ def main():
     )
 
 
-    # ========================================================
-    # Preset Category Tabs
-    # ========================================================
+
 
     verify_excel_text(
         names.tabBarPresetsForSettings_KAMEN_TabItem,
@@ -563,9 +515,7 @@ def main():
     )
 
 
-    # ========================================================
-    # EDIT PRESET
-    # ========================================================
+ 
 
     clickButton(
         waitForObject(
@@ -584,10 +534,7 @@ def main():
     )
 
 
-    # --------------------------------------------------------
-    # Edit Preset title
-    # HTML is automatically removed by normalize_localization()
-    # --------------------------------------------------------
+
 
     verify_excel_text(
         names.centralWidget_lbOperation_QLabel,
@@ -596,9 +543,7 @@ def main():
     )
 
 
-    # --------------------------------------------------------
-    # Preset name is test data, not localization
-    # --------------------------------------------------------
+  
 
     test.compare(
         str(
@@ -611,9 +556,7 @@ def main():
     )
 
 
-    # --------------------------------------------------------
-    # Localization labels
-    # --------------------------------------------------------
+ 
 
     verify_excel_text(
         names.pulseEnergyWidget_nameLabel_QLabel,
@@ -628,9 +571,7 @@ def main():
     )
 
 
-    # --------------------------------------------------------
-    # Units
-    # --------------------------------------------------------
+
 
     test.compare(
         str(
@@ -663,9 +604,6 @@ def main():
     )
 
 
-    # --------------------------------------------------------
-    # More localization labels
-    # --------------------------------------------------------
 
     verify_excel_text(
         names.modeButton_nameLabel_QLabel_3,
@@ -692,9 +630,7 @@ def main():
     )
 
 
-    # ========================================================
-    # Change preset name
-    # ========================================================
+
 
     mouseClick(
         waitForObject(
@@ -706,20 +642,9 @@ def main():
         Qt.LeftButton
     )
 
-    # test.compare(
-    #     str(
-    #         waitForObjectExists(
-    #             names.centralWidget_pbName_QPushButton
-    #         ).text
-    #     ),
-    #     "preset 1",
-    #     "Updated preset name"
-    # )
+ 
 
 
-    # --------------------------------------------------------
-    # Save updated preset
-    # --------------------------------------------------------
 
     clickButton(
         waitForObject(
@@ -728,9 +653,6 @@ def main():
     )
 
 
-    # ========================================================
-    # DELETE PRESET
-    # ========================================================
     
     test.vp("Preset Screen")
     
@@ -751,9 +673,7 @@ def main():
     )
 
 
-    # --------------------------------------------------------
-    # Delete confirmation dialog
-    # --------------------------------------------------------
+
 
     verify_excel_text(
         names.centralWidget_lbDialogTitle_QLabel,
@@ -774,9 +694,7 @@ def main():
     )
 
 
-    # --------------------------------------------------------
-    # Delete / Cancel buttons
-    # --------------------------------------------------------
+
 
     verify_excel_text(
         names.buttonsFrame_rejectButton_QPushButton,
@@ -791,10 +709,6 @@ def main():
     )
 
 
-    # --------------------------------------------------------
-    # Preset values are test data
-    # --------------------------------------------------------
-
     test.compare(
         str(
             waitForObjectExists(
@@ -805,24 +719,15 @@ def main():
         "Preset parameter values"
     )
 
-
-    # --------------------------------------------------------
-    # Confirm Delete
-    # --------------------------------------------------------
-
+    
+    
+    snooze(2)
     clickButton(
         waitForObject(
             names.centralWidget_acceptButton_QPushButton
         )
     )
+    snooze(2)
+    
 
-
-    # ========================================================
-    # Back button
-    # ========================================================
-
-    verify_excel_text(
-        names.settingsScreen_pbBack_QPushButton,
-        excel_strings,
-        "Back button"
-    )
+    

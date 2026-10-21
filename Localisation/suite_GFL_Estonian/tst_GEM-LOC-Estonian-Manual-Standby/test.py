@@ -2,19 +2,20 @@
 
 import names
 from openpyxl import load_workbook
+import os
 
-# ============================================================
-
-# EXCEL CONFIGURATION
-
-# ============================================================
-
-EXCEL_PATH = (
-"/home/ezen/Test_Automation_Gemini/Localisation/"
-"suite_GFL_Estonian/"
-"tst_GEM-LOC-Estonian-PeakPower-SoftTissueCharacters/"
-"testdata/Gemini Split strings.xlsx"
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
 )
+
+
 
 EXCEL_SHEET_NAME = "Treatment Modes"
 
@@ -26,11 +27,6 @@ ENGLISH_COLUMN = 2
 
 ESTONIAN_COLUMN = 8
 
-# ============================================================
-
-# TEXT NORMALIZATION
-
-# ============================================================
 
 def normalize_text(value):
 
@@ -42,12 +38,6 @@ def normalize_text(value):
         .casefold()
     )
     
-
-# ============================================================
-
-# LOAD EXCEL DATA INTO DICTIONARY
-
-# ============================================================
 
 def load_excel_data(workbook):
 
@@ -97,12 +87,6 @@ def load_excel_data(workbook):
     
     return translation_data
     
-
-# ============================================================
-
-# GET ESTONIAN TEXT FROM CACHED EXCEL DATA
-
-# ============================================================
 
 def get_estonian_text(
 translation_data,
@@ -154,12 +138,6 @@ english_text
     return estonian_text
     
     
-    # ============================================================
-    
-    # GET ACTUAL OBJECT TEXT
-    
-    # ============================================================
-    
 def get_actual_text(
     obj,
     description
@@ -168,20 +146,11 @@ def get_actual_text(
 
     actual_value = None
 
-
-# --------------------------------------------------------
-# Try normal Qt text property
-# --------------------------------------------------------
-
     try:
         actual_value = obj.text
     except Exception:
         actual_value = None
 
-
-# --------------------------------------------------------
-# Try property("text")
-# --------------------------------------------------------
 
     if actual_value is None:
     
@@ -192,10 +161,6 @@ def get_actual_text(
         except Exception:
             actual_value = None
     
-    
-# --------------------------------------------------------
-# Try windowTitle
-# --------------------------------------------------------
 
     if actual_value is None:
     
@@ -205,10 +170,6 @@ def get_actual_text(
             actual_value = None
     
 
-# --------------------------------------------------------
-# Try accessibleName
-# --------------------------------------------------------
-
     if actual_value is None:
     
         try:
@@ -217,18 +178,10 @@ def get_actual_text(
             actual_value = None
     
 
-# --------------------------------------------------------
-# Normalize actual text
-# --------------------------------------------------------
-
     actual_text = normalize_text(
         actual_value
     )
 
-
-# --------------------------------------------------------
-# Do not allow empty application text
-# --------------------------------------------------------
 
     if actual_text == "":
     
@@ -242,11 +195,6 @@ def get_actual_text(
     return actual_text
     
     
-# ============================================================
-
-# VERIFY NORMAL TEXT AGAINST EXCEL
-
-# ============================================================
 
 def verify_text(
 translation_data,
@@ -259,10 +207,6 @@ description
     snooze(2)
 
 
-# --------------------------------------------------------
-# Get expected Estonian text from Excel
-# --------------------------------------------------------
-
     expected_text = get_estonian_text(
         translation_data,
         english_text
@@ -273,10 +217,6 @@ description
     )
 
 
-# --------------------------------------------------------
-# Validate Excel translation
-# --------------------------------------------------------
-
     if expected_normalized == "":
     
         test.fail(
@@ -286,10 +226,6 @@ description
     
         return
     
-
-# --------------------------------------------------------
-# Get application object
-# --------------------------------------------------------
 
     try:
     
@@ -311,10 +247,6 @@ description
     
         return
     
-    
-# --------------------------------------------------------
-# Get actual application text
-# --------------------------------------------------------
 
     actual_text = get_actual_text(
         obj,
@@ -325,10 +257,6 @@ description
     if actual_text is None:
         return
     
-    
-# --------------------------------------------------------
-# Compare normalized strings
-# --------------------------------------------------------
 
     test.compare(
         actual_text,
@@ -337,12 +265,6 @@ description
         + " - Estonian text verification"
     )
 
-
-# ============================================================
-
-# VERIFY LEFT MANUAL TAB
-
-# ============================================================
 
 def verify_left_manual_tab(
 translation_data,
@@ -353,10 +275,6 @@ description
 
     snooze(2)
 
-
-# --------------------------------------------------------
-# Get expected Estonian text
-# --------------------------------------------------------
 
     expected_text = get_estonian_text(
         translation_data,
@@ -378,10 +296,6 @@ description
         return
     
 
-# --------------------------------------------------------
-# Get recorded Manual tab object
-# --------------------------------------------------------
-
     try:
     
         manual_tab_object = getattr(
@@ -399,25 +313,10 @@ description
         return
     
 
-# --------------------------------------------------------
-# Remove localized text property
-# --------------------------------------------------------
-# Original recorded object may contain:
-#
-# text = "MANUEL"
-#
-# After localization this text changes.
-# Therefore remove text before searching.
-# --------------------------------------------------------
-
     if "text" in manual_tab_object:
     
         del manual_tab_object["text"]
 
-
-# --------------------------------------------------------
-# Find Manual tab
-# --------------------------------------------------------
 
     try:
     
@@ -434,10 +333,6 @@ description
     
         return
     
-    
-# --------------------------------------------------------
-# Get actual text
-# --------------------------------------------------------
 
     actual_text = get_actual_text(
         obj,
@@ -449,10 +344,6 @@ description
         return
     
     
-    # --------------------------------------------------------
-    # Compare
-    # --------------------------------------------------------
-    
     test.compare(
         actual_text,
         expected_normalized,
@@ -460,12 +351,6 @@ description
         + " - Estonian text verification"
     )
     
-    
-    # ============================================================
-    
-    # VERIFY RIGHT MANUAL TAB
-    
-    # ============================================================
     
 def verify_right_manual_tab(
     translation_data,
@@ -476,10 +361,6 @@ def verify_right_manual_tab(
     
     snooze(2)
     
-    
-    # --------------------------------------------------------
-    # Get expected Estonian text
-    # --------------------------------------------------------
     
     expected_text = get_estonian_text(
         translation_data,
@@ -500,11 +381,6 @@ def verify_right_manual_tab(
 
     return
 
-
-# --------------------------------------------------------
-# Get recorded Manual tab object
-# --------------------------------------------------------
-
     try:
     
         manual_tab_object = getattr(
@@ -522,18 +398,10 @@ def verify_right_manual_tab(
         return
     
     
-    # --------------------------------------------------------
-    # Remove localized text property
-    # --------------------------------------------------------
-    
     if "text" in manual_tab_object:
     
         del manual_tab_object["text"]
     
-    
-    # --------------------------------------------------------
-    # Find Manual tab
-    # --------------------------------------------------------
     
     try:
     
@@ -551,10 +419,6 @@ def verify_right_manual_tab(
         return
     
     
-    # --------------------------------------------------------
-    # Get actual text
-    # --------------------------------------------------------
-    
     actual_text = get_actual_text(
         obj,
         description
@@ -565,10 +429,6 @@ def verify_right_manual_tab(
         return
     
     
-    # --------------------------------------------------------
-    # Compare
-    # --------------------------------------------------------
-    
     test.compare(
         actual_text,
         expected_normalized,
@@ -576,12 +436,6 @@ def verify_right_manual_tab(
         + " - Estonian text verification"
     )
     
-    
-    # ============================================================
-    
-    # FIND OBJECT BY TEXT
-    
-    # ============================================================
     
 def find_text_recursively(
     parent,
@@ -635,11 +489,6 @@ def find_text_recursively(
     return None
     
     
-    # ============================================================
-    
-    # FIND LOCALIZED READY/STANDBY BUTTON
-    
-    # ============================================================
     
 def find_localized_button(
     translation_data,
@@ -662,10 +511,6 @@ def find_localized_button(
     )
     
     
-    # --------------------------------------------------------
-    # Search from ScreenSwitcher
-    # --------------------------------------------------------
-    
     try:
     
         root = waitForObject(
@@ -687,10 +532,6 @@ def find_localized_button(
         return None
     
     
-    # --------------------------------------------------------
-    # Search recursively
-    # --------------------------------------------------------
-    
     obj = find_text_recursively(
         root,
         expected_normalized
@@ -698,12 +539,6 @@ def find_localized_button(
     
     return obj
     
-    
-    # ============================================================
-    
-    # VERIFY LOCALIZED READY/STANDBY BUTTON
-    
-    # ============================================================
     
 def verify_localized_button(
     translation_data,
@@ -768,12 +603,7 @@ def verify_localized_button(
         + " - Estonian text verification"
     )
     
-    
-    # ============================================================
-    
-    # MAIN
-    
-    # ============================================================
+  
     
 def main():
     
@@ -782,21 +612,13 @@ def main():
     
     
     try:
-    
-        # ====================================================
-        # LOAD EXCEL ONCE
-        # ====================================================
-    
+  
         workbook = load_workbook(
             EXCEL_PATH,
             read_only=True,
             data_only=True
         )
     
-    
-        # ====================================================
-        # BUILD EXCEL CACHE
-        # ====================================================
     
         translation_data = load_excel_data(
             workbook
@@ -818,10 +640,6 @@ def main():
     
             return
     
-    
-        # ====================================================
-        # LOGIN
-        # ====================================================
     
         doubleClick(
             waitForObject(
@@ -858,11 +676,6 @@ def main():
     
         snooze(2)
     
-    
-        # ====================================================
-        # OPEN SETTINGS
-        # ====================================================
-    
         clickButton(
             waitForObject(
                 names.homeScreen_settingsButton_QPushButton
@@ -871,10 +684,6 @@ def main():
     
         snooze(2)
     
-    
-        # ====================================================
-        # OPEN SYSTEM INFORMATION
-        # ====================================================
     
         clickTab(
             waitForObject(
@@ -886,10 +695,6 @@ def main():
         snooze(2)
     
     
-        # ====================================================
-        # OPEN LANGUAGE SETTINGS
-        # ====================================================
-    
         clickButton(
             waitForObject(
                 names.gbSystemInformation_pbLanguageSettingsUpdate_QPushButton
@@ -898,10 +703,6 @@ def main():
     
         snooze(2)
     
-    
-        # ====================================================
-        # SELECT ESTONIAN
-        # ====================================================
     
         clickButton(
             waitForObject(
@@ -912,10 +713,6 @@ def main():
         snooze(1)
     
     
-        # ====================================================
-        # ACCEPT LANGUAGE
-        # ====================================================
-    
         clickButton(
             waitForObject(
                 names.buttonsFrame_acceptButton_QPushButton
@@ -925,10 +722,6 @@ def main():
         snooze(3)
     
     
-        # ====================================================
-        # RETURN TO HOME
-        # ====================================================
-    
         clickButton(
             waitForObject(
                 names.buttonsBar_homeButton_QPushButton
@@ -937,10 +730,6 @@ def main():
     
         snooze(2)
     
-    
-        # ====================================================
-        # OPEN EXPERT MODE
-        # ====================================================
     
         clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
 
@@ -952,40 +741,6 @@ def main():
     
         snooze(3)
     
-    
-        # ====================================================
-        # LEFT SIDE VERIFICATION
-        # ====================================================
-    
-        # ----------------------------------------------------
-        # MANUAL TAB
-        # ----------------------------------------------------
-    
-        # test.compare(waitForObjectExists(names.io).text, "JUHEND")
-        # test.compare(str(waitForObjectExists(names.averagePowerWidget_nameLabel_QLabel).text), "KESKMINE\nVÕIMSUS")
-        # test.compare(str(waitForObjectExists(names.averagePowerWidget_unitsOfMeasureLabel_QLabel_2).text), "W")
-        # test.compare(str(waitForObjectExists(names.pulseEnergyWidget_nameLabel_QLabel_2).text), "IMPULSIENERGIA")
-        # test.compare(str(waitForObjectExists(names.pulseEnergyWidget_unitsOfMeasureLabel_QLabel_2).text), "J")
-        # test.compare(str(waitForObjectExists(names.frequencyWidget_nameLabel_QLabel_2).text), "SAGEDUS")
-        # test.compare(str(waitForObjectExists(names.frequencyWidget_unitsOfMeasureLabel_QLabel_2).text), "Hz")
-        # test.compare(str(waitForObjectExists(names.modeButton_nameLabel_QLabel).text), "REGULAARNE\nPULSS")
-        # test.compare(str(waitForObjectExists(names.peakPowerButton_nameLabel_QLabel_2).text), "TIPUVÕIM\nSUS")
-        # test.compare(str(waitForObjectExists(names.peakPowerButton_nameLabel_QLabel_2).text), "TIPUVÕIM\nSUS")
-        # test.compare(str(waitForObjectExists(names.pulseModeWidget_saveButton_QPushButton_2).text), "SALVESTA")
-        # test.compare(str(waitForObjectExists(names.stateSwitch_standbyButton_QPushButton).text), "OOTEL")
-        # test.compare(str(waitForObjectExists(names.stateSwitch_readyButton_QPushButton).text), "VALMIS")
-
-        # verify_left_manual_tab(
-        #     translation_data,
-        #     "MANUAL",
-        #     "Left Manual Tab"
-        # )
-    
-    
-        # ----------------------------------------------------
-        # AVERAGE POWER
-        # ----------------------------------------------------
-    
         verify_text(
             translation_data,
             "averagePowerWidget_nameLabel_QLabel",
@@ -993,10 +748,6 @@ def main():
             "Left Average Power"
         )
     
-    
-        # ----------------------------------------------------
-        # POWER UNIT
-        # ----------------------------------------------------
     
         verify_text(
             translation_data,
@@ -1006,10 +757,6 @@ def main():
         )
     
     
-        # ----------------------------------------------------
-        # PULSE ENERGY
-        # ----------------------------------------------------
-    
         verify_text(
             translation_data,
             "pulseEnergyWidget_nameLabel_QLabel_2",
@@ -1017,10 +764,6 @@ def main():
             "Left Pulse Energy"
         )
     
-    
-        # ----------------------------------------------------
-        # ENERGY UNIT
-        # ----------------------------------------------------
     
         verify_text(
             translation_data,
@@ -1030,10 +773,6 @@ def main():
         )
     
     
-        # ----------------------------------------------------
-        # FREQUENCY
-        # ----------------------------------------------------
-    
         verify_text(
             translation_data,
             "frequencyWidget_nameLabel_QLabel_2",
@@ -1041,10 +780,6 @@ def main():
             "Left Frequency"
         )
     
-    
-        # ----------------------------------------------------
-        # FREQUENCY UNIT
-        # ----------------------------------------------------
     
         verify_text(
             translation_data,
@@ -1054,10 +789,6 @@ def main():
         )
     
     
-        # ----------------------------------------------------
-        # REGULAR PULSE
-        # ----------------------------------------------------
-    
         verify_text(
             translation_data,
             "modeButton_nameLabel_QLabel",
@@ -1066,21 +797,12 @@ def main():
         )
     
     
-        # ----------------------------------------------------
-        # PEAK POWER
-        # ----------------------------------------------------
-    
         verify_text(
             translation_data,
             "peakPowerButton_nameLabel_QLabel_2",
             "PEAK POWER",
             "Left Peak Power"
         )
-    
-    
-        # ----------------------------------------------------
-        # SAVE
-        # ----------------------------------------------------
     
         verify_text(
             translation_data,
@@ -1090,10 +812,6 @@ def main():
         )
     
     
-        # ----------------------------------------------------
-        # TOTAL ENERGY
-        # ----------------------------------------------------
-    
         verify_text(
             translation_data,
             "totalEnergyFrame_nameLabel_QLabel",
@@ -1102,10 +820,6 @@ def main():
         )
     
     
-        # ----------------------------------------------------
-        # TOTAL LASING TIME
-        # ----------------------------------------------------
-    
         verify_text(
             translation_data,
             "totalTimeFrame_nameLabel_QLabel",
@@ -1113,36 +827,13 @@ def main():
             "Left Total Lasing Time"
         )
     
-    
-        # ====================================================
-        # RIGHT SIDE VERIFICATION
-        # ====================================================
-    
-        # ----------------------------------------------------
-        # MANUAL TAB
-        # ----------------------------------------------------
-    
-        # test.compare(str(waitForObjectExists(names.averagePowerWidget_nameLabel_QLabel_3).text), "KESKMINE\nVÕIMSUS")
-        # test.compare(str(waitForObjectExists(names.averagePowerWidget_unitsOfMeasureLabel_QLabel).text), "W")
-        # test.compare(str(waitForObjectExists(names.pulseEnergyWidget_nameLabel_QLabel_3).text), "IMPULSIENERGIA")
-        # test.compare(str(waitForObjectExists(names.pulseEnergyWidget_unitsOfMeasureLabel_QLabel_3).text), "J")
-        # test.compare(str(waitForObjectExists(names.frequencyWidget_nameLabel_QLabel_3).text), "SAGEDUS")
-        # test.compare(str(waitForObjectExists(names.frequencyWidget_unitsOfMeasureLabel_QLabel_3).text), "Hz")
-        # test.compare(str(waitForObjectExists(names.pulseModeWidget_saveButton_QPushButton_3).text), "SALVESTA")
-        # test.compare(str(waitForObjectExists(names.peakPowerButton_nameLabel_QLabel_3).text), "TIPUVÕIM\nSUS")
-        # test.compare(str(waitForObjectExists(names.peakPowerButton_nameLabel_QLabel_3).text), "TIPUVÕIM\nSUS")
-        # test.compare(str(waitForObjectExists(names.modeButton_nameLabel_QLabel_3).text), "REGULAARNE\nPULSS")
-
+ 
         verify_right_manual_tab(
             translation_data,
             "MANUAL",
             "Right Manual Tab"
         )
     
-    
-        # ----------------------------------------------------
-        # AVERAGE POWER
-        # ----------------------------------------------------
     
         verify_text(
             translation_data,
@@ -1152,10 +843,6 @@ def main():
         )
     
     
-        # ----------------------------------------------------
-        # POWER UNIT
-        # ----------------------------------------------------
-    
         verify_text(
             translation_data,
             "averagePowerWidget_unitsOfMeasureLabel_QLabel",
@@ -1163,10 +850,6 @@ def main():
             "Right Power Unit"
         )
     
-    
-        # ----------------------------------------------------
-        # PULSE ENERGY
-        # ----------------------------------------------------
     
         verify_text(
             translation_data,
@@ -1176,10 +859,6 @@ def main():
         )
     
     
-        # ----------------------------------------------------
-        # ENERGY UNIT
-        # ----------------------------------------------------
-    
         verify_text(
             translation_data,
             "pulseEnergyWidget_unitsOfMeasureLabel_QLabel_3",
@@ -1188,21 +867,12 @@ def main():
         )
     
     
-        # ----------------------------------------------------
-        # FREQUENCY
-        # ----------------------------------------------------
-    
         verify_text(
             translation_data,
             "frequencyWidget_nameLabel_QLabel_3",
             "FREQUENCY",
             "Right Frequency"
         )
-    
-    
-        # ----------------------------------------------------
-        # SAVE
-        # ----------------------------------------------------
     
         verify_text(
             translation_data,
@@ -1212,10 +882,6 @@ def main():
         )
     
     
-        # ----------------------------------------------------
-        # PEAK POWER
-        # ----------------------------------------------------
-    
         verify_text(
             translation_data,
             "peakPowerButton_nameLabel_QLabel_3",
@@ -1223,10 +889,6 @@ def main():
             "Right Peak Power"
         )
     
-    
-        # ----------------------------------------------------
-        # REGULAR PULSE
-        # ----------------------------------------------------
     
         verify_text(
             translation_data,
@@ -1236,32 +898,12 @@ def main():
         )
     
     
-        # ====================================================
-        # READY BUTTON
-        # ====================================================
-    
-        # verify_localized_button(
-        #     translation_data,
-        #     "READY",
-        #     "Ready Button"
-        # )
-    
-    
-        # ====================================================
-        # STANDBY BUTTON
-        # ====================================================
-    
         verify_text(
             translation_data,
             "stateSwitch_standbyButton_QPushButton",
             "STANDBY",
             "Standby Button"
         )
-    
-    
-        # ====================================================
-        # FIBER
-        # ====================================================
     
         verify_text(
             translation_data,
@@ -1270,16 +912,7 @@ def main():
             "Fiber"
         )
     
-    
-        # ====================================================
-        # FIBER USES REMAINING
-        # ====================================================
-    
-        # sendEvent("QMoveEvent", waitForObject(names.o_ScreenSwitcher), 74, -66, 1358, 142)
-        # test.compare(str(waitForObjectExists(names.fiberFrame_nameLabel_QLabel).text), "KIUD")
-        # test.compare(str(waitForObjectExists(names.fiberUsesFrame_nameLabel_QLabel).text), "ALLESJÄÄNUD\nKASUTUSKORRAD")
-        # test.compare(str(waitForObjectExists(names.bottomBar_aimingBeamButton_AimingBeamModeButton).text), "Sihtimiskiir")
-
+  
         verify_text(
             translation_data,
             "fiberUsesFrame_nameLabel_QLabel",
@@ -1287,11 +920,8 @@ def main():
             "Fiber Uses Remaining"
         )
     
-    
-        # ====================================================
-        # AIMING BEAM
-        # ====================================================
-    
+        test.vp("Manual Standby Screen")
+
         verify_text(
             translation_data,
             "bottomBar_aimingBeamButton_AimingBeamModeButton",
@@ -1302,9 +932,6 @@ def main():
     
     finally:
     
-        # ====================================================
-        # CLOSE EXCEL
-        # ====================================================
     
         if workbook is not None:
     

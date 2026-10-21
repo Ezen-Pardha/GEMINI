@@ -5,11 +5,19 @@ import names
 import openpyxl
 import re
 import time
+import os 
 
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
 
-# ---------------------------------------------------------
-# Normalize text for comparison
-# ---------------------------------------------------------
 def normalize(text):
 
     if text is None:
@@ -46,21 +54,12 @@ def normalize(text):
     return text.strip().casefold()
 
 
-# ---------------------------------------------------------
-# Load Excel and create:
-# English -> Estonian dictionary
-#
-# Excel:
-# Column B = English
-# Column H = Estonian
-# Sheet   = Treatment modes
-# ---------------------------------------------------------
-def load_estonian_excel(excelpath):
+def load_estonian_excel(EXCEL_PATH):
 
     start_time = time.time()
 
     workbook = openpyxl.load_workbook(
-        excelpath,
+        EXCEL_PATH,
         data_only=True,
         read_only=True
     )
@@ -78,12 +77,6 @@ def load_estonian_excel(excelpath):
 
     sheet = workbook["Treatment Modes"]
 
-    # -----------------------------------------------------
-    # Excel columns
-    # -----------------------------------------------------
-    # English  = B = 2
-    # Estonian = H = 8
-    # -----------------------------------------------------
 
     english_column = 2
     estonian_column = 8
@@ -116,10 +109,6 @@ def load_estonian_excel(excelpath):
 
     return workbook, sheet, estonian_data
 
-
-# ---------------------------------------------------------
-# Get Estonian expected text using English text
-# ---------------------------------------------------------
 def get_estonian_text(
     estonian_data,
     english_text
@@ -142,10 +131,6 @@ def get_estonian_text(
 
     return expected
 
-
-# ---------------------------------------------------------
-# Compare application text with Excel Estonian text
-# ---------------------------------------------------------
 def verify_text(
     estonian_data,
     object_name,
@@ -212,23 +197,8 @@ def verify_text(
 
         return False
 
-
-# ---------------------------------------------------------
-# MAIN
-# ---------------------------------------------------------
 def main():
 
-    excelpath = (
-        "/home/ezen/Test_Automation_Gemini/Localisation/"
-        "suite_GFL_Estonian/"
-        "tst_GEM-LOC-Estonian-PeakPower-SoftTissueCharacters/"
-        "testdata/Gemini Split strings.xlsx"
-    )
-
-
-    # =====================================================
-    # LOGIN
-    # =====================================================
 
     clickButton(
         waitForObject(
@@ -263,10 +233,6 @@ def main():
     )
 
 
-    # =====================================================
-    # CHANGE LANGUAGE TO ESTONIAN
-    # =====================================================
-
     clickButton(
         waitForObject(
             names.homeScreen_settingsButton_QPushButton
@@ -287,10 +253,6 @@ def main():
     )
 
 
-    # -----------------------------------------------------
-    # ESTONIAN LANGUAGE BUTTON
-    # -----------------------------------------------------
-
     clickButton(
         waitForObject(
             names.languagesFrame_pbEstonia_QPushButton
@@ -298,9 +260,6 @@ def main():
     )
 
 
-    # -----------------------------------------------------
-    # ACCEPT LANGUAGE
-    # -----------------------------------------------------
 
     clickButton(
         waitForObject(
@@ -314,10 +273,6 @@ def main():
         )
     )
 
-
-    # =====================================================
-    # SOFT TISSUE QUICK START
-    # =====================================================
 
     clickButton(
         waitForObject(
@@ -359,55 +314,26 @@ def main():
         )
     )
 
+    mouseClick(waitForObject(names.peakPowerButton_nameLabel_QLabel), 29, 17, Qt.NoModifier, Qt.LeftButton)
 
-    # =====================================================
-    # PEAK POWER
-    # =====================================================
-
-    # mouseClick(waitForObject(names.peakPowerButton_nameLabel_QLabel_2), 52, 19, Qt.NoModifier, Qt.LeftButton)
-    # test.compare(str(waitForObjectExists(names.centralWidget_lbTitle_QLabel).text), "VALI TIPUVÕIMSUS")
-    # test.compare(str(waitForObjectExists(names.centralWidget_pw500_QPushButton).text), "Suur")
-    # test.compare(str(waitForObjectExists(names.centralWidget_pw250_QPushButton).text), "Keskmise suurusega")
-    # test.compare(str(waitForObjectExists(names.centralWidget_pw125_QPushButton).text), "Väike")
-    # test.compare(str(waitForObjectExists(names.buttonsFrame_rejectButton_QPushButton).text), "TÜHISTA")
-
-    mouseClick(
-        waitForObject(
-            names.peakPowerButton_nameLabel_QLabel_2
-        ),
-        34,
-        34,
-        Qt.NoModifier,
-        Qt.LeftButton
-    )
+   
+   
 
     snooze(6)
 
 
-    # =====================================================
-    # LOAD EXCEL
-    #
-    # Excel is loaded only after reaching Peak Power.
-    # =====================================================
 
     workbook, sheet, estonian_data = load_estonian_excel(
-        excelpath
+        EXCEL_PATH
     )
 
     if workbook is None:
         return
 
 
-    # =====================================================
-    # PEAK POWER ESTONIAN VERIFICATION
-    #
-    # NO ROW NUMBER
-    # NO COLUMN NUMBER
-    #
-    # English text is used as the lookup key.
-    # =====================================================
+    snooze(2)
 
-    snooze(6)
+    test.vp("Peakpower")
 
     verify_text(
         estonian_data,
@@ -441,16 +367,14 @@ def main():
 
     snooze(6)
 
+   
+    test.vp("Peakpower")
     verify_text(
         estonian_data,
         names.buttonsFrame_rejectButton_QPushButton,
         "CANCEL"
     )
 
-
-    # =====================================================
-    # CLOSE PEAK POWER
-    # =====================================================
 
     
 
@@ -470,10 +394,6 @@ def main():
         )
     )
 
-
-    # =====================================================
-    # SOFT TISSUE ASSISTANT
-    # =====================================================
 
     clickButton(
         waitForObject(
@@ -511,15 +431,7 @@ def main():
     snooze(6)
 
 
-    # =====================================================
-    # SOFT TISSUE CHARACTERISTICS
-    # ESTONIAN VERIFICATION
-    #
-    # NO ROW NUMBER
-    # NO COLUMN NUMBER
-    # =====================================================
-
-    snooze(6)
+    
 
     # test.compare(str(waitForObjectExists(names.centralWidget_titleLabel_QLabel).text), "SOFT TISSUE CHARACTERISTICS")
     # test.compare(str(waitForObjectExists(names.centralWidget_titleLabel_QLabel_2).text), "PROTSEDUUR")
@@ -533,7 +445,7 @@ def main():
         "SOFT TISSUE CHARACTERISTICS"
     )
 
-    snooze(6)
+    snooze(2)
 
     verify_text(
         estonian_data,
@@ -541,7 +453,7 @@ def main():
         "PROCEDURE"
     )
 
-    snooze(6)
+    snooze(2)
 
     verify_text(
         estonian_data,
@@ -549,7 +461,7 @@ def main():
         "Incision"
     )
 
-    snooze(6)
+    snooze(2)
 
     verify_text(
         estonian_data,
@@ -557,7 +469,9 @@ def main():
         "EDIT"
     )
 
-    snooze(6)
+    snooze(2)
+
+    test.vp("Softt Tissue Charactertistics")
 
     verify_text(
         estonian_data,
@@ -565,10 +479,6 @@ def main():
         "OK"
     )
 
-
-    # =====================================================
-    # CLOSE EXCEL
-    # =====================================================
 
     try:
 

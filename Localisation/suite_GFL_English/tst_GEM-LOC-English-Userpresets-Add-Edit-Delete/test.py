@@ -5,13 +5,24 @@ import names
 import openpyxl
 import re
 from openpyxl import load_workbook
+import os 
 
-
-EXCEL_PATH = (
-    "/home/ezen/Test_Automation_Gemini/Localisation/"
-    "suite_GFL_English/tst_GEM-LOC-English-PeakPower-SoftTissueCharacters/"
-    "testdata/Gemini Split strings.xlsx"
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
 )
+
+# EXCEL_PATH = (
+#     "/home/ezen/Test_Automation_Gemini/Localisation/"
+#     "suite_GFL_English/tst_GEM-LOC-English-PeakPower-SoftTissueCharacters/"
+#     "testdata/Gemini Split strings.xlsx"
+# )
 
 SHEET_NAME = "Treatment Modes"
 ENGLISH_COLUMN = 2
@@ -218,10 +229,7 @@ def main():
     snooze(6)
 
 
-    # ---------------------------------------------------------
-    # OPEN SETTINGS
-    # ---------------------------------------------------------
-
+   
     
 
     clickButton(
@@ -233,14 +241,6 @@ def main():
     snooze(2)
 
 
-    # ---------------------------------------------------------
-    # OPEN USER PRESETS
-    # ---------------------------------------------------------
-    # Settings contains 3 tabs.
-    # User Presets is tab index 2.
-    # No INFO or WIRELESS FOOTSWITCH click is required.
-    # ---------------------------------------------------------
-
     
 
     tab_widget = waitForObject(
@@ -251,10 +251,6 @@ def main():
 
     snooze(3)
 
-
-    # ---------------------------------------------------------
-    # OPEN EXCEL
-    # ---------------------------------------------------------
 
     
 
@@ -269,10 +265,6 @@ def main():
         return
 
 
-    # ---------------------------------------------------------
-    # ADD PRESET
-    # ---------------------------------------------------------
-
    
     clickButton(
         waitForObject(
@@ -283,11 +275,7 @@ def main():
     snooze(2)
 
 
-    # ---------------------------------------------------------
-    # VERIFY ADD PRESET
-    # ---------------------------------------------------------
-
-    snooze(6)
+  
 
     verify_text(
         english_data,
@@ -387,10 +375,6 @@ def main():
     )
 
 
-    # ---------------------------------------------------------
-    # ENTER PRESET NAME
-    # ---------------------------------------------------------
-
     clickButton(
         waitForObject(
             names.centralWidget_pbName_QPushButton
@@ -472,10 +456,6 @@ def main():
     snooze(2)
 
 
-    # ---------------------------------------------------------
-    # SAVE NEW PRESET
-    # ---------------------------------------------------------
-
     clickButton(
         waitForObject(
             names.pulseModeWidget_saveButton_QPushButton
@@ -483,11 +463,6 @@ def main():
     )
 
     snooze(4)
-
-
-    # ---------------------------------------------------------
-    # SELECT PRESET
-    # ---------------------------------------------------------
 
     mouseClick(
         waitForObject(
@@ -501,10 +476,6 @@ def main():
 
     snooze(2)
 
-
-    # ---------------------------------------------------------
-    # EDIT PRESET
-    # ---------------------------------------------------------
 
     clickButton(
         waitForObject(
@@ -515,10 +486,6 @@ def main():
     snooze(3)
 
 
-    # ---------------------------------------------------------
-    # SELECT PRESET IN EDIT SCREEN
-    # ---------------------------------------------------------
-
     mouseClick(
         waitForObject(
             names.tabSettingsPresetsUserStonePresets_presetListView_PresetListView
@@ -531,10 +498,6 @@ def main():
 
     snooze(2)
 
-
-    # ---------------------------------------------------------
-    # VERIFY EDIT PRESET
-    # ---------------------------------------------------------
 
     snooze(6)
 
@@ -627,10 +590,6 @@ def main():
     )
 
 
-    # ---------------------------------------------------------
-    # UPDATE PRESET
-    # ---------------------------------------------------------
-
     clickButton(
         waitForObject(
             names.pulseModeWidget_saveButton_QPushButton
@@ -654,11 +613,6 @@ def main():
 
     snooze(3)
 
-
-    # ---------------------------------------------------------
-    # SELECT PRESET FOR DELETE
-    # ---------------------------------------------------------
-
     mouseClick(
         waitForObject(
             names.tabSettingsPresetsUserStonePresets_presetListView_PresetListView
@@ -671,10 +625,6 @@ def main():
 
     snooze(3)
 
-
-    # ---------------------------------------------------------
-    # VERIFY DELETE DIALOG
-    # ---------------------------------------------------------
 
     snooze(6)
 
@@ -713,10 +663,6 @@ def main():
     )
 
 
-    # ---------------------------------------------------------
-    # CONFIRM DELETE
-    # ---------------------------------------------------------
-
     clickButton(
         waitForObject(
             names.centralWidget_acceptButton_QPushButton
@@ -725,10 +671,6 @@ def main():
 
     snooze(4)
 
-
-    # ---------------------------------------------------------
-    # CLOSE EXCEL
-    # ---------------------------------------------------------
 
     try:
         workbook.close()

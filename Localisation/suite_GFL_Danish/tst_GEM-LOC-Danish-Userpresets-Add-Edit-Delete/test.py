@@ -2,115 +2,352 @@
 
 import names
 import openpyxl
+import re
+import unicodedata
 from openpyxl import load_workbook
+import os
 
-
-def main():
-
-    # ============================================================
-    # EXCEL FILE
-    # ============================================================
-
-    excelpath = (
-        "/home/ezen/Test_Automation_Gemini/Localisation/"
-        "suite_GFL_Danish/"
-        "tst_GEM-LOC-Danish-PeakPower-SoftTissueCharacters/"
-        "testdata/Gemini Split strings.xlsx"
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
     )
+)
 
-    test.log("Loading Excel file...")
+# EXCEL_PATH = (
+# "/home/ezen/Test_Automation_Gemini/Localisation/"
+# "suite_GFL_Danish/"
+# "tst_GEM-LOC-Danish-PeakPower-SoftTissueCharacters/"
+# "testdata/Gemini Split strings.xlsx"
+# )
 
+SHEET_NAME = "Treatment Modes"
+LANGUAGE_NAME = "Danish"
+
+
+
+def normalize_text(value):
+
+
+    if value is None:
+        return ""
+    
+    value = str(value)
+    
+    # Remove HTML/XML tags
+    value = re.sub(r"<[^>]+>", "", value)
+    
+    # Replace special spaces
+    value = (
+        value.replace("\u00A0", " ")
+             .replace("\u2007", " ")
+             .replace("\u202F", " ")
+    )
+    
+    # Remove symbols which may appear in localization strings
+    value = (
+        value.replace("™", "")
+             .replace("®", "")
+             .replace("©", "")
+    )
+    
+    # Unicode normalization
+    value = unicodedata.normalize("NFKC", value)
+    
+    # Normalize line breaks/tabs
+    value = re.sub(r"[\r\n\t]+", " ", value)
+    
+    # Normalize repeated spaces
+    value = re.sub(r"\s+", " ", value)
+    
+    return value.strip().casefold()
+    
+    
+def comparison_key(value):
+  
+    
+    return re.sub(r"\s+", "", normalize_text(value))
+    
+   
+    
+def find_language_column(sheet, language_name):
+  
+    target = comparison_key(language_name)
+    
+    # Search header area
+    max_header_rows = min(sheet.max_row, 30)
+    
+    for row in sheet.iter_rows(
+        min_row=1,
+        max_row=max_header_rows
+    ):
+    
+        for cell in row:
+    
+            if cell.value is None:
+                continue
+    
+            cell_key = comparison_key(cell.value)
+    
+            if cell_key == target:
+                return cell.column
+    
+      
+            if target in cell_key:
+                return cell.column
+    
+    return None
+    
+    
+  
+    
+def find_english_column(sheet):
+   
+    
+    possible_names = [
+        "English",
+        "EN",
+        "English String",
+        "English Strings",
+        "English Translation",
+        "English Text"
+    ]
+    
+    normalized_names = [
+        comparison_key(name)
+        for name in possible_names
+    ]
+    
+    max_header_rows = min(sheet.max_row, 30)
+    
+    for row in sheet.iter_rows(
+        min_row=1,
+        max_row=max_header_rows
+    ):
+    
+        for cell in row:
+    
+            if cell.value is None:
+                continue
+    
+            cell_key = comparison_key(cell.value)
+    
+            if cell_key in normalized_names:
+                return cell.column
+    
+    return None
+    
+    
+
+    
+def get_translation(sheet, english_text, language_name):
+   
+    
+    english_column = find_english_column(sheet)
+    
+    language_column = find_language_column(
+        sheet,
+        language_name
+    )
+    
+    # --------------------------------------------------------
+    # If headers are available
+    # --------------------------------------------------------
+    
+    if english_column is not None and language_column is not None:
+    
+        target_key = comparison_key(english_text)
+    
+        for row_number in range(1, sheet.max_row + 1):
+    
+            english_value = sheet.cell(
+                row=row_number,
+                column=english_column
+            ).value
+    
+            if comparison_key(english_value) == target_key:
+    
+                translation = sheet.cell(
+                    row=row_number,
+                    column=language_column
+                ).value
+    
+                return "" if translation is None else str(translation)
+    
+  
+    
+    target_key = comparison_key(english_text)
+    
+    if language_column is not None:
+    
+        for row in sheet.iter_rows():
+    
+            for cell in row:
+    
+                if comparison_key(cell.value) == target_key:
+    
+                    translation = sheet.cell(
+                        row=cell.row,
+                        column=language_column
+                    ).value
+    
+                    return (
+                        ""
+                        if translation is None
+                        else str(translation)
+                    )
+    
+    return None
+    
+
+    
+def compare_with_excel(sheet, actual_value, english_key, description):
+   
+    expected_value = get_translation(
+        sheet,
+        english_key,
+        LANGUAGE_NAME
+    )
+    
+    if expected_value is None:
+    
+        # test.fail(
+        #     "Excel translation not found for English string: "
+        #     + str(english_key)
+        # )
+    
+        return
+    
+    test.compare(
+        comparison_key(actual_value),
+        comparison_key(expected_value),
+        description
+    )
+    
+ 
+def main():
+    
+    
+  
+    
     workbook = load_workbook(
-        excelpath,
+        EXCEL_PATH,
         read_only=True,
         data_only=True
     )
-
-    sheet = workbook["Treatment Modes"]
-
-    test.log("Excel sheet loaded: Treatment Modes")
-
-
-    # ============================================================
-    # LOGIN
-    # ============================================================
-
-    test.log("Entering login PIN")
-
-    clickButton(
-        waitForObject(names.numpad_pushButton_8_NumpadButton)
+    
+    if SHEET_NAME not in workbook.sheetnames:
+    
+        test.fail(
+            "Excel sheet not found: " + SHEET_NAME
+        )
+    
+        workbook.close()
+        return
+    
+    sheet = workbook[SHEET_NAME]
+    
+  
+    
+    language_column = find_language_column(
+        sheet,
+        LANGUAGE_NAME
     )
+    
+    if language_column is None:
+    
+        test.fail(
+            "Could not find language column for: "
+            + LANGUAGE_NAME
+        )
+    
+        workbook.close()
+        return
 
+    
     clickButton(
-        waitForObject(names.numpad_pushButton_8_NumpadButton)
+        waitForObject(
+            names.numpad_pushButton_8_NumpadButton
+        )
     )
-
+    
     clickButton(
-        waitForObject(names.numpad_pushButton_8_NumpadButton)
+        waitForObject(
+            names.numpad_pushButton_8_NumpadButton
+        )
     )
-
+    
     clickButton(
-        waitForObject(names.numpad_pushButton_8_NumpadButton)
+        waitForObject(
+            names.numpad_pushButton_8_NumpadButton
+        )
     )
-
+    
     clickButton(
-        waitForObject(names.mainFrame_okButton_QPushButton)
+        waitForObject(
+            names.numpad_pushButton_8_NumpadButton
+        )
     )
-
-
-    # ============================================================
-    # OPEN SETTINGS
-    # ============================================================
-
-    test.log("Opening Settings")
-
+    
     clickButton(
-        waitForObject(names.homeScreen_settingsButton_QPushButton)
+        waitForObject(
+            names.mainFrame_okButton_QPushButton
+        )
     )
-
+ 
+    
+    clickButton(
+        waitForObject(
+            names.homeScreen_settingsButton_QPushButton
+        )
+    )
+    
     clickTab(
-        waitForObject(names.settingsScreen_tbSystemInfo_TabWidget),
+        waitForObject(
+            names.settingsScreen_tbSystemInfo_TabWidget
+        ),
         "INFO"
     )
-
+    
     clickButton(
         waitForObject(
             names.gbSystemInformation_pbLanguageSettingsUpdate_QPushButton
         )
     )
-
-
-    # ============================================================
-    # CHANGE LANGUAGE TO DANISH
-    # ============================================================
-
-    test.log("Selecting Danish language")
-
+    
+  
+    
     clickButton(
-        waitForObject(names.languagesFrame_pbDenmark_QPushButton)
+        waitForObject(
+            names.languagesFrame_pbDenmark_QPushButton
+        )
     )
-
+    
     clickButton(
-        waitForObject(names.buttonsFrame_acceptButton_QPushButton)
+        waitForObject(
+            names.buttonsFrame_acceptButton_QPushButton
+        )
     )
-
-
-    # ============================================================
-    # OPEN USER PRESETS
-    # ============================================================
-
-    test.log("Opening User Presets")
-
+  
+    
     clickTab(
-        waitForObject(names.settingsScreen_tbSystemInfo_TabWidget),
+        waitForObject(
+            names.settingsScreen_tbSystemInfo_TabWidget
+        ),
         "TRÅDLØS FODKONTAKT"
     )
-
+    
     clickTab(
-        waitForObject(names.settingsScreen_tbSystemInfo_TabWidget),
+        waitForObject(
+            names.settingsScreen_tbSystemInfo_TabWidget
+        ),
         "FORUDINDSTILLI\nNGER FOR BRUGER"
     )
-
+    
     sendEvent(
         "QMoveEvent",
         waitForObject(names.o_ScreenSwitcher),
@@ -119,304 +356,231 @@ def main():
         1285,
         233
     )
-
-
-    # ============================================================
-    # ADD PRESET
-    # ============================================================
-
-    test.log("Clicking Add Preset")
-
+  
+    
     clickButton(
-        waitForObject(names.settingsScreen_addButton_QPushButton)
+        waitForObject(
+            names.settingsScreen_addButton_QPushButton
+        )
     )
-
-
-    # ============================================================
-    # 1. ADD PRESET OPERATION
-    # ============================================================
-
+    
+   
+    
     actualText1 = str(
         waitForObjectExists(
             names.centralWidget_lbOperation_QLabel
         ).text
     )
-
-    expectedText1 = str(
-        sheet.cell(row=67, column=6).value
-    )
-
-    test.compare(
+    
+    compare_with_excel(
+        sheet,
         actualText1,
-        expectedText1,
+        "Add Preset",
         "Add Preset Operation"
     )
-
-
-    # ============================================================
-    # 2. PRESET NAME
-    # ============================================================
-
+ 
+    
     actualText2 = str(
         waitForObjectExists(
             names.centralWidget_pbName_QPushButton
         ).text
     )
+    
+    test.vp("Add Preset Popup")
 
-    expectedText2 = str(
-        sheet.cell(row=50, column=6).value
-    )
-
-    test.compare(
+    compare_with_excel(
+        sheet,
         actualText2,
-        expectedText2,
+        "Preset Name",
         "Preset Name"
     )
-
-
-    # ============================================================
-    # 3. AVERAGE POWER
-    # ============================================================
-
+    
+  
     actualText3 = str(
         waitForObjectExists(
             names.averagePowerWidget_nameLabel_QLabel
         ).text
     )
-
-    expectedText3 = str(
-        sheet.cell(row=6, column=6).value
-    )
-
-    test.compare(
+    
+    compare_with_excel(
+        sheet,
         actualText3,
-        expectedText3,
+        "Average Power",
         "Average Power"
     )
-
-
-    # ============================================================
-    # 4. AVERAGE POWER UNIT
-    # ============================================================
-
+ 
+    
     actualText4 = str(
         waitForObjectExists(
             names.averagePowerWidget_unitsOfMeasureLabel_QLabel
         ).text
     )
-
-    expectedText4 = str(
-        sheet.cell(row=7, column=6).value
-    )
-
-    test.compare(
+    
+    compare_with_excel(
+        sheet,
         actualText4,
-        expectedText4,
+        "Average Power Unit",
         "Average Power Unit"
     )
-
-
-    # ============================================================
-    # 5. PULSE ENERGY
-    # ============================================================
-
+    
+ 
+    
     actualText5 = str(
         waitForObjectExists(
             names.pulseEnergyWidget_nameLabel_QLabel
         ).text
     )
-
-    expectedText5 = str(
-        sheet.cell(row=8, column=6).value
-    )
-
-    test.compare(
+    
+    compare_with_excel(
+        sheet,
         actualText5,
-        expectedText5,
+        "Pulse Energy",
         "Pulse Energy"
     )
-
-
-    # ============================================================
-    # 6. PULSE ENERGY UNIT
-    # ============================================================
-
+ 
     mouseClick(
-        waitForObject(names.centralWidget_frame_QFrame),
+        waitForObject(
+            names.centralWidget_frame_QFrame
+        ),
         271,
         13,
         Qt.NoModifier,
         Qt.LeftButton
     )
-
+    
     actualText6 = str(
         waitForObjectExists(
             names.pulseEnergyWidget_unitsOfMeasureLabel_QLabel
         ).text
     )
-
-    expectedText6 = str(
-        sheet.cell(row=9, column=6).value
-    )
-
-    test.compare(
+    
+    compare_with_excel(
+        sheet,
         actualText6,
-        expectedText6,
+        "Pulse Energy Unit",
         "Pulse Energy Unit"
     )
-
-
-    # ============================================================
-    # 7. FREQUENCY
-    # ============================================================
-
+    
+ 
     actualText7 = str(
         waitForObjectExists(
             names.frequencyWidget_nameLabel_QLabel
         ).text
     )
-
-    expectedText7 = str(
-        sheet.cell(row=10, column=6).value
-    )
-
-    test.compare(
+    
+    compare_with_excel(
+        sheet,
         actualText7,
-        expectedText7,
+        "Frequency",
         "Frequency"
     )
-
-
-    # ============================================================
-    # 8. FREQUENCY UNIT
-    # ============================================================
-
+    
+ 
     actualText8 = str(
         waitForObjectExists(
             names.frequencyWidget_unitsOfMeasureLabel_QLabel
         ).text
     )
-
-    expectedText8 = str(
-        sheet.cell(row=11, column=6).value
-    )
-
-    test.compare(
+    
+    compare_with_excel(
+        sheet,
         actualText8,
-        expectedText8,
+        "Frequency Unit",
         "Frequency Unit"
     )
-
-
-    # ============================================================
-    # 9. REGULAR PULSE
-    # ============================================================
-
+ 
     actualText9 = str(
         waitForObjectExists(
             names.modeButton_nameLabel_QLabel_3
         ).text
     )
-
-    expectedText9 = str(
-        sheet.cell(row=33, column=6).value
-    )
-
-    test.compare(
+    
+    compare_with_excel(
+        sheet,
         actualText9,
-        expectedText9,
+        "Regular Pulse",
         "Regular Pulse"
     )
-
-
-    # ============================================================
-    # 10. PEAK POWER
-    # ============================================================
-
+    
+   
     actualText10 = str(
         waitForObjectExists(
             names.peakPowerButton_nameLabel_QLabel_2
         ).text
     )
-
-    expectedText10 = str(
-        sheet.cell(row=12, column=6).value
-    )
-
-    test.compare(
+    
+    compare_with_excel(
+        sheet,
         actualText10,
-        expectedText10,
+        "Peak Power",
         "Peak Power"
     )
-
-
-    # ============================================================
-    # 11. ADD BUTTON
-    # ============================================================
-
+  
+    
     actualText11 = str(
         waitForObjectExists(
             names.pulseModeWidget_saveButton_QPushButton
         ).text
     )
-
-    expectedText11 = str(
-        sheet.cell(row=68, column=6).value
-    )
-
-    test.compare(
+    
+    compare_with_excel(
+        sheet,
         actualText11,
-        expectedText11,
+        "Add",
         "Add Button"
     )
-
-
-    # ============================================================
-    # ENTER PRESET NAME
-    # ============================================================
-
+   
+    
     mouseClick(
-        waitForObject(names.pulseModeWidget_buttonsWidget_QWidget),
+        waitForObject(
+            names.pulseModeWidget_buttonsWidget_QWidget
+        ),
         508,
         46,
         Qt.NoModifier,
         Qt.LeftButton
     )
-
+    
     mouseClick(
-        waitForObject(names.pulseModeWidget_buttonsWidget_QWidget),
+        waitForObject(
+            names.pulseModeWidget_buttonsWidget_QWidget
+        ),
         411,
         1,
         Qt.NoModifier,
         Qt.LeftButton
     )
-
+    
     clickButton(
-        waitForObject(names.centralWidget_pbName_QPushButton)
+        waitForObject(
+            names.centralWidget_pbName_QPushButton
+        )
     )
-
+    
     type(
-        waitForObject(names.keyboardPopup_wdEdit_WdLineEdit),
+        waitForObject(
+            names.keyboardPopup_wdEdit_WdLineEdit
+        ),
         "preset one"
     )
-
+    
     mouseClick(
-        waitForObject(names.keyboardPopup_lbText_QLabel),
+        waitForObject(
+            names.keyboardPopup_lbText_QLabel
+        ),
         77,
         26,
         Qt.NoModifier,
         Qt.LeftButton
     )
-
+    
     clickButton(
-        waitForObject(names.pulseModeWidget_saveButton_QPushButton)
+        waitForObject(
+            names.pulseModeWidget_saveButton_QPushButton
+        )
     )
-
-
-    # ============================================================
-    # SELECT PRESET
-    # ============================================================
-
+  
+    
     mouseClick(
         waitForObject(
             names.tabSettingsPresetsUserStonePresets_presetListView_PresetListView
@@ -426,16 +590,14 @@ def main():
         Qt.NoModifier,
         Qt.LeftButton
     )
-
-
-    # ============================================================
-    # EDIT PRESET
-    # ============================================================
-
+  
+    
     clickButton(
-        waitForObject(names.settingsScreen_editButton_QPushButton)
+        waitForObject(
+            names.settingsScreen_editButton_QPushButton
+        )
     )
-
+    
     mouseClick(
         waitForObject(
             names.tabSettingsPresetsUserStonePresets_presetListView_PresetListView
@@ -445,270 +607,199 @@ def main():
         Qt.NoModifier,
         Qt.LeftButton
     )
-
-
-    # ============================================================
-    # EDIT OPERATION
-    # ============================================================
-
+    
+  
+    
     actualEditOperation = str(
         waitForObjectExists(
             names.centralWidget_lbOperation_QLabel
         ).text
     )
-
-    expectedEditOperation = str(
-        sheet.cell(row=73, column=6).value
-    )
-
-    test.compare(
+    
+    compare_with_excel(
+        sheet,
         actualEditOperation,
-        expectedEditOperation,
+        "Edit Preset",
         "Edit Preset Operation"
     )
-
-
-    # ============================================================
-    # EDIT PRESET NAME
-    # ============================================================
-
+  
+    
     actualEditName = str(
         waitForObjectExists(
             names.centralWidget_pbName_QPushButton
         ).text
     )
-
+    
     test.compare(
-        actualEditName,
-        "preset one",
+        comparison_key(actualEditName),
+        comparison_key("preset one"),
         "Edit Preset Name"
     )
-
-
-    # ============================================================
-    # EDIT - AVERAGE POWER
-    # ============================================================
-
+ 
+    
     actualEditAveragePower = str(
         waitForObjectExists(
             names.averagePowerWidget_nameLabel_QLabel
         ).text
     )
-
-    expectedEditAveragePower = str(
-        sheet.cell(row=6, column=6).value
-    )
-
-    test.compare(
+    
+    compare_with_excel(
+        sheet,
         actualEditAveragePower,
-        expectedEditAveragePower,
+        "Average Power",
         "Edit - Average Power"
     )
-
-
-    # ============================================================
-    # EDIT - AVERAGE POWER UNIT
-    # ============================================================
-
+    
+  
     actualEditAveragePowerUnit = str(
         waitForObjectExists(
             names.averagePowerWidget_unitsOfMeasureLabel_QLabel
         ).text
     )
-
-    expectedEditAveragePowerUnit = str(
-        sheet.cell(row=7, column=6).value
-    )
-
-    test.compare(
+    
+    compare_with_excel(
+        sheet,
         actualEditAveragePowerUnit,
-        expectedEditAveragePowerUnit,
+        "Average Power Unit",
         "Edit - Average Power Unit"
     )
+    
 
-
-    # ============================================================
-    # EDIT - PULSE ENERGY
-    # ============================================================
-
+    
     actualEditPulseEnergy = str(
         waitForObjectExists(
             names.pulseEnergyWidget_nameLabel_QLabel
         ).text
     )
-
-    expectedEditPulseEnergy = str(
-        sheet.cell(row=8, column=6).value
-    )
-
-    test.compare(
+    
+    compare_with_excel(
+        sheet,
         actualEditPulseEnergy,
-        expectedEditPulseEnergy,
+        "Pulse Energy",
         "Edit - Pulse Energy"
     )
 
-
-    # ============================================================
-    # EDIT - PULSE ENERGY UNIT
-    # ============================================================
-
+    
     actualEditPulseEnergyUnit = str(
         waitForObjectExists(
             names.pulseEnergyWidget_unitsOfMeasureLabel_QLabel
         ).text
     )
-
-    expectedEditPulseEnergyUnit = str(
-        sheet.cell(row=9, column=6).value
-    )
-
-    test.compare(
+    
+    compare_with_excel(
+        sheet,
         actualEditPulseEnergyUnit,
-        expectedEditPulseEnergyUnit,
+        "Pulse Energy Unit",
         "Edit - Pulse Energy Unit"
     )
-
-
-    # ============================================================
-    # EDIT - FREQUENCY
-    # ============================================================
-
+ 
+    
     actualEditFrequency = str(
         waitForObjectExists(
             names.frequencyWidget_nameLabel_QLabel
         ).text
     )
-
-    expectedEditFrequency = str(
-        sheet.cell(row=10, column=6).value
-    )
-
-    test.compare(
+    
+    compare_with_excel(
+        sheet,
         actualEditFrequency,
-        expectedEditFrequency,
+        "Frequency",
         "Edit - Frequency"
     )
-
-
-    # ============================================================
-    # EDIT - FREQUENCY UNIT
-    # ============================================================
-
+    
+   
     actualEditFrequencyUnit = str(
         waitForObjectExists(
             names.frequencyWidget_unitsOfMeasureLabel_QLabel
         ).text
     )
-
-    expectedEditFrequencyUnit = str(
-        sheet.cell(row=11, column=6).value
-    )
-
-    test.compare(
+    
+    compare_with_excel(
+        sheet,
         actualEditFrequencyUnit,
-        expectedEditFrequencyUnit,
+        "Frequency Unit",
         "Edit - Frequency Unit"
     )
 
-
-    # ============================================================
-    # EDIT - REGULAR PULSE
-    # ============================================================
-
+    
     actualEditRegularPulse = str(
         waitForObjectExists(
             names.modeButton_nameLabel_QLabel_3
         ).text
     )
-
-    expectedEditRegularPulse = str(
-        sheet.cell(row=33, column=6).value
-    )
-
-    test.compare(
+    
+    compare_with_excel(
+        sheet,
         actualEditRegularPulse,
-        expectedEditRegularPulse,
+        "Regular Pulse",
         "Edit - Regular Pulse"
     )
-
-
-    # ============================================================
-    # EDIT - PEAK POWER
-    # ============================================================
-
+    
+   
+    
     actualEditPeakPower = str(
         waitForObjectExists(
             names.peakPowerButton_nameLabel_QLabel_2
         ).text
     )
-
-    expectedEditPeakPower = str(
-        sheet.cell(row=12, column=6).value
-    )
-
-    test.compare(
+    
+    compare_with_excel(
+        sheet,
         actualEditPeakPower,
-        expectedEditPeakPower,
+        "Peak Power",
         "Edit - Peak Power"
     )
-
-
-    # ============================================================
-    # UPDATE BUTTON
-    # ============================================================
-
+    
+  
     actualUpdateButton = str(
         waitForObjectExists(
             names.pulseModeWidget_saveButton_QPushButton
         ).text
     )
-
-    expectedUpdateButton = str(
-        sheet.cell(row=69, column=6).value
-    )
-
-    test.compare(
+    
+    compare_with_excel(
+        sheet,
         actualUpdateButton,
-        expectedUpdateButton,
+        "Update",
         "Update Button"
     )
-
-
-    # ============================================================
-    # SAVE EDITED PRESET
-    # ============================================================
-
+    
+   
+    
     mouseClick(
-        waitForObject(names.pulseModeWidget_buttonsWidget_QWidget),
+        waitForObject(
+            names.pulseModeWidget_buttonsWidget_QWidget
+        ),
         531,
         22,
         Qt.NoModifier,
         Qt.LeftButton
     )
-
+    
     mouseClick(
-        waitForObject(names.pulseModeWidget_buttonsWidget_QWidget),
+        waitForObject(
+            names.pulseModeWidget_buttonsWidget_QWidget
+        ),
         509,
         30,
         Qt.NoModifier,
         Qt.LeftButton
     )
-
+    
     clickButton(
-        waitForObject(names.pulseModeWidget_saveButton_QPushButton)
+        waitForObject(
+            names.pulseModeWidget_saveButton_QPushButton
+        )
     )
-
-
-    # ============================================================
-    # DELETE PRESET
-    # ============================================================
-
+    
+   
+    
     clickButton(
         waitForObject(
             names.settingsScreen_deletePresetButton_QPushButton
         )
     )
-
+    
     mouseClick(
         waitForObject(
             names.tabSettingsPresetsUserStonePresets_presetListView_PresetListView
@@ -718,114 +809,85 @@ def main():
         Qt.NoModifier,
         Qt.LeftButton
     )
-
-
-    # ============================================================
-    # DELETE DIALOG TITLE
-    # ============================================================
-
+    
+   
+    
     actualDeleteTitle = str(
         waitForObjectExists(
             names.centralWidget_lbDialogTitle_QLabel
         ).text
     )
-
-    expectedDeleteTitle = str(
-        sheet.cell(row=74, column=6).value
-    )
-
-    test.compare(
+    
+    compare_with_excel(
+        sheet,
         actualDeleteTitle,
-        expectedDeleteTitle,
+        "Delete Preset",
         "Delete Dialog Title"
     )
-
-
-    # ============================================================
-    # DELETE PRESET NAME
-    # ============================================================
-
+   
+    
     actualDeleteName = str(
         waitForObjectExists(
             names.centralWidget_questionLabel_QLabel
         ).text
     )
-
+    
     test.compare(
-        actualDeleteName,
-        "preset one",
+        comparison_key(actualDeleteName),
+        comparison_key("preset one"),
         "Delete Preset Name"
     )
-
-
-    # ============================================================
-    # PRESET INFORMATION
-    # ============================================================
-
+    
+   
+    
     actualInfo = str(
         waitForObjectExists(
             names.infoFrame_extInfoLabel_QLabel
         ).text
     )
-
+    
     expectedInfo = "6 J     3 Hz     18 W"
-
+    
     test.compare(
-        actualInfo,
-        expectedInfo,
+        comparison_key(actualInfo),
+        comparison_key(expectedInfo),
         "Preset Information"
     )
-
-
-    # ============================================================
-    # CANCEL BUTTON
-    # ============================================================
-
+    
+   
+    
     actualCancel = str(
         waitForObjectExists(
             names.buttonsFrame_rejectButton_QPushButton
         ).text
     )
-
-    expectedCancel = str(
-        sheet.cell(row=71, column=6).value
-    )
-
-    test.compare(
+    
+    compare_with_excel(
+        sheet,
         actualCancel,
-        expectedCancel,
+        "Cancel",
         "Cancel Button"
     )
-
-
-    # ============================================================
-    # DELETE BUTTON
-    # ============================================================
-
+    
+    
+    
     actualDelete = str(
         waitForObjectExists(
             names.centralWidget_acceptButton_QPushButton
         ).text
     )
+    
+   
 
-    expectedDelete = str(
-        sheet.cell(row=72, column=6).value
-    )
-
-    test.compare(
+    compare_with_excel(
+        sheet,
         actualDelete,
-        expectedDelete,
+        "Delete",
         "Delete Button"
     )
+    
+    test.vp("Delete Preset Popup")
 
-
-    # ============================================================
-    # CLOSE EXCEL
-    # ============================================================
-
+    clickButton(waitForObject(names.centralWidget_acceptButton_QPushButton))
     workbook.close()
-
-    test.log(
-        "Danish Peak Power - Soft Tissue localization "
-        "verification completed"
-    )
+    

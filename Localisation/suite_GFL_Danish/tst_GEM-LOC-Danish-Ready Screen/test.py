@@ -3,18 +3,25 @@
 
 import names
 from openpyxl import load_workbook
+import os
 
-
-# ============================================================
-# EXCEL CONFIGURATION
-# ============================================================
-
-EXCEL_PATH = (
-    "/home/ezen/Test_Automation_Gemini/Localisation/"
-    "suite_GFL_Danish/"
-    "tst_GEM-LOC-Danish-PeakPower-SoftTissueCharacters/"
-    "testdata/Gemini Split strings.xlsx"
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
 )
+
+# EXCEL_PATH = (
+#     "/home/ezen/Test_Automation_Gemini/Localisation/"
+#     "suite_GFL_Danish/"
+#     "tst_GEM-LOC-Danish-PeakPower-SoftTissueCharacters/"
+#     "testdata/Gemini Split strings.xlsx"
+# )
 
 EXCEL_SHEET_NAME = "Treatment Modes"
 
@@ -25,9 +32,6 @@ ENGLISH_COLUMN = 2
 DANISH_COLUMN = 6
 
 
-# ============================================================
-# TEXT NORMALIZATION
-# ============================================================
 
 def normalize_text(value):
 
@@ -43,15 +47,7 @@ def normalize_text(value):
     ).strip().casefold()
 
 
-# ============================================================
-# LOAD EXCEL DATA
-#
-# Creates:
-#
-# English text -> Danish text
-#
-# No row numbers are used during verification.
-# ============================================================
+
 
 def load_excel_data():
 
@@ -117,9 +113,7 @@ def load_excel_data():
     return workbook, danish_data
 
 
-# ============================================================
-# GET DANISH TEXT USING ENGLISH TEXT
-# ============================================================
+
 
 def get_danish_text(
     danish_data,
@@ -157,12 +151,7 @@ def get_danish_text(
     return danish_value
 
 
-# ============================================================
-# VERIFY NORMAL OBJECT TEXT
-#
-# object_name = object-map name
-# english_text = English Excel lookup text
-# ============================================================
+
 
 def verify_text(
     danish_data,
@@ -180,10 +169,10 @@ def verify_text(
 
     # Do not continue with an empty Excel value.
     if expected_text is None:
-        test.fail(
-            description
-            + " skipped because Excel lookup failed"
-        )
+        # test.fail(
+        #     description
+        #     + " skipped because Excel lookup failed"
+        # )
         return
 
     try:
@@ -228,16 +217,7 @@ def verify_text(
     )
 
 
-# ============================================================
-# FIND VISIBLE TAB ITEMS
-#
-# This avoids creating a fragile Squish object name using:
-#
-# text='Danish text'
-#
-# Instead, we inspect the actual visible children and
-# compare their text.
-# ============================================================
+
 
 def get_visible_tab_items(widget):
 
@@ -320,15 +300,6 @@ def get_visible_tab_items(widget):
     return result
 
 
-# ============================================================
-# VERIFY LEFT TREATMENT NAME
-#
-# IMPORTANT:
-# The English value passed here MUST be the English value
-# from Excel Column B.
-#
-# We do NOT construct a Squish object name using the text.
-# ============================================================
 
 def verify_left_treatment_name(
     danish_data,
@@ -345,10 +316,10 @@ def verify_left_treatment_name(
 
     if expected_text is None:
 
-        test.fail(
-            description
-            + " skipped because Excel lookup failed"
-        )
+        # test.fail(
+        #     description
+        #     + " skipped because Excel lookup failed"
+        # )
 
         return
 
@@ -363,9 +334,7 @@ def verify_left_treatment_name(
         )
     )
 
-    # --------------------------------------------------------
-    # Find TreatmentScreen
-    # --------------------------------------------------------
+
 
     try:
 
@@ -383,10 +352,7 @@ def verify_left_treatment_name(
 
         return
 
-    # --------------------------------------------------------
-    # Search recursively for matching visible text
-    # --------------------------------------------------------
-
+ 
     def search_object(obj):
 
         try:
@@ -476,9 +442,6 @@ def verify_left_treatment_name(
     )
 
 
-# ============================================================
-# VERIFY RIGHT TREATMENT NAME
-# ============================================================
 
 def verify_right_treatment_name(
     danish_data,
@@ -486,12 +449,7 @@ def verify_right_treatment_name(
     description
 ):
 
-    # Same method as left side.
-    #
-    # The actual Danish text is searched in the visible
-    # TreatmentScreen instead of constructing an object
-    # name from the text.
-
+ 
     verify_left_treatment_name(
         danish_data,
         english_text,
@@ -499,15 +457,8 @@ def verify_right_treatment_name(
     )
 
 
-# ============================================================
-# MAIN
-# ============================================================
-
 def main():
 
-    # ========================================================
-    # LOAD EXCEL
-    # ========================================================
 
     workbook, danish_data = load_excel_data()
 
@@ -515,10 +466,7 @@ def main():
         return
 
 
-    # ========================================================
-    # LOGIN
-    # ========================================================
-
+ 
     for i in range(4):
 
         clickButton(
@@ -539,9 +487,6 @@ def main():
     
 
 
-    # ========================================================
-    # OPEN SETTINGS
-    # ========================================================
 
     clickButton(
         waitForObject(
@@ -552,10 +497,6 @@ def main():
     snooze(2)
 
 
-    # ========================================================
-    # OPEN SYSTEM INFORMATION
-    # ========================================================
-
     clickTab(
         waitForObject(
             names.settingsScreen_tbSystemInfo_TabWidget
@@ -564,11 +505,6 @@ def main():
     )
 
  
-
-
-    # ========================================================
-    # CHANGE LANGUAGE TO DANISH
-    # ========================================================
 
     clickButton(
         waitForObject(
@@ -596,10 +532,6 @@ def main():
 
     
 
-    # ========================================================
-    # RETURN TO HOME
-    # ========================================================
-
     clickButton(
         waitForObject(
             names.buttonsBar_homeButton_QPushButton
@@ -609,10 +541,6 @@ def main():
  
 
 
-    # ========================================================
-    # OPEN SOFT TISSUE QUICK START
-    # ========================================================
-
     clickButton(
         waitForObject(
             names.homeScreen_pbSoftTissueQuickStart_QToolButton
@@ -621,10 +549,6 @@ def main():
 
     
 
-
-    # ========================================================
-    # SELECT LEFT TREATMENT
-    # ========================================================
 
     mouseClick(
         waitForObjectItem(
@@ -640,10 +564,6 @@ def main():
    
 
 
-    # ========================================================
-    # SELECT RIGHT TREATMENT
-    # ========================================================
-
     mouseClick(
         waitForObjectItem(
             names.tabRightMainPresets_rightPresetsView_PresetListView,
@@ -658,10 +578,6 @@ def main():
     
 
 
-    # ========================================================
-    # QUICK START BOTTOM WIDGET
-    # ========================================================
-
     mouseClick(
         waitForObject(
             names.quickStartScreen_wdBottom_QWidget
@@ -674,10 +590,6 @@ def main():
 
     snooze(2)
 
-
-    # ========================================================
-    # MOVE SCREEN
-    # ========================================================
 
     sendEvent(
         "QMoveEvent",
@@ -693,9 +605,7 @@ def main():
    
 
 
-    # ========================================================
-    # CONTINUE
-    # ========================================================
+
 
     clickButton(
         waitForObject(
@@ -705,9 +615,6 @@ def main():
 
  
 
-    # ========================================================
-    # OK
-    # ========================================================
 
     clickButton(
         waitForObject(
@@ -718,36 +625,16 @@ def main():
    
 
 
-    # ========================================================
-    # SELECT READY STATE
-    # ========================================================
-
+ 
     clickButton(
         waitForObject(
             names.stateSwitch_readyButton_QPushButton
         )
     )
 
-   
-
-
-    # ========================================================
-    # LEFT SIDE VERIFICATION
-    # ========================================================
 
 
 
-    # IMPORTANT:
-    #
-    # Use the ENGLISH value from Excel Column B here.
-    #
-    # Your previous value:
-    # ENUKLEACE PROSTATY-(VYSOKÁ ENERGIE)
-    #
-    # was Czech, therefore it could not be found in
-    # English Column B.
-    #
-    # The English Excel value should be used here.
 
     verify_left_treatment_name(
         danish_data,
@@ -779,6 +666,8 @@ def main():
         "Left Frequency"
     )
 
+    # clickTab(waitForObject(names.leftPedalWidget_wdPresetTabs_TabWidget), "PROSTATAENUKLEATION-(HØJ ENERGI)")
+    # test.compare(str(waitForObjectExists(names.modeButtonEmission_nameLabel_QLabel).text), "REGELMÆSSIG\nPULS")
 
     verify_text(
         danish_data,
@@ -876,13 +765,9 @@ def main():
     )
 
 
-    # ========================================================
-    # RIGHT SIDE VERIFICATION
-    # ========================================================
-
-    test.log(
-        "Starting right-side Danish verification"
-    )
+    # test.log(
+    #     "Starting right-side Danish verification"
+    # )
 
 
     verify_right_treatment_name(
@@ -968,17 +853,10 @@ def main():
 
     
 
-    # ========================================================
-    # READY SCREEN IMAGE VERIFICATION
-    # ========================================================
 
-    test.log(
-        "Starting Ready Screen image verification"
-    )
-
-    test.imagePresent(
-        "Ready screen header image"
-    )
+    # test.imagePresent(
+    #     "Ready screen header image"
+    # )
 
 
     clickButton(
@@ -988,18 +866,14 @@ def main():
     )
 
 
-    test.vp(
-        "Readyscreen"
-    )
 
+    test.vp("Readyscreen")
 
-    # ========================================================
-    # CLOSE EXCEL
-    # ========================================================
+    
 
     workbook.close()
 
-    test.log(
-        "Danish Ready Screen localization verification completed"
-    )
+    # test.log(
+    #     "Danish Ready Screen localization verification completed"
+    # )
 

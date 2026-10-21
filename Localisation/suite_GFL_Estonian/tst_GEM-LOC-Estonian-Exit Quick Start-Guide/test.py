@@ -3,34 +3,24 @@
 import names
 import openpyxl
 import re
+import os 
 
-# =========================================================
-
-# Excel Configuration
-
-# =========================================================
-
-EXCEL_PATH = (
-"/home/ezen/Test_Automation_Gemini/Localisation/"
-"suite_GFL_Estonian/"
-"tst_GEM-LOC-Estonian-PeakPower-SoftTissueCharacters/"
-"testdata/Gemini Split strings.xlsx"
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
 )
-
-# Column B = English
-
-# Column H = Estonian
 
 ENGLISH_COLUMN = 2
 ESTONIAN_COLUMN = 8
 
 SHEET_NAME = "Soft tissue"
 
-# =========================================================
-
-# Normalize / Concatenate Text
-
-# =========================================================
 
 def normalize(text):
 
@@ -74,11 +64,6 @@ def normalize(text):
     return text.casefold()
     
 
-# =========================================================
-
-# Load Excel
-
-# =========================================================
 
 def load_excel():
 
@@ -115,22 +100,6 @@ def load_excel():
     
         return None, None
     
-    
-# =========================================================
-
-# Get Estonian Values From Excel
-
-#
-
-# English = Column B
-
-# Estonian = Column H
-
-#
-
-# No hard-coded Excel row numbers
-
-# =========================================================
 
 def get_estonian_values(
 sheet,
@@ -182,12 +151,6 @@ english_text
     return estonian_values
     
 
-# =========================================================
-
-# Verify UI Text Against Excel
-
-# =========================================================
-
 def verify_text(
 sheet,
 object_name,
@@ -223,20 +186,12 @@ description
     
         return
     
-    
-# =====================================================
-# Get Estonian translation from Excel
-# =====================================================
 
     expected_values = get_estonian_values(
         sheet,
         english_text
     )
 
-
-# =====================================================
-# English string not found
-# =====================================================
 
     if not expected_values:
     
@@ -249,19 +204,10 @@ description
         return
 
 
-# =====================================================
-# CONCATENATE UI STRING
-# =====================================================
-
     actual_normalized = normalize(
         actual
     )
 
-
-# =====================================================
-# Compare concatenated UI string
-# against concatenated Excel string
-# =====================================================
 
     for expected in expected_values:
     
@@ -279,10 +225,6 @@ description
     
             return
     
-    
-# =====================================================
-# Verification Failed
-# =====================================================
 
     test.fail(
         description
@@ -294,12 +236,6 @@ description
         + actual
     )
 
-
-# =========================================================
-
-# Get Visible centralWidget
-
-# =========================================================
 
 def get_central_widget():
 
@@ -333,12 +269,6 @@ def get_central_widget():
         return None
     
 
-# =========================================================
-
-# MAIN
-
-# =========================================================
-
 def main():
 
     workbook, sheet = load_excel()
@@ -346,10 +276,6 @@ def main():
     if workbook is None or sheet is None:
         return
 
-
-# =====================================================
-# LOGIN
-# =====================================================
 
     clickButton(
         waitForObject(
@@ -383,10 +309,6 @@ def main():
         )
     )
     
-    
-    # =====================================================
-    # CHANGE LANGUAGE TO ESTONIAN
-    # =====================================================
     
     clickButton(
         waitForObject(
@@ -422,16 +344,6 @@ def main():
     
     clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
     
-
-    
-    
-    
-    # =====================================================
-    # SOFT TISSUE QUICK START
-    # =====================================================
-    
-    
-
     clickButton(
         waitForObject(
             names.homeScreen_pbSoftTissueQuickStart_QToolButton
@@ -483,11 +395,6 @@ def main():
         )
     )
     
-    
-    # =====================================================
-    # QUICK START EXIT POPUP
-    # =====================================================
-    
     mouseClick(
         waitForObject(
             names.modeButton_nameLabel_QLabel
@@ -497,110 +404,71 @@ def main():
         Qt.NoModifier,
         Qt.LeftButton
     )
-    
-    
-    # =====================================================
-    # QUICK START EXIT TITLE
-    # =====================================================
-    
-    # test.compare(str(waitForObjectExists(names.centralWidget_TitleLabel_QLabel).text), "KAS VÄLJUDA KIIRKÄIVITUSE REŽIIMIST?")
-    # test.compare(str(waitForObjectExists(names.centralWidget_MessageLabel_QLabel).text), "Kinnitage, et soovite kiirolekurežiimist väljuda.")
-    # test.compare(str(waitForObjectExists(names.centralWidget_CancelButton_QPushButton).text), "TÜHISTA")
-    # test.compare(str(waitForObjectExists(names.centralWidget_DisableButton_QPushButton).text), "CONFIRM")
+
+    # test.compare(str(waitForObjectExists(names.centralWidget_TitleLabel_QLabel_2).text), "KAS VÄLJUDA KIIRKÄIVITUSE REŽIIMIST?")
+    # test.compare(str(waitForObjectExists(names.centralWidget_MessageLabel_QLabel_2).text), "Kinnitage, et soovite kiirolekurežiimist väljuda.")
+    # test.compare(str(waitForObjectExists(names.centralWidget_CancelButton_QPushButton_3).text), "TÜHISTA")
+    # test.compare(str(waitForObjectExists(names.centralWidget_DisableButton_QPushButton_2).text), "CONFIRM")
 
     verify_text(
         sheet,
-        names.centralWidget_TitleLabel_QLabel,
+        names.centralWidget_TitleLabel_QLabel_2,
         "EXIT QUICK START MODE?",
         "Quick Start Exit Title"
     )
     
     
-    # =====================================================
-    # QUICK START EXIT MESSAGE
-    # =====================================================
-    
     verify_text(
         sheet,
-        names.centralWidget_MessageLabel_QLabel,
+        names.centralWidget_MessageLabel_QLabel_2,
         "Please confirm that you want to exit quick start mode.",
         "Quick Start Exit Message"
     )
     
     
-    # =====================================================
-    # QUICK START CANCEL
-    # =====================================================
-    
     verify_text(
         sheet,
-        names.centralWidget_CancelButton_QPushButton,
+        names.centralWidget_CancelButton_QPushButton_3,
         "CANCEL",
         "Quick Start Cancel Button"
     )
     
-    
-    # =====================================================
-    # QUICK START CONFIRM
-    # =====================================================
-    
+    test.vp("Quick Start Exit Mode")
+
     verify_text(
         sheet,
-        names.centralWidget_DisableButton_QPushButton,
+        names.centralWidget_DisableButton_QPushButton_2,
         "CONFIRM",
         "Quick Start Confirm Button"
     )
     
-    
-    # =====================================================
-    # CONFIRM EXIT
-    # =====================================================
-
-    # mouseClick(waitForObject(names.centralWidget_QFrame_2), 621, 166, Qt.NoModifier, Qt.LeftButton)
-    # clickButton(waitForObject(names.centralWidget_CancelButton_QPushButton))
-    #
-    #
+    # clickButton(waitForObject(names.centralWidget_DisableButton_QPushButton_2))
+    # clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_2))
+    # clickButton(waitForObject(names.homeScreen_pbSoftTissueAssistant_QToolButton))
     # clickButton(waitForObject(names.gbSoftTissueProcedures_pbIncision_QPushButton))
     # clickButton(waitForObject(names.softTissueAssistantModeScreen_pbContinue_QPushButton))
+    # mouseClick(waitForObject(names.peakPowerButton_nameLabel_QLabel), 36, 22, Qt.NoModifier, Qt.LeftButton)
+    # clickButton(waitForObject(names.buttonsFrame_rejectButton_QPushButton))
+    # clickButton(waitForObject(names.pulseEnergyWidget_incrementButton_QPushButton))
+    # clickButton(waitForObject(names.pulseEnergyWidget_incrementButton_QPushButton))
+    # doubleClick(waitForObject(names.pulseEnergyWidget_incrementButton_QPushButton), 30, 31, Qt.NoModifier, Qt.LeftButton)
+    # doubleClick(waitForObject(names.pulseEnergyWidget_incrementButton_QPushButton), 30, 31, Qt.NoModifier, Qt.LeftButton)
+    # doubleClick(waitForObject(names.pulseEnergyWidget_incrementButton_QPushButton), 30, 31, Qt.NoModifier, Qt.LeftButton)
     # clickButton(waitForObject(names.pulseEnergyWidget_incrementButton_QPushButton))
     # clickButton(waitForObject(names.pulseEnergyWidget_incrementButton_QPushButton))
     # clickButton(waitForObject(names.pulseEnergyWidget_incrementButton_QPushButton))
     # clickButton(waitForObject(names.pulseEnergyWidget_incrementButton_QPushButton))
-    # clickButton(waitForObject(names.pulseEnergyWidget_incrementButton_QPushButton))
-    # clickButton(waitForObject(names.pulseEnergyWidget_incrementButton_QPushButton))
-    # clickButton(waitForObject(names.pulseEnergyWidget_incrementButton_QPushButton))
-    # clickButton(waitForObject(names.pulseEnergyWidget_incrementButton_QPushButton))
-    # clickButton(waitForObject(names.pulseEnergyWidget_incrementButton_QPushButton))
-    # clickButton(waitForObject(names.pulseEnergyWidget_incrementButton_QPushButton))
-    # clickButton(waitForObject(names.pulseEnergyWidget_incrementButton_QPushButton))
-    # test.compare(str(waitForObjectExists(names.centralWidget_TitleLabel_QLabel).text), "KAS VÄLJUDA JUHENDATUD REŽIIMIST?")
-    # test.compare(str(waitForObjectExists(names.centralWidget_MessageLabel_QLabel).text), "Kinnitage, et soovite juhendatud režiimist väljuda.")
-    # test.compare(str(waitForObjectExists(names.centralWidget_CancelButton_QPushButton).text), "TÜHISTA")
-    # test.compare(str(waitForObjectExists(names.centralWidget_DisableButton_QPushButton).text), "CONFIRM")
+    # test.compare(str(waitForObjectExists(names.centralWidget_TitleLabel_QLabel_2).text), "KAS VÄLJUDA JUHENDATUD REŽIIMIST?")
+    # test.compare(str(waitForObjectExists(names.centralWidget_MessageLabel_QLabel_2).text), "Kinnitage, et soovite juhendatud režiimist väljuda.")
+    # test.compare(str(waitForObjectExists(names.centralWidget_CancelButton_QPushButton_3).text), "TÜHISTA")
+    # test.compare(str(waitForObjectExists(names.centralWidget_DisableButton_QPushButton_2).text), "CONFIRM")
 
-    # clickButton(
-    #     waitForObject(
-    #         names.centralWidget_DisableButton_QPushButton_2
-    #     )
-    # )
-    #
+    clickButton(waitForObject(names.centralWidget_CancelButton_QPushButton_3))
 
-    
-    # =====================================================
-    # RETURN HOME
-    # =====================================================
-    
-    clickButton(
-        waitForObject(
-            names.centralWidget_CancelButton_QPushButton
-        )
-    )
+   
     
     clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_2))
-    # =====================================================
-    # SOFT TISSUE ASSISTANT
-    # =====================================================
-    
+   
     clickButton(
         waitForObject(
             names.homeScreen_pbSoftTissueAssistant_QToolButton
@@ -620,9 +488,6 @@ def main():
     )
     
     
-    # =====================================================
-    # GUIDED MODE EXIT POPUP
-    # =====================================================
     
     for i in range(30):
 
@@ -643,74 +508,53 @@ def main():
                 break
             except:
                 pass
-        
-    # =====================================================
-    # GUIDED MODE EXIT TITLE
-    # =====================================================
-    
-    # test.compare(str(waitForObjectExists(names.centralWidget_TitleLabel_QLabel).text), "KAS VÄLJUDA JUHENDATUD REŽIIMIST?")
-    # test.compare(str(waitForObjectExists(names.centralWidget_MessageLabel_QLabel).text), "Kinnitage, et soovite juhendatud režiimist väljuda.")
-    # test.compare(str(waitForObjectExists(names.centralWidget_CancelButton_QPushButton).text), "TÜHISTA")
-    # test.compare(str(waitForObjectExists(names.centralWidget_DisableButton_QPushButton).text), "CONFIRM")
+
+                # test.compare(str(waitForObjectExists(names.centralWidget_TitleLabel_QLabel_2).text), "KAS VÄLJUDA JUHENDATUD REŽIIMIST?")
+                # test.compare(str(waitForObjectExists(names.centralWidget_MessageLabel_QLabel_2).text), "Kinnitage, et soovite juhendatud režiimist väljuda.")
+                # test.compare(str(waitForObjectExists(names.centralWidget_CancelButton_QPushButton_3).text), "TÜHISTA")
+                # test.compare(str(waitForObjectExists(names.centralWidget_DisableButton_QPushButton_2).text), "CONFIRM")
 
     verify_text(
         sheet,
-        names.centralWidget_TitleLabel_QLabel,
+        names.centralWidget_TitleLabel_QLabel_2,
         "EXIT GUIDED MODE?",
         "Guided Mode Exit Title"
     )
+     
     
-    
-    # =====================================================
-    # GUIDED MODE EXIT MESSAGE
-    # =====================================================
     
     verify_text(
         sheet,
-        names.centralWidget_MessageLabel_QLabel,
+        names.centralWidget_MessageLabel_QLabel_2,
         "Please confirm that you want to exit guided mode.",
         "Guided Mode Exit Message"
     )
     
     
-    # =====================================================
-    # GUIDED MODE CANCEL
-    # =====================================================
     
     verify_text(
         sheet,
-        names.centralWidget_CancelButton_QPushButton,
+        names.centralWidget_CancelButton_QPushButton_3,
         "CANCEL",
         "Guided Mode Cancel Button"
     )
     
-    
-    # =====================================================
-    # GUIDED MODE CONFIRM
-    # =====================================================
-    
+    test.vp("Guided Exit Mode")
+
     verify_text(
         sheet,
-        names.centralWidget_DisableButton_QPushButton,
+        names.centralWidget_DisableButton_QPushButton_2,
         "CONFIRM",
         "Guided Mode Confirm Button"
     )
     
     
-    # =====================================================
-    # CLOSE GUIDED MODE POPUP
-    # =====================================================
-    
     clickButton(
         waitForObject(
-            names.centralWidget_DisableButton_QPushButton
+            names.centralWidget_DisableButton_QPushButton_2
         )
     )
     
-    
-    # =====================================================
-    # CLOSE EXCEL
-    # =====================================================
     
     workbook.close()
     
