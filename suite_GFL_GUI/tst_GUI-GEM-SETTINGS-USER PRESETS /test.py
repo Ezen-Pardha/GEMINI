@@ -1,135 +1,256 @@
-from common import *
-import test
+
 import names
-
-SOFT_TISSUE_PRESETS = [
-    "Soft Tissue 1",
-    "Soft Tissue 2",
-    "Soft Tissue 3",
-    "Soft Tissue 4",
-    "Soft Tissue 5",
-    "Soft Tissue 6",
-]
-
-STONE_PRESETS = [
-    "Stone 1",
-    "Stone 2",
-    "Stone 3",
-    "Stone 4",
-    "Stone 5",
-    "Stone 6",
-]
-
-
-def test_create_soft_tissue_presets():
-    test.log("========== CREATE SOFT TISSUE PRESETS ==========")
-
-    navigate_to_preset_category("SOFT TISSUE")
-
-    create_six_presets(
-        "SOFT TISSUE",
-        SOFT_TISSUE_PRESETS,
-
-    #     sendEvent("QMoveEvent", waitForObject(names.o_ScreenSwitcher), 0, 130, 754, 154)
-    # clickButton(waitForObject(names.settingsScreen_addButton_QPushButton))
-
-        names.settingsScreen_addButton_QPushButton,
-        names.keyboardPopup_wdEdit_WdLineEdit,
-        names.pulseModeWidget_saveButton_QPushButton,
-    )
-
-    if not verify_six_presets("SOFT TISSUE"):
-        raise AssertionError("Soft Tissue preset verification failed")
-
-
-def test_create_stone_presets():
-    test.log("========== CREATE STONE PRESETS ==========")
-
-    navigate_to_preset_category("STONE")
-
-    create_six_presets(
-        "STONE",
-        STONE_PRESETS,
-        names.settingsScreen_addButton_QPushButton,
-        names.keyboardPopup_wdEdit_WdLineEdit,
-        names.pulseModeWidget_saveButton_QPushButton,
-    )
-
-    if not verify_six_presets("STONE"):
-        raise AssertionError("Stone preset verification failed")
-
-
-def test_edit_soft_tissue_preset():
-    test.log("========== EDIT SOFT TISSUE PRESET ==========")
-
-    edit_preset(
-        "SOFT TISSUE",
-        "Soft Tissue 1",
-        "Soft Tissue Edited",
-    )
-
-
-def test_edit_stone_preset():
-    test.log("========== EDIT STONE PRESET ==========")
-
-    edit_preset(
-        "STONE",
-        "Stone 1",
-        "Stone Edited",
-    )
-
-
-def test_delete_soft_tissue_preset():
-    test.log("========== DELETE SOFT TISSUE PRESET ==========")
-
-    delete_preset("SOFT TISSUE", "Soft Tissue Edited")
-
-
-def test_delete_stone_preset():
-    test.log("========== DELETE STONE PRESET ==========")
-
-    delete_preset("STONE", "Stone Edited")
-
-
-def test_verify_both_categories():
-    test.log("========== VERIFY FINAL PRESET COUNTS ==========")
-
-    navigate_to_preset_category("SOFT TISSUE")
-
-    if not verify_six_presets("SOFT TISSUE"):
-        raise AssertionError(
-            "Soft Tissue does not contain exactly six presets"
-        )
-
-    navigate_to_preset_category("STONE")
-
-    if not verify_six_presets("STONE"):
-        raise AssertionError(
-            "Stone does not contain exactly six presets"
-        )
-
-    test.passes("Both categories contain exactly six presets")
 
 
 def main():
-    test.log("==============================================")
-    test.log("STARTING PRESET CREATE / EDIT / DELETE TEST")
-    test.log("==============================================")
-
-    enter_login_pin()
-
-    test_create_soft_tissue_presets()
-    test_create_stone_presets()
-
-    test_edit_soft_tissue_preset()
-    test_edit_stone_preset()
-
-    test_delete_soft_tissue_preset()
-    test_delete_stone_preset()
-
-    test_verify_both_categories()
-
-    test.passes(
-        "Preset create, edit, delete and verification tests completed"
-    )
-
+    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
+    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
+    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
+    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
+    mouseDrag(waitForObject(names.fiberVerificationWarningDialog_mainFrame_QFrame), 574, 521, 1, 17, 1, Qt.LeftButton)
+    clickButton(waitForObject(names.mainFrame_okButton_QPushButton))
+    clickButton(waitForObject(names.homeScreen_settingsButton_QPushButton))
+    clickTab(waitForObject(names.settingsScreen_tbSystemInfo_TabWidget), "USER\nPRESETS")
+    clickTab(waitForObject(names.wdPresetsLayout_tbPresetsForSettings_TabWidget), "STONE")
+    clickTab(waitForObject(names.wdPresetsLayout_tbPresetsForSettings_TabWidget), "SOFT TISSUE")
+    clickTab(waitForObject(names.wdPresetsLayout_tbPresetsForSettings_TabWidget), "STONE")
+    clickButton(waitForObject(names.settingsScreen_addButton_QPushButton))
+    clickButton(waitForObject(names.centralWidget_pbName_QPushButton))
+    clickButton(waitForObject(names.keyboardPopup_p_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_r_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_e_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_s_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_e_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_t_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_123_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_1_KeyButton))
+    mouseClick(waitForObject(names.keyboardPopup_lbText_QLabel), 107, 33, Qt.NoModifier, Qt.LeftButton)
+    mouseDrag(waitForObject(names.indexPicker_valuePicker_IntervalSlider_8), 412, 24, -205, 6, 1, Qt.LeftButton)
+    mouseDrag(waitForObject(names.indexPicker_valuePicker_IntervalSlider_9), 111, 22, 135, -13, 1, Qt.LeftButton)
+    mouseClick(waitForObject(names.peakPowerButton_nameLabel_QLabel), 66, 16, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.centralWidget_pw250_QPushButton))
+    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_3))
+    clickButton(waitForObject(names.settingsScreen_addButton_QPushButton))
+    clickButton(waitForObject(names.centralWidget_pbName_QPushButton))
+    clickButton(waitForObject(names.keyboardPopup_p_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_r_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_e_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_s_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_e_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_t_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_123_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_5_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_KeyButton_14))
+    mouseClick(waitForObject(names.keyboardPopup_lbText_QLabel), 100, 22, Qt.NoModifier, Qt.LeftButton)
+    mouseClick(waitForObject(names.modeButton_nameLabel_QLabel_3), 81, 23, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.centralWidget_Fragmentation_QPushButton))
+    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_3))
+    clickButton(waitForObject(names.settingsScreen_addButton_QPushButton))
+    clickButton(waitForObject(names.centralWidget_pbName_QPushButton))
+    clickButton(waitForObject(names.keyboardPopup_p_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_r_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_e_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_s_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_e_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_t_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_123_KeyButton))
+    doubleClick(waitForObject(names.keyboardPopup_KeyButton), 76, 43, Qt.NoModifier, Qt.LeftButton)
+    mouseClick(waitForObject(names.keyboardPopup_lbText_QLabel), 67, 2, Qt.NoModifier, Qt.LeftButton)
+    mouseClick(waitForObject(names.peakPowerButton_nameLabel_QLabel), 44, 17, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.centralWidget_pw125_QPushButton))
+    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_3))
+    clickButton(waitForObject(names.settingsScreen_addButton_QPushButton))
+    clickButton(waitForObject(names.centralWidget_pbName_QPushButton))
+    clickButton(waitForObject(names.keyboardPopup_p_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_r_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_e_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_s_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_e_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_t_KeyButton))
+    doubleClick(waitForObject(names.keyboardPopup_KeyButton_8), 39, 55, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.keyboardPopup_c_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_o_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_v_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_i_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_f_KeyButton))
+    mouseClick(waitForObject(names.keyboardPopup_lbText_QLabel), 174, 5, Qt.NoModifier, Qt.LeftButton)
+    mouseClick(waitForObject(names.modeButton_nameLabel_QLabel_3), 63, 31, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.centralWidget_Cleaning_QPushButton))
+    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_3))
+    clickButton(waitForObject(names.settingsScreen_addButton_QPushButton))
+    clickButton(waitForObject(names.centralWidget_pbName_QPushButton))
+    clickButton(waitForObject(names.keyboardPopup_p_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_r_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_e_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_s_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_e_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_t_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_123_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_KeyButton_11))
+    mouseClick(waitForObject(names.keyboardPopup_lbText_QLabel), 38, 2, Qt.NoModifier, Qt.LeftButton)
+    mouseClick(waitForObject(names.peakPowerButton_iconLabel_QLabel), 7, 24, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.centralWidget_pw250_QPushButton))
+    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_3))
+    clickButton(waitForObject(names.settingsScreen_addButton_QPushButton))
+    clickButton(waitForObject(names.centralWidget_pbName_QPushButton))
+    clickButton(waitForObject(names.keyboardPopup_p_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_r_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_e_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_s_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_e_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_t_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_l_KeyButton))
+    mouseClick(waitForObject(names.keyboardPopup_lbText_QLabel), 147, 22, Qt.NoModifier, Qt.LeftButton)
+    mouseClick(waitForObject(names.modeButton_nameLabel_QLabel_3), 93, 24, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.centralWidget_Fragmentation_QPushButton))
+    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_3))
+    clickButton(waitForObject(names.settingsScreen_addButton_QPushButton))
+    clickButton(waitForObject(names.centralWidget_pbName_QPushButton))
+    clickButton(waitForObject(names.keyboardPopup_p_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_r_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_e_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_s_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_e_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_t_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_123_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_KeyButton_10))
+    mouseClick(waitForObject(names.keyboardPopup_lbText_QLabel), 66, 12, Qt.NoModifier, Qt.LeftButton)
+    mouseClick(waitForObject(names.peakPowerButton_nameLabel_QLabel), 59, 43, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.centralWidget_pw250_QPushButton))
+    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_3))
+    clickButton(waitForObject(names.scrollFrame_backPageButton_QPushButton_2))
+    clickButton(waitForObject(names.settingsScreen_editButton_QPushButton))
+    mouseClick(waitForObjectItem(names.tabSettingsPresetsUserStonePresets_presetListView_PresetListView, "_4"), 149, 67, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.centralWidget_pbName_QPushButton))
+    clickButton(waitForObject(names.keyboardPopup_KeyButton_2))
+    clickButton(waitForObject(names.keyboardPopup_d_KeyButton))
+    mouseClick(waitForObject(names.keyboardPopup_lbText_QLabel), 57, 20, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_3))
+    clickButton(waitForObject(names.settingsScreen_deletePresetButton_QPushButton))
+    mouseClick(waitForObjectItem(names.tabSettingsPresetsUserStonePresets_presetListView_PresetListView, "_6"), 171, 43, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.buttonsFrame_acceptButton_QPushButton_4))
+    clickTab(waitForObject(names.wdPresetsLayout_tbPresetsForSettings_TabWidget), "SOFT TISSUE")
+    clickButton(waitForObject(names.settingsScreen_addButton_QPushButton))
+    clickButton(waitForObject(names.centralWidget_pbName_QPushButton))
+    clickButton(waitForObject(names.keyboardPopup_p_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_r_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_e_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_s_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_e_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_t_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_123_KeyButton))
+    doubleClick(waitForObject(names.keyboardPopup_4_KeyButton), 73, 44, Qt.NoModifier, Qt.LeftButton)
+    mouseClick(waitForObject(names.keyboardPopup_wdFooter_QWidget), 812, 12, Qt.NoModifier, Qt.LeftButton)
+    mouseClick(waitForObject(names.keyboardPopup_lbText_QLabel), 51, 12, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_3))
+    clickButton(waitForObject(names.settingsScreen_addButton_QPushButton))
+    clickButton(waitForObject(names.centralWidget_pbName_QPushButton))
+    clickButton(waitForObject(names.keyboardPopup_p_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_r_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_e_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_s_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_e_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_t_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_123_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_KeyButton_16))
+    clickButton(waitForObject(names.keyboardPopup_KeyButton_13))
+    mouseClick(waitForObject(names.keyboardPopup_lbText_QLabel), 78, 27, Qt.NoModifier, Qt.LeftButton)
+    mouseClick(waitForObject(names.modeButton_nameLabel_QLabel_3), 70, 35, Qt.NoModifier, Qt.LeftButton)
+    mouseDrag(waitForObject(names.centralWidget_mainWidget_QWidget), 386, 292, 5, 22, 1, Qt.LeftButton)
+    clickButton(waitForObject(names.centralWidget_Fragmentation_QPushButton))
+    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_3))
+    clickButton(waitForObject(names.settingsScreen_addButton_QPushButton))
+    clickButton(waitForObject(names.centralWidget_pbName_QPushButton))
+    clickButton(waitForObject(names.keyboardPopup_p_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_r_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_e_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_s_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_e_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_t_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_123_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_KeyButton))
+    mouseClick(waitForObject(names.keyboardPopup_lbText_QLabel), 94, 12, Qt.NoModifier, Qt.LeftButton)
+    mouseClick(waitForObject(names.peakPowerButton_nameLabel_QLabel), 55, 48, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.centralWidget_pw125_QPushButton))
+    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_3))
+    clickButton(waitForObject(names.settingsScreen_addButton_QPushButton))
+    clickButton(waitForObject(names.centralWidget_pbName_QPushButton))
+    clickButton(waitForObject(names.keyboardPopup_p_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_r_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_e_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_s_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_e_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_t_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_KeyButton_8))
+    clickButton(waitForObject(names.keyboardPopup_h_KeyButton))
+    sendEvent("QMouseEvent", waitForObject(names.keyboardPopup_h_KeyButton), QEvent.MouseButtonPress, 58, 37, Qt.LeftButton, 1, 0)
+    sendEvent("QMouseEvent", waitForObject(names.keyboardPopup_h_KeyButton), QEvent.MouseButtonRelease, 216, 239, Qt.LeftButton, 0, 0)
+    mouseDrag(waitForObject(names.keyboardPopup_lbText_QLabel), 79, 17, 138, -365, 1, Qt.LeftButton)
+    mouseClick(waitForObject(names.keyboardPopup_lbText_QLabel), 78, 33, Qt.NoModifier, Qt.LeftButton)
+    mouseClick(waitForObject(names.peakPowerButton_nameLabel_QLabel), 39, 29, Qt.NoModifier, Qt.LeftButton)
+    sendEvent("QMouseEvent", waitForObject(names.centralWidget_pw125_QPushButton), QEvent.MouseButtonPress, 164, 62, Qt.LeftButton, 1, 0)
+    sendEvent("QMouseEvent", waitForObject(names.centralWidget_pw125_QPushButton), QEvent.MouseButtonRelease, 259, 266, Qt.LeftButton, 0, 0)
+    clickButton(waitForObject(names.centralWidget_pw125_QPushButton))
+    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_3))
+    clickButton(waitForObject(names.settingsScreen_addButton_QPushButton))
+    clickButton(waitForObject(names.centralWidget_pbName_QPushButton))
+    clickButton(waitForObject(names.keyboardPopup_s_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_o_KeyButton))
+    sendEvent("QMouseEvent", waitForObject(names.keyboardPopup_f_KeyButton), QEvent.MouseButtonPress, 51, 44, Qt.LeftButton, 1, 0)
+    sendEvent("QMouseEvent", waitForObject(names.keyboardPopup_f_KeyButton), QEvent.MouseButtonRelease, 130, -36, Qt.LeftButton, 0, 0)
+    clickButton(waitForObject(names.keyboardPopup_t_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_t_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_i_KeyButton))
+    doubleClick(waitForObject(names.keyboardPopup_s_KeyButton), 56, 59, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.keyboardPopup_u_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_e_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_s_KeyButton))
+    mouseClick(waitForObject(names.keyboardPopup_lbText_QLabel), 58, 20, Qt.NoModifier, Qt.LeftButton)
+    mouseClick(waitForObject(names.modeButton_nameLabel_QLabel_3), 42, 8, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.centralWidget_Cleaning_QPushButton))
+    mouseClick(waitForObject(names.pulseModeWidget_buttonsWidget_QWidget_3), 373, 12, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_3))
+    clickButton(waitForObject(names.settingsScreen_addButton_QPushButton))
+    clickButton(waitForObject(names.centralWidget_pbName_QPushButton))
+    clickButton(waitForObject(names.keyboardPopup_123_KeyButton))
+    doubleClick(waitForObject(names.keyboardPopup_KeyButton_11), 36, 43, Qt.NoModifier, Qt.LeftButton)
+    mouseClick(waitForObject(names.keyboardPopup_lbText_QLabel), 133, 37, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.centralWidget_okButton_QPushButton_2))
+    clickButton(waitForObject(names.keyboardPopup_ABC_KeyButton))
+    doubleClick(waitForObject(names.keyboardPopup_KeyButton_2), 56, 50, Qt.NoModifier, Qt.LeftButton)
+    doubleClick(waitForObject(names.keyboardPopup_KeyButton_2), 56, 50, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.keyboardPopup_t_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_i_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_s_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_u_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_e_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_s_KeyButton))
+    mouseClick(waitForObject(names.keyboardPopup_lbText_QLabel), 103, 33, Qt.NoModifier, Qt.LeftButton)
+    mouseClick(waitForObject(names.peakPowerButton_nameLabel_QLabel), 51, 3, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.centralWidget_pw125_QPushButton))
+    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_3))
+    clickButton(waitForObject(names.settingsScreen_addButton_QPushButton))
+    clickButton(waitForObject(names.centralWidget_pbName_QPushButton))
+    clickButton(waitForObject(names.keyboardPopup_v_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_a_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_l_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_u_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_e_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_123_KeyButton))
+    clickButton(waitForObject(names.keyboardPopup_6_KeyButton))
+    mouseClick(waitForObject(names.keyboardPopup_lbText_QLabel), 92, 31, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_3))
+    clickButton(waitForObject(names.scrollFrame_backPageButton_QPushButton))
+    clickButton(waitForObject(names.settingsScreen_editButton_QPushButton))
+    mouseClick(waitForObjectItem(names.tabSettingsPresetsUserSoftTissuePresets_presetListView_PresetListView, "_4"), 135, 30, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.centralWidget_pbName_QPushButton))
+    doubleClick(waitForObject(names.keyboardPopup_KeyButton_2), 47, 43, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.keyboardPopup_123_KeyButton))
+    doubleClick(waitForObject(names.keyboardPopup_4_KeyButton), 57, 47, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.keyboardPopup_5_KeyButton))
+    mouseClick(waitForObject(names.keyboardPopup_lbText_QLabel), 55, 19, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_3))
+    clickButton(waitForObject(names.settingsScreen_deletePresetButton_QPushButton))
+    mouseClick(waitForObjectItem(names.tabSettingsPresetsUserSoftTissuePresets_presetListView_PresetListView, "_4"), 138, 58, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.buttonsFrame_acceptButton_QPushButton_4))
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_8))

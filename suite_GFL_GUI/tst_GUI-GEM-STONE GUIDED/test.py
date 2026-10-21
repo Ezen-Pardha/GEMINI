@@ -1,5 +1,7 @@
-from common import *
+
 import test
+
+from common import *
 
 
 def main():
