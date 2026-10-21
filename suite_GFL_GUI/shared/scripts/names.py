@@ -596,3 +596,15 @@ buttonsBar_homeButton_QPushButton_3 = {"container": topBar_buttonsBar_ButtonsBar
 
 
 
+pulseEnergyWidget_indexPicker_SliderAdaptor_4 = {"container": pulseModeWidget_pulseEnergyWidget_ParameterSettingsWidget_3, "name": "indexPicker", "type": "SliderAdaptor", "visible": 1}
+indexPicker_valuePicker_IntervalSlider_8 = {"container": pulseEnergyWidget_indexPicker_SliderAdaptor_4, "name": "valuePicker", "type": "IntervalSlider", "visible": 1}
+frequencyWidget_indexPicker_SliderAdaptor_4 = {"container": pulseModeWidget_frequencyWidget_ParameterSettingsWidget_3, "name": "indexPicker", "type": "SliderAdaptor", "visible": 1}
+indexPicker_valuePicker_IntervalSlider_9 = {"container": frequencyWidget_indexPicker_SliderAdaptor_4, "name": "valuePicker", "type": "IntervalSlider", "visible": 1}
+pulseModeWidget_saveButton_QPushButton_3 = {"container": centralWidget_PulseModeWidget_PulseModeWidget, "name": "saveButton", "type": "QPushButton", "visible": 1}
+pulseModeWidget_modeButton_ModeButton_3 = {"container": centralWidget_PulseModeWidget_PulseModeWidget, "name": "modeButton", "type": "ModeButton", "visible": 1}
+modeButton_nameLabel_QLabel_3 = {"container": pulseModeWidget_modeButton_ModeButton_3, "name": "nameLabel", "type": "QLabel", "visible": 1}
+centralWidget_mainWidget_QWidget = {"container": centralWidget_QFrame_4, "name": "mainWidget", "type": "QWidget", "visible": 1}
+pulseModeWidget_buttonsWidget_QWidget_3 = {"container": centralWidget_PulseModeWidget_PulseModeWidget, "name": "buttonsWidget", "type": "QWidget", "visible": 1}
+keyboardPopup_a_KeyButton = {"container": keyboardPopup_KeyboardPopup, "text": "a", "type": "KeyButton", "unnamed": 1, "visible": 1}
+topBar_buttonsBar_ButtonsBar_9 = {"container": settingsScreen_topBar_TopBar, "name": "buttonsBar", "type": "ButtonsBar", "visible": 1}
+buttonsBar_homeButton_QPushButton_9 = {"container": topBar_buttonsBar_ButtonsBar_8, "name": "homeButton", "type": "QPushButton", "visible": 1}

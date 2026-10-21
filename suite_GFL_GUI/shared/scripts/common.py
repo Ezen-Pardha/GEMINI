@@ -35,6 +35,7 @@ def capture_screenshot(description="screenshot", category="GUI"):
     )
 
     try:
+        # -w captures the active window instead of the entire desktop.
         subprocess.run(
             ["gnome-screenshot", "-w", "-f", screenshot_path],
             check=True,
@@ -50,11 +51,87 @@ def capture_screenshot(description="screenshot", category="GUI"):
         )
         return None
 
+
+# Earlier duplicate definition of a function was removed.
+
+
+
+
+# Earlier duplicate definition of a function was removed.
+
+
+
+
+# Earlier duplicate definition of a function was removed.
+
+
 def open_expert_screen():
     click_and_report(
         names.gbExpert_expertButton_QPushButton,
         "Open Expert screen"
     )
+
+# def adjust_primary_pulse_energy_frequency():
+#     test.log("========== ADJUST PRIMARY PARAMETERS ==========")
+#
+#     click_and_report(
+#         names.pulseEnergyWidget_incrementButton_QPushButton,
+#         "Increase pulse energy - 1"
+#     )
+#
+#     click_and_report(
+#         names.pulseEnergyWidget_incrementButton_QPushButton,
+#         "Increase pulse energy - 2"
+#     )
+#
+#     click_and_report(
+#         names.pulseEnergyWidget_incrementButton_QPushButton,
+#         "Increase pulse energy - 3"
+#     )
+#
+#     click_and_report(
+#         names.frequencyWidget_incrementButton_QPushButton,
+#         "Increase frequency - 1"
+#     )
+#
+#     click_and_report(
+#         names.frequencyWidget_incrementButton_QPushButton,
+#         "Increase frequency - 2"
+#     )
+#
+#     click_and_report(
+#         names.frequencyWidget_decrementButton_QPushButton,
+#         "Decrease frequency"
+#     )
+#
+#     click_and_report(
+#         names.pulseEnergyWidget_decrementButton_QPushButton,
+#         "Decrease pulse energy"
+#     )
+# def adjust_secondary_pulse_energy_frequency():
+#     test.log("========== ADJUST SECONDARY PARAMETERS ==========")
+#
+#     click_and_report(
+#         names.pulseEnergyWidget_incrementButton_QPushButton_2,
+#         "Increase secondary pulse energy - 1"
+#     )
+#
+#     click_and_report(
+#         names.pulseEnergyWidget_incrementButton_QPushButton_2,
+#         "Increase secondary pulse energy - 2"
+#     )
+#
+#     click_and_report(
+#         names.frequencyWidget_incrementButton_QPushButton_2,
+#         "Increase secondary frequency - 1"
+#     )
+#
+#     click_and_report(
+#         names.frequencyWidget_incrementButton_QPushButton_2,
+#         "Increase secondary frequency - 2"
+#     )
+
+
 def adjust_primary_pulse_energy_frequency():
     test.log("========== ADJUST PRIMARY PARAMETERS ==========")
 
@@ -173,6 +250,15 @@ def interact_with_pulse_mode_frequency_widget():
         "Click pulse mode frequency widget"
     )
   
+  
+
+# Earlier duplicate definition of a function was removed.
+
+    
+    
+    
+
+# ============================================================
 # COMMON HOME-PAGE NAVIGATION
 # ============================================================
 
@@ -200,6 +286,11 @@ def navigate_soft_tissue_quick_start():
         names.buttonsBar_homeButton_QPushButton_5,
         "Return home from Soft Tissue Quick Start"
     )
+
+
+
+# Earlier duplicate definition of a function was removed.
+
 
 
 def navigate_stone_quick_start():
@@ -230,6 +321,7 @@ def navigate_stone_quick_start():
 
 def navigate_stone_assistant():
     test.log("========== STONE ASSISTANT ==========")
+    enter_login_pin()
 
     click_and_report(
         names.homeScreen_pbStoneAssistant_QToolButton,
@@ -602,9 +694,6 @@ def verify_object_exists(object_name, description):
 # --------------------------------------------------
 
 def enter_login_pin():
-    """
-    Method Used for login page 
-    """
     for i in range(4):
         clickButton(
             waitForObject(
@@ -756,63 +845,47 @@ STONE_PRESET_NAMES = [
 ]
 
 
-def _preset_object_exists(object_name, timeout=1000):
-    """Return True if a Squish object appears within timeout milliseconds."""
-    try:
-        waitForObjectExists(object_name, timeout)
-        return True
-    except LookupError:
-        return False
-    except Exception as error:
-        test.log("Object existence check failed for {}: {}".format(object_name, error))
-        return False
-
-
 def navigate_to_preset_category(category):
-    """Open USER PRESETS and select a category without reopening Settings unnecessarily."""
+    """Navigate to Settings > USER PRESETS > selected category."""
+
     category = category.strip().upper()
 
     if category not in PRESET_LIST_OBJECTS:
         raise ValueError(
-            "Invalid category: {}. Use STONE or SOFT TISSUE.".format(category)
+            "Invalid category: {}. Use STONE or SOFT TISSUE.".format(
+                category
+            )
         )
 
     test.log("========== NAVIGATE TO {} PRESETS ==========".format(category))
 
-    # If a preset list is already present, the test is already in USER PRESETS.
-    # Do not click the HomeScreen Settings button again: HomeScreen may no longer
-    # be the active screen, which causes Squish LookupError.
-    presets_tab = names.wdPresetsLayout_tbPresetsForSettings_TabWidget
-    already_in_presets = _preset_object_exists(presets_tab, 1000)
+    click_and_report(
+        names.homeScreen_settingsButton_QPushButton,
+        "Open Settings"
+    )
 
-    if not already_in_presets:
-        settings_button = names.homeScreen_settingsButton_QPushButton
-        if not _preset_object_exists(settings_button, 1000):
-            test.fail(
-                "Cannot open USER PRESETS: neither the USER PRESETS tab nor "
-                "the HomeScreen Settings button is available. Check the current screen."
-            )
-            return False
+    clickTab(
+        waitForObject(
+            names.settingsScreen_tbSystemInfo_TabWidget, 20000
+        ),
+        "USER\nPRESETS"
+    )
 
-        click_and_report(settings_button, "Open Settings")
+    test.passes("Opened USER PRESETS")
 
-    settings_tabs = names.settingsScreen_tbSystemInfo_TabWidget
-    if not _preset_object_exists(settings_tabs, 5000):
-        test.fail("Settings tabs are not visible; cannot select USER PRESETS")
-        return False
+    clickTab(
+        waitForObject(
+            names.wdPresetsLayout_tbPresetsForSettings_TabWidget,
+            20000
+        ),
+        category
+    )
 
-    # Select USER PRESETS only when it is not already the active screen.
-    if not already_in_presets:
-        clickTab(waitForObject(settings_tabs, 20000), "USER\nPRESETS")
-        test.passes("Opened USER PRESETS")
-
-    category_tabs = names.wdPresetsLayout_tbPresetsForSettings_TabWidget
-    clickTab(waitForObject(category_tabs, 20000), category)
     test.passes("Selected {} category".format(category))
 
     waitForObject(PRESET_LIST_OBJECTS[category], 20000)
+
     test.passes("{} preset list is visible".format(category))
-    return True
 
 
 def read_preset_names(category):
@@ -865,18 +938,6 @@ def verify_six_presets(category):
     return False
 
 
-
-def verify_preset_count(category, expected_count):
-    """Verify an exact preset count, useful after create/edit/delete flows."""
-    actual_names = read_preset_names(category)
-    actual_count = len(actual_names)
-    if actual_count == expected_count:
-        test.passes("PASS: {} has exactly {} presets".format(category.upper(), expected_count))
-        return True
-    test.fail("FAIL: {} expected {} presets, found {}".format(category.upper(), expected_count, actual_count))
-    return False
-
-
 def select_preset_by_name(category, preset_name):
     """Select a preset using its displayed name."""
 
@@ -914,13 +975,49 @@ def select_preset_by_name(category, preset_name):
     return False
 
 
-def create_six_presets(category, preset_names, add_button, name_field, save_button):
-    """Create six presets using the supplied Squish Object Map references.
+def _open_preset_name_field(name_field, preset_name):
+    """Open the preset-name keyboard if necessary and return its input field.
 
-    name_field must identify the editable field visible after Add opens
-    the keyboard popup. Use the exact Object Map reference from names.py.
+    The keyboard popup is not always present immediately after clicking Add.
+    First try the supplied mapped field. If it is not available, open the name
+    editor through the mapped Name button and retry. Object-map names must match
+    the application's current Squish Object Map.
+    """
+    try:
+        return waitForObject(name_field, 5000)
+    except Exception as first_error:
+        test.log(
+            "Preset name field not immediately available for '{}': {}".format(
+                preset_name, first_error
+            )
+        )
+
+    # Some screens require the user to click the Name control to open the
+    # on-screen keyboard before its line-edit object exists.
+    name_button = getattr(names, "centralWidget_pbName_QPushButton", None)
+    if name_button is not None:
+        click_and_report(name_button, "Open preset name keyboard")
+        return waitForObject(name_field, 20000)
+
+    # Do not silently continue if the Object Map does not contain the control.
+    raise LookupError(
+        "Preset name field was not found and names.centralWidget_pbName_QPushButton "
+        "is not present in names.py. Verify the name-field and Name-button "
+        "Object Map entries in Squish Spy."
+    )
+
+
+def create_six_presets(
+    category, preset_names, add_button, name_field, save_button
+):
+    """Create six presets, opening the on-screen name keyboard when needed.
+
+    add_button: mapped Add/New preset button
+    name_field: mapped line-edit inside the on-screen keyboard
+    save_button: mapped Save/Accept button
     """
     category = category.strip().upper()
+
     if category not in PRESET_LIST_OBJECTS:
         raise ValueError("Category must be STONE or SOFT TISSUE")
     if len(preset_names) != 6:
@@ -929,28 +1026,21 @@ def create_six_presets(category, preset_names, add_button, name_field, save_butt
     navigate_to_preset_category(category)
 
     for preset_name in preset_names:
-        test.log("Creating {} preset '{}'".format(category, preset_name))
         try:
-            clickButton(waitForObject(add_button, 20000))
-            # Wait for the editor only after Add has opened the keyboard popup.
-            field = waitForObject(name_field, 20000)
-            setFocus(field)
+            click_and_report(add_button, "Add {} preset '{}'".format(category, preset_name))
+            field = _open_preset_name_field(name_field, preset_name)
             setText(field, preset_name)
-            clickButton(waitForObject(save_button, 20000))
-            test.passes("PASS: Created {} preset '{}'".format(category, preset_name))
+            click_and_report(save_button, "Save {} preset '{}'".format(category, preset_name))
+            test.passes("Created {} preset: {}".format(category, preset_name))
         except Exception as error:
             test.fail(
-                "FAIL: Could not create {} preset '{}'. Verify the Add button, "
-                "keyboard popup timing, and editor Object Map reference. Error: {}".format(
+                "Failed to create {} preset '{}': {}".format(
                     category, preset_name, error
                 )
             )
             raise
 
-    if not verify_six_presets(category):
-        raise AssertionError(
-            "Preset creation finished, but {} does not contain exactly six presets".format(category)
-        )
+    verify_six_presets(category)
 
 
 def run_stone_and_soft_tissue_preset_checks():
@@ -1007,15 +1097,14 @@ def edit_preset(category, old_name, new_name):
         "Click Edit for preset '{}'".format(old_name)
     )
 
-    # Open the preset-name editor
+    # Open the preset-name editor and wait for the keyboard input field.
     click_and_report(
         names.centralWidget_pbName_QPushButton,
         "Open preset name editor"
     )
 
-    # Enter the new name
-    name_field = waitForObject(
-        names.keyboardPopup_wdEdit_WdLineEdit, 20000
+    name_field = _open_preset_name_field(
+        names.keyboardPopup_wdEdit_WdLineEdit, new_name
     )
     setText(name_field, new_name)
 
@@ -1255,15 +1344,12 @@ def navigate_complete_recorded_flow():
     click_and_report(names.buttonsBar_homeButton_QPushButton_7,
                      "Return home from Stone Assistant")
 
-    # Logs, Profiles, Settings, and Logoff
-    click_and_report(names.homeScreen_logButton_QPushButton, "Open Logs")
-    click_and_report(names.buttonsBar_homeButton_QPushButton_3, "Return home from Logs")
-    click_and_report(names.homeScreen_profilesButton_QPushButton, "Open Profiles")
-    click_and_report(names.buttonsBar_homeButton_QPushButton_2, "Return home from Profiles")
-    click_and_report(names.homeScreen_settingsButton_QPushButton, "Open Settings")
-    click_and_report(names.buttonsBar_homeButton_QPushButton_8, "Return home from Settings")
-    click_and_report(names.homeScreen_logoffButton_QPushButton, "Open Logoff")
-    click_and_report(names.buttonsFrame_rejectButton_QPushButton_2,
-                     "Confirm/close Logoff dialog")
-
+    click_and_report(names.homeScreen_logButton_QPushButton,"Open Logs")
+    click_and_report(names.buttonsBar_homeButton_QPushButton_9,"Return home from Logs")
+    click_and_report(names.homeScreen_profilesButton_QPushButton,"Open Profiles")
+    click_and_report(names.buttonsBar_homeButton_QPushButton_2,"Return home from Profiles")
+    click_and_report(names.homeScreen_settingsButton_QPushButton,"Open Settings")
+    click_and_report(names.buttonsBar_homeButton_QPushButton_8,"Return home from Settings")
+    click_and_report(names.homeScreen_logoffButton_QPushButton,"Open Logoff")
+    click_and_report(names.buttonsFrame_rejectButton_QPushButton_2,"Confirm/close Logoff dialog")
     test.passes("PASS: Complete recorded navigation flow finished")

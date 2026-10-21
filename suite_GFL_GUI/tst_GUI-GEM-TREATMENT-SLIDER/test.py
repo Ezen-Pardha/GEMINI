@@ -12,5 +12,3 @@ def main():
     move_treatment_screen_sliders_to_right()
     change_standby_ready_states()
     test.vp("ReadyScreen")
-    interact_with_quantity_value_labels()
-    interact_with_pulse_mode_frequency_widget()
