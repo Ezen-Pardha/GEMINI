@@ -1,398 +1,372 @@
+
 # -*- coding: utf-8 -*-
 
 import names
 import openpyxl
 import re
+import os
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
+
+
+# EXCEL_PATH = "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Dutch/tst_Home Screen/testdata/Gemini Split strings.xlsx"
+
+SHEET_NAME = "Treatment Modes"
+LANGUAGE_COLUMN = 6
+ENGLISH_COLUMN = 1
 
 
 def normalize(text):
+    if text is None:
+        return ""
+
     text = str(text)
     text = re.sub(r"<br\s*/?>", " ", text, flags=re.IGNORECASE)
-    text = re.sub(r"<[^>]+>", "", text)
+    text = re.sub(r"<[^>]+>", " ", text)
+    text = text.replace("\xa0", " ")
     text = " ".join(text.split())
     text = re.sub(r"\s*<\s*", "<", text)
     text = re.sub(r"\s*>\s*", ">", text)
-    return text.strip().lower()
+
+    return text.strip().casefold()
 
 
-def is_ignored(text):
-    text = normalize(text)
+def ignore_text(text):
+    key = normalize(text)
 
-    if not text or text == "aut":
+    if not key:
         return True
 
-    if re.match(r"^[\d\s.,:+\-/]+$", text):
+    # Ignore standalone numeric values and measurements.
+    if re.fullmatch(
+        r"\d+(?:[.,]\d+)?\s*(?:μm|µm|mm|cm|m|w|hz|j|s|ms|%)?",
+        key,
+        flags=re.IGNORECASE
+    ):
         return True
 
-    if re.match(r"^[\d\s.,:+\-/]+(w|j|hz|µm|mm|cm|s|min|%)$", text):
+    if re.fullmatch(r"[\d\s.,:+\-/<>=%µμ]+", key):
+        return True
+
+    if re.fullmatch(r"[-_=.<>/%µμ:+]+", key):
         return True
 
     return False
 
 
-def get_object_text(obj):
+def get_object_texts(obj):
+    texts = []
 
     try:
-        text = str(obj.text).strip()
-
-        if text:
-            text = re.sub(
-                r"<br\s*/?>",
-                " ",
-                text,
-                flags=re.IGNORECASE
-            )
-            text = re.sub(r"<[^>]+>", " ", text)
-            text = " ".join(text.split())
-            return text.strip()
-
-    except:
+        if obj.visible is False:
+            return texts
+    except Exception:
         pass
 
-    return ""
+    for attribute in ("text", "title"):
+        try:
+            value = getattr(obj, attribute)
+
+            if value is None:
+                continue
+
+            value = str(value).strip()
+            value = re.sub(
+                r"<br\s*/?>", " ", value,
+                flags=re.IGNORECASE
+            )
+            value = re.sub(r"<[^>]+>", " ", value)
+            value = " ".join(value.split())
+
+            if value and not ignore_text(value):
+                texts.append(value)
+
+        except Exception:
+            pass
+
+    return texts
 
 
-def get_screen_candidates(obj):
+def get_screen_texts(obj, visited=None):
+    if visited is None:
+        visited = set()
 
-    candidates = []
+    texts = []
 
-    own_text = get_object_text(obj)
+    try:
+        obj_id = id(obj)
 
-    if own_text and not is_ignored(own_text):
-        candidates.append(own_text)
+        if obj_id in visited:
+            return texts
+
+        visited.add(obj_id)
+    except Exception:
+        pass
+
+    texts.extend(get_object_texts(obj))
 
     try:
         children = object.children(obj)
-    except:
+    except Exception:
         children = []
 
-    child_texts = []
-
     for child in children:
+        texts.extend(get_screen_texts(child, visited))
 
-        child_text = get_object_text(child)
+    return texts
 
-        if child_text and not is_ignored(child_text):
-            child_texts.append(child_text)
-            candidates.append(child_text)
 
-    # Create combinations only for matching against Excel.
-    # They are NOT reported individually.
-    for start in range(len(child_texts)):
+def load_excel_strings():
+    workbook = openpyxl.load_workbook(
+        EXCEL_PATH,
+        data_only=True,
+        read_only=True
+    )
 
-        combined = ""
-
-        for end in range(start, len(child_texts)):
-
-            combined = (
-                combined + " " + child_texts[end]
-                if combined
-                else child_texts[end]
+    try:
+        if SHEET_NAME not in workbook.sheetnames:
+            raise Exception(
+                "Excel sheet not found: " + SHEET_NAME
             )
 
-            if not is_ignored(combined):
-                candidates.append(combined)
+        sheet = workbook[SHEET_NAME]
+        excel_strings = {}
 
-    for child in children:
-        candidates.extend(get_screen_candidates(child))
+        for row in sheet.iter_rows(min_row=2, values_only=True):
+            if len(row) <= LANGUAGE_COLUMN:
+                continue
 
-    return candidates
+            english = row[ENGLISH_COLUMN]
+            localized = row[LANGUAGE_COLUMN]
+
+            if english is None or localized is None:
+                continue
+
+            english = str(english).strip()
+            localized = str(localized).strip()
+
+            if not english or not localized:
+                continue
+
+            key = normalize(localized)
+
+            if key:
+                excel_strings[key] = {
+                    "english": english,
+                    "localized": localized
+                }
+
+        return excel_strings
+
+    finally:
+        workbook.close()
+
+
+def verify_visible_strings(
+    *objects,
+    screen_name,
+    excel_strings
+):
+    runtime_texts = []
+    visited = set()
+
+    # Collect text from every supplied object and its descendants.
+    for obj in objects:
+        if obj is not None:
+            runtime_texts.extend(
+                get_screen_texts(obj, visited)
+            )
+
+    unique_texts = {}
+
+    for text in runtime_texts:
+        key = normalize(text)
+
+        if key and key not in unique_texts:
+            unique_texts[key] = text
+
+    test.log(
+        "Collected screen text entries: "
+        + str(len(runtime_texts))
+    )
+
+    test.log(
+        "Unique screen strings: "
+        + str(len(unique_texts))
+    )
+
+    if not unique_texts:
+        test.fail(
+            "No readable screen text collected from "
+            + screen_name
+        )
+        return
+
+    pass_count = 0
+    fail_count = 0
+
+    for key in sorted(unique_texts):
+        screen_text = unique_texts[key]
+
+        if key in excel_strings:
+            data = excel_strings[key]
+
+            test.passes(
+                "PASS: "
+                + data["english"]
+                + " -> "
+                + data["localized"]
+            )
+
+            pass_count += 1
+
+        else:
+            test.fail(
+                "FAIL: Screen string not found in Dutch Excel: "
+                + screen_text
+            )
+
+            fail_count += 1
+
+    test.log("------------------------------------------")
+    test.log(
+        screen_name
+        + " Localization Result: PASS = "
+        + str(pass_count)
+        + ", FAIL = "
+        + str(fail_count)
+    )
+    test.log("------------------------------------------")
+
+    if fail_count == 0 and pass_count > 0:
+        test.passes(
+            "Dutch "
+            + screen_name.upper()
+            + " LOCALIZATION VALIDATION PASSED"
+        )
+    else:
+        test.fail(
+            "Dutch "
+            + screen_name.upper()
+            + " LOCALIZATION VALIDATION FAILED"
+        )
 
 
 def main():
 
     # LOGIN
-
     sendEvent(
         "QMoveEvent",
         waitForObject(names.o_ScreenSwitcher),
-        34,
-        185,
-        582,
-        201
+        34, 185, 582, 201
     )
 
-    clickButton(
-        waitForObject(names.numpad_pushButton_8_NumpadButton)
-    )
-    clickButton(
-        waitForObject(names.numpad_pushButton_8_NumpadButton)
-    )
-    clickButton(
-        waitForObject(names.numpad_pushButton_8_NumpadButton)
-    )
-    clickButton(
-        waitForObject(names.numpad_pushButton_8_NumpadButton)
-    )
-    clickButton(
-        waitForObject(names.mainFrame_okButton_QPushButton)
-    )
+    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
+    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
+    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
+    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
+    clickButton(waitForObject(names.mainFrame_okButton_QPushButton))
 
-    # CHANGE LANGUAGE TO DUTCH
-
-    clickButton(
-        waitForObject(
-            names.homeScreen_settingsButton_QPushButton
-        )
-    )
-
+    # CHANGE LANGUAGE TO Dutch
+    clickButton(waitForObject(names.homeScreen_settingsButton_QPushButton))
     clickTab(
-        waitForObject(
-            names.settingsScreen_tbSystemInfo_TabWidget
-        ),
+        waitForObject(names.settingsScreen_tbSystemInfo_TabWidget),
         "INFO"
     )
-
     clickButton(
         waitForObject(
             names.gbSystemInformation_pbLanguageSettingsUpdate_QPushButton
         )
     )
-
-    clickButton(
-        waitForObject(
-            names.languagesFrame_pbDutch_QPushButton
-        )
-    )
-
-    clickButton(
-        waitForObject(
-            names.buttonsFrame_acceptButton_QPushButton
-        )
-    )
-
-    clickButton(
-        waitForObject(
-            names.settingsScreen_pbBack_QPushButton
-        )
-    )
-
-    snooze(1)
+    clickButton(waitForObject(names.languagesFrame_pbDutch_QPushButton))
+    clickButton(waitForObject(names.buttonsFrame_acceptButton_QPushButton))
+    clickButton(waitForObject(names.settingsScreen_pbBack_QPushButton))
 
     # OPEN SOFT TISSUE ASSISTANT
-
     clickButton(
-        waitForObject(
-            names.homeScreen_pbSoftTissueAssistant_QToolButton
-        )
+        waitForObject(names.homeScreen_pbSoftTissueAssistant_QToolButton)
     )
-
     clickButton(
-        waitForObject(
-            names.gbSoftTissueProcedures_pbIncision_QPushButton
-        )
+        waitForObject(names.gbSoftTissueProcedures_pbIncision_QPushButton)
     )
-
     clickButton(
         waitForObject(
             names.softTissueAssistantModeScreen_pbContinue_QPushButton
         )
     )
 
-    # OPEN TREATMENT SCREEN
-
+    # TREATMENT SCREEN - RECORDED OBJECTS
     mouseClick(
-        waitForObject(
-            names.leftPedalWidget_wdPresetTabs_TabWidget
-        ),
-        377,
-        32,
-        Qt.NoModifier,
-        Qt.LeftButton
+        waitForObject(names.leftPedalWidget_wdPresetTabs_TabWidget),
+        297, 32, Qt.NoModifier, Qt.LeftButton
     )
 
     mouseClick(
-        waitForObject(
-            names.rightPedalWidget_wdPresetTabs_TabWidget
-        ),
-        267,
-        35,
-        Qt.NoModifier,
-        Qt.LeftButton
+        waitForObject(names.averagePowerWidget_unitsOfMeasureLabel_QLabel_2),
+        164, 27, Qt.NoModifier, Qt.LeftButton
+    )
+
+    # mouseClick(
+    #     waitForObject(names.averagePowerWidget_nameLabel_QLabel_2),
+    #     30, 10, Qt.NoModifier, Qt.LeftButton
+    # )
+
+    mouseClick(
+        waitForObject(names.pulseModeWidget_buttonsWidget_QWidget),
+        566, 41, Qt.NoModifier, Qt.LeftButton
     )
 
     mouseClick(
-        waitForObject(
-            names.valueFrame_valueLabel_QLabel
-        ),
-        172,
-        1,
-        Qt.NoModifier,
-        Qt.LeftButton
+        waitForObject(names.pulseModeWidget_buttonsWidget_QWidget_2),
+        96, 36, Qt.NoModifier, Qt.LeftButton
     )
 
     mouseClick(
-        waitForObject(
-            names.treatmentScreen_bottomBar_QFrame
-        ),
-        894,
-        47,
-        Qt.NoModifier,
-        Qt.LeftButton
+        waitForObject(names.rightPedalWidget_wdPresetTabs_TabWidget),
+        303, 18, Qt.NoModifier, Qt.LeftButton
+    )
+
+    mouseClick(
+        waitForObject(names.topBar_buttonsBar_ButtonsBar),
+        875, 33, Qt.NoModifier, Qt.LeftButton
+    )
+
+    mouseClick(
+        waitForObject(names.bottomBar_lbPedalStatusIcon_QLabel),
+        53, 46, Qt.NoModifier, Qt.LeftButton
     )
 
     snooze(1)
 
-    # READ EXCEL
+    # LOAD Dutch EXCEL CATALOG
+    excel_strings = load_excel_strings()
 
-    excelpath = (
-        "/home/ntc/Test_Automation_Gemini/Localisation/"
-        "suite_GFL_Czech/tst_Home Screen/testdata/"
-        "Gemini Split strings.xlsx"
+    test.log(
+        "Dutch Excel catalog loaded: "
+        + str(len(excel_strings))
+        + " translations"
     )
 
-    workbook = openpyxl.load_workbook(
-        excelpath,
-        data_only=True
+    # VALIDATE TEXT FROM MULTIPLE UI OBJECTS
+    verify_visible_strings(
+        waitForObject(names.o_ScreenSwitcher),
+        waitForObject(names.treatmentScreen_bottomBar_QFrame),
+        waitForObject(names.leftPedalWidget_wdPresetTabs_TabWidget),
+        waitForObject(names.rightPedalWidget_wdPresetTabs_TabWidget),
+        waitForObject(names.topBar_buttonsBar_ButtonsBar),
+        waitForObject(names.bottomBar_lbPedalStatusIcon_QLabel),
+        waitForObject(names.averagePowerWidget_unitsOfMeasureLabel_QLabel_2),
+        # waitForObject(names.averagePowerWidget_nameLabel_QLabel_2),
+        waitForObject(names.pulseModeWidget_buttonsWidget_QWidget),
+        waitForObject(names.pulseModeWidget_buttonsWidget_QWidget_2),
+        screen_name="Soft Tissue Treatment Screen",
+        excel_strings=excel_strings
     )
-
-    sheet = workbook["Treatment Modes"]
-
-    # DUTCH = COLUMN G
-
-    excel_strings = {}
-
-    for row in sheet.iter_rows(
-        min_row=2,
-        values_only=True
-    ):
-
-        if len(row) < 7:
-            continue
-
-        trace_id = row[0]
-        english = row[1]
-        dutch = row[6]
-
-        if english is None or dutch is None:
-            continue
-
-        english = str(english).strip()
-        dutch = str(dutch).strip()
-
-        if not english or not dutch:
-            continue
-
-        key = normalize(dutch)
-
-        if key:
-            excel_strings[key] = {
-                "english": english,
-                "dutch": dutch,
-                "trace_id": (
-                    ""
-                    if trace_id is None
-                    else str(trace_id).strip()
-                )
-            }
-
-    # GET CURRENT TREATMENT SCREEN
-
-    screen = waitForObject(
-        names.treatmentScreen_bottomBar_QFrame
-    )
-
-    screen_candidates = get_screen_candidates(screen)
-
-    # CHECK PARENT ALSO
-
-    try:
-        parent = object.parent(screen)
-        screen_candidates.extend(
-            get_screen_candidates(parent)
-        )
-    except:
-        pass
-
-    # REMOVE DUPLICATE SCREEN TEXTS
-
-    unique_candidates = []
-    seen = set()
-
-    for candidate in screen_candidates:
-
-        key = normalize(candidate)
-
-        if not key:
-            continue
-
-        if key in seen:
-            continue
-
-        seen.add(key)
-        unique_candidates.append(candidate)
-
-    # SCREEN -> EXCEL MATCH
-
-    matches = {}
-
-    for candidate in unique_candidates:
-
-        normalized_candidate = normalize(candidate)
-
-        if normalized_candidate in excel_strings:
-
-            data = excel_strings[normalized_candidate]
-
-            matches[normalized_candidate] = (
-                len(normalized_candidate),
-                data["english"],
-                data["dutch"]
-            )
-
-    # REMOVE SHORTER PARTIAL MATCHES
-
-    final_matches = {}
-
-    sorted_matches = sorted(
-        matches.items(),
-        key=lambda x: len(x[0]),
-        reverse=True
-    )
-
-    for key, data in sorted_matches:
-
-        partial_match = False
-
-        for existing_key in final_matches:
-
-            if key != existing_key and key in existing_key:
-                partial_match = True
-                break
-
-        if not partial_match:
-            final_matches[key] = data
-
-    # RESULTS
-
-    pass_count = 0
-
-    for key in sorted(
-        final_matches,
-        key=lambda x: final_matches[x][0],
-        reverse=True
-    ):
-
-        data = final_matches[key]
-
-        test.passes(
-            data[1] + " -> " + data[2]
-        )
-
-        pass_count += 1
-
-    if pass_count > 0:
-
-        test.passes(
-            "DUTCH SOFT TISSUE TREATMENT "
-            "LOCALIZATION VALIDATION PASSED"
-        )
-
-    else:
-
-        test.fail(
-            "NO DUTCH STRINGS FOUND ON SCREEN"
-        )
-
-    workbook.close()
-    
