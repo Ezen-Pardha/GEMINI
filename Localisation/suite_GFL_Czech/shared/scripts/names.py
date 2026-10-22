@@ -102,6 +102,14 @@ qt_tabwidget_stackedwidget_tabRightMainPresets_QWidget = {"container": wdRightPe
 tabRightMainPresets_rightPresetsView_PresetListView = {"container": qt_tabwidget_stackedwidget_tabRightMainPresets_QWidget, "name": "rightPresetsView", "type": "PresetListView", "visible": 1}
 quickStartScreen_pbContinue_QPushButton = {"container": quickStartScreen_QuickStartScreen, "name": "pbContinue", "type": "QPushButton", "visible": 1}
 totalTimeFrame_nameLabel_QLabel = {"container": bottomBar_totalTimeFrame_ParameterValueBottomBarWidget, "name": "nameLabel", "type": "QLabel", "visible": 1}
+homeScreen_pbSoftTissueQuickStart_QToolButton = {"container": homeScreen_HomeScreen, "name": "pbSoftTissueQuickStart", "type": "QToolButton", "visible": 1}
+recommendedFiberWarningDialog_RecommendedFiberWarningDialog = {"name": "RecommendedFiberWarningDialog", "type": "RecommendedFiberWarningDialog", "visible": 1}
+recommendedFiberWarningDialog_mainFrame_QFrame = {"name": "mainFrame", "type": "QFrame", "visible": 1, "window": recommendedFiberWarningDialog_RecommendedFiberWarningDialog}
+mainFrame_okButton_QPushButton_2 = {"container": recommendedFiberWarningDialog_mainFrame_QFrame, "name": "okButton", "type": "QPushButton", "visible": 1}
+pulseModeWidget_pulseEnergyWidget_ParameterSettingsWidget = {"container": modeWidget_PulseModeWidget_PulseModeWidget, "name": "pulseEnergyWidget", "type": "ParameterSettingsWidget", "visible": 1}
+pulseModeWidget_pulseEnergyWidget_ParameterSettingsWidget_2 = {"container": modeWidget_PulseModeWidget_PulseModeWidget_2, "name": "pulseEnergyWidget", "type": "ParameterSettingsWidget", "visible": 1}
+pulseEnergyWidget_nameLabel_QLabel = {"container": pulseModeWidget_pulseEnergyWidget_ParameterSettingsWidget_2, "name": "nameLabel", "type": "QLabel", "visible": 1}
+treatmentScreen_leftPedalWidgetBorder_QWidget = {"container": treatmentScreen_TreatmentScreen, "name": "leftPedalWidgetBorder", "type": "QWidget", "visible": 1}
 
 wdSystemInfoLayout_centralWidget_QFrame = {"container": qt_tabwidget_stackedwidget_wdSystemInfoLayout_QWidget, "name": "centralWidget", "type": "QFrame", "visible": 1}
 centralWidget_languagesFrame_QFrame = {"container": wdSystemInfoLayout_centralWidget_QFrame, "name": "languagesFrame", "type": "QFrame", "visible": 1}

@@ -1,44 +1,80 @@
+
 # -*- coding: utf-8 -*-
 
 import names
 import openpyxl
 import re
+import os
+
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+EXCEL_PATH = os.path.abspath(
+    os.path.join(
+        TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
+
+# EXCEL_PATH = "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Czech/tst_Home Screen/testdata/Gemini Split strings.xlsx"
+SHEET_NAME = "Treatment Modes"
 
 
 def normalize(text):
+    if text is None:
+        return ""
+
     text = str(text)
     text = re.sub(r"<br\s*/?>", " ", text, flags=re.IGNORECASE)
-    text = re.sub(r"<[^>]+>", "", text)
+    text = re.sub(r"<[^>]+>", " ", text)
     text = text.replace("\xa0", " ")
     text = " ".join(text.split())
     text = re.sub(r"\s*<\s*", "<", text)
     text = re.sub(r"\s*>\s*", ">", text)
-    return text.strip().lower()
+
+    return text.strip().casefold()
 
 
 def get_object_text(obj):
     try:
         if not obj.visible:
             return ""
-    except:
+    except Exception:
         pass
 
     try:
         text = str(obj.text).strip()
 
         if text:
-            text = re.sub(r"<br\s*/?>", " ", text, flags=re.IGNORECASE)
+            text = re.sub(
+                r"<br\s*/?>", " ", text, flags=re.IGNORECASE
+            )
             text = re.sub(r"<[^>]+>", " ", text)
             text = " ".join(text.split())
             return text.strip()
-    except:
+    except Exception:
         pass
 
     return ""
 
 
-def get_screen_candidates(obj):
+def get_screen_candidates(obj, visited=None):
+    if visited is None:
+        visited = set()
+
     candidates = []
+
+    try:
+        object_id = id(obj)
+
+        if object_id in visited:
+            return candidates
+
+        visited.add(object_id)
+    except Exception:
+        pass
 
     own_text = get_object_text(obj)
 
@@ -47,27 +83,11 @@ def get_screen_candidates(obj):
 
     try:
         children = object.children(obj)
-    except:
+    except Exception:
         children = []
 
-    child_texts = []
-
     for child in children:
-        child_text = get_object_text(child)
-
-        if child_text:
-            child_texts.append(child_text)
-            candidates.append(child_text)
-
-    for start in range(len(child_texts)):
-        combined = ""
-
-        for end in range(start, len(child_texts)):
-            combined = combined + " " + child_texts[end] if combined else child_texts[end]
-            candidates.append(combined)
-
-    for child in children:
-        candidates.extend(get_screen_candidates(child))
+        candidates.extend(get_screen_candidates(child, visited))
 
     return candidates
 
@@ -82,30 +102,50 @@ def main():
         105, 204, 657, 223
     )
 
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.mainFrame_okButton_QPushButton))
+    clickButton(
+        waitForObject(names.numpad_pushButton_8_NumpadButton)
+    )
+    clickButton(
+        waitForObject(names.numpad_pushButton_8_NumpadButton)
+    )
+    clickButton(
+        waitForObject(names.numpad_pushButton_8_NumpadButton)
+    )
+    clickButton(
+        waitForObject(names.numpad_pushButton_8_NumpadButton)
+    )
+    clickButton(
+        waitForObject(names.mainFrame_okButton_QPushButton)
+    )
 
+    # CHANGE LANGUAGE TO Estonia
 
-    # CHANGE LANGUAGE TO ESTONIAN
+    clickButton(
+        waitForObject(names.homeScreen_settingsButton_QPushButton)
+    )
 
-    clickButton(waitForObject(names.homeScreen_settingsButton_QPushButton))
     clickTab(
         waitForObject(names.settingsScreen_tbSystemInfo_TabWidget),
         "INFO"
     )
+
     clickButton(
         waitForObject(
             names.gbSystemInformation_pbLanguageSettingsUpdate_QPushButton
         )
     )
 
-    clickButton(waitForObject(names.languagesFrame_pbEstonia_QPushButton))
-    clickButton(waitForObject(names.buttonsFrame_acceptButton_QPushButton))
-    clickButton(waitForObject(names.settingsScreen_pbBack_QPushButton))
+    clickButton(
+        waitForObject(names.languagesFrame_pbEstonia_QPushButton)
+    )
 
+    clickButton(
+        waitForObject(names.buttonsFrame_acceptButton_QPushButton)
+    )
+
+    clickButton(
+        waitForObject(names.settingsScreen_pbBack_QPushButton)
+    )
 
     # OPEN STONE QUICK START
 
@@ -118,9 +158,7 @@ def main():
             names.tabLeftMainPresets_leftPresetsView_PresetListView,
             "_1"
         ),
-        291, 67,
-        Qt.NoModifier,
-        Qt.LeftButton
+        291, 67, Qt.NoModifier, Qt.LeftButton
     )
 
     mouseClick(
@@ -128,15 +166,12 @@ def main():
             names.tabRightMainPresets_rightPresetsView_PresetListView,
             "_1"
         ),
-        103, 45,
-        Qt.NoModifier,
-        Qt.LeftButton
+        103, 45, Qt.NoModifier, Qt.LeftButton
     )
 
     clickButton(
         waitForObject(names.quickStartScreen_pbContinue_QPushButton)
     )
-
 
     # TREATMENT SCREEN
 
@@ -144,75 +179,124 @@ def main():
         waitForObject(
             names.pulseModeWidget_averagePowerWidget_ParameterWithEnumerableValueWidget
         ),
-        526, 3,
-        Qt.NoModifier,
-        Qt.LeftButton
+        526, 3, Qt.NoModifier, Qt.LeftButton
     )
 
     mouseClick(
         waitForObject(names.rightPedalWidget_wdPresetTabs_TabWidget),
-        73, 35,
-        Qt.NoModifier,
-        Qt.LeftButton
+        73, 35, Qt.NoModifier, Qt.LeftButton
     )
 
     mouseClick(
         waitForObject(names.topBar_buttonsBar_ButtonsBar),
-        381, 15,
-        Qt.NoModifier,
-        Qt.LeftButton
+        381, 15, Qt.NoModifier, Qt.LeftButton
     )
 
     mouseClick(
         waitForObject(names.totalTimeFrame_nameLabel_QLabel),
-        161, 40,
-        Qt.NoModifier,
-        Qt.LeftButton
+        161, 40, Qt.NoModifier, Qt.LeftButton
     )
 
     mouseClick(
         waitForObject(names.treatmentScreen_bottomBar_QFrame),
-        896, 24,
-        Qt.NoModifier,
-        Qt.LeftButton
+        896, 24, Qt.NoModifier, Qt.LeftButton
     )
 
     snooze(1)
 
-
     # READ EXCEL
 
-    excelpath = "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Czech/tst_Home Screen/testdata/Gemini Split strings.xlsx"
+    try:
+        workbook = openpyxl.load_workbook(
+            EXCEL_PATH,
+            data_only=True,
+            read_only=True
+        )
 
-    workbook = openpyxl.load_workbook(
-        excelpath,
-        data_only=True
-    )
+        if SHEET_NAME not in workbook.sheetnames:
+            test.fail(
+                "FAIL: Excel worksheet not found: " + SHEET_NAME
+            )
+            workbook.close()
+            return
 
-    sheet = workbook["Treatment Modes"]
+        sheet = workbook[SHEET_NAME]
 
+    except Exception as error:
+        test.fail(
+            "FAIL: Unable to read Estonia localization Excel: "
+            + str(error)
+        )
+        return
 
-    # GET CURRENT TREATMENT SCREEN
+    # LOAD Estonia TRANSLATIONS
+    # Column A = Trace ID
+    # Column B = English
+    # Column E = Estonia
 
-    screen = waitForObject(
-        names.treatmentScreen_bottomBar_QFrame
-    )
+    excel_strings = {}
 
-    screen_candidates = get_screen_candidates(screen)
+    for row in sheet.iter_rows(min_row=2, values_only=True):
 
+        if len(row) < 5:
+            continue
 
-    # CHECK PARENT
+        trace_id = row[0]
+        english = row[1]
+        Estonia = row[7]
+
+        if english is None or Estonia is None:
+            continue
+
+        english = str(english).strip()
+        Estonia = str(Estonia).strip()
+
+        normalized_Estonia = normalize(Estonia)
+
+        if not normalized_Estonia:
+            continue
+
+        excel_strings.setdefault(normalized_Estonia, {
+            "english": english,
+            "Estonia": Estonia,
+            "trace_id": (
+                "" if trace_id is None else str(trace_id).strip()
+            )
+        })
+
+    workbook.close()
+
+    # COLLECT VISIBLE SCREEN STRINGS
+
+    screen_candidates = []
 
     try:
-        parent = object.parent(screen)
-        screen_candidates.extend(
-            get_screen_candidates(parent)
+        screen = waitForObject(
+            names.treatmentScreen_bottomBar_QFrame
         )
-    except:
-        pass
 
+        screen_candidates.extend(
+            get_screen_candidates(screen)
+        )
 
-    # CHECK RECORDED OBJECTS
+        # Include the parent and its visible descendants.
+
+        try:
+            parent = object.parent(screen)
+
+            screen_candidates.extend(
+                get_screen_candidates(parent)
+            )
+        except Exception:
+            pass
+
+    except Exception as error:
+        test.fail(
+            "FAIL: Unable to read Treatment screen: " + str(error)
+        )
+        return
+
+    # CHECK RECORDED SCREEN OBJECTS
 
     recorded_objects = [
         names.pulseModeWidget_averagePowerWidget_ParameterWithEnumerableValueWidget,
@@ -223,108 +307,99 @@ def main():
     ]
 
     for object_name in recorded_objects:
-
         try:
             obj = waitForObject(object_name)
+
             screen_candidates.extend(
                 get_screen_candidates(obj)
             )
-        except:
+        except Exception:
             pass
 
-    screen_candidates = list(set(screen_candidates))
+    # REMOVE EMPTY STRINGS AND DUPLICATES
 
-
-    # READ ESTONIAN STRINGS FROM EXCEL
-
-    excel_strings = {}
-
-    for row in sheet.iter_rows(
-        min_row=2,
-        values_only=True
-    ):
-
-        if len(row) < 5:
-            continue
-
-        trace_id = row[0]
-        english = row[1]
-        estonian = row[7]
-
-        if english is None or estonian is None:
-            continue
-
-        english = str(english).strip()
-        estonian = str(estonian).strip()
-
-        if not english or not estonian:
-            continue
-
-        excel_strings[normalize(estonian)] = {
-            "english": english,
-            "estonian": estonian,
-            "trace_id": "" if trace_id is None else str(trace_id).strip()
-        }
-
-
-    # MATCH SCREEN STRINGS WITH EXCEL
-
-    matches = {}
+    unique_candidates = {}
 
     for candidate in screen_candidates:
 
+        candidate = str(candidate).strip()
         normalized_candidate = normalize(candidate)
 
         if not normalized_candidate:
+            continue
+
+        unique_candidates.setdefault(
+            normalized_candidate, candidate
+        )
+
+    # MATCH SCREEN STRINGS AGAINST EXCEL
+
+    matched_strings = {}
+    missing_strings = set()
+
+    for normalized_candidate, original_candidate in (
+        unique_candidates.items()
+    ):
+
+        # Ignore strings containing only numbers or symbols.
+
+        if not re.search(r"[A-Za-zÀ-ž]", original_candidate):
             continue
 
         if normalized_candidate in excel_strings:
 
             data = excel_strings[normalized_candidate]
 
-            key = normalize(data["estonian"])
+            matched_strings[normalized_candidate] = data
 
-            matches[key] = (
-                len(normalized_candidate),
-                data["english"],
-                data["estonian"]
-            )
+        else:
+            # Visible text is not present in the Estonia Excel column.
 
+            missing_strings.add(original_candidate)
 
-    # REMOVE DUPLICATES AND VALIDATE
+    # REPORT MATCHED STRINGS
 
     pass_count = 0
+    fail_count = 0
 
-    for key in sorted(
-        matches,
-        key=lambda x: matches[x][0],
-        reverse=True
-    ):
+    for key in sorted(matched_strings):
 
-        data = matches[key]
+        data = matched_strings[key]
 
         test.passes(
-            data[1] + " -> " + data[2]
+            "PASS: "
+            + data["english"]
+            + " -> "
+            + data["Estonia"]
         )
 
         pass_count += 1
 
+    # REPORT STRINGS MISSING FROM EXCEL
+
+    for missing in sorted(missing_strings, key=str.casefold):
+
+        test.fail(
+            "FAIL: Visible screen string missing from Estonia Excel: "
+            + missing
+        )
+
+        fail_count += 1
 
     # FINAL RESULT
 
-    if pass_count > 0:
+    if pass_count > 0 and fail_count == 0:
+
         test.passes(
-            "ESTONIAN STONE QUICK START LOCALIZATION VALIDATION PASSED"
-        )
-    else:
-        test.fail(
-            "NO ESTONIAN STRINGS FOUND ON STONE QUICK START TREATMENT SCREEN"
+            "Estonia STONE QUICK START LOCALIZATION VALIDATION PASSED"
+            + " | Matched: " + str(pass_count)
+            + " | Missing: 0"
         )
 
-    workbook.close()
-    
-    
-    
-    
-    
-    
+    else:
+
+        test.fail(
+            "Estonia STONE QUICK START LOCALIZATION VALIDATION FAILED"
+            + " | Matched: " + str(pass_count)
+            + " | Missing from Excel: " + str(fail_count)
+        )
