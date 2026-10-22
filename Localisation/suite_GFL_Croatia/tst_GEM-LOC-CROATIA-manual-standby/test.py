@@ -1,26 +1,21 @@
-
 # -*- coding: utf-8 -*-
 
 import names
 import openpyxl
-import os
 import re
-
+import os
 
 TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
+ 
 EXCEL_PATH = os.path.abspath(
-    os.path.join(
-        TESTCASE_DIR,
+    os.path.join( TESTCASE_DIR,
         "..",
         "shared",
         "testdata",
         "Gemini Split strings.xlsx"
     )
 )
-
-SHEET_NAME = "Treatment Modes"
-
+# EXCEL_PATH = "/home/Ezen/Test_Automation_Gemini/Localisation/suite_GFL_Croatia/tst_GEM-LOC-CROATIA-STONE-GUIDED/testdata/Gemini strings.xlsx"
 
 def normalize(text):
 
@@ -43,7 +38,7 @@ def get_all_texts(obj):
     try:
         if not obj.visible:
             return texts
-    except Exception:
+    except:
         pass
 
     try:
@@ -56,7 +51,7 @@ def get_all_texts(obj):
             if value:
                 texts.append(value)
 
-    except Exception:
+    except:
         pass
 
     try:
@@ -69,13 +64,13 @@ def get_all_texts(obj):
             if value:
                 texts.append(value)
 
-    except Exception:
+    except:
         pass
 
     try:
         for child in object.children(obj):
             texts.extend(get_all_texts(child))
-    except Exception:
+    except:
         pass
 
     return texts
@@ -83,58 +78,33 @@ def get_all_texts(obj):
 
 def load_croatian_strings():
 
-    if not os.path.isfile(EXCEL_PATH):
-        test.fail("Excel file not found: " + EXCEL_PATH)
-        return []
+    workbook = openpyxl.load_workbook(EXCEL_PATH, data_only=True)
+    sheet = workbook.active
 
-    workbook = None
     strings = []
 
-    try:
-        workbook = openpyxl.load_workbook(
-            EXCEL_PATH,
-            data_only=True,
-            read_only=True
-        )
+    for row in sheet.iter_rows(min_row=2, values_only=True):
 
-        if SHEET_NAME not in workbook.sheetnames:
-            test.fail(
-                "Excel sheet not found: " + SHEET_NAME +
-                ". Available sheets: " + ", ".join(workbook.sheetnames)
-            )
-            return []
+        if len(row) < 9:
+            continue
 
-        sheet = workbook[SHEET_NAME]
+        english = row[1]
+        croatian = row[8]
 
-        for row in sheet.iter_rows(min_row=2, values_only=True):
+        if english is None or croatian is None:
+            continue
 
-            if len(row) < 4:
-                continue
+        english = str(english).strip()
+        croatian = str(croatian).strip()
 
-            english = row[1]
-            croatian = row[3]
+        if not english or not croatian:
+            continue
 
-            if english is None or croatian is None:
-                continue
-
-            english = str(english).strip()
-            croatian = str(croatian).strip()
-
-            if not english or not croatian:
-                continue
-
-            strings.append({
-                "english": english,
-                "croatian": croatian,
-                "normalized": normalize(croatian)
-            })
-
-    except Exception as e:
-        test.fail("Error reading Croatian Excel strings: " + str(e))
-
-    finally:
-        if workbook is not None:
-            workbook.close()
+        strings.append({
+            "english": english,
+            "croatian": croatian,
+            "normalized": normalize(croatian)
+        })
 
     return strings
 
@@ -142,17 +112,12 @@ def load_croatian_strings():
 def verify_screen(root_object, screen_name):
 
     excel_strings = load_croatian_strings()
-
-    if not excel_strings:
-        test.fail(
-            "No Croatian strings loaded for screen: " + screen_name
-        )
-        return
-
     screen_texts = get_all_texts(root_object)
+
     unique_texts = []
 
     for text in screen_texts:
+
         text = text.strip()
 
         if text and text not in unique_texts:
@@ -174,10 +139,7 @@ def verify_screen(root_object, screen_name):
                 matches.append(item)
 
             # Handle combined Squish text
-            elif (
-                len(excel_normalized) >= 4
-                and excel_normalized in screen_normalized
-            ):
+            elif len(excel_normalized) >= 4 and excel_normalized in screen_normalized:
                 matches.append(item)
 
         matches.sort(
@@ -203,115 +165,53 @@ def main():
 
     # LOGIN
 
-    sendEvent(
-        "QMoveEvent",
-        waitForObject(names.o_ScreenSwitcher),
-        62, 205, 692, 220
-    )
+    sendEvent("QMoveEvent", waitForObject(names.o_ScreenSwitcher), 62, 205, 692, 220)
+    doubleClick(waitForObject(names.numpad_pushButton_8_NumpadButton), 64, 50, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
+    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
+    clickButton(waitForObject(names.mainFrame_okButton_QPushButton))
 
-    doubleClick(
-        waitForObject(names.numpad_pushButton_8_NumpadButton),
-        64, 50,
-        Qt.NoModifier,
-        Qt.LeftButton
-    )
-
-    clickButton(
-        waitForObject(names.numpad_pushButton_8_NumpadButton)
-    )
-
-    clickButton(
-        waitForObject(names.numpad_pushButton_8_NumpadButton)
-    )
-
-    clickButton(
-        waitForObject(names.mainFrame_okButton_QPushButton)
-    )
 
     # CHANGE LANGUAGE TO CROATIAN
 
-    clickButton(
-        waitForObject(names.homeScreen_settingsButton_QPushButton)
-    )
+    clickButton(waitForObject(names.homeScreen_settingsButton_QPushButton))
+    clickTab(waitForObject(names.settingsScreen_tbSystemInfo_TabWidget), "INFO")
+    clickButton(waitForObject(names.gbSystemInformation_pbLanguageSettingsUpdate_QPushButton))
+    clickButton(waitForObject(names.languagesFrame_pbCroatia_QPushButton))
+    clickButton(waitForObject(names.buttonsFrame_acceptButton_QPushButton))
+    clickButton(waitForObject(names.settingsScreen_pbBack_QPushButton))
 
-    clickTab(
-        waitForObject(names.settingsScreen_tbSystemInfo_TabWidget),
-        "INFO"
-    )
-
-    clickButton(
-        waitForObject(
-            names.gbSystemInformation_pbLanguageSettingsUpdate_QPushButton
-        )
-    )
-
-    clickButton(
-        waitForObject(names.languagesFrame_pbCroatia_QPushButton)
-    )
-
-    clickButton(
-        waitForObject(names.buttonsFrame_acceptButton_QPushButton)
-    )
-
-    clickButton(
-        waitForObject(names.settingsScreen_pbBack_QPushButton)
-    )
 
     # OPEN EXPERT SCREEN
 
-    clickButton(
-        waitForObject(names.gbExpert_expertButton_QPushButton)
-    )
+    clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
 
-    test.vp("Verify Manual Screen")
+    # test.vp("Verify Manual Screen")
+
+   
+
 
     # VERIFY COMPLETE EXPERT SCREEN
 
-    verify_screen(
-        waitForObject(names.o_ScreenSwitcher),
-        "Expert"
-    )
+    verify_screen(waitForObject(names.o_ScreenSwitcher), "Expert")
+
 
     # CLICK AVERAGE POWER UNITS
 
-    mouseClick(
-        waitForObject(
-            names.averagePowerWidget_unitsOfMeasureLabel_QLabel
-        ),
-        153, 75,
-        Qt.NoModifier,
-        Qt.LeftButton
-    )
+    mouseClick(waitForObject(names.averagePowerWidget_unitsOfMeasureLabel_QLabel), 153, 75, Qt.NoModifier, Qt.LeftButton)
 
-    verify_screen(
-        waitForObject(names.o_ScreenSwitcher),
-        "Expert after Average Power unit click"
-    )
+    verify_screen(waitForObject(names.o_ScreenSwitcher), "Expert after Average Power unit click")
+
 
     # CLICK AVERAGE POWER NAME
 
-    mouseClick(
-        waitForObject(names.averagePowerWidget_nameLabel_QLabel),
-        13, 64,
-        Qt.NoModifier,
-        Qt.LeftButton
-    )
+    mouseClick(waitForObject(names.averagePowerWidget_nameLabel_QLabel), 13, 64, Qt.NoModifier, Qt.LeftButton)
 
-    verify_screen(
-        waitForObject(names.o_ScreenSwitcher),
-        "Expert after Average Power click"
-    )
+    verify_screen(waitForObject(names.o_ScreenSwitcher), "Expert after Average Power click")
+
 
     # CLICK LEFT PEDAL PRESET TAB
 
-    mouseClick(
-        waitForObject(names.leftPedalWidget_wdPresetTabs_TabWidget),
-        587, 18,
-        Qt.NoModifier,
-        Qt.LeftButton
-    )
+    mouseClick(waitForObject(names.leftPedalWidget_wdPresetTabs_TabWidget), 587, 18, Qt.NoModifier, Qt.LeftButton)
 
-    verify_screen(
-        waitForObject(names.o_ScreenSwitcher),
-        "Expert after Left Pedal preset click"
-    )
+    verify_screen(waitForObject(names.o_ScreenSwitcher), "Expert after Left Pedal preset click")

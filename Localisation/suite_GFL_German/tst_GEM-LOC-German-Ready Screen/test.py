@@ -1,0 +1,839 @@
+# -*- coding: utf-8 -*-
+
+import names
+import re
+import unicodedata
+from openpyxl import load_workbook
+import os 
+
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
+
+
+EXCEL_SHEET_NAME = "Treatment Modes"
+ENGLISH_COLUMN = 2
+GERMAN_COLUMN = 11
+
+
+def normalize_text(value):
+
+    if value is None:
+        return ""
+
+    text = str(value)
+
+    text = re.sub(
+        r"<br\s*/?>",
+        " ",
+        text,
+        flags=re.IGNORECASE
+    )
+
+    text = re.sub(
+        r"<[^>]*>",
+        " ",
+        text
+    )
+
+    text = text.replace("\n", " ")
+    text = text.replace("\r", " ")
+    text = text.replace("\t", " ")
+    text = text.replace("\xa0", " ")
+    text = text.replace("\u2007", " ")
+    text = text.replace("\u202f", " ")
+
+    text = text.replace("™", "")
+    text = text.replace("®", "")
+    text = text.replace("©", "")
+
+    try:
+        text = unicodedata.normalize("NFKC", text)
+    except Exception:
+        pass
+
+    text = re.sub(r"\s+", " ", text).strip()
+    text = re.sub(r"\s+([.,;:!?])", r"\1", text)
+
+    return text.casefold()
+
+
+def comparison_key(value):
+
+    normalized = normalize_text(value)
+
+    return re.sub(
+        r"\s+",
+        "",
+        normalized
+    )
+
+
+def load_excel_data():
+
+    workbook = None
+
+    try:
+
+        workbook = load_workbook(
+            EXCEL_PATH,
+            read_only=True,
+            data_only=True
+        )
+
+        if EXCEL_SHEET_NAME not in workbook.sheetnames:
+
+            test.fail(
+                "Excel sheet not found: "
+                + EXCEL_SHEET_NAME
+                + " | Available sheets: "
+                + ", ".join(workbook.sheetnames)
+            )
+
+            workbook.close()
+            return None, None
+
+        sheet = workbook[EXCEL_SHEET_NAME]
+
+        german_data = {}
+
+        for row in sheet.iter_rows(
+            min_row=2,
+            min_col=GERMAN_COLUMN,
+            max_col=GERMAN_COLUMN
+        ):
+
+            german_value = row[0].value
+
+            if german_value is None:
+                continue
+
+            german_value = str(german_value).strip()
+            german_key = comparison_key(german_value)
+
+            if not german_key:
+                continue
+
+            if german_key not in german_data:
+                german_data[german_key] = german_value
+
+        if not german_data:
+
+            test.fail(
+                "No German localization data found in Excel Column K."
+            )
+
+            workbook.close()
+            return None, None
+
+        return workbook, german_data
+
+    except Exception as e:
+
+        test.fail(
+            "Unable to load/read German localization Excel: "
+            + str(e)
+        )
+
+        if workbook is not None:
+            try:
+                workbook.close()
+            except Exception:
+                pass
+
+        return None, None
+
+
+def get_german_excel_text(german_data, actual_text):
+
+    actual_key = comparison_key(actual_text)
+
+    if not actual_key:
+        return None
+
+    if actual_key not in german_data:
+
+        test.fail(
+            "German text not found in Excel Column K: "
+            + str(actual_text)
+        )
+
+        return None
+
+    return german_data[actual_key]
+
+
+def get_object_text(obj):
+
+    properties = [
+        "text",
+        "plainText",
+        "title",
+        "windowTitle",
+        "accessibleName"
+    ]
+
+    for property_name in properties:
+
+        try:
+
+            value = getattr(obj, property_name)
+
+            if value is not None:
+
+                value = str(value)
+
+                if value.strip():
+                    return value
+
+        except Exception:
+            pass
+
+    try:
+
+        value = obj.property("text")
+
+        if value is not None:
+
+            value = str(value)
+
+            if value.strip():
+                return value
+
+    except Exception:
+        pass
+
+    return ""
+
+
+def verify_text(german_data, object_name, description):
+
+    snooze(2)
+
+    try:
+
+        obj = waitForObjectExists(
+            getattr(names, object_name)
+        )
+
+    except Exception as e:
+
+        test.fail(
+            description
+            + " | Object not found: "
+            + object_name
+            + " | "
+            + str(e)
+        )
+
+        return False
+
+    actual_text = get_object_text(obj)
+
+    if not comparison_key(actual_text):
+
+        test.fail(
+            description
+            + " | Object contains no readable text"
+        )
+
+        return False
+
+    expected_text = get_german_excel_text(
+        german_data,
+        actual_text
+    )
+
+    if expected_text is None:
+
+        test.fail(
+            description
+            + " skipped because German text was not found in Excel"
+        )
+
+        return False
+
+    actual_normalized = comparison_key(actual_text)
+    expected_normalized = comparison_key(expected_text)
+
+    test.compare(
+        actual_normalized,
+        expected_normalized,
+        description + " - German text verification"
+    )
+
+    if actual_normalized == expected_normalized:
+        return True
+
+    test.fail(
+        description
+        + " | German text mismatch"
+        + " | Actual: "
+        + str(actual_text)
+        + " | Expected: "
+        + str(expected_text)
+    )
+
+    return False
+
+
+def get_german_treatment_text(english_text):
+
+    workbook = None
+
+    try:
+
+        workbook = load_workbook(
+            EXCEL_PATH,
+            read_only=True,
+            data_only=True
+        )
+
+        if EXCEL_SHEET_NAME not in workbook.sheetnames:
+
+            test.fail(
+                "Excel sheet not found: "
+                + EXCEL_SHEET_NAME
+            )
+
+            return None
+
+        sheet = workbook[EXCEL_SHEET_NAME]
+        english_key = comparison_key(english_text)
+
+        for row in sheet.iter_rows(
+            min_row=2,
+            min_col=ENGLISH_COLUMN,
+            max_col=GERMAN_COLUMN
+        ):
+
+            english_value = row[0].value
+
+            if english_value is None:
+                continue
+
+            if comparison_key(english_value) != english_key:
+                continue
+
+            german_value = row[
+                GERMAN_COLUMN - ENGLISH_COLUMN
+            ].value
+
+            if german_value is None:
+                continue
+
+            german_value = str(german_value).strip()
+
+            if not comparison_key(german_value):
+                continue
+
+            return german_value
+
+        test.fail(
+            "English treatment text not found in Excel Column B: "
+            + str(english_text)
+        )
+
+        return None
+
+    except Exception as e:
+
+        test.fail(
+            "Unable to find German treatment translation: "
+            + str(e)
+        )
+
+        return None
+
+    finally:
+
+        if workbook is not None:
+
+            try:
+                workbook.close()
+            except Exception:
+                pass
+
+
+def find_text_recursively(parent_object, expected_normalized):
+
+    try:
+
+        if not parent_object.visible:
+            return None
+
+    except Exception:
+        pass
+
+    current_text = get_object_text(parent_object)
+
+    if comparison_key(current_text) == expected_normalized:
+        return parent_object
+
+    try:
+        children = object.children(parent_object)
+    except Exception:
+        children = []
+
+    for child in children:
+
+        found = find_text_recursively(
+            child,
+            expected_normalized
+        )
+
+        if found is not None:
+            return found
+
+    return None
+
+
+def verify_treatment_name(
+    german_data,
+    english_text,
+    description
+):
+
+    snooze(6)
+
+    expected_text = get_german_treatment_text(
+        english_text
+    )
+
+    if expected_text is None:
+
+        test.fail(
+            description
+            + " | German treatment translation not found in Excel"
+        )
+
+        return False
+
+    expected_normalized = comparison_key(expected_text)
+
+    try:
+
+        screen_switcher = waitForObjectExists(
+            names.o_ScreenSwitcher
+        )
+
+    except Exception as e:
+
+        test.fail(
+            description
+            + " | ScreenSwitcher not found | "
+            + str(e)
+        )
+
+        return False
+
+    found_object = find_text_recursively(
+        screen_switcher,
+        expected_normalized
+    )
+
+    if found_object is None:
+
+        test.fail(
+            description
+            + " | German treatment text not found on screen: ["
+            + str(expected_text)
+            + "]"
+        )
+
+        return False
+
+    actual_text = get_object_text(found_object)
+    actual_normalized = comparison_key(actual_text)
+
+    test.compare(
+        actual_normalized,
+        expected_normalized,
+        description + " - German treatment verification"
+    )
+
+    if actual_normalized == expected_normalized:
+        return True
+
+    test.fail(
+        description
+        + " | German treatment mismatch"
+        + " | Actual: "
+        + str(actual_text)
+        + " | Expected: "
+        + str(expected_text)
+    )
+
+    return False
+
+
+def verify_left_treatment_name(
+    german_data,
+    english_text,
+    description
+):
+
+    return verify_treatment_name(
+        german_data,
+        english_text,
+        description
+    )
+
+
+def verify_right_treatment_name(
+    german_data,
+    english_text,
+    description
+):
+
+    return verify_treatment_name(
+        german_data,
+        english_text,
+        description
+    )
+
+
+def main():
+
+    workbook = None
+    german_data = None
+
+    result = load_excel_data()
+
+    if result is None:
+
+        test.fail(
+            "load_excel_data() returned None"
+        )
+
+        return
+
+    try:
+
+        workbook, german_data = result
+
+    except Exception as e:
+
+        test.fail(
+            "Unable to unpack Excel data: "
+            + str(e)
+        )
+
+        return
+
+    if workbook is None or german_data is None:
+
+        test.fail(
+            "German Excel data could not be loaded"
+        )
+
+        return
+
+    try:
+
+        for i in range(4):
+
+            clickButton(
+                waitForObject(
+                    names.numpad_pushButton_8_NumpadButton
+                )
+            )
+
+            snooze(1)
+
+        clickButton(
+            waitForObject(
+                names.mainFrame_okButton_QPushButton
+            )
+        )
+
+        clickButton(
+            waitForObject(
+                names.homeScreen_settingsButton_QPushButton
+            )
+        )
+
+        clickTab(
+            waitForObject(
+                names.settingsScreen_tbSystemInfo_TabWidget
+            ),
+            "INFO"
+        )
+
+        clickButton(
+            waitForObject(
+                names.gbSystemInformation_pbLanguageSettingsUpdate_QPushButton
+            )
+        )
+
+        clickButton(
+            waitForObject(
+                names.languagesFrame_pbGermany_QPushButton
+            )
+        )
+
+        clickButton(
+            waitForObject(
+                names.buttonsFrame_acceptButton_QPushButton
+            )
+        )
+
+        clickButton(
+            waitForObject(
+                names.buttonsBar_homeButton_QPushButton
+            )
+        )
+
+        clickButton(
+            waitForObject(
+                names.homeScreen_pbSoftTissueQuickStart_QToolButton
+            )
+        )
+
+        mouseClick(
+            waitForObjectItem(
+                names.tabLeftMainPresets_leftPresetsView_PresetListView,
+                "_1"
+            ),
+            238,
+            58,
+            Qt.NoModifier,
+            Qt.LeftButton
+        )
+
+        mouseClick(
+            waitForObjectItem(
+                names.tabRightMainPresets_rightPresetsView_PresetListView,
+                "_1"
+            ),
+            148,
+            32,
+            Qt.NoModifier,
+            Qt.LeftButton
+        )
+
+        mouseClick(
+            waitForObject(
+                names.quickStartScreen_wdBottom_QWidget
+            ),
+            1167,
+            9,
+            Qt.NoModifier,
+            Qt.LeftButton
+        )
+
+        sendEvent(
+            "QMoveEvent",
+            waitForObject(
+                names.o_ScreenSwitcher
+            ),
+            0,
+            -51,
+            1286,
+            61
+        )
+
+        clickButton(
+            waitForObject(
+                names.quickStartScreen_pbContinue_QPushButton
+            )
+        )
+
+        clickButton(
+            waitForObject(
+                names.mainFrame_okButton_QPushButton_2
+            )
+        )
+
+        clickButton(
+            waitForObject(
+                names.stateSwitch_readyButton_QPushButton
+            )
+        )
+
+        verify_left_treatment_name(
+            german_data,
+            "PROSTATE ENUCLEATION-(HIGH ENERGY)",
+            "Left Treatment Name"
+        )
+
+        verify_text(
+            german_data,
+            "averagePowerWidgetEmission_nameLabel_QLabel",
+            "Left Average Power"
+        )
+
+        verify_text(
+            german_data,
+            "pulseEnergyWidgetEmission_nameLabel_QLabel",
+            "Left Pulse Energy"
+        )
+
+        verify_text(
+            german_data,
+            "frequencyWidgetEmission_nameLabel_QLabel",
+            "Left Frequency"
+        )
+
+        verify_text(
+            german_data,
+            "modeButtonEmission_nameLabel_QLabel",
+            "Left Pulse Mode"
+        )
+
+        verify_text(
+            german_data,
+            "peakPowerButtonEmission_nameLabel_QLabel",
+            "Left Peak Power"
+        )
+
+        verify_text(
+            german_data,
+            "totalEnergyFrame_nameLabel_QLabel",
+            "Left Total Energy"
+        )
+
+        verify_text(
+            german_data,
+            "totalTimeFrame_nameLabel_QLabel",
+            "Left Total Lasing Time"
+        )
+
+        verify_text(
+            german_data,
+            "averagePowerWidgetEmission_unitsOfMeasureLabel_QLabel",
+            "Left Power Unit"
+        )
+
+        verify_text(
+            german_data,
+            "pulseEnergyWidgetEmission_unitsOfMeasureLabel_QLabel",
+            "Left Energy Unit"
+        )
+
+        verify_text(
+            german_data,
+            "frequencyWidgetEmission_unitsOfMeasureLabel_QLabel",
+            "Left Frequency Unit"
+        )
+
+        verify_text(
+            german_data,
+            "fiberFrame_nameLabel_QLabel",
+            "Left Fiber"
+        )
+
+        verify_text(
+            german_data,
+            "fiberUsesFrame_nameLabel_QLabel",
+            "Left Fiber Uses Remaining"
+        )
+
+        verify_text(
+            german_data,
+            "bottomBar_aimingBeamButton_AimingBeamModeButton",
+            "Left Aiming Beam"
+        )
+
+        verify_text(
+            german_data,
+            "stateSwitch_standbyButton_QPushButton",
+            "Left Standby"
+        )
+
+        verify_text(
+            german_data,
+            "stateSwitch_readyButton_QPushButton",
+            "Left Ready"
+        )
+
+        verify_right_treatment_name(
+            german_data,
+            "PROSTATE ENUCLEATION-(HIGH ENERGY)",
+            "Right Treatment Name"
+        )
+
+        verify_text(
+            german_data,
+            "averagePowerWidgetEmission_nameLabel_QLabel_2",
+            "Right Average Power"
+        )
+
+        verify_text(
+            german_data,
+            "pulseEnergyWidgetEmission_nameLabel_QLabel_2",
+            "Right Pulse Energy"
+        )
+
+        verify_text(
+            german_data,
+            "frequencyWidgetEmission_nameLabel_QLabel_2",
+            "Right Frequency"
+        )
+
+        verify_text(
+            german_data,
+            "modeButtonEmission_nameLabel_QLabel_2",
+            "Right Pulse Mode"
+        )
+
+        verify_text(
+            german_data,
+            "peakPowerButtonEmission_nameLabel_QLabel_2",
+            "Right Peak Power"
+        )
+
+        verify_text(
+            german_data,
+            "averagePowerWidgetEmission_unitsOfMeasureLabel_QLabel_2",
+            "Right Power Unit"
+        )
+
+        verify_text(
+            german_data,
+            "pulseEnergyWidgetEmission_unitsOfMeasureLabel_QLabel_2",
+            "Right Energy Unit"
+        )
+
+        verify_text(
+            german_data,
+            "frequencyWidgetEmission_unitsOfMeasureLabel_QLabel_2",
+            "Right Frequency Unit"
+        )
+
+        clickButton(
+            waitForObject(
+                names.stateSwitch_readyButton_QPushButton
+            )
+        )
+
+        test.vp("ReadyScreen")
+
+        clickButton(
+            waitForObject(
+                names.stateSwitch_readyButton_QPushButton
+            )
+        )
+
+    except Exception as e:
+
+        test.fail(
+            "German Ready Screen test failed: "
+            + str(e)
+        )
+
+    finally:
+
+        if workbook is not None:
+
+            try:
+                workbook.close()
+            except Exception:
+                pass
