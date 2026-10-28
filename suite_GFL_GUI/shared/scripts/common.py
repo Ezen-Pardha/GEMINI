@@ -201,7 +201,8 @@ def navigate_soft_tissue_quick_start():
         "Return home from Soft Tissue Quick Start"
     )
 
-
+# def navigate_stone_quick_start_Stonesense():
+    
 def navigate_stone_quick_start():
     test.log("========== STONE QUICK START ==========")
 
@@ -1267,3 +1268,9 @@ def navigate_complete_recorded_flow():
                      "Confirm/close Logoff dialog")
 
     test.passes("PASS: Complete recorded navigation flow finished")
+
+def navigateto_Treatmentscreen_stone_QuickStart():
+    clickButton(waitForObject(names.homeScreen_pbStoneQuickStart_QToolButton))
+    mouseClick(waitForObjectItem(names.tabLeftMainPresets_leftPresetsView_PresetListView, "_1"), 445, 65, Qt.NoModifier, Qt.LeftButton)
+    mouseClick(waitForObjectItem(names.tabRightMainPresets_rightPresetsView_PresetListView, "_1"), 187, 63, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.quickStartScreen_pbContinue_QPushButton))

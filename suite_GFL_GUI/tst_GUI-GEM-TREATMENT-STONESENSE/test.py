@@ -1,22 +1,48 @@
 # -*- coding: utf-8 -*-
 
 import names
-
+from common import *
 
 def main():
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.mainFrame_okButton_QPushButton))
-    clickButton(waitForObject(names.homeScreen_pbStoneQuickStart_QToolButton, 684232))
-    mouseClick(waitForObjectItem(names.tabLeftMainPresets_leftPresetsView_PresetListView, "_1"), 455, 79, Qt.NoModifier, Qt.LeftButton)
-    mouseClick(waitForObjectItem(names.tabRightMainPresets_rightPresetsView_PresetListView, "_1"), 88, 51, Qt.NoModifier, Qt.LeftButton)
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_3, 53143))
-    clickButton(waitForObject(names.homeScreen_pbStoneAssistant_QToolButton))
-    clickButton(waitForObject(names.locationFrame_kidneyPcnlLocationButton_QPushButton))
-    clickButton(waitForObject(names.flowRateFrame_lowFlowRateButton_QPushButton))
-    clickButton(waitForObject(names.hardnessFrame_smallHardnessButton_QPushButton))
-    clickButton(waitForObject(names.stoneAssistantModeScreen_continueButton_QPushButton))
-    type(waitForObject(names.o_ScreenSwitcher, 4228095), "<NumLock>")
-    sendEvent("QCloseEvent", waitForObject(names.o_ScreenSwitcher))
+    enter_login_pin()
+    test.log("SVV TAG GUI-TRT-077: Stone Sense Button Enabled in STANDBY State")
+    navigateto_Treatmentscreen_stone_QuickStart()
+   
+    try:
+        obj = waitForObjectExists(
+            names.stoneSenseFrame_pbStoneSense_QPushButton,
+            5000
+        )
+
+        if obj.visible and obj.enabled:
+            clickButton(obj)
+            test.passes("StoneSense button is clickable and clicked")
+        else:
+            test.fail("StoneSense button is not visible or enabled")
+
+    except Exception as e:
+        
+        test.fail("StoneSense button is not found or could not be clicked: " + str(e))
+    
+    clickButton(waitForObject(names.frame_pCancelButton_QPushButton))
+    
+    test.log("SVV TAG GUI-TRT-078: Stone Sense Button Disabled in READY State")
+    
+    clickButton(waitForObject(names.stateSwitch_readyButton_QPushButton))
+    mouseClick(waitForObject(names.treatmentScreen_bottomBar_QFrame), 646, 0, Qt.NoModifier, Qt.LeftButton)
+    try:
+        obj = findObject(names.stoneSenseFrame_pbStoneSense_QPushButton)
+
+        if obj.visible:
+            test.fail("StoneSense button is visible in READY State")
+        else:
+            test.passes("StoneSense button is not visible in READY State as expected")
+
+    except LookupError:
+        test.passes("StoneSense button is not found in READY State as expected")
+    
+    
+    
+
+  
+    
