@@ -1,53 +1,68 @@
+
 # -*- coding: utf-8 -*-
 
 import names
 import openpyxl
 import re
+import os
+
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+EXCEL_PATH = os.path.abspath(
+    os.path.join(
+        TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
+
+SHEET_NAME = "Soft Tissue-Guided"
+DUTCH_COLUMN = 6  # Column G; use 4 for column E
 
 
 def normalize(text):
-    text = re.sub(r"<br\s*/?>", " ", str(text), flags=re.IGNORECASE)
+    text = str(text or "")
     text = re.sub(r"<[^>]+>", "", text)
-    text = text.replace("\xa0", " ")
-    return " ".join(text.split()).strip().lower()
+    text = text.replace("\u00a0", " ")
+    text = " ".join(text.split())
+    return text.casefold()
 
 
 def get_all_texts(obj):
     texts = []
 
     try:
-        value = getattr(obj, "text")
-        value = str(value)
+        text = str(obj.text).strip()
 
-        if len(value.strip()) > 0:
-            value = re.sub(r"<br\s*/?>", " ", value, flags=re.IGNORECASE)
-            value = re.sub(r"<[^>]+>", "", value)
-            value = " ".join(value.split())
+        if text:
+            if "<html>" in text.lower():
+                text = re.sub(r"<[^>]+>", "", text)
+                text = " ".join(text.split())
 
-            if len(value) > 0:
-                texts.append(value)
+            if text:
+                texts.append(text)
 
-    except:
+    except Exception:
         pass
 
     try:
         children = object.children(obj)
-    except:
-        children = []
 
-    try:
         for child in children:
             texts.extend(get_all_texts(child))
-    except:
+
+    except Exception:
         pass
 
     return texts
 
 
 def ignore_text(text):
-    text = normalize(text)
+    text = str(text).strip()
 
-    if len(text) == 0:
+    if not text:
         return True
 
     if re.fullmatch(r"[-_=.]+", text):
@@ -56,132 +71,201 @@ def ignore_text(text):
     return False
 
 
+def load_dutch_strings():
+    if not os.path.isfile(EXCEL_PATH):
+        test.fail("Excel file not found: {}".format(EXCEL_PATH))
+        return {}
+
+    try:
+        workbook = openpyxl.load_workbook(
+            EXCEL_PATH,
+            data_only=True,
+            read_only=True
+        )
+    except Exception as error:
+        test.fail("Unable to load Dutch Excel: {}".format(error))
+        return {}
+
+    try:
+        if SHEET_NAME not in workbook.sheetnames:
+            test.fail("Excel worksheet not found: {}".format(SHEET_NAME))
+            return {}
+
+        sheet = workbook[SHEET_NAME]
+        excel_strings = {}
+
+        for row in sheet.iter_rows(min_row=2, values_only=True):
+            if len(row) <= DUTCH_COLUMN:
+                continue
+
+            english_value = row[1]
+            dutch_value = row[DUTCH_COLUMN]
+
+            if dutch_value is None:
+                continue
+
+            english = (
+                str(english_value).strip()
+                if english_value is not None
+                else ""
+            )
+            dutch = str(dutch_value).strip()
+
+            if ignore_text(dutch):
+                continue
+
+            key = normalize(dutch)
+            excel_strings.setdefault(key, []).append(english)
+
+        return excel_strings
+
+    finally:
+        workbook.close()
+
+
 def main():
 
-    excelpath = "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Czech/tst_Home Screen/testdata/Gemini Split strings.xlsx"
+    # LOAD DUTCH EXCEL CATALOG
 
-    workbook = openpyxl.load_workbook(
-        excelpath,
-        data_only=True
-    )
+    excel_strings = load_dutch_strings()
 
-    sheet = workbook["Soft Tissue-Guided"]
+    if not excel_strings:
+        test.fail("No Dutch strings loaded from Excel.")
+        return
 
     # LOGIN
-    doubleClick(waitForObject(names.numpad_pushButton_8_NumpadButton), 68, 52, Qt.NoModifier, Qt.LeftButton)
-    doubleClick(waitForObject(names.numpad_pushButton_8_NumpadButton), 116, 46, Qt.NoModifier, Qt.LeftButton)
-    clickButton(waitForObject(names.mainFrame_okButton_QPushButton))
+
+    doubleClick(
+        waitForObject(names.numpad_pushButton_8_NumpadButton),
+        68, 52,
+        Qt.NoModifier,
+        Qt.LeftButton
+    )
+
+    doubleClick(
+        waitForObject(names.numpad_pushButton_8_NumpadButton),
+        116, 46,
+        Qt.NoModifier,
+        Qt.LeftButton
+    )
+
+    clickButton(
+        waitForObject(names.mainFrame_okButton_QPushButton)
+    )
 
     # CHANGE LANGUAGE TO DUTCH
-    clickButton(waitForObject(names.homeScreen_settingsButton_QPushButton))
-    clickTab(waitForObject(names.settingsScreen_tbSystemInfo_TabWidget), "INFO")
-    clickButton(waitForObject(names.gbSystemInformation_pbLanguageSettingsUpdate_QPushButton))
-    clickButton(waitForObject(names.languagesFrame_pbDutch_QPushButton))
-    clickButton(waitForObject(names.buttonsFrame_acceptButton_QPushButton))
-    clickButton(waitForObject(names.settingsScreen_pbBack_QPushButton))
-    snooze(1)
+
+    clickButton(
+        waitForObject(names.homeScreen_settingsButton_QPushButton)
+    )
+
+    clickTab(
+        waitForObject(names.settingsScreen_tbSystemInfo_TabWidget),
+        "INFO"
+    )
+
+    clickButton(
+        waitForObject(
+            names.gbSystemInformation_pbLanguageSettingsUpdate_QPushButton
+        )
+    )
+
+    clickButton(
+        waitForObject(names.languagesFrame_pbDutch_QPushButton)
+    )
+
+    clickButton(
+        waitForObject(names.buttonsFrame_acceptButton_QPushButton)
+    )
+
+    clickButton(
+        waitForObject(names.settingsScreen_pbBack_QPushButton)
+    )
 
     # OPEN SOFT TISSUE ASSISTANT
-    clickButton(waitForObject(names.homeScreen_pbSoftTissueAssistant_QToolButton))
-    mouseClick(waitForObject(names.softTissueAssistantModeScreen_gbSoftTissueProcedures_QFrame), 165, 137, Qt.NoModifier, Qt.LeftButton)
-    mouseClick(waitForObject(names.softTissueAssistantModeScreen_gbBphProcedures_QFrame), 24, 50, Qt.NoModifier, Qt.LeftButton)
-    mouseClick(waitForObject(names.softTissueAssistantModeScreen_lbTooltipName_QLabel), 245, 4, Qt.NoModifier, Qt.LeftButton)
-    mouseClick(waitForObject(names.topBar_buttonsBar_ButtonsBar_2), 428, 20, Qt.NoModifier, Qt.LeftButton)
-    mouseClick(waitForObject(names.softTissueAssistantModeScreen_wdBottom_QWidget), 867, 59, Qt.NoModifier, Qt.LeftButton)
-    snooze(1)
 
-    # GET SOFT TISSUE SCREEN
+    clickButton(
+        waitForObject(
+            names.homeScreen_pbSoftTissueAssistant_QToolButton
+        )
+    )
+
+    mouseClick(
+        waitForObject(
+            names.softTissueAssistantModeScreen_gbSoftTissueProcedures_QFrame
+        ),
+        90, 150,
+        Qt.NoModifier,
+        Qt.LeftButton
+    )
+
+    # COLLECT SCREEN TEXT
+
     soft_tissue = waitForObject(
         names.softTissueAssistantModeScreen_SoftTissueAssistantModeScreen
     )
 
-    # CAPTURE SCREEN TEXT
-    screen_texts = get_all_texts(soft_tissue)
+    actual_texts = get_all_texts(soft_tissue)
 
-    actual_texts = set()
+    # REMOVE DUPLICATES
 
-    for text in screen_texts:
-        if not ignore_text(text):
-            actual_texts.add(normalize(text))
+    unique_texts = []
+    seen = set()
 
-    # VERIFY EXCEL DUTCH STRINGS
-    verified = set()
-    pass_count = 0
-    fail_count = 0
-
-    for row in sheet.iter_rows(
-        min_row=2,
-        values_only=True
-    ):
-
-        if len(row) < 7:
+    for text in actual_texts:
+        if ignore_text(text):
             continue
 
-        if row[1] is None:
-            continue
+        key = normalize(text)
 
-        if row[6] is None:
-            continue
+        if key not in seen:
+            seen.add(key)
+            unique_texts.append(text)
 
-        english = str(row[1]).strip()
-        dutch = str(row[6]).strip()
+    # VALIDATE SCREEN STRINGS
 
-        if len(english) == 0:
-            continue
+    total_pass = 0
+    total_fail = 0
 
-        if len(dutch) == 0:
-            continue
+    for text in unique_texts:
+        key = normalize(text)
 
-        dutch_key = normalize(dutch)
+        if key in excel_strings:
+            english_values = excel_strings[key]
 
-        if len(dutch_key) == 0:
-            continue
-
-        if dutch_key in verified:
-            continue
-
-        verified.add(dutch_key)
-
-        if dutch_key in actual_texts:
-
-            test.passes(
-                "PASS: " +
-                english +
-                " -> " +
-                dutch
+            english = next(
+                (value for value in english_values if value),
+                ""
             )
 
-            pass_count += 1
+            if english:
+                test.passes("PASS: {} -> {}".format(english, text))
+            else:
+                test.passes(
+                    "PASS: Dutch string found in Excel -> {}".format(text)
+                )
+
+            total_pass += 1
 
         else:
-
             test.fail(
-                "FAIL: " +
-                english +
-                " -> " +
-                dutch +
-                " | Dutch string is missing on Soft Tissue-Guided screen"
+                "FAIL: Screen string not found in Dutch Excel: {}".format(
+                    text
+                )
             )
+            total_fail += 1
 
-            fail_count += 1
+    # FINAL SUMMARY
 
-    workbook.close()
-
-    # FINAL RESULT
-    if fail_count > 0:
-
-        test.fail(
-            "DUTCH SOFT TISSUE-GUIDED LOCALIZATION VALIDATION FAILED"
+    test.log(
+        "Dutch Localization Summary | Total: {} | PASS: {} | FAIL: {}".format(
+            len(unique_texts),
+            total_pass,
+            total_fail
         )
+    )
 
-    elif pass_count > 0:
-
-        test.passes(
-            "DUTCH SOFT TISSUE-GUIDED LOCALIZATION VALIDATION PASSED"
-        )
-
+    if total_fail == 0 and total_pass > 0:
+        test.passes("DUTCH LOCALIZATION VALIDATION PASSED")
     else:
-
-        test.fail(
-            "NO DUTCH EXCEL STRINGS FOUND FOR VALIDATION"
-        )
+        test.fail("DUTCH LOCALIZATION VALIDATION FAILED")

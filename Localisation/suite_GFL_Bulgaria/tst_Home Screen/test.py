@@ -2,13 +2,33 @@
 
 import names
 import openpyxl
+import re
+import os
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
 
 
-EXCEL_PATH = "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Czech/tst_Home Screen/testdata/Gemini Split strings.xlsx"
+# EXCEL_PATH = "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Czech/tst_Home Screen/testdata/Gemini Split strings.xlsx"
+
+
+def normalize(text):
+    text = str(text)
+    text = re.sub(r"<br\s*/?>", " ", text, flags=re.IGNORECASE)
+    text = re.sub(r"<[^>]+>", "", text)
+    text = text.replace("\xa0", " ")
+    text = " ".join(text.split())
+    return text.strip().casefold()
 
 
 def get_all_texts(obj):
-
     texts = []
 
     try:
@@ -18,30 +38,43 @@ def get_all_texts(obj):
         pass
 
     for attr in ("text", "title"):
-
         try:
             value = str(getattr(obj, attr)).strip()
 
-            if value:
+            if value and value.lower() not in ("none", "null"):
                 texts.append(value)
-
         except:
             pass
 
     try:
         for child in object.children(obj):
             texts.extend(get_all_texts(child))
-
     except:
         pass
 
     return texts
 
 
+def ignore_text(text):
+    text = normalize(text)
+
+    if not text:
+        return True
+
+    # Ignore numeric-only values and standalone measurements
+    if re.fullmatch(r"[\d\s.,:+\-/<>=%µμ]+", text):
+        return True
+
+    # Ignore symbol-only strings
+    if re.fullmatch(r"[-_=.<>/%µμ:+]+", text):
+        return True
+
+    return False
+
+
 def main():
 
     # LOGIN
-
     sendEvent(
         "QMoveEvent",
         waitForObject(names.o_ScreenSwitcher),
@@ -52,63 +85,24 @@ def main():
     clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
     clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
     clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-
     clickButton(waitForObject(names.mainFrame_okButton_QPushButton))
 
-
-    # CHANGE LANGUAGE TO BULGARIAN
-
+    # CHANGE LANGUAGE TO Bulgaria
     clickButton(waitForObject(names.homeScreen_settingsButton_QPushButton))
+    clickTab(waitForObject(names.settingsScreen_tbSystemInfo_TabWidget), "INFO")
+    clickButton(waitForObject(names.gbSystemInformation_pbLanguageSettingsUpdate_QPushButton))
 
-    clickTab(
-        waitForObject(names.settingsScreen_tbSystemInfo_TabWidget),
-        "INFO"
-    )
+    clickButton(waitForObject(names.languagesFrame_pbBulgaria_QPushButton))
+    clickButton(waitForObject(names.buttonsFrame_acceptButton_QPushButton))
 
-    clickButton(
-        waitForObject(
-            names.gbSystemInformation_pbLanguageSettingsUpdate_QPushButton
-        )
-    )
-
-    clickButton(
-        waitForObject(
-            names.languagesFrame_pbBulgaria_QPushButton
-        )
-    )
-
-    clickButton(
-        waitForObject(
-            names.buttonsFrame_acceptButton_QPushButton
-        )
-    )
-
-    clickButton(
-        waitForObject(
-            names.settingsScreen_pbBack_QPushButton
-        )
-    )
-
+    clickButton(waitForObject(names.settingsScreen_pbBack_QPushButton))
 
     # HOME SCREEN
+    home = waitForObject(names.homeScreen_HomeScreen)
 
-    mouseClick(
-        waitForObject(names.homeScreen_HomeScreen),
-        66, 62,
-        Qt.NoModifier,
-        Qt.LeftButton
-    )
+    test.vp("Verified Home screen")
 
-    home = waitForObject(
-        names.homeScreen_HomeScreen
-    )
-
-    mouseClick(
-        home,
-        643, 86,
-        Qt.NoModifier,
-        Qt.LeftButton
-    )
+    mouseClick(home, 643, 86, Qt.NoModifier, Qt.LeftButton)
 
     mouseClick(
         waitForObject(names.homeScreen_gbExpert_QFrame),
@@ -117,82 +111,104 @@ def main():
         Qt.LeftButton
     )
 
+    snooze(1)
 
-    # READ EXCEL
-
-    workbook = openpyxl.load_workbook(
-        EXCEL_PATH,
-        data_only=True
-    )
-
+    # LOAD HOME SCREEN EXCEL SHEET
+    workbook = openpyxl.load_workbook(EXCEL_PATH, data_only=True)
     sheet = workbook["Home Screen"]
 
+    # LOAD Bulgaria STRINGS FROM EXCEL
+    excel_strings = {}
 
-    # GET VISIBLE HOME SCREEN TEXT
+    for row in sheet.iter_rows(min_row=2, values_only=True):
 
-    actual_texts = get_all_texts(home)
-
-    actual_texts = set(
-        text.strip()
-        for text in actual_texts
-        if text and text.strip()
-    )
-
-
-    # VERIFY ENGLISH -> BULGARIAN
-
-    verified = set()
-
-    pass_count = 0
-
-    for row in sheet.iter_rows(
-        min_row=2,
-        values_only=True
-    ):
-
-        if len(row) < 3:
+        if len(row) < 5:
             continue
 
         english = row[1]
-        bulgarian = row[2]
+        Bulgaria = row[2]
 
-        if english is None or bulgarian is None:
+        if english is None or Bulgaria is None:
             continue
 
         english = str(english).strip()
-        bulgarian = str(bulgarian).strip()
+        Bulgaria = str(Bulgaria).strip()
 
-        if not english or not bulgarian:
+        if not english or not Bulgaria:
             continue
 
-        if bulgarian in actual_texts:
+        key = normalize(Bulgaria)
 
-            if bulgarian not in verified:
+        if key and key not in excel_strings:
+            excel_strings[key] = {
+                "english": english,
+                "Bulgaria": Bulgaria
+            }
 
-                verified.add(bulgarian)
+    # GET STRINGS PRESENT ON SCREEN
+    actual_texts = get_all_texts(home)
 
+    # DEDUPLICATE SCREEN STRINGS
+    screen_strings = {}
+
+    for text in actual_texts:
+        text = " ".join(str(text).split()).strip()
+
+        if ignore_text(text):
+            continue
+
+        key = normalize(text)
+
+        if key and key not in screen_strings:
+            screen_strings[key] = text
+
+    # VERIFY SCREEN STRINGS AGAINST EXCEL
+    verified = set()
+    pass_count = 0
+    fail_count = 0
+
+    for key in sorted(screen_strings):
+
+        screen_text = screen_strings[key]
+
+        if key in excel_strings:
+            data = excel_strings[key]
+
+            if key not in verified:
                 test.passes(
-                    "PASS: " +
-                    english +
-                    " -> " +
-                    bulgarian
+                    "PASS: "
+                    + data["english"]
+                    + " -> "
+                    + data["Bulgaria"]
                 )
 
+                verified.add(key)
                 pass_count += 1
 
+        else:
+            test.fail(
+                "FAIL: Screen string not found in Bulgaria Excel: "
+                + screen_text
+            )
+
+            fail_count += 1
 
     # FINAL RESULT
+    if fail_count > 0:
+        test.fail(
+            "Bulgaria HOME SCREEN VALIDATION FAILED: "
+            + str(fail_count)
+            + " screen string(s) missing from Excel"
+        )
 
-    if pass_count > 0:
-
+    elif pass_count > 0:
         test.passes(
-            "BULGARIAN HOME SCREEN LOCALIZATION VALIDATION PASSED"
+            "Bulgaria HOME SCREEN VALIDATION PASSED: "
+            + str(pass_count)
+            + " unique screen string(s) verified"
         )
 
     else:
-
-        test.fail(
-            "NO BULGARIAN STRINGS FOUND ON HOME SCREEN"
-        )
+        test.fail("NO VALID STRINGS FOUND ON SCREEN")
 
     workbook.close()

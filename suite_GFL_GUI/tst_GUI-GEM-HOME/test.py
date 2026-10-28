@@ -1,4 +1,7 @@
 import test
+from common import *
+
+
 def main():
     test.log("========== START Home Page Test ==========")
 

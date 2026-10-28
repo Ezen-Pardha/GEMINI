@@ -1,8 +1,25 @@
+
 # -*- coding: utf-8 -*-
 
 import names
 import openpyxl
 import re
+import os
+
+
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+EXCEL_PATH = os.path.abspath(
+    os.path.join(
+        TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
+
+SHEET_NAME = "Soft Tissue-Guided"
 
 
 def get_all_texts(obj):
@@ -13,17 +30,15 @@ def get_all_texts(obj):
         text = str(obj.text).strip()
 
         if text:
-
-            if "<html>" in text:
-                text = re.sub("<[^>]+>", "", text)
+            if "<html>" in text.lower():
+                text = re.sub(r"<[^>]+>", "", text)
                 text = text.strip()
 
             if text:
                 texts.append(text)
 
-    except:
+    except Exception:
         pass
-
 
     try:
         children = object.children(obj)
@@ -31,131 +46,140 @@ def get_all_texts(obj):
         for child in children:
             texts.extend(get_all_texts(child))
 
-    except:
+    except Exception:
         pass
-
 
     return texts
 
 
 def main():
-    
-    excelpath = "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Croatia/tst_GEM-LOC-CROATIA-SOFT TISSUE-GUIDED/testdata/Croatia Soft tissue guided.xlsx"
-    workbook = openpyxl.load_workbook(excelpath)
 
-    sheet = workbook.active
+    # Check Excel file
+    if not os.path.isfile(EXCEL_PATH):
+        test.fail("Excel file not found: " + EXCEL_PATH)
+        return
 
-    # Login
+    workbook = None
 
-    doubleClick(
-        waitForObject(names.numpad_pushButton_8_NumpadButton),
-        68, 52,
-        Qt.NoModifier,
-        Qt.LeftButton
-    )
-
-    doubleClick(
-        waitForObject(names.numpad_pushButton_8_NumpadButton),
-        116, 46,
-        Qt.NoModifier,
-        Qt.LeftButton
-    )
-
-    clickButton(
-        waitForObject(names.mainFrame_okButton_QPushButton)
-    )
-
-
-
-    clickButton(
-        waitForObject(names.homeScreen_settingsButton_QPushButton)
-    )
-
-    clickTab(
-        waitForObject(names.settingsScreen_tbSystemInfo_TabWidget),
-        "INFO"
-    )
-
-    clickButton(
-        waitForObject(
-            names.gbSystemInformation_pbLanguageSettingsUpdate_QPushButton
+    try:
+        workbook = openpyxl.load_workbook(
+            EXCEL_PATH,
+            data_only=True,
+            read_only=True
         )
-    )
 
-    clickButton(
-        waitForObject(names.languagesFrame_pbCroatia_QPushButton)
-    )
+        # Select worksheet
+        if SHEET_NAME not in workbook.sheetnames:
+            test.fail(
+                "Excel sheet not found: " + SHEET_NAME +
+                ". Available sheets: " + ", ".join(workbook.sheetnames)
+            )
+            return
 
-    clickButton(
-        waitForObject(names.buttonsFrame_acceptButton_QPushButton)
-    )
+        sheet = workbook[SHEET_NAME]
 
-    clickButton(
-        waitForObject(names.settingsScreen_pbBack_QPushButton)
-    )
-
-
-
-    clickButton(
-        waitForObject(
-            names.homeScreen_pbSoftTissueAssistant_QToolButton
+        # Login
+        doubleClick(
+            waitForObject(names.numpad_pushButton_8_NumpadButton),
+            68, 52,
+            Qt.NoModifier,
+            Qt.LeftButton
         )
-    )
 
+        doubleClick(
+            waitForObject(names.numpad_pushButton_8_NumpadButton),
+            116, 46,
+            Qt.NoModifier,
+            Qt.LeftButton
+        )
 
-    # Open Soft Tissue Procedures
+        clickButton(
+            waitForObject(names.mainFrame_okButton_QPushButton)
+        )
 
-    test.vp("Softtissue guidied")
+        # Change language to Croatian
+        clickButton(
+            waitForObject(names.homeScreen_settingsButton_QPushButton)
+        )
 
-   
-    mouseClick(
-        waitForObject(
-            names.softTissueAssistantModeScreen_gbSoftTissueProcedures_QFrame
-        ),
-        90, 150,
-        Qt.NoModifier,
-        Qt.LeftButton
-    )
+        clickTab(
+            waitForObject(names.settingsScreen_tbSystemInfo_TabWidget),
+            "INFO"
+        )
 
+        clickButton(
+            waitForObject(
+                names.gbSystemInformation_pbLanguageSettingsUpdate_QPushButton
+            )
+        )
 
+        clickButton(
+            waitForObject(names.languagesFrame_pbCroatia_QPushButton)
+        )
 
+        clickButton(
+            waitForObject(names.buttonsFrame_acceptButton_QPushButton)
+        )
 
+        clickButton(
+            waitForObject(names.settingsScreen_pbBack_QPushButton)
+        )
 
-    soft_tissue = waitForObject(
-        names.softTissueAssistantModeScreen_SoftTissueAssistantModeScreen
-    )
+        # Open Soft Tissue Assistant
+        clickButton(
+            waitForObject(
+                names.homeScreen_pbSoftTissueAssistant_QToolButton
+            )
+        )
 
-    actual_texts = get_all_texts(soft_tissue)
+        test.vp("Softtissue guidied")
 
-    # Remove duplicate strings
-    actual_texts = list(set(actual_texts))
+        # Open Soft Tissue Procedures
+        mouseClick(
+            waitForObject(
+                names.softTissueAssistantModeScreen_gbSoftTissueProcedures_QFrame
+            ),
+            90, 150,
+            Qt.NoModifier,
+            Qt.LeftButton
+        )
 
+        # Get text from Soft Tissue screen
+        soft_tissue = waitForObject(
+            names.softTissueAssistantModeScreen_SoftTissueAssistantModeScreen
+        )
 
-    for text in actual_texts:
+        actual_texts = get_all_texts(soft_tissue)
 
-        for row in sheet.iter_rows(
-            min_row=2,
-            values_only=True
-        ):
+        # Remove duplicate strings
+        actual_texts = list(set(actual_texts))
 
-            if row[0] is None or row[1] is None:
-                continue
+        # Compare visible Croatian strings with Excel
+        for text in actual_texts:
 
+            for row in sheet.iter_rows(
+                min_row=2,
+                values_only=True
+            ):
 
-            english = str(row[0]).strip()
-            croatian = str(row[1]).strip()
+                if len(row) < 2:
+                    continue
 
+                if row[0] is None or row[1] is None:
+                    continue
 
-            # Screen string matches Excel
-            if croatian == text:
+                english = str(row[0]).strip()
+                croatian = str(row[3]).strip()
 
-                test.passes(
-                    english + " -> " + croatian
-                )
+                if croatian == text.strip():
+                    test.passes(
+                        english + " -> " + croatian
+                    )
+                    break
 
-                break
+    except Exception as e:
+        test.fail("Localization validation error: " + str(e))
 
-
-
-
-
+    finally:
+        if workbook is not None:
+            workbook.close()

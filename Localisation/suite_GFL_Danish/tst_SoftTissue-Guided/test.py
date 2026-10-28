@@ -1,8 +1,32 @@
+
 # -*- coding: utf-8 -*-
 
 import names
 import openpyxl
 import re
+import os
+
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+EXCEL_PATH = os.path.abspath(
+    os.path.join(
+        TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
+
+SHEET_NAME = "Soft Tissue-Guided"
+
+
+def normalize(text):
+    text = str(text or "")
+    text = re.sub(r"<[^>]+>", "", text)
+    text = text.replace("\u00a0", " ")
+    text = " ".join(text.split())
+    return text.casefold()
 
 
 def get_all_texts(obj):
@@ -12,14 +36,14 @@ def get_all_texts(obj):
         text = str(obj.text).strip()
 
         if text:
-            if "<html>" in text:
-                text = re.sub("<[^>]+>", "", text)
-                text = text.strip()
+            if "<html>" in text.lower():
+                text = re.sub(r"<[^>]+>", "", text)
+                text = " ".join(text.split())
 
             if text:
                 texts.append(text)
 
-    except:
+    except Exception:
         pass
 
     try:
@@ -28,7 +52,7 @@ def get_all_texts(obj):
         for child in children:
             texts.extend(get_all_texts(child))
 
-    except:
+    except Exception:
         pass
 
     return texts
@@ -46,70 +70,221 @@ def ignore_text(text):
     return False
 
 
+def load_danish_strings():
+    if not os.path.isfile(EXCEL_PATH):
+        test.fail(
+            "Excel file not found: {}".format(EXCEL_PATH)
+        )
+        return {}
+
+    try:
+        workbook = openpyxl.load_workbook(
+            EXCEL_PATH,
+            data_only=True,
+            read_only=True
+        )
+    except Exception as error:
+        test.fail(
+            "Unable to load Danish Excel: {}".format(error)
+        )
+        return {}
+
+    try:
+        if SHEET_NAME not in workbook.sheetnames:
+            test.fail(
+                "Excel worksheet not found: {}".format(SHEET_NAME)
+            )
+            return {}
+
+        sheet = workbook[SHEET_NAME]
+        excel_strings = {}
+
+        # Column B = English
+        # Column F = Danish
+
+        for row in sheet.iter_rows(
+            min_row=2,
+            values_only=True
+        ):
+            if len(row) < 6:
+                continue
+
+            english_value = row[1]
+            danish_value = row[5]
+
+            if danish_value is None:
+                continue
+
+            english = (
+                str(english_value).strip()
+                if english_value is not None
+                else ""
+            )
+            danish = str(danish_value).strip()
+
+            if ignore_text(danish):
+                continue
+
+            key = normalize(danish)
+
+            if key not in excel_strings:
+                excel_strings[key] = []
+
+            excel_strings[key].append(english)
+
+        return excel_strings
+
+    finally:
+        workbook.close()
+
+
 def main():
 
-    excelpath = "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Czech/tst_Home Screen/testdata/Gemini Split strings.xlsx"
+    # LOAD DANISH EXCEL CATALOG
 
-    workbook = openpyxl.load_workbook(excelpath)
-    sheet = workbook["Soft Tissue-Guided"]
+    excel_strings = load_danish_strings()
 
-    # Login
+    if not excel_strings:
+        test.fail("No Danish strings loaded from Excel.")
+        return
 
-    doubleClick(waitForObject(names.numpad_pushButton_8_NumpadButton), 68, 52, Qt.NoModifier, Qt.LeftButton)
-    doubleClick(waitForObject(names.numpad_pushButton_8_NumpadButton), 116, 46, Qt.NoModifier, Qt.LeftButton)
-    clickButton(waitForObject(names.mainFrame_okButton_QPushButton))
+    # LOGIN
 
-    # Settings
+    doubleClick(
+        waitForObject(names.numpad_pushButton_8_NumpadButton),
+        68, 52,
+        Qt.NoModifier,
+        Qt.LeftButton
+    )
 
-    clickButton(waitForObject(names.homeScreen_settingsButton_QPushButton))
-    clickTab(waitForObject(names.settingsScreen_tbSystemInfo_TabWidget), "INFO")
-    clickButton(waitForObject(names.gbSystemInformation_pbLanguageSettingsUpdate_QPushButton))
-    clickButton(waitForObject(names.languagesFrame_pbDenmark_QPushButton))
-    clickButton(waitForObject(names.buttonsFrame_acceptButton_QPushButton))
-    clickButton(waitForObject(names.settingsScreen_pbBack_QPushButton))
+    doubleClick(
+        waitForObject(names.numpad_pushButton_8_NumpadButton),
+        116, 46,
+        Qt.NoModifier,
+        Qt.LeftButton
+    )
 
-    # Soft Tissue-Guided
+    clickButton(
+        waitForObject(names.mainFrame_okButton_QPushButton)
+    )
 
-    clickButton(waitForObject(names.homeScreen_pbSoftTissueAssistant_QToolButton))
-    mouseClick(waitForObject(names.softTissueAssistantModeScreen_gbSoftTissueProcedures_QFrame), 314, 19, Qt.NoModifier, Qt.LeftButton)
-    mouseClick(waitForObject(names.softTissueAssistantModeScreen_lbTooltipName_QLabel), 304, 6, Qt.NoModifier, Qt.LeftButton)
-    mouseClick(waitForObject(names.softTissueAssistantModeScreen_wdTabWidgets_QWidget), 97, 336, Qt.NoModifier, Qt.LeftButton)
-    mouseClick(waitForObject(names.softTissueAssistantModeScreen_gbBphProcedures_QFrame), 24, 46, Qt.NoModifier, Qt.LeftButton)
+    # CHANGE LANGUAGE TO DANISH
 
-    soft_tissue = waitForObject(names.softTissueAssistantModeScreen_SoftTissueAssistantModeScreen)
+    clickButton(
+        waitForObject(names.homeScreen_settingsButton_QPushButton)
+    )
+
+    clickTab(
+        waitForObject(names.settingsScreen_tbSystemInfo_TabWidget),
+        "INFO"
+    )
+
+    clickButton(
+        waitForObject(
+            names.gbSystemInformation_pbLanguageSettingsUpdate_QPushButton
+        )
+    )
+
+    clickButton(
+        waitForObject(names.languagesFrame_pbDenmark_QPushButton)
+    )
+
+    clickButton(
+        waitForObject(names.buttonsFrame_acceptButton_QPushButton)
+    )
+
+    clickButton(
+        waitForObject(names.settingsScreen_pbBack_QPushButton)
+    )
+
+    # OPEN SOFT TISSUE ASSISTANT
+
+    clickButton(
+        waitForObject(
+            names.homeScreen_pbSoftTissueAssistant_QToolButton
+        )
+    )
+
+    mouseClick(
+        waitForObject(
+            names.softTissueAssistantModeScreen_gbSoftTissueProcedures_QFrame
+        ),
+        90, 150,
+        Qt.NoModifier,
+        Qt.LeftButton
+    )
+
+    # COLLECT SCREEN TEXT
+
+    soft_tissue = waitForObject(
+        names.softTissueAssistantModeScreen_SoftTissueAssistantModeScreen
+    )
 
     actual_texts = get_all_texts(soft_tissue)
-    actual_texts = list(set(actual_texts))
 
-    # Verify Danish strings
+    # REMOVE DUPLICATES
 
-    verified = set()
+    unique_texts = []
+    seen = set()
 
     for text in actual_texts:
-
         if ignore_text(text):
             continue
 
-        for row in sheet.iter_rows(min_row=2, values_only=True):
+        key = normalize(text)
 
-            if len(row) < 5:
-                continue
+        if key not in seen:
+            seen.add(key)
+            unique_texts.append(text)
 
-            if row[1] is None or row[5] is None:
-                continue
+    # VALIDATE SCREEN STRINGS
 
-            english = str(row[1]).strip()
-            danish = str(row[5]).strip()
+    total_pass = 0
+    total_fail = 0
 
-            if danish == text and danish not in verified:
+    for text in unique_texts:
+        key = normalize(text)
 
-                test.passes(english + " -> " + danish)
-                verified.add(danish)
-                break
+        if key in excel_strings:
+            english_values = excel_strings[key]
 
-    workbook.close()
+            english = next(
+                (value for value in english_values if value),
+                ""
+            )
 
-    if verified:
-        test.passes("DANISH SOFT TISSUE-GUIDED LOCALIZATION VALIDATION PASSED")
+            if english:
+                test.passes(
+                    "PASS: {} -> {}".format(english, text)
+                )
+            else:
+                test.passes(
+                    "PASS: Danish string found in Excel -> {}".format(
+                        text
+                    )
+                )
+
+            total_pass += 1
+
+        else:
+            test.fail(
+                "FAIL: Screen string not found in Danish Excel: {}".format(
+                    text
+                )
+            )
+            total_fail += 1
+
+    # FINAL SUMMARY
+
+    test.log(
+        "Danish Localization Summary | Total: {} | PASS: {} | FAIL: {}".format(
+            len(unique_texts),
+            total_pass,
+            total_fail
+        )
+    )
+
+    if total_fail == 0 and total_pass > 0:
+        test.passes("DANISH LOCALIZATION VALIDATION PASSED")
     else:
-        test.fail("NO DANISH STRINGS FOUND ON SOFT TISSUE-GUIDED SCREEN")
+        test.fail("DANISH LOCALIZATION VALIDATION FAILED")

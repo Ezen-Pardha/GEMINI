@@ -148,6 +148,9 @@ o_QSplashScreen = {"type": "QSplashScreen", "unnamed": 1, "visible": 0}
 bottomBar_stateSwitch_StateSwitch = {"container": treatmentScreen_bottomBar_QFrame, "name": "stateSwitch", "type": "StateSwitch", "visible": 1}
 stateSwitch_readyButton_QPushButton = {"container": bottomBar_stateSwitch_StateSwitch, "name": "readyButton", "type": "QPushButton", "visible": 1}
 stateSwitch_standbyButton_QPushButton = {"container": bottomBar_stateSwitch_StateSwitch, "name": "standbyButton", "type": "QPushButton", "visible": 1}
+recommendedFiberWarningDialog_RecommendedFiberWarningDialog = {"name": "RecommendedFiberWarningDialog", "type": "RecommendedFiberWarningDialog", "visible": 1}
+recommendedFiberWarningDialog_mainFrame_QFrame = {"name": "mainFrame", "type": "QFrame", "visible": 1, "window": recommendedFiberWarningDialog_RecommendedFiberWarningDialog}
+mainFrame_okButton_QPushButton_2 = {"container": recommendedFiberWarningDialog_mainFrame_QFrame, "name": "okButton", "type": "QPushButton", "visible": 1}
 # encoding: UTF-8
 
 from objectmaphelper import *
