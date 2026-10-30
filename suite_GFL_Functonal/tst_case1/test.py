@@ -1,0 +1,43 @@
+# -*- coding: utf-8 -*-
+from common import *
+import names
+ 
+ 
+def main():
+    enter_login_pin()
+
+    clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
+    sendEvent("QWheelEvent", waitForObject(names.frequencyWidget_incrementButton_QPushButton), 31, 32, 120, 0, 2)
+    clickButton(waitForObject(names.frequencyWidget_incrementButton_QPushButton))
+    clickButton(waitForObject(names.frequencyWidget_incrementButton_QPushButton))
+    clickButton(waitForObject(names.frequencyWidget_incrementButton_QPushButton))
+    mouseDrag(waitForObject(names.indexPicker_valuePicker_IntervalSlider_2), 93, 18, 153, 25, 1, Qt.LeftButton)
+    clickButton(waitForObject(names.frequencyWidget_incrementButton_QPushButton))
+    mouseDrag(waitForObject(names.indexPicker_valuePicker_IntervalSlider, 60922), 81, 21, 262, 14, 1, Qt.LeftButton)
+    doubleClick(waitForObject(names.frequencyWidget_incrementButton_QPushButton), 25, 26, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.frequencyWidget_incrementButton_QPushButton))
+    doubleClick(waitForObject(names.frequencyWidget_incrementButton_QPushButton), 27, 26, Qt.NoModifier, Qt.LeftButton)
+    doubleClick(waitForObject(names.frequencyWidget_incrementButton_QPushButton), 27, 26, Qt.NoModifier, Qt.LeftButton)
+    doubleClick(waitForObject(names.frequencyWidget_incrementButton_QPushButton), 28, 26, Qt.NoModifier, Qt.LeftButton)
+    doubleClick(waitForObject(names.frequencyWidget_incrementButton_QPushButton), 28, 26, Qt.NoModifier, Qt.LeftButton)
+    doubleClick(waitForObject(names.frequencyWidget_incrementButton_QPushButton), 29, 26, Qt.NoModifier, Qt.LeftButton)
+    doubleClick(waitForObject(names.frequencyWidget_incrementButton_QPushButton), 29, 26, Qt.NoModifier, Qt.LeftButton)
+    doubleClick(waitForObject(names.frequencyWidget_incrementButton_QPushButton), 29, 26, Qt.NoModifier, Qt.LeftButton)
+    doubleClick(waitForObject(names.frequencyWidget_incrementButton_QPushButton), 29, 26, Qt.NoModifier, Qt.LeftButton)
+    doubleClick(waitForObject(names.frequencyWidget_incrementButton_QPushButton), 29, 26, Qt.NoModifier, Qt.LeftButton)
+    doubleClick(waitForObject(names.frequencyWidget_incrementButton_QPushButton), 29, 26, Qt.NoModifier, Qt.LeftButton)
+    doubleClick(waitForObject(names.frequencyWidget_incrementButton_QPushButton), 29, 26, Qt.NoModifier, Qt.LeftButton)
+    doubleClick(waitForObject(names.frequencyWidget_incrementButton_QPushButton), 29, 26, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.frequencyWidget_incrementButton_QPushButton))
+    clickButton(waitForObject(names.frequencyWidget_incrementButton_QPushButton))
+    clickButton(waitForObject(names.frequencyWidget_incrementButton_QPushButton))
+    clickButton(waitForObject(names.frequencyWidget_incrementButton_QPushButton))
+    doubleClick(waitForObject(names.frequencyWidget_incrementButton_QPushButton), 29, 26, Qt.NoModifier, Qt.LeftButton)
+    doubleClick(waitForObject(names.frequencyWidget_incrementButton_QPushButton), 29, 26, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.frequencyWidget_incrementButton_QPushButton))
+    clickButton(waitForObject(names.frequencyWidget_incrementButton_QPushButton))
+    clickButton(waitForObject(names.frequencyWidget_incrementButton_QPushButton))
+    clickButton(waitForObject(names.frequencyWidget_incrementButton_QPushButton))
+    clickButton(waitForObject(names.frequencyWidget_incrementButton_QPushButton))
+    clickButton(waitForObject(names.frequencyWidget_incrementButton_QPushButton))
+    clickButton(waitForObject(names.frequencyWidget_incrementButton_QPushButton))

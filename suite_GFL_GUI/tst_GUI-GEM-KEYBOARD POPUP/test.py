@@ -39,11 +39,11 @@ def click_keyboard_cancel():
 
 def main():
 
-    test.log("STEP 1: Enter login PIN")
+    test.log("Enter login PIN")
     enter_login_pin()
     snooze(2)
 
-    test.log("STEP 2: Open Expert screen")
+    test.log("Open Expert screen")
     clickButton(
         waitForObject(names.gbExpert_expertButton_QPushButton)
     )
@@ -56,16 +56,16 @@ def main():
         "Expert screen is displayed"
     )
 
-    test.log("STEP 3: Open Save Preset popup")
+    test.log("Open Save Preset popup")
     clickButton(
         waitForObject(names.pulseModeWidget_saveButton_QPushButton)
     )
     snooze(1)
 
-    test.log("STEP 4: Open keyboard popup")
+    test.log("Open keyboard popup")
     open_keyboard_popup()
 
-    test.log("STEP 5: Verify keyboard OK and CANCEL labels")
+    test.log("Verify keyboard OK and CANCEL labels")
 
     test.compare(
         str(waitForObjectExists(
@@ -85,7 +85,7 @@ def main():
 
     test.log("PASS: Keyboard OK and CANCEL labels verified")
 
-    test.log("STEP 6: Verify keyboard text field")
+    test.log("Verify keyboard text field")
 
     edit_field = waitForObjectExists(
         names.keyboardPopup_wdEdit_WdLineEdit
@@ -96,7 +96,7 @@ def main():
         "Keyboard text field is visible"
     )
 
-    test.log("STEP 7: Verify CANCEL action")
+    test.log("Verify CANCEL action")
 
     click_keyboard_cancel()
 
@@ -107,11 +107,11 @@ def main():
 
     test.log("PASS: Keyboard CANCEL action verified")
 
-    test.log("STEP 8: Reopen keyboard popup")
+    test.log("Reopen keyboard popup")
 
     open_keyboard_popup()
 
-    test.log("STEP 9: Verify alphabet key")
+    test.log("Verify alphabet key")
 
     text_before_alpha = str(
         waitForObjectExists(
@@ -137,7 +137,7 @@ def main():
 
     test.log("PASS: Alphabet key verified")
 
-    test.log("STEP 10: Verify Caps Lock / uppercase keys")
+    test.log("Verify Caps Lock / uppercase keys")
 
     # Exact key objects from your recording
     clickButton(
@@ -152,7 +152,7 @@ def main():
 
     test.log("Caps Lock / uppercase keys clicked")
 
-    test.log("STEP 11: Verify numeric keyboard toggle")
+    test.log("Verify numeric keyboard toggle")
 
     text_before_numeric = str(
         waitForObjectExists(
@@ -174,7 +174,7 @@ def main():
 
     test.log("PASS: Numeric keyboard toggle verified")
 
-    test.log("STEP 12: Verify numeric key entry")
+    test.log("Verify numeric key entry")
 
     clickButton(
         waitForObject(names.keyboardPopup_1_KeyButton)
@@ -194,7 +194,7 @@ def main():
 
     test.log("PASS: Numeric key entry verified")
 
-    test.log("STEP 13: Verify alphabet keyboard toggle")
+    test.log("Verify alphabet keyboard toggle")
 
     clickButton(
         waitForObject(names.keyboardPopup_ABC_KeyButton)
@@ -210,7 +210,7 @@ def main():
 
     test.log("PASS: Alphabet keyboard toggle verified")
 
-    test.log("STEP 14: Verify backspace")
+    test.log("Verify backspace")
 
     text_before_backspace = str(
         waitForObjectExists(
@@ -236,7 +236,7 @@ def main():
 
     test.log("PASS: Backspace verified")
 
-    test.log("STEP 15: Verify keyboard OK label")
+    test.log("Verify keyboard OK label")
 
     test.compare(
         str(waitForObjectExists(
@@ -246,7 +246,7 @@ def main():
         "Keyboard OK label is displayed"
     )
 
-    test.log("STEP 16: Click keyboard OK")
+    test.log("Click keyboard OK")
 
     click_keyboard_ok()
 
