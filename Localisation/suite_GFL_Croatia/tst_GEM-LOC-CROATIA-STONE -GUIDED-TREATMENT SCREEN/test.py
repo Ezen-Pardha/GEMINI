@@ -3,10 +3,20 @@
 import names
 import openpyxl
 import re
+import os
 
 
-EXCEL_PATH = "/home/ezen/Test_Automation_Gemini/Localisation/suite_GFL_Croatia/tst_GEM-LOC-CROATIA-STONE-GUIDED/testdata/Gemini strings.xlsx"
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
+EXCEL_PATH = os.path.abspath(
+    os.path.join(
+        TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
 def normalize(text):
     if text is None:
         return ""

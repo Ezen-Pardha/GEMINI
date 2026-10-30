@@ -1,6 +1,4 @@
-# encoding: UTF-8
-
-from objectmaphelper import *
+import object
 
 o_ScreenSwitcher = {"type": "ScreenSwitcher", "unnamed": 1, "visible": 1}
 loginScreen_LoginScreen = {"name": "LoginScreen", "type": "LoginScreen", "visible": 1, "window": o_ScreenSwitcher}
@@ -99,3 +97,42 @@ frequencyWidget_valueDrum_Drum = {"container": pulseModeWidget_frequencyWidget_P
 valueDrum_Cylinder_2 = {"container": frequencyWidget_valueDrum_Drum, "type": "Cylinder", "unnamed": 1, "visible": 1}
 frequencyWidget_incrementButton_QPushButton = {"container": pulseModeWidget_frequencyWidget_ParameterSettingsWidget, "name": "incrementButton", "type": "QPushButton", "visible": 1}
 frequencyWidget_decrementButton_QPushButton = {"container": pulseModeWidget_frequencyWidget_ParameterSettingsWidget, "name": "decrementButton", "type": "QPushButton", "visible": 1}
+stoneAssistantModeScreen_StoneAssistantModeScreen = {"name": "StoneAssistantModeScreen", "type": "StoneAssistantModeScreen", "visible": 1, "window": o_ScreenSwitcher}
+stoneAssistantModeScreen_locationFrame_QFrame = {"container": stoneAssistantModeScreen_StoneAssistantModeScreen, "name": "locationFrame", "type": "QFrame", "visible": 1}
+locationFrame_kidneyPcnlLocationButton_QPushButton = {"container": stoneAssistantModeScreen_locationFrame_QFrame, "name": "kidneyPcnlLocationButton", "type": "QPushButton", "visible": 1}
+stoneAssistantModeScreen_flowRateFrame_QFrame = {"container": stoneAssistantModeScreen_StoneAssistantModeScreen, "name": "flowRateFrame", "type": "QFrame", "visible": 1}
+flowRateFrame_lowFlowRateButton_QPushButton = {"container": stoneAssistantModeScreen_flowRateFrame_QFrame, "name": "lowFlowRateButton", "type": "QPushButton", "visible": 1}
+stoneAssistantModeScreen_hardnessFrame_QFrame = {"container": stoneAssistantModeScreen_StoneAssistantModeScreen, "name": "hardnessFrame", "type": "QFrame", "visible": 1}
+hardnessFrame_smallHardnessButton_QPushButton = {"container": stoneAssistantModeScreen_hardnessFrame_QFrame, "name": "smallHardnessButton", "type": "QPushButton", "visible": 1}
+stoneAssistantModeScreen_continueButton_QPushButton = {"container": stoneAssistantModeScreen_StoneAssistantModeScreen, "name": "continueButton", "type": "QPushButton", "visible": 1}
+leftPedalWidget_wdPresetTabs_TabWidget = {"container": treatmentScreen_leftPedalWidget_PresetTabWidget, "name": "wdPresetTabs", "type": "TabWidget", "visible": 1}
+treatmentScreen_StoneSenseFrame_StoneSenseFrame = {"container": treatmentScreen_TreatmentScreen, "name": "StoneSenseFrame", "type": "StoneSenseFrame", "visible": 1}
+stoneSenseFrame_pbStoneSense_QPushButton = {"container": treatmentScreen_StoneSenseFrame_StoneSenseFrame, "name": "pbStoneSense", "type": "QPushButton", "visible": 1}
+calibrationPopupDialog_CalibrationPopupDialog = {"name": "CalibrationPopupDialog", "type": "CalibrationPopupDialog", "visible": 1, "window": o_ScreenSwitcher}
+calibrationPopupDialog_pMessageFrame_QFrame = {"container": calibrationPopupDialog_CalibrationPopupDialog, "name": "pMessageFrame", "type": "QFrame", "visible": 1}
+pMessageFrame_pInitiateCalibrationFrame_InitiateCalibrationDialog = {"container": calibrationPopupDialog_pMessageFrame_QFrame, "name": "pInitiateCalibrationFrame", "type": "InitiateCalibrationDialog", "visible": 1}
+pInitiateCalibrationFrame_pAnimationIconLabel_QLabel = {"container": pMessageFrame_pInitiateCalibrationFrame_InitiateCalibrationDialog, "name": "pAnimationIconLabel", "type": "QLabel", "visible": 1}
+pInitiateCalibrationFrame_checkBoxFrame_QFrame = {"container": pMessageFrame_pInitiateCalibrationFrame_InitiateCalibrationDialog, "name": "checkBoxFrame", "type": "QFrame", "visible": 1}
+homeScreen_pbSoftTissueAssistant_QToolButton = {"container": homeScreen_HomeScreen, "name": "pbSoftTissueAssistant", "type": "QToolButton", "visible": 1}
+softTissueAssistantModeScreen_SoftTissueAssistantModeScreen = {"name": "SoftTissueAssistantModeScreen", "type": "SoftTissueAssistantModeScreen", "visible": 1, "window": o_ScreenSwitcher}
+softTissueAssistantModeScreen_gbSoftTissueProcedures_QFrame = {"container": softTissueAssistantModeScreen_SoftTissueAssistantModeScreen, "name": "gbSoftTissueProcedures", "type": "QFrame", "visible": 1}
+gbSoftTissueProcedures_pbIncision_QPushButton = {"container": softTissueAssistantModeScreen_gbSoftTissueProcedures_QFrame, "name": "pbIncision", "type": "QPushButton", "visible": 1}
+quickStartScreen_pbContinue_QPushButton = {"container": quickStartScreen_QuickStartScreen, "name": "pbContinue", "type": "QPushButton", "visible": 1}
+rightPedalWidget_wdPresetTabs_TabWidget = {"container": treatmentScreen_rightPedalWidget_PresetTabWidget, "name": "wdPresetTabs", "type": "TabWidget", "visible": 1}
+centralWidget_label_2_QLabel = {"container": centralWidget_QFrame_2, "name": "label_2", "type": "QLabel", "visible": 1}
+backgroundShadowWidget_QWidget = {"name": "backgroundShadowWidget", "type": "QWidget", "visible": 1, "window": o_ScreenSwitcher}
+bottomBar_totalTimeFrame_ParameterValueBottomBarWidget = {"container": treatmentScreen_bottomBar_QFrame, "name": "totalTimeFrame", "type": "ParameterValueBottomBarWidget", "visible": 1}
+totalTimeFrame_nameLabel_QLabel = {"container": bottomBar_totalTimeFrame_ParameterValueBottomBarWidget, "name": "nameLabel", "type": "QLabel", "visible": 1}
+centralWidget_buttonsFrame_QFrame = {"container": centralWidget_QFrame_3, "name": "buttonsFrame", "type": "QFrame", "visible": 1}
+buttonsFrame_rejectButton_QPushButton = {"container": centralWidget_buttonsFrame_QFrame, "name": "rejectButton", "type": "QPushButton", "visible": 1}
+centralWidget_buttonsFrame_QFrame_2 = {"container": centralWidget_QFrame_2, "name": "buttonsFrame", "type": "QFrame", "visible": 1}
+buttonsFrame_rejectButton_QPushButton_2 = {"container": centralWidget_buttonsFrame_QFrame_2, "name": "rejectButton", "type": "QPushButton", "visible": 1}
+frequencyWidget_nameLabel_QLabel = {"container": pulseModeWidget_frequencyWidget_ParameterSettingsWidget, "name": "nameLabel", "type": "QLabel", "visible": 1}
+frequencyWidget_unitsOfMeasureLabel_QLabel = {"container": pulseModeWidget_frequencyWidget_ParameterSettingsWidget, "name": "unitsOfMeasureLabel", "type": "QLabel", "visible": 1}
+pulseEnergyWidget_nameLabel_QLabel_2 = {"container": pulseModeWidget_pulseEnergyWidget_ParameterSettingsWidget_2, "name": "nameLabel", "type": "QLabel", "visible": 1}
+pulseModeWidget_peakPowerButton_ParameterSettingsButton = {"container": modeWidget_PulseModeWidget_PulseModeWidget, "name": "peakPowerButton", "type": "ParameterSettingsButton", "visible": 1}
+peakPowerButton_iconLabel_QLabel = {"container": pulseModeWidget_peakPowerButton_ParameterSettingsButton, "name": "iconLabel", "type": "QLabel", "visible": 1}
+centralWidget_pw125_QPushButton = {"container": centralWidget_QFrame_2, "name": "pw125", "type": "QPushButton", "visible": 1}
+pulseModeWidget_averagePowerWidget_ParameterWithEnumerableValueWidget = {"container": modeWidget_PulseModeWidget_PulseModeWidget, "name": "averagePowerWidget", "type": "ParameterWithEnumerableValueWidget", "visible": 1}
+averagePowerWidget_valueLabelBackgroundWithQuantityText_QuantityLabel = {"container": pulseModeWidget_averagePowerWidget_ParameterWithEnumerableValueWidget, "name": "valueLabelBackgroundWithQuantityText", "type": "QuantityLabel", "visible": 1}
+valueLabelBackgroundWithQuantityText_valueLabel_QLabel = {"container": averagePowerWidget_valueLabelBackgroundWithQuantityText_QuantityLabel, "name": "valueLabel", "type": "QLabel", "visible": 1}
