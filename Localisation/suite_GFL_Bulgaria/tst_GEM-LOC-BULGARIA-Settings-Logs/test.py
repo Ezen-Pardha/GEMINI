@@ -333,10 +333,10 @@ def main():
     clickButton(waitForObject(names.buttonsFrame_acceptButton_QPushButton))
     clickTab(waitForObject(names.settingsScreen_tbSystemInfo_TabWidget), "РЕГИСТРАЦИО\nННИ ФАЙЛОВЕ")
         
-    mouseClick(waitForObject(names.topBar_buttonsBar_ButtonsBar_2), 1187, 9, Qt.NoModifier, Qt.LeftButton)
-    mouseClick(waitForObject(names.topBar_buttonsBar_ButtonsBar_2), 683, 30, Qt.NoModifier, Qt.LeftButton)
-    mouseClick(waitForObject(names.topBar_buttonsBar_ButtonsBar_2), 285, 27, Qt.NoModifier, Qt.LeftButton)
-    mouseClick(waitForObject(names.topBar_buttonsBar_ButtonsBar_2), 116, 27, Qt.NoModifier, Qt.LeftButton)
+    mouseClick(waitForObject(names.settingsScreen_topBar_buttonsBar_ButtonsBar), 1187, 9, Qt.NoModifier, Qt.LeftButton)
+    mouseClick(waitForObject(names.settingsScreen_topBar_buttonsBar_ButtonsBar), 683, 30, Qt.NoModifier, Qt.LeftButton)
+    mouseClick(waitForObject(names.settingsScreen_topBar_buttonsBar_ButtonsBar), 285, 27, Qt.NoModifier, Qt.LeftButton)
+    mouseClick(waitForObject(names.settingsScreen_topBar_buttonsBar_ButtonsBar), 116, 27, Qt.NoModifier, Qt.LeftButton)
     #clickTab(waitForObject(names.settingsScreen_tbSystemInfo_TabWidget), 4)
     clickTab(waitForObject(names.settingsScreen_tbSystemInfo_TabWidget), "РЕГИСТРАЦИО\nННИ ФАЙЛОВЕ")
     

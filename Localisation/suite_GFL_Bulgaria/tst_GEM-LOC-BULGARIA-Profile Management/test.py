@@ -404,10 +404,6 @@ def main():
     translations = load_bulgaria_strings(workbook, "Profile")
     
     clickButton(waitForObject(names.homeScreen_profilesButton_QPushButton))
-    mouseClick(waitForObject(names.topBar_buttonsBar_ButtonsBar), 1185, 12, Qt.NoModifier, Qt.LeftButton)
-    mouseClick(waitForObject(names.topBar_buttonsBar_ButtonsBar), 671, 21, Qt.NoModifier, Qt.LeftButton)
-    mouseClick(waitForObject(names.topBar_buttonsBar_ButtonsBar), 114, 21, Qt.NoModifier, Qt.LeftButton)
-    mouseClick(waitForObject(names.topBar_buttonsBar_ButtonsBar), 244, 30, Qt.NoModifier, Qt.LeftButton)
     
     #evaluate Topbar
     verify_screen_localization(

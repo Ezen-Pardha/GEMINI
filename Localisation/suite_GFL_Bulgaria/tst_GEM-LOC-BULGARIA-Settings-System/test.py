@@ -292,12 +292,6 @@ def main():
     
     translations = load_bulgaria_strings(workbook, "settings")
     
-    mouseClick(waitForObject(names.topBar_buttonsBar_ButtonsBar_2), 1246, 15, Qt.NoModifier, Qt.LeftButton)
-    mouseClick(waitForObject(names.topBar_buttonsBar_ButtonsBar_2), 654, 26, Qt.NoModifier, Qt.LeftButton)
-    mouseClick(waitForObject(names.topBar_buttonsBar_ButtonsBar_2), 287, 36, Qt.NoModifier, Qt.LeftButton)
-    mouseClick(waitForObject(names.topBar_buttonsBar_ButtonsBar_2), 112, 26, Qt.NoModifier, Qt.LeftButton)
-#    clickTab(waitForObject(names.settingsScreen_tbSystemInfo_TabWidget))
-    
     #system TAB-------------------------------
     verify_screen_localization(
     waitForObject(names.settingsScreen_SettingsScreen),
