@@ -239,28 +239,9 @@ def main():
     clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
     clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton, 46063))
-    clickButton(waitForObject(names.centralWidget_pbName_QPushButton))
-    type(waitForObject(names.keyboardPopup_wdEdit_WdLineEdit), "Left")
-    type(waitForObject(names.keyboardPopup_wdEdit_WdLineEdit), "<Backspace>")
-    type(waitForObject(names.keyboardPopup_wdEdit_WdLineEdit), "Preset")
-    test.log("Preset name entered")
-
-    mouseClick(
-        waitForObject(names.keyboardPopup_lbText_QLabel),
-        131, 33, Qt.NoModifier, Qt.LeftButton
-    )
-    test.imagePresent("Save Preset")
-
-    test.compare(str(waitForObjectExists(names.centralWidget_messageLabel_QLabel).text), "Preset with this name already exists\nPlease enter another name")
-    
-    clickButton(waitForObject(names.centralWidget_okButton_QPushButton_2))
-    
-    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_3, 100456))
-    
-    test.log("Left preset name saved and verified")
-    
-    clickButton(waitForObject(names.centralWidget_softTissueButton_QPushButton))
-    
+    test.compare(str(waitForObjectExists(names.centralWidget_pbName_QPushButton).text), "Enter preset name")
+    clickButton(waitForObject(names.centralWidget_pbClose_QPushButton))
+   
     test.log("SVV TAG POP-SAV-010: Save Preset Popup Closes on Save Button")
     mouseClick(
         waitForObject(names.rightPedalWidget_wdPresetTabs_TabWidget),

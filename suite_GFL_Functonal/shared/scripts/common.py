@@ -394,9 +394,107 @@ def configure_system_type(new_type, runtime_path):
     test.log("System type configuration completed")
     return ini_path
 
-
-
-
+  
+def verify_economy_type():
+    test.log("Checking System Type")
+ 
+    clickButton(
+        waitForObject(names.homeScreen_settingsButton_QPushButton)
+    )
+ 
+    clickTab(
+        waitForObject(names.settingsScreen_tbSystemInfo_TabWidget),
+        "LOGS"
+    )
+ 
+    clickButton(
+        waitForObject(names.settingsScreen_pbService_QPushButton)
+    )
+ 
+    for _ in range(5):
+        clickButton(
+            waitForObject(names.numpad_pushButton_9_NumpadButton)
+        )
     
+    system_type_label = waitForObject(
+        names.staticVersions_3_systemTypeVersion_QLabel
+    )
+ 
+    actual_type = str(system_type_label.text).strip()
+ 
+    test.log("Actual System Type: {}".format(actual_type))
+ 
+    if actual_type.replace(" ", "").lower() == "economyb":
+        test.passes("System Type is Economy B")
+        return True
+ 
+    message = "Incorrect Economy: Expected Economy B, found {}".format(
+        actual_type
+    )
+ 
+    test.fail(message)
+ 
+    try:
+        QMessageBox.warning(
+            None,
+            "Incorrect Economy",
+            message
+        )
+    except Exception:
+        test.log("Unable to show QMessageBox; see failure log above")
+ 
+    return False
 
+def verify_economyc_type():
 
+    test.log("Checking System Type")
+
+    clickButton(
+        waitForObject(names.homeScreen_settingsButton_QPushButton)
+    )
+
+    clickTab(
+        waitForObject(names.settingsScreen_tbSystemInfo_TabWidget),
+        "LOGS"
+    )
+
+    clickButton(
+        waitForObject(names.settingsScreen_pbService_QPushButton)
+    )
+    snooze(2)
+    test.compare(str(waitForObjectExists(names.centralWidget_titleLabel_QLabel).text), "Version Not Supported")    
+    clickButton(waitForObject(names.centralWidget_okButton_QPushButton))
+    for _ in range(4):
+        clickButton(
+            waitForObject(names.numpad_pushButton_9_NumpadButton)
+        )
+    
+    system_type_label = waitForObject(
+        names.staticVersions_3_systemTypeVersion_QLabel
+    )
+
+    actual_type = str(system_type_label.text).strip()
+
+    test.log("Actual System Type: {}".format(actual_type))
+
+    if actual_type.replace(" ", "").lower() == "economyc":
+
+        test.passes("System Type is Economy C")
+        return True
+
+    message = "Incorrect Economy: Expected Economy C, found {}".format(
+        actual_type
+    )
+
+    test.fail(message)
+
+    try:
+        QMessageBox.warning(
+            None,
+            "Incorrect Economy",
+            message
+        )
+    except Exception:
+        test.log("Unable to show QMessageBox; see failure log above")
+
+    return False
