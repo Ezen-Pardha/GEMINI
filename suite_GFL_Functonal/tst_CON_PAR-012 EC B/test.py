@@ -27,7 +27,7 @@ def main():
 
     power_object = names.valueDrum_Cylinder_3
 
-    # Verify initial Power
+    """Verify initial Power"""
     initial_power = str(
         waitForObjectExists(power_object).displayedValue
     ).strip()
@@ -38,7 +38,7 @@ def main():
         "Initial CW Power is verified as 10 W"
     )
 
-    # Increment Power until it reaches 60 W
+    """Increment Power until it reaches 60 W"""
     target_power = 60
     max_clicks = 100
     click_count = 0
@@ -82,7 +82,7 @@ def main():
         if current_power > target_power:
             break
 
-    # Final verification
+    """Final verification"""
     final_power = str(
         waitForObjectExists(power_object).displayedValue
     ).strip()

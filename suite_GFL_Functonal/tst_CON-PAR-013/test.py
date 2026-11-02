@@ -18,7 +18,7 @@ def read_power():
 
 def main():
 
-    # Step 1: Login and navigate to CW Mode
+    """Step 1: Login and navigate to CW Mode"""
 
     enter_login_pin()
 
@@ -49,7 +49,7 @@ def main():
         )
         return
 
-    # Step 2: Read the initial power value
+    """Step 2: Read the initial power value"""
 
     try:
         previous_power = read_power()
@@ -65,7 +65,7 @@ def main():
         )
         return
 
-    # Step 3: Verify power increments of 5 W
+    """Step 3: Verify power increments of 5 W"""
 
     increment_count = 10
 
@@ -113,7 +113,7 @@ def main():
             )
             return
 
-        # Verify the power increases by exactly 5 W.
+        """Verify the power increases by exactly 5 W"""
 
         if actual_power == expected_power:
 
@@ -135,7 +135,7 @@ def main():
 
         previous_power = actual_power
 
-    # Step 4: Final result
+    """Step 4: Final result"""
 
     test.passes(
         "SUCCESS: CW Mode power increments verified successfully. "

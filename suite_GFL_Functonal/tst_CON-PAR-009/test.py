@@ -81,7 +81,7 @@ def check_increment_button(current_frequency):
 
 def main():
 
-    # Step 1: Login and navigate to Home screen
+    """Step 1: Login and navigate to Home screen"""
 
     enter_login_pin()
     snooze(1)
@@ -96,7 +96,7 @@ def main():
         )
         return
 
-    # Step 2: Select Manual/Expert mode
+    """Step 2: Select Manual/Expert mode"""
 
     try:
         clickButton(
@@ -125,7 +125,7 @@ def main():
         )
         return
 
-    # Step 3: Configure Standard Pulse Mode
+    """Step 3: Configure Standard Pulse Mode"""
 
     try:
         mouseDrag(
@@ -155,7 +155,7 @@ def main():
         )
         return
 
-    # Step 4: Define expected frequency values
+    """Step 4: Define expected frequency values"""
 
     expected_values = (
         list(range(1, 21)) +
@@ -175,7 +175,7 @@ def main():
     test.log("40-100 Hz in 5 Hz increments.")
     test.log("100-400 Hz in 20 Hz increments.")
 
-    # Step 5: Reset frequency to 1 Hz
+    """Step 5: Reset frequency to 1 Hz"""
 
     try:
         current_frequency = read_frequency()
@@ -240,7 +240,7 @@ def main():
     if not verify_frequency(1):
         return
 
-    # Step 6: Verify all frequency values and ranges
+    """Step 6: Verify all frequency values and ranges"""
 
     for index in range(1, len(expected_values)):
 
@@ -284,7 +284,7 @@ def main():
 
             return
 
-        # Verify the actual frequency after incrementing.
+        """Verify the actual frequency after incrementing"""
 
         if not verify_frequency(expected):
             test.fail(
@@ -293,7 +293,7 @@ def main():
             )
             return
 
-        # Report PASS only after completing each frequency range.
+        """Report PASS only after completing each frequency range"""
 
         if expected == 20:
             test.passes(
@@ -313,7 +313,7 @@ def main():
                 "in 5 Hz increments."
             )
 
-        # Specifically check increment availability at 300 Hz.
+        """Specifically check increment availability at 300 Hz"""
 
         if expected == 300:
 
@@ -330,7 +330,7 @@ def main():
                 "button is available to continue toward 400 Hz."
             )
 
-        # Report the final range PASS only after reaching 400 Hz.
+        
 
         elif expected == 400:
             test.passes(
@@ -338,7 +338,7 @@ def main():
                 "in 20 Hz increments."
             )
 
-    # Step 7: Final result
+    """Step 7: Final result"""
 
     test.passes(
         "SUCCESS: All {} expected frequency values verified "

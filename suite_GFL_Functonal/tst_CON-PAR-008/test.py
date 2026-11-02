@@ -77,7 +77,7 @@ def main():
 
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
 
-    # Select MRP pulse mode
+    """Select MRP pulse mode"""
     mouseClick(
         waitForObject(names.modeButton_nameLabel_QLabel),
         68, 22,
@@ -94,7 +94,7 @@ def main():
     increment_button = names.frequencyWidget_incrementButton_QPushButton
     decrement_button = names.frequencyWidget_decrementButton_QPushButton
 
-    # Read the displayed frequency
+    """Read the displayed frequency"""
     def read_frequency():
         value = waitForObjectExists(frequency_object).displayedValue
         return float(str(value).strip())
@@ -116,14 +116,14 @@ def main():
 
         return read_frequency()
 
-    # Verify the frequency control
+    """Verify the frequency control"""
     test.compare(
         waitForObjectExists(frequency_object).contextMenuPolicy,
         1,
         "Frequency control is available in MRP pulse mode"
     )
 
-    # Decrement until the minimum frequency of 1 Hz is reached
+    """Decrement until the minimum frequency of 1 Hz is reached"""
     actual_frequency = read_frequency()
     decrement_count = 0
     max_decrement_count = 500
@@ -154,7 +154,7 @@ def main():
             str(actual_frequency) + " Hz"
         )
 
-    # Verify minimum frequency
+    """Verify minimum frequency"""
     actual_frequency = read_frequency()
 
     if abs(actual_frequency - 1.0) < 0.001:
@@ -252,7 +252,7 @@ def main():
         "Final frequency: " + str(actual_frequency) + " Hz"
     )
     
-    # Verify maximum frequency
+    """Verify maximum frequency"""
     actual_frequency = read_frequency()
 
     if abs(actual_frequency - 400.0) < 0.001:

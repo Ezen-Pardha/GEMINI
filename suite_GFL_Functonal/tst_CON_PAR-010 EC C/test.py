@@ -11,7 +11,7 @@ def main():
 
     verify_economyc_type()
 
-    # Navigate to Expert mode
+    """Navigate to manual screen"""
     clickButton(waitForObject(names.buttonsBar_backButton_QPushButton))
     clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
@@ -21,13 +21,13 @@ def main():
         52, 21, Qt.NoModifier, Qt.LeftButton
     )
 
-    # Select MRP pulse mode
+    """Select MRP pulse mode"""
     clickButton(waitForObject(names.centralWidget_MRP_QPushButton))
     clickButton(waitForObject(names.centralWidget_DisableButton_QPushButton))
 
     snooze(2)
 
-    # Verify initial Average Power
+    """Verify initial Average Power"""
     average_power_object = names.valueLabelBackgroundWithQuantityText_valueLabel_QLabel
 
     initial_average_power = float(
@@ -40,7 +40,7 @@ def main():
         "Initial Average Power is verified as 2 W"
     )
 
-    # Increment Pulse Energy 8 times
+    """Increment Pulse Energy 8 times"""
     for _ in range(8):
 
         clickButton(
@@ -49,7 +49,7 @@ def main():
 
         snooze(1)
 
-    # Verify Pulse Energy
+    """Verify Pulse Energy"""
     pulse_energy = str(
         waitForObjectExists(names.valueDrum_Cylinder).displayedValue
     ).strip()
@@ -60,7 +60,7 @@ def main():
         "Pulse Energy is verified as 1"
     )
 
-    # Increment Frequency until Average Power reaches 70 W
+    """Increment Frequency until Average Power reaches 70 W"""
     target_average_power = 70.0
     max_clicks = 100
     click_count = 0
@@ -95,7 +95,7 @@ def main():
             )
         )
 
-        # Verify Average Power does not exceed 70 W
+        """Verify Average Power does not exceed 70 W"""
         test.verify(
             average_power <= target_average_power,
             "Average Power is within 70 W limit. Actual: {} W".format(
@@ -103,7 +103,7 @@ def main():
             )
         )
 
-        # Stop when Average Power reaches 70 W
+        """Stop when Average Power reaches 70 W"""
         if average_power == target_average_power:
 
             test.passes(

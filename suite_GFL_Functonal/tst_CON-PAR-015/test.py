@@ -8,7 +8,7 @@ EXPECTED_PULSE_ENERGY_VALUES = [2.5, 3, 4, 10, 20, 30, 40, 50]
 
 def read_pulse_energy():
 
-    # test.compare(str(waitForObjectExists(names.valueDrum_Cylinder).displayedValue), "2")
+    
     
     value = waitForObjectExists(
         names.valueDrum_Cylinder, 3000
@@ -50,15 +50,15 @@ def verify_pulse_energy(expected_value):
 
 def main():
 
-    # Step 1: Login
+    """Step 1: Login"""
     enter_login_pin()
 
-    # Step 2: Navigate to Expert mode
+    """Step 2: Navigate to Expert mode"""
     clickButton(
         waitForObject(names.gbExpert_expertButton_QPushButton)
     )
 
-    # Step 3: Open treatment mode selection
+    """Step 3: Open treatment mode selection"""
     mouseClick(
         waitForObject(names.modeButton_nameLabel_QLabel),
         99, 28,
@@ -66,23 +66,23 @@ def main():
         Qt.LeftButton
     )
 
-    # Step 4: Select Fragmentation mode
+    """Step 4: Select Fragmentation mode"""
     clickButton(
         waitForObject(names.centralWidget_Fragmentation_QPushButton)
     )
 
-    # Step 5: Disable treatment if required
+    """Step 5: Disable treatment if required"""
     clickButton(
         waitForObject(names.centralWidget_DisableButton_QPushButton)
     )
 
     snooze(1)
 
-    # Step 6: Verify the initial pulse energy is 2 J
+    """Step 6: Verify the initial pulse energy is 2 J"""
     if not verify_pulse_energy(2):
         return
 
-    # Step 7: Increment and verify each remaining setting
+    """Step 7: Increment and verify each remaining setting"""
     for expected_value in EXPECTED_PULSE_ENERGY_VALUES[1:]:
 
         try:

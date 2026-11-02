@@ -29,7 +29,7 @@ def main():
     max_clicks = 100
     click_count = 0
 
-    # Verify initial Power
+    """Verify initial Power"""
     current_power = float(
         str(waitForObjectExists(power_object).displayedValue).strip()
     )
@@ -40,7 +40,7 @@ def main():
         "Initial CW Power is verified as 10 W"
     )
 
-    # Increment Power until it reaches 70 W
+    """Increment Power until it reaches 70 W"""
     while current_power < target_power and click_count < max_clicks:
 
         clickButton(waitForObject(increment_button))
@@ -70,7 +70,7 @@ def main():
         if current_power > target_power:
             break
 
-    # Verify final Power
+    """Verify final Power"""
     if current_power == target_power:
 
         test.passes(
