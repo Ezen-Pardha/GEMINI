@@ -84,6 +84,7 @@ def main():
     """Step 1: Login and navigate to Home screen"""
 
     enter_login_pin()
+    dismiss_fiber_verification_warning()
     snooze(1)
 
     try:
