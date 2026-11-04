@@ -1274,3 +1274,54 @@ def navigateto_Treatmentscreen_stone_QuickStart():
     mouseClick(waitForObjectItem(names.tabLeftMainPresets_leftPresetsView_PresetListView, "_1"), 445, 65, Qt.NoModifier, Qt.LeftButton)
     mouseClick(waitForObjectItem(names.tabRightMainPresets_rightPresetsView_PresetListView, "_1"), 187, 63, Qt.NoModifier, Qt.LeftButton)
     clickButton(waitForObject(names.quickStartScreen_pbContinue_QPushButton))
+    
+def verify_economy_type():
+    test.log("Checking System Type")
+ 
+    clickButton(
+        waitForObject(names.homeScreen_settingsButton_QPushButton)
+    )
+ 
+    clickTab(
+        waitForObject(names.settingsScreen_tbSystemInfo_TabWidget),
+        "LOGS"
+    )
+ 
+    clickButton(
+        waitForObject(names.settingsScreen_pbService_QPushButton)
+    )
+ 
+    for _ in range(5):
+        clickButton(
+            waitForObject(names.numpad_pushButton_9_NumpadButton)
+        )
+
+    system_type_label = waitForObject(
+        names.staticVersions_3_systemTypeVersion_QLabel
+    )
+ 
+    actual_type = str(system_type_label.text).strip()
+ 
+    test.log("Actual System Type: {}".format(actual_type))
+ 
+    if actual_type.replace(" ", "").lower() == "economyb":
+        test.passes("System Type is Economy B")
+        return True
+ 
+    message = "Incorrect Economy: Expected Economy B, found {}".format(
+        actual_type
+    )
+ 
+    test.fail(message)
+ 
+    try:
+        QMessageBox.warning(
+            None,
+            "Incorrect Economy",
+            message
+        )
+    except Exception:
+        test.log("Unable to show QMessageBox; see failure log above")
+ 
+    return False
+
