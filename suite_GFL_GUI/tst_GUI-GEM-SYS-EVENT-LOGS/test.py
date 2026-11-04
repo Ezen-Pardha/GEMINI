@@ -6,7 +6,7 @@ def main():
     enter_login_pin() 
     clickButton(waitForObject(names.homeScreen_settingsButton_QPushButton))
     test.log("Navigating to Settings")
-    test.log("Verifying Settings screen view")
+    test.log("SVV TAG:GEN-LOG-001: Verifying Settings screen view")
     
     try:
         waitForObject(names.settingsScreen_tbSystemInfo_TabWidget, 5000)

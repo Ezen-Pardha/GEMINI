@@ -10,6 +10,7 @@ def main():
     test.log("Navigating to Settings Logs Tab")
     
     logs_tab = waitForObject(names.settingsScreen_tbSystemInfo_TabWidget)
+    test.log("SVV TAG:GUI-SET-047: Confirming LOGS tab is displayed on the screen")
     if str(logs_tab.tabText(logs_tab.currentIndex)) == "LOGS":
         test.passes("LOGS tab is displayed on the screen")
     else:
@@ -22,6 +23,7 @@ def main():
     test.log("Navigating to settings logs screen to confirm error messages are displayed")
     
     event_table = waitForObject(names.systemEventErrorLogWidget_tableView_QTableView)
+    test.log("SVV TAG:GUI-SET-048: Confirming error messages are displayed")
     if event_table.model().rowCount() > 0:
         test.passes("PASS: System error messages are displayed")
     else:
@@ -34,6 +36,7 @@ def main():
     test.log("Navigating to settings logs screen to confirm visibility and scrolling of scrollbar")
         
     scrollbar = waitForObject(names.tableView_QScrollBar_3)
+    test.log("SVV TAG:GUI-SET-049: Confirming Vertical scrollbar is visible and scrolling is available")
     if scrollbar.visible and scrollbar.maximum > 0:
         test.passes("PASS: Vertical scrollbar is visible and scrolling is available")
     else:
@@ -44,7 +47,7 @@ def main():
     clickButton(waitForObject(names.homeScreen_settingsButton_QPushButton))
     clickTab(waitForObject(names.settingsScreen_tbSystemInfo_TabWidget), "LOGS")
     test.log("Navigating to settings logs screen to confirm events in chronological order")
-    
+    test.log("SVV TAG:GUI-SET-050: Confirming the program displays the events in chronological order")
     def verify_chronological_order():
         table = waitForObject(names.systemEventErrorLogWidget_tableView_QTableView)
         model = table.model()
@@ -87,7 +90,7 @@ def main():
     clickButton(waitForObject(names.homeScreen_settingsButton_QPushButton))
     clickTab(waitForObject(names.settingsScreen_tbSystemInfo_TabWidget), "LOGS")
     clickButton(waitForObject(names.settingsScreen_pbService_QPushButton))
-    test.log("Verifying Service Mode passcode screen")
+    test.log("SVV TAG:GUI-SET-052: Verifying Service Mode passcode screen")
     
     try:
         login_screen = waitForObject(names.loginScreen_LoginScreen, 5000)

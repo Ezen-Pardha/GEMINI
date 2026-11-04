@@ -9,7 +9,7 @@ def main():
     clickTab(waitForObject(names.settingsScreen_tbSystemInfo_TabWidget), "LOGS")
     test.log("Navigating to Logs tab")
     clickButton(waitForObject(names.settingsScreen_pbService_QPushButton))
-    test.log("Navigating to Service Mode")
+    test.log("SVV TAG:GEN-GUI-003: Navigating to Service Mode")
     
     for index in range(5):
         click_and_report(

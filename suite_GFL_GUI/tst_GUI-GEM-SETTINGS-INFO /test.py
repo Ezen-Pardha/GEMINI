@@ -17,6 +17,7 @@ def main():
 
     software_version_label = waitForObject(names.gbSystemInformation_lbSoftwareVersionName_QLabel)
     software_version_value = waitForObject(names.gbSystemInformation_lbSoftwareVersionValue_QLabel)
+    test.log("SVV TAG:GUI-SET-018: Confirming the Software Version is displayed")
     version = str(software_version_value.text).strip()
     if software_version_label.visible and version:
         test.passes(
@@ -27,6 +28,7 @@ def main():
     
     factory_procedures_version_label = waitForObject(names.gbSystemInformation_lbFactoryProceduresVersionName_QLabel)
     factory_procedures_version_value = waitForObject(names.gbSystemInformation_lbFactoryProceduresVersionValue_QLabel)
+    test.log("SVV TAG:GUI-SET-019: Confirming the Factory Procedures Version is displayed")
     version = str(factory_procedures_version_value.text).strip()
     if factory_procedures_version_label.visible and version:
         test.passes(
@@ -37,6 +39,7 @@ def main():
     
     system_serial_number_name_label = waitForObject(names.gbSystemInformation_lbSystemSerialNumberName_QLabel)
     system_serial_number_name_value = waitForObject(names.gbSystemInformation_lbSystemSerialNumberValue_QLabel)
+    test.log("SVV TAG:GUI-SET-020: Confirming the System Serial Number Name is displayed")
     serial_number = str(system_serial_number_name_value.text).strip()
     if system_serial_number_name_label.visible and serial_number:
         test.passes(
@@ -47,6 +50,7 @@ def main():
     
     language_settings_label = waitForObject(names.gbSystemInformation_lbLanguageSettingsName_QLabel)
     language_settings_value = waitForObject(names.gbSystemInformation_lbLanguageSettingsValue_QLabel)
+    test.log("SVV TAG:GUI-SET-027: Confirming the Language Settings is displayed")
     language_value = str( language_settings_value.text).strip()
     if  language_settings_label.visible and language_value:
         test.passes(
