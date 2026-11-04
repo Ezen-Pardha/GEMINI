@@ -8,42 +8,55 @@ from common import *
 def main():
 
     enter_login_pin()
-    verify_economyc_type()
+    dismiss_fiber_verification_warning()
+    verify_economy_type()
 
     clickButton(waitForObject(names.buttonsBar_backButton_QPushButton))
     clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
-    clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
+        
+    clickButton(
+        waitForObject(names.gbExpert_expertButton_QPushButton)
+    )
 
     mouseClick(
         waitForObject(names.modeButton_nameLabel_QLabel),
-        79, 40, Qt.NoModifier, Qt.LeftButton
+        43, 43, Qt.NoModifier, Qt.LeftButton
     )
 
     clickButton(waitForObject(names.centralWidget_CW_QPushButton))
     clickButton(waitForObject(names.centralWidget_DisableButton_QPushButton))
 
     power_object = names.valueDrum_Cylinder_3
-    increment_button = names.powerWidgetCW_incrementButton_QPushButton
-
-    target_power = 70
-    max_clicks = 100
-    click_count = 0
 
     """Verify initial Power"""
-    current_power = float(
-        str(waitForObjectExists(power_object).displayedValue).strip()
-    )
+    initial_power = str(
+        waitForObjectExists(power_object).displayedValue
+    ).strip()
 
     test.compare(
-        current_power,
-        10.0,
+        initial_power,
+        "10",
         "Initial CW Power is verified as 10 W"
     )
 
-    """Increment Power until it reaches 70 W"""
-    while current_power < target_power and click_count < max_clicks:
+    """Increment Power until it reaches 60 W"""
+    target_power = 60
+    max_clicks = 100
+    click_count = 0
 
-        clickButton(waitForObject(increment_button))
+    while click_count < max_clicks:
+
+        current_power = float(
+            str(waitForObjectExists(power_object).displayedValue).strip()
+        )
+
+        if current_power == target_power:
+            break
+
+        clickButton(
+            waitForObject(names.powerWidgetCW_incrementButton_QPushButton)
+        )
+
         snooze(1)
 
         current_power = float(
@@ -62,7 +75,7 @@ def main():
 
         test.verify(
             current_power <= target_power,
-            "CW Power is within 70 W limit. Actual: {} W".format(
+            "CW Power is within 60 W maximum limit. Actual: {} W".format(
                 current_power
             )
         )
@@ -70,17 +83,21 @@ def main():
         if current_power > target_power:
             break
 
-    """Verify final Power"""
-    if current_power == target_power:
+    """Final verification"""
+    final_power = str(
+        waitForObjectExists(power_object).displayedValue
+    ).strip()
+
+    if float(final_power) == target_power:
 
         test.passes(
-            "CW Mode Power successfully reached the maximum value of 70 W."
+            "CW Power successfully reached the maximum value of 60 W."
         )
 
     else:
 
         test.fail(
-            "CW Mode Power did not reach 70 W. Actual value: {} W".format(
-                current_power
+            "CW Power did not reach 60 W. Actual value: {} W".format(
+                final_power
             )
         )
