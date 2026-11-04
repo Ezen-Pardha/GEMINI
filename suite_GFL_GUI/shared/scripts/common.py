@@ -1,3 +1,4 @@
+
 from squish import *
 import test
 import names
@@ -769,6 +770,8 @@ def _preset_object_exists(object_name, timeout=1000):
         return False
 
 
+
+
 def navigate_to_preset_category(category):
     """Open USER PRESETS and select a category without reopening Settings unnecessarily."""
     category = category.strip().upper()
@@ -1324,4 +1327,5 @@ def verify_economy_type():
         test.log("Unable to show QMessageBox; see failure log above")
  
     return False
+
 
