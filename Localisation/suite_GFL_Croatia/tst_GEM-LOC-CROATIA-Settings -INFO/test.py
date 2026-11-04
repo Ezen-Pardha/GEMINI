@@ -1,11 +1,25 @@
+
 # -*- coding: utf-8 -*-
 
 import names
 import openpyxl
 import re
+import os
 
 
-EXCEL_PATH = "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Croatia/tst_GEM-LOC-CROATIA-STONE-GUIDED/testdata/Gemini strings.xlsx"
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+EXCEL_PATH = os.path.abspath(
+    os.path.join(
+        TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
+
+SHEET_NAME = "settings"
 
 VERIFIED_RESULTS = set()
 
@@ -30,7 +44,7 @@ def get_all_texts(obj):
     try:
         if not obj.visible:
             return texts
-    except:
+    except Exception:
         pass
 
     try:
@@ -43,7 +57,7 @@ def get_all_texts(obj):
             if value:
                 texts.append(value)
 
-    except:
+    except Exception:
         pass
 
     try:
@@ -56,14 +70,14 @@ def get_all_texts(obj):
             if value:
                 texts.append(value)
 
-    except:
+    except Exception:
         pass
 
     try:
         for child in object.children(obj):
             texts.extend(get_all_texts(child))
 
-    except:
+    except Exception:
         pass
 
     return texts
@@ -71,33 +85,58 @@ def get_all_texts(obj):
 
 def load_croatian_strings():
 
-    workbook = openpyxl.load_workbook(EXCEL_PATH, data_only=True)
-    sheet = workbook.active
+    if not os.path.isfile(EXCEL_PATH):
+        test.fail("Excel file not found: " + EXCEL_PATH)
+        return []
 
+    workbook = None
     strings = []
 
-    for row in sheet.iter_rows(min_row=2, values_only=True):
+    try:
+        workbook = openpyxl.load_workbook(
+            EXCEL_PATH,
+            data_only=True,
+            read_only=True
+        )
 
-        if len(row) < 9:
-            continue
+        if SHEET_NAME not in workbook.sheetnames:
+            test.fail(
+                "Excel sheet not found: " + SHEET_NAME +
+                ". Available sheets: " + ", ".join(workbook.sheetnames)
+            )
+            return []
 
-        english = row[1]
-        croatian = row[8]
+        sheet = workbook[SHEET_NAME]
 
-        if english is None or croatian is None:
-            continue
+        for row in sheet.iter_rows(min_row=2, values_only=True):
 
-        english = str(english).strip()
-        croatian = str(croatian).strip()
+            if len(row) < 9:
+                continue
 
-        if not english or not croatian:
-            continue
+            english = row[1]
+            croatian = row[3]
 
-        strings.append({
-            "english": english,
-            "croatian": croatian,
-            "normalized": normalize(croatian)
-        })
+            if english is None or croatian is None:
+                continue
+
+            english = str(english).strip()
+            croatian = str(croatian).strip()
+
+            if not english or not croatian:
+                continue
+
+            strings.append({
+                "english": english,
+                "croatian": croatian,
+                "normalized": normalize(croatian)
+            })
+
+    except Exception as e:
+        test.fail("Error reading Croatian Excel strings: " + str(e))
+
+    finally:
+        if workbook is not None:
+            workbook.close()
 
     return strings
 
@@ -105,12 +144,17 @@ def load_croatian_strings():
 def verify_screen(root_object, screen_name):
 
     excel_strings = load_croatian_strings()
-    screen_texts = get_all_texts(root_object)
 
+    if not excel_strings:
+        test.fail(
+            "No Croatian strings loaded for screen: " + screen_name
+        )
+        return
+
+    screen_texts = get_all_texts(root_object)
     unique_texts = set()
 
     for text in screen_texts:
-
         text = normalize(text)
 
         if text:
@@ -125,11 +169,12 @@ def verify_screen(root_object, screen_name):
             excel_normalized = item["normalized"]
 
             if screen_normalized == excel_normalized:
-
                 matches.append(item)
 
-            elif len(excel_normalized) >= 4 and excel_normalized in screen_normalized:
-
+            elif (
+                len(excel_normalized) >= 4
+                and excel_normalized in screen_normalized
+            ):
                 matches.append(item)
 
         matches.sort(
@@ -156,35 +201,96 @@ def verify_screen(root_object, screen_name):
 
 def main():
 
-    sendEvent("QMoveEvent", waitForObject(names.o_ScreenSwitcher), 45, 176, 662, 188)
+    # LOGIN
 
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.mainFrame_okButton_QPushButton))
+    sendEvent(
+        "QMoveEvent",
+        waitForObject(names.o_ScreenSwitcher),
+        45, 176, 662, 188
+    )
 
-    clickButton(waitForObject(names.homeScreen_settingsButton_QPushButton))
+    clickButton(
+        waitForObject(names.numpad_pushButton_8_NumpadButton)
+    )
 
-    clickTab(waitForObject(names.settingsScreen_tbSystemInfo_TabWidget), "INFO")
+    clickButton(
+        waitForObject(names.numpad_pushButton_8_NumpadButton)
+    )
 
-    clickButton(waitForObject(names.gbSystemInformation_pbLanguageSettingsUpdate_QPushButton))
-    clickButton(waitForObject(names.languagesFrame_pbCroatia_QPushButton))
-    clickButton(waitForObject(names.buttonsFrame_acceptButton_QPushButton))
+    clickButton(
+        waitForObject(names.numpad_pushButton_8_NumpadButton)
+    )
+
+    clickButton(
+        waitForObject(names.numpad_pushButton_8_NumpadButton)
+    )
+
+    clickButton(
+        waitForObject(names.mainFrame_okButton_QPushButton)
+    )
+
+    # CHANGE LANGUAGE TO CROATIAN
+
+    clickButton(
+        waitForObject(names.homeScreen_settingsButton_QPushButton)
+    )
+
+    clickTab(
+        waitForObject(names.settingsScreen_tbSystemInfo_TabWidget),
+        "INFO"
+    )
+
+    clickButton(
+        waitForObject(
+            names.gbSystemInformation_pbLanguageSettingsUpdate_QPushButton
+        )
+    )
+
+    clickButton(
+        waitForObject(names.languagesFrame_pbCroatia_QPushButton)
+    )
+
+    clickButton(
+        waitForObject(names.buttonsFrame_acceptButton_QPushButton)
+    )
 
     test.vp("Verify info screen")
 
-    
+    # VERIFY SYSTEM INFORMATION SCREEN
 
+    verify_screen(
+        waitForObject(names.o_ScreenSwitcher),
+        "System Information"
+    )
 
-    verify_screen(waitForObject(names.o_ScreenSwitcher), "System Information")
+    # CLICK SYSTEM INFORMATION LABEL
 
+    mouseClick(
+        waitForObject(
+            names.gbSystemInformation_lbSystemInformation_QLabel
+        ),
+        439, 11,
+        Qt.NoModifier,
+        Qt.LeftButton
+    )
 
-    mouseClick(waitForObject(names.gbSystemInformation_lbSystemInformation_QLabel), 439, 11, Qt.NoModifier, Qt.LeftButton)
+    verify_screen(
+        waitForObject(names.o_ScreenSwitcher),
+        "System Information after click"
+    )
 
-    verify_screen(waitForObject(names.o_ScreenSwitcher), "System Information after click")
+    # CLICK FIBER INFORMATION
 
+    mouseClick(
+        waitForObject(
+            names.wdSystemInfoLayout_gbFiberInformation_QGroupBox
+        ),
+        394, 54,
+        Qt.NoModifier,
+        Qt.LeftButton
+    )
 
-    mouseClick(waitForObject(names.wdSystemInfoLayout_gbFiberInformation_QGroupBox), 394, 54, Qt.NoModifier, Qt.LeftButton)
-
-    verify_screen(waitForObject(names.o_ScreenSwitcher), "Fiber Information")
+    verify_screen(
+        waitForObject(names.o_ScreenSwitcher),
+        "Fiber Information"
+    )

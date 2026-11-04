@@ -3,9 +3,20 @@
 import names
 import openpyxl
 import re
+import os
+
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+ 
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
 
 
-EXCEL_PATH = "/home/ntc/Test_Automation_Gemini/Localisation/Suite_GFL_English/tst_LoginScreen-Logoff/testdata/Gemini strings.xlsx"
+# EXCEL_PATH = "/home/ntc/Test_Automation_Gemini/Localisation/Suite_GFL_English/tst_LoginScreen-Logoff/testdata/Gemini strings.xlsx"
 
 verified_strings = set()
 

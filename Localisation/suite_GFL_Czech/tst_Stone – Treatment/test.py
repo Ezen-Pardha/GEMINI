@@ -1,44 +1,99 @@
+
 # -*- coding: utf-8 -*-
 
 import names
 import openpyxl
 import re
+import os
+
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+EXCEL_PATH = os.path.abspath(
+    os.path.join(
+        TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
+
+SHEET_NAME = "Treatment Modes"
+
+ENGLISH_COLUMN = 1
+CZECH_COLUMN = 4
 
 
 def normalize(text):
+    if text is None:
+        return ""
+
     text = str(text)
     text = re.sub(r"<br\s*/?>", " ", text, flags=re.IGNORECASE)
-    text = re.sub(r"<[^>]+>", "", text)
+    text = re.sub(r"<[^>]+>", " ", text)
     text = text.replace("\xa0", " ")
     text = " ".join(text.split())
     text = re.sub(r"\s*<\s*", "<", text)
     text = re.sub(r"\s*>\s*", ">", text)
-    return text.strip().lower()
+
+    return text.strip().casefold()
 
 
 def get_object_text(obj):
     try:
-        if not obj.visible:
+        visibility = obj.visible
+
+        if visibility is False:
             return ""
-    except:
+    except Exception:
         pass
 
-    try:
-        text = str(obj.text).strip()
+    for property_name in ("text", "title"):
+        try:
+            value = getattr(obj, property_name)
 
-        if text:
-            text = re.sub(r"<br\s*/?>", " ", text, flags=re.IGNORECASE)
+            if callable(value):
+                value = value()
+
+            if value is None:
+                continue
+
+            text = str(value).strip()
+
+            if not text:
+                continue
+
+            text = re.sub(
+                r"<br\s*/?>", " ", text, flags=re.IGNORECASE
+            )
             text = re.sub(r"<[^>]+>", " ", text)
+            text = text.replace("\xa0", " ")
             text = " ".join(text.split())
-            return text.strip()
-    except:
-        pass
+
+            if text:
+                return text.strip()
+
+        except Exception:
+            pass
 
     return ""
 
 
-def get_screen_candidates(obj):
+def get_screen_candidates(obj, visited=None):
+    if visited is None:
+        visited = set()
+
     candidates = []
+
+    try:
+        object_id = id(obj)
+
+        if object_id in visited:
+            return candidates
+
+        visited.add(object_id)
+    except Exception:
+        pass
 
     own_text = get_object_text(obj)
 
@@ -47,7 +102,7 @@ def get_screen_candidates(obj):
 
     try:
         children = object.children(obj)
-    except:
+    except Exception:
         children = []
 
     child_texts = []
@@ -59,181 +114,387 @@ def get_screen_candidates(obj):
             child_texts.append(child_text)
             candidates.append(child_text)
 
+    # Combine adjacent child texts to support split labels.
+
     for start in range(len(child_texts)):
         combined = ""
 
         for end in range(start, len(child_texts)):
-            combined = combined + " " + child_texts[end] if combined else child_texts[end]
+            if combined:
+                combined += " " + child_texts[end]
+            else:
+                combined = child_texts[end]
+
             candidates.append(combined)
 
     for child in children:
-        candidates.extend(get_screen_candidates(child))
+        candidates.extend(
+            get_screen_candidates(child, visited)
+        )
 
     return candidates
+
+
+def is_dynamic_numeric_value(text):
+    if text is None:
+        return False
+
+    text = str(text).strip()
+
+    number = r"[-+]?\d+(?:[.,]\d+)?"
+
+    unit = (
+        r"(?:J|W|Hz|kHz|MHz|GHz|"
+        r"µm|μm|um|nm|mm|cm|m|"
+        r"min|s|ms|h|%|°C|°)"
+    )
+
+    pattern = (
+        r"\s*(?:"
+        + number
+        + r"\s*(?:"
+        + unit
+        + r")?\s*)+\s*"
+    )
+
+    # IMPORTANT: Avoid bool(), which may resolve to Qt bool in Squish.
+    return re.fullmatch(
+        pattern,
+        text,
+        flags=re.IGNORECASE
+    ) is not None
+
+
+def load_czech_strings():
+    try:
+        workbook = openpyxl.load_workbook(
+            EXCEL_PATH,
+            data_only=True,
+            read_only=True
+        )
+    except Exception as error:
+        test.fail(
+            "Unable to load Czech Excel: " + str(error)
+        )
+        return {}
+
+    try:
+        if SHEET_NAME not in workbook.sheetnames:
+            test.fail(
+                "Excel worksheet not found: " + SHEET_NAME
+            )
+            return {}
+
+        sheet = workbook[SHEET_NAME]
+        catalog = {}
+
+        for row in sheet.iter_rows(
+            min_row=2,
+            values_only=True
+        ):
+            if len(row) <= CZECH_COLUMN:
+                continue
+
+            trace_id = row[0]
+            english = row[ENGLISH_COLUMN]
+            czech = row[CZECH_COLUMN]
+
+            if english is None or czech is None:
+                continue
+
+            english = str(english).strip()
+            czech = str(czech).strip()
+
+            if not english or not czech:
+                continue
+
+            key = normalize(czech)
+
+            if key:
+                catalog.setdefault(
+                    key,
+                    {
+                        "english": english,
+                        "czech": czech,
+                        "trace_id": (
+                            "" if trace_id is None
+                            else str(trace_id).strip()
+                        )
+                    }
+                )
+
+        return catalog
+
+    finally:
+        workbook.close()
 
 
 def main():
 
     # LOGIN
 
-    sendEvent("QMoveEvent", waitForObject(names.o_ScreenSwitcher), 59, 182, 556, 197)
+    sendEvent(
+        "QMoveEvent",
+        waitForObject(names.o_ScreenSwitcher),
+        28, 208, 534, 218
+    )
 
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton, 51432))
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.mainFrame_okButton_QPushButton))
+    for _ in range(4):
+        clickButton(
+            waitForObject(
+                names.numpad_pushButton_8_NumpadButton
+            )
+        )
+
+    clickButton(
+        waitForObject(names.mainFrame_okButton_QPushButton)
+    )
 
     # CHANGE LANGUAGE TO CZECH
 
-    clickButton(waitForObject(names.homeScreen_settingsButton_QPushButton))
-    clickTab(waitForObject(names.settingsScreen_tbSystemInfo_TabWidget), "INFO")
-    clickButton(waitForObject(names.gbSystemInformation_pbLanguageSettingsUpdate_QPushButton))
-    clickButton(waitForObject(names.languagesFrame_pbCzech_QPushButton))
-    clickButton(waitForObject(names.buttonsFrame_acceptButton_QPushButton))
-    clickButton(waitForObject(names.settingsScreen_pbBack_QPushButton))
+    clickButton(
+        waitForObject(
+            names.homeScreen_settingsButton_QPushButton
+        )
+    )
 
-    # OPEN STONE ASSISTANT
+    clickTab(
+        waitForObject(
+            names.settingsScreen_tbSystemInfo_TabWidget
+        ),
+        "INFO"
+    )
 
-    clickButton(waitForObject(names.homeScreen_pbStoneAssistant_QToolButton))
-    clickButton(waitForObject(names.locationFrame_kidneyPcnlLocationButton_QPushButton))
-    clickButton(waitForObject(names.flowRateFrame_lowFlowRateButton_QPushButton))
-    clickButton(waitForObject(names.hardnessFrame_smallHardnessButton_QPushButton))
-    clickButton(waitForObject(names.stoneAssistantModeScreen_continueButton_QPushButton))
+    clickButton(
+        waitForObject(
+            names.gbSystemInformation_pbLanguageSettingsUpdate_QPushButton
+        )
+    )
 
-    # TREATMENT SCREEN
+    clickButton(
+        waitForObject(names.languagesFrame_pbCzech_QPushButton)
+    )
 
-    mouseClick(waitForObject(names.topBar_buttonsBar_ButtonsBar), 75, 43, Qt.NoModifier, Qt.LeftButton)
-    mouseClick(waitForObject(names.averagePowerWidget_progressFrame_QFrame), 30, 17, Qt.NoModifier, Qt.LeftButton)
-    mouseClick(waitForObject(names.averagePowerWidget_unitsOfMeasureLabel_QLabel_2), 174, 69, Qt.NoModifier, Qt.LeftButton)
-    mouseClick(waitForObject(names.averagePowerWidget_progressFrame_QFrame_2), 18, 11, Qt.NoModifier, Qt.LeftButton)
-    mouseClick(waitForObject(names.pulseModeWidget_frequencyWidget_ParameterSettingsWidget), 21, 19, Qt.NoModifier, Qt.LeftButton)
-    mouseClick(waitForObject(names.pulseModeWidget_buttonsWidget_QWidget_2), 162, 32, Qt.NoModifier, Qt.LeftButton)
-    mouseClick(waitForObject(names.bottomBar_lbPedalStatusIcon_QLabel), 12, 65, Qt.NoModifier, Qt.LeftButton)
-    mouseClick(waitForObject(names.treatmentScreen_bottomBar_QFrame), 891, 74, Qt.NoModifier, Qt.LeftButton)
+    clickButton(
+        waitForObject(names.buttonsFrame_acceptButton_QPushButton)
+    )
+
+    clickButton(
+        waitForObject(names.settingsScreen_pbBack_QPushButton)
+    )
+
+    # OPEN SOFT TISSUE QUICK START
+
+    clickButton(
+        waitForObject(
+            names.homeScreen_pbSoftTissueQuickStart_QToolButton
+        )
+    )
+
+    mouseClick(
+        waitForObjectItem(
+            names.tabLeftMainPresets_leftPresetsView_PresetListView,
+            "_1", 44166
+        ),
+        467, 28, Qt.NoModifier, Qt.LeftButton
+    )
+
+    mouseClick(
+        waitForObjectItem(
+            names.tabRightMainPresets_rightPresetsView_PresetListView,
+            "_1"
+        ),
+        121, 80, Qt.NoModifier, Qt.LeftButton
+    )
+
+    clickButton(
+        waitForObject(
+            names.quickStartScreen_pbContinue_QPushButton
+        )
+    )
+
+    mouseClick(
+        waitForObject(
+            names.recommendedFiberWarningDialog_mainFrame_QFrame
+        ),
+        539, 43, Qt.NoModifier, Qt.LeftButton
+    )
+
+    clickButton(
+        waitForObject(names.mainFrame_okButton_QPushButton_2)
+    )
+
+    mouseClick(
+        waitForObject(
+            names.leftPedalWidget_wdPresetTabs_TabWidget
+        ),
+        497, 44, Qt.NoModifier, Qt.LeftButton
+    )
+
+    mouseClick(
+        waitForObject(
+            names.rightPedalWidget_wdPresetTabs_TabWidget
+        ),
+        98, 44, Qt.NoModifier, Qt.LeftButton
+    )
+
+    mouseClick(
+        waitForObject(names.treatmentScreen_bottomBar_QFrame),
+        890, 65, Qt.NoModifier, Qt.LeftButton
+    )
 
     snooze(1)
 
-    # READ EXCEL
+    # LOAD CZECH EXCEL CATALOG
 
-    excelpath = "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Czech/tst_Home Screen/testdata/Gemini Split strings.xlsx"
+    excel_strings = load_czech_strings()
 
-    workbook = openpyxl.load_workbook(
-        excelpath,
-        data_only=True
-    )
+    if not excel_strings:
+        test.fail("No Czech strings loaded from Excel.")
+        return
 
-    sheet = workbook["Treatment Modes"]
-
-    # GET CURRENT TREATMENT SCREEN
-
-    screen = waitForObject(names.treatmentScreen_bottomBar_QFrame)
-
-    screen_candidates = get_screen_candidates(screen)
-
-    # CHECK PARENT
+    # COLLECT TREATMENT SCREEN TEXT
 
     try:
-        parent = object.parent(screen)
-        screen_candidates.extend(get_screen_candidates(parent))
-    except:
-        pass
+        screen = waitForObject(
+            names.treatmentScreen_bottomBar_QFrame
+        )
+
+        screen_candidates = get_screen_candidates(screen)
+
+        try:
+            parent = object.parent(screen)
+
+            if parent is not None:
+                screen_candidates.extend(
+                    get_screen_candidates(parent)
+                )
+        except Exception:
+            pass
+
+    except Exception as error:
+        test.fail(
+            "Unable to collect Treatment screen strings: "
+            + str(error)
+        )
+        return
 
     # CHECK RECORDED OBJECTS
 
     recorded_objects = [
-        names.topBar_buttonsBar_ButtonsBar,
-        names.averagePowerWidget_progressFrame_QFrame,
-        names.averagePowerWidget_unitsOfMeasureLabel_QLabel_2,
-        names.averagePowerWidget_progressFrame_QFrame_2,
-        names.pulseModeWidget_frequencyWidget_ParameterSettingsWidget,
-        names.pulseModeWidget_buttonsWidget_QWidget_2,
-        names.bottomBar_lbPedalStatusIcon_QLabel,
+        names.leftPedalWidget_wdPresetTabs_TabWidget,
+        names.rightPedalWidget_wdPresetTabs_TabWidget,
         names.treatmentScreen_bottomBar_QFrame
     ]
 
     for object_name in recorded_objects:
-
         try:
             obj = waitForObject(object_name)
-            screen_candidates.extend(get_screen_candidates(obj))
-        except:
+
+            screen_candidates.extend(
+                get_screen_candidates(obj)
+            )
+        except Exception:
             pass
 
-    screen_candidates = list(set(screen_candidates))
+    # SEPARATE INDIVIDUAL AND COMBINED CANDIDATES
 
-    # READ CZECH FROM EXCEL
+    individual_candidates = []
+    combined_candidates = []
 
-    excel_strings = {}
-
-    for row in sheet.iter_rows(min_row=2, values_only=True):
-
-        if len(row) < 5:
-            continue
-
-        trace_id = row[0]
-        english = row[1]
-        czech = row[4]
-
-        if english is None or czech is None:
-            continue
-
-        english = str(english).strip()
-        czech = str(czech).strip()
-
-        if not english or not czech:
-            continue
-
-        excel_strings[normalize(czech)] = {
-            "english": english,
-            "czech": czech,
-            "trace_id": "" if trace_id is None else str(trace_id).strip()
-        }
-
-    # MATCH SCREEN STRINGS WITH EXCEL
-
-    matches = {}
+    seen_individual = set()
+    seen_combined = set()
 
     for candidate in screen_candidates:
-
-        normalized_candidate = normalize(candidate)
-
-        if not normalized_candidate:
+        if candidate is None:
             continue
 
-        if normalized_candidate in excel_strings:
+        text = str(candidate).strip()
+        key = normalize(text)
 
-            data = excel_strings[normalized_candidate]
+        if not key:
+            continue
 
-            key = normalize(data["czech"])
+        if is_dynamic_numeric_value(text):
+            continue
 
-            matches[key] = (
-                len(normalized_candidate),
-                data["english"],
-                data["czech"]
-            )
+        if not re.search(r"[^\W\d_]", text, re.UNICODE):
+            continue
 
-    # REMOVE DUPLICATES
+        if " " in text:
+            if key not in seen_combined:
+                seen_combined.add(key)
+                combined_candidates.append(text)
+        else:
+            if key not in seen_individual:
+                seen_individual.add(key)
+                individual_candidates.append(text)
+
+    # MATCH INDIVIDUAL STRINGS FIRST
+
+    matches = {}
+    missing_strings = {}
+
+    for candidate in individual_candidates:
+        key = normalize(candidate)
+
+        if key in excel_strings:
+            matches[key] = excel_strings[key]
+        else:
+            missing_strings[key] = candidate
+
+    # MATCH COMBINED CANDIDATES AGAINST EXCEL
+
+    for candidate in combined_candidates:
+        key = normalize(candidate)
+
+        if key in excel_strings:
+            matches[key] = excel_strings[key]
+
+            if key in missing_strings:
+                del missing_strings[key]
+
+    # REPORT PASS RESULTS
 
     pass_count = 0
 
-    for key in sorted(
-        matches,
-        key=lambda x: matches[x][0],
-        reverse=True
-    ):
-
+    for key in sorted(matches):
         data = matches[key]
 
         test.passes(
-            data[1] + " -> " + data[2]
+            "PASS: "
+            + data["english"]
+            + " -> "
+            + data["czech"]
         )
 
         pass_count += 1
 
+    # REPORT FAIL RESULTS
+
+    fail_count = 0
+
+    for key in sorted(missing_strings):
+        test.fail(
+            "FAIL: Visible screen string missing from Czech Excel: "
+            + missing_strings[key]
+        )
+
+        fail_count += 1
+
     # FINAL RESULT
 
-    if pass_count > 0:
-        test.passes("CZECH STONE TREATMENT LOCALIZATION VALIDATION PASSED")
+    if fail_count == 0 and pass_count > 0:
+        test.passes(
+            "CZECH SOFT TISSUE QUICK START "
+            "LOCALIZATION VALIDATION PASSED"
+            + " | Matched: " + str(pass_count)
+            + " | Missing: 0"
+        )
     else:
-        test.fail("NO CZECH STRINGS FOUND ON STONE TREATMENT SCREEN")
+        test.fail(
+            "CZECH SOFT TISSUE QUICK START "
+            "LOCALIZATION VALIDATION FAILED"
+            + " | Matched: " + str(pass_count)
+            + " | Missing: " + str(fail_count)
+        )

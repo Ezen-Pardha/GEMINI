@@ -3,10 +3,38 @@
 
 import names
 import openpyxl
+import os
+import re
+
+
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+EXCEL_PATH = os.path.abspath(
+    os.path.join(
+        TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
+
+SHEET_NAME = "Home Screen"
+
+
+def normalize(text):
+    if text is None:
+        return ""
+
+    text = str(text).strip()
+    text = re.sub(r"<[^>]+>", "", text)
+    text = text.replace("\xa0", " ")
+    text = " ".join(text.split())
+
+    return text.casefold()
 
 
 def get_all_texts(obj):
-
     texts = []
 
     try:
@@ -15,7 +43,7 @@ def get_all_texts(obj):
         if text:
             texts.append(text)
 
-    except:
+    except Exception:
         pass
 
     try:
@@ -24,7 +52,7 @@ def get_all_texts(obj):
         for child in children:
             texts.extend(get_all_texts(child))
 
-    except:
+    except Exception:
         pass
 
     return texts
@@ -50,7 +78,6 @@ def main():
     clickButton(
         waitForObject(names.mainFrame_okButton_QPushButton)
     )
-
 
     # Change language to Croatian
     clickButton(
@@ -82,11 +109,7 @@ def main():
 
     test.vp("Verify Home Screen1")
 
-    
-   
-
-
-    # Home screen
+    # Home screen navigation
     mouseClick(
         waitForObject(names.homeScreen_HomeScreen),
         637, 179,
@@ -108,43 +131,73 @@ def main():
         Qt.LeftButton
     )
 
+    # Check Excel file
+    if not os.path.isfile(EXCEL_PATH):
+        test.fail("Excel file not found: " + EXCEL_PATH)
+        return
 
-    # Read Excel
-    excelpath = "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Croatia/tst_GEM-LOC-CROATIA_HomeScreen/testdata/coration home screen.xlsx"
-    workbook = openpyxl.load_workbook(excelpath)
-    sheet = workbook.active
+    workbook = None
 
+    try:
+        # Read Excel workbook
+        workbook = openpyxl.load_workbook(
+            EXCEL_PATH,
+            data_only=True,
+            read_only=True
+        )
 
-    # Get all text from Home Screen
-    home = waitForObject(names.homeScreen_HomeScreen)
-
-    actual_texts = get_all_texts(home)
-
-
-    # Verify English -> Croatian
-    for row in sheet.iter_rows(min_row=2, values_only=True):
-
-        if row[0] is None or row[1] is None:
-            continue
-
-        english = str(row[0]).strip()
-        croatian = str(row[1]).strip()
-
-        if croatian in actual_texts:
-
-            test.passes(
-                "PASS: " +
-                english +
-                " -> " +
-                croatian
-            )
-
-        else:
-
+        # Check and select the specified worksheet
+        if SHEET_NAME not in workbook.sheetnames:
             test.fail(
-                "FAIL: " +
-                english +
-                " -> " +
-                croatian
+                "Excel sheet not found: " + SHEET_NAME +
+                ". Available sheets: " + ", ".join(workbook.sheetnames)
             )
+            return
 
+        sheet = workbook[SHEET_NAME]
+
+        # Get all text from Home Screen
+        home = waitForObject(names.homeScreen_HomeScreen)
+        actual_texts = get_all_texts(home)
+
+        normalized_actual_texts = {
+            normalize(text)
+            for text in actual_texts
+            if normalize(text)
+        }
+
+        # Verify English -> Croatian
+        for row in sheet.iter_rows(min_row=2, values_only=True):
+
+            if len(row) < 3:
+                continue
+
+            english_value = row[0]
+            croatian_value = row[3]
+
+            if english_value is None or croatian_value is None:
+                continue
+
+            english = str(english_value).strip()
+            croatian = str(croatian_value).strip()
+
+            expected = normalize(croatian)
+
+            if not expected:
+                continue
+
+            if expected in normalized_actual_texts:
+                test.passes(
+                    "PASS: " + english + " -> " + croatian
+                )
+            else:
+                test.fail(
+                    "FAIL: " + english + " -> " + croatian
+                )
+
+    except Exception as e:
+        test.fail("Localization validation error: " + str(e))
+
+    finally:
+        if workbook is not None:
+            workbook.close()

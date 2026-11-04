@@ -1,11 +1,26 @@
+
 # -*- coding: utf-8 -*-
 
 import names
 import openpyxl
 import re
+import os
 
 
-EXCEL_PATH = "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Croatia/tst_GEM-LOC-CROATIA-STONE-GUIDED/testdata/Gemini strings.xlsx"
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+EXCEL_PATH = os.path.abspath(
+    os.path.join(
+        TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
+
+SHEET_NAME = "Treatment Modes"
+
 
 def normalize(text):
     if text is None:
@@ -27,35 +42,39 @@ def get_all_texts(obj):
     try:
         if not obj.visible:
             return texts
-    except:
+    except Exception:
         pass
 
     try:
         value = str(obj.text).strip()
+
         if value:
             value = re.sub(r"<[^>]+>", " ", value)
             value = " ".join(value.split())
 
             if value:
                 texts.append(value)
-    except:
+
+    except Exception:
         pass
 
     try:
         value = str(obj.title).strip()
+
         if value:
             value = re.sub(r"<[^>]+>", " ", value)
             value = " ".join(value.split())
 
             if value:
                 texts.append(value)
-    except:
+
+    except Exception:
         pass
 
     try:
         for child in object.children(obj):
             texts.extend(get_all_texts(child))
-    except:
+    except Exception:
         pass
 
     return texts
@@ -63,35 +82,60 @@ def get_all_texts(obj):
 
 def load_croatian_strings():
 
-    workbook = openpyxl.load_workbook(EXCEL_PATH, data_only=True)
-    sheet = workbook.active
+    if not os.path.isfile(EXCEL_PATH):
+        test.fail("Excel file not found: " + EXCEL_PATH)
+        return []
 
+    workbook = None
     strings = {}
 
-    for row in sheet.iter_rows(min_row=2, values_only=True):
+    try:
+        workbook = openpyxl.load_workbook(
+            EXCEL_PATH,
+            data_only=True,
+            read_only=True
+        )
 
-        if len(row) < 9:
-            continue
+        if SHEET_NAME not in workbook.sheetnames:
+            test.fail(
+                "Excel sheet not found: " + SHEET_NAME +
+                ". Available sheets: " + ", ".join(workbook.sheetnames)
+            )
+            return []
 
-        english = row[1]
-        croatian = row[8]
+        sheet = workbook[SHEET_NAME]
 
-        if english is None or croatian is None:
-            continue
+        for row in sheet.iter_rows(min_row=2, values_only=True):
 
-        english = str(english).strip()
-        croatian = str(croatian).strip()
+            if len(row) < 9:
+                continue
 
-        if not english or not croatian:
-            continue
+            english = row[1]
+            croatian = row[3]
 
-        normalized = normalize(croatian)
+            if english is None or croatian is None:
+                continue
 
-        if normalized not in strings:
-            strings[normalized] = {
-                "english": english,
-                "croatian": croatian
-            }
+            english = str(english).strip()
+            croatian = str(croatian).strip()
+
+            if not english or not croatian:
+                continue
+
+            normalized = normalize(croatian)
+
+            if normalized not in strings:
+                strings[normalized] = {
+                    "english": english,
+                    "croatian": croatian
+                }
+
+    except Exception as e:
+        test.fail("Error reading Croatian Excel strings: " + str(e))
+
+    finally:
+        if workbook is not None:
+            workbook.close()
 
     return list(strings.values())
 
@@ -99,6 +143,13 @@ def load_croatian_strings():
 def verify_screen(root_object, screen_name):
 
     excel_strings = load_croatian_strings()
+
+    if not excel_strings:
+        test.fail(
+            "No Croatian strings loaded for screen: " + screen_name
+        )
+        return
+
     screen_texts = get_all_texts(root_object)
 
     # Remove duplicate UI text
@@ -116,7 +167,7 @@ def verify_screen(root_object, screen_name):
         if normalized not in unique_texts:
             unique_texts[normalized] = text
 
-    # Prevent duplicate results
+    # Prevent duplicate results within this screen
     verified = set()
 
     for screen_normalized in unique_texts:
@@ -132,7 +183,10 @@ def verify_screen(root_object, screen_name):
                 matches.append(item)
 
             # Combined UI text
-            elif len(excel_normalized) >= 4 and excel_normalized in screen_normalized:
+            elif (
+                len(excel_normalized) >= 4
+                and excel_normalized in screen_normalized
+            ):
                 matches.append(item)
 
         # Longest strings first
@@ -158,35 +212,90 @@ def verify_screen(root_object, screen_name):
 def main():
 
     # LOGIN
-    sendEvent("QMoveEvent", waitForObject(names.o_ScreenSwitcher), 35, 207, 674, 225)
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.mainFrame_okButton_QPushButton))
+    sendEvent(
+        "QMoveEvent",
+        waitForObject(names.o_ScreenSwitcher),
+        35, 207, 674, 225
+    )
+
+    clickButton(
+        waitForObject(names.numpad_pushButton_8_NumpadButton)
+    )
+    clickButton(
+        waitForObject(names.numpad_pushButton_8_NumpadButton)
+    )
+    clickButton(
+        waitForObject(names.numpad_pushButton_8_NumpadButton)
+    )
+    clickButton(
+        waitForObject(names.numpad_pushButton_8_NumpadButton)
+    )
+
+    clickButton(
+        waitForObject(names.mainFrame_okButton_QPushButton)
+    )
 
     # CHANGE LANGUAGE TO CROATIAN
-    clickButton(waitForObject(names.homeScreen_settingsButton_QPushButton))
-    clickTab(waitForObject(names.settingsScreen_tbSystemInfo_TabWidget), "INFO")
-    clickButton(waitForObject(names.gbSystemInformation_pbLanguageSettingsUpdate_QPushButton))
-    clickButton(waitForObject(names.languagesFrame_pbCroatia_QPushButton))
-    clickButton(waitForObject(names.buttonsFrame_acceptButton_QPushButton))
-    clickButton(waitForObject(names.settingsScreen_pbBack_QPushButton))
+    clickButton(
+        waitForObject(names.homeScreen_settingsButton_QPushButton)
+    )
+
+    clickTab(
+        waitForObject(names.settingsScreen_tbSystemInfo_TabWidget),
+        "INFO"
+    )
+
+    clickButton(
+        waitForObject(
+            names.gbSystemInformation_pbLanguageSettingsUpdate_QPushButton
+        )
+    )
+
+    clickButton(
+        waitForObject(names.languagesFrame_pbCroatia_QPushButton)
+    )
+
+    clickButton(
+        waitForObject(names.buttonsFrame_acceptButton_QPushButton)
+    )
+
+    clickButton(
+        waitForObject(names.settingsScreen_pbBack_QPushButton)
+    )
 
     # OPEN SOFT TISSUE ASSISTANT
-    clickButton(waitForObject(names.homeScreen_pbSoftTissueAssistant_QToolButton))
-    clickButton(waitForObject(names.gbSoftTissueProcedures_pbIncision_QPushButton))
-    clickButton(waitForObject(names.softTissueAssistantModeScreen_pbContinue_QPushButton))
+    clickButton(
+        waitForObject(names.homeScreen_pbSoftTissueAssistant_QToolButton)
+    )
+
+    clickButton(
+        waitForObject(names.gbSoftTissueProcedures_pbIncision_QPushButton)
+    )
+
+    clickButton(
+        waitForObject(
+            names.softTissueAssistantModeScreen_pbContinue_QPushButton
+        )
+    )
 
     # VERIFY INITIAL SOFT TISSUE SCREEN
-    verify_screen(waitForObject(names.o_ScreenSwitcher), "Soft Tissue Assistant")
+    verify_screen(
+        waitForObject(names.o_ScreenSwitcher),
+        "Soft Tissue Assistant"
+    )
 
     test.vp("Verify Soft Tissue Guided Treatment")
 
-    
-
     # CLICK LEFT PEDAL PRESET TAB
-    mouseClick(waitForObject(names.leftPedalWidget_wdPresetTabs_TabWidget), 615, 42, Qt.NoModifier, Qt.LeftButton)
+    mouseClick(
+        waitForObject(names.leftPedalWidget_wdPresetTabs_TabWidget),
+        615, 42,
+        Qt.NoModifier,
+        Qt.LeftButton
+    )
 
     # VERIFY STRINGS AFTER CLICK
-    verify_screen(waitForObject(names.o_ScreenSwitcher), "Left Pedal Presets")
+    verify_screen(
+        waitForObject(names.o_ScreenSwitcher),
+        "Left Pedal Presets"
+    )

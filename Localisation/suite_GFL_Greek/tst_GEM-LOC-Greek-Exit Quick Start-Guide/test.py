@@ -362,7 +362,7 @@ def main():
         verify_text(
             sheet,
             names.centralWidget_MessageLabel_QLabel_2,
-            "Please confirm that you want to exit quick start mode.",
+            "Please confirm you want to exit quick state mode.",
             "Quick Start Exit Message"
         )
 
@@ -432,7 +432,7 @@ def main():
         verify_text(
             sheet,
             names.centralWidget_MessageLabel_QLabel_2,
-            "Please confirm that you want to exit guided mode.",
+            "Please confirm you want to exit guided mode.",
             "Guided Mode Exit Message"
         )
 

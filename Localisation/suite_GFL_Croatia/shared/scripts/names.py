@@ -148,6 +148,9 @@ o_QSplashScreen = {"type": "QSplashScreen", "unnamed": 1, "visible": 0}
 bottomBar_stateSwitch_StateSwitch = {"container": treatmentScreen_bottomBar_QFrame, "name": "stateSwitch", "type": "StateSwitch", "visible": 1}
 stateSwitch_readyButton_QPushButton = {"container": bottomBar_stateSwitch_StateSwitch, "name": "readyButton", "type": "QPushButton", "visible": 1}
 stateSwitch_standbyButton_QPushButton = {"container": bottomBar_stateSwitch_StateSwitch, "name": "standbyButton", "type": "QPushButton", "visible": 1}
+recommendedFiberWarningDialog_RecommendedFiberWarningDialog = {"name": "RecommendedFiberWarningDialog", "type": "RecommendedFiberWarningDialog", "visible": 1}
+recommendedFiberWarningDialog_mainFrame_QFrame = {"name": "mainFrame", "type": "QFrame", "visible": 1, "window": recommendedFiberWarningDialog_RecommendedFiberWarningDialog}
+mainFrame_okButton_QPushButton_2 = {"container": recommendedFiberWarningDialog_mainFrame_QFrame, "name": "okButton", "type": "QPushButton", "visible": 1}
 # encoding: UTF-8
 
 from objectmaphelper import *
@@ -522,3 +525,6 @@ centralWidget_descriptionLabel_QLabel = {"container": centralWidget_QFrame, "nam
 centralWidget_valueLabel_QLabel_3 = {"container": centralWidget_QFrame, "name": "valueLabel", "occurrence": 3, "type": "QLabel", "visible": 1}
 centralWidget_TitleLabel_QLabel_2 = {"container": centralWidget_QFrame_2, "name": "TitleLabel", "type": "QLabel", "visible": 1}
 centralWidget_MessageLabel_QLabel_2 = {"container": centralWidget_QFrame_2, "name": "MessageLabel", "type": "QLabel", "visible": 1}
+centralWidget_TitleLabel_QLabel_3 = {"container": centralWidget_QFrame, "name": "TitleLabel", "type": "QLabel", "visible": 1}
+centralWidget_MessageLabel_QLabel_3 = {"container": centralWidget_QFrame, "name": "MessageLabel", "type": "QLabel", "visible": 1}
+centralWidget_CancelButton_QPushButton_3 = {"container": centralWidget_QFrame, "name": "CancelButton", "type": "QPushButton", "visible": 1}
