@@ -1,3 +1,4 @@
+
 from squish import *
 import test
 import names
@@ -770,6 +771,8 @@ def _preset_object_exists(object_name, timeout=1000):
         return False
 
 
+
+
 def navigate_to_preset_category(category):
     """Open USER PRESETS and select a category without reopening Settings unnecessarily."""
     category = category.strip().upper()
@@ -1327,6 +1330,7 @@ def verify_economy_type():
     return False
 def verify_economyc_type():
 
+
     test.log("Checking System Type")
 
     clickButton(
@@ -1449,3 +1453,6 @@ def find_device_ini(runtime_path):
 
     test.log("Selected device.ini: {}".format(ini_path))
     return ini_path
+
+
+>>>>>>> origin/main
