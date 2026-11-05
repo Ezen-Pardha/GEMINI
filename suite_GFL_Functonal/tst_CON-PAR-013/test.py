@@ -21,7 +21,7 @@ def main():
     """Step 1: Login and navigate to CW Mode"""
 
     enter_login_pin()
-
+    dismiss_fiber_verification_warning()
     try:
         clickButton(
             waitForObject(names.gbExpert_expertButton_QPushButton, 32151)

@@ -74,7 +74,7 @@ from common import *
 def main():
 
     enter_login_pin()
-
+    dismiss_fiber_verification_warning()
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
 
     """Select MRP pulse mode"""
