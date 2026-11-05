@@ -710,6 +710,17 @@ frequencyWidgetEmission_unitsOfMeasureLabel_QLabel = {"container": pulseModeWidg
 pulseModeWidget_peakPowerButton_ParameterSettingsButton_3 = {"container": modeWidget_PulseModeWidget_PulseModeWidget, "name": "peakPowerButton", "type": "ParameterSettingsButton", "visible": 1}
 peakPowerButton_nameLabel_QLabel_3 = {"container": pulseModeWidget_peakPowerButton_ParameterSettingsButton_3, "name": "nameLabel", "type": "QLabel", "visible": 1}
 
+peakPowerButton_iconLabel_QLabel_3 = {"container": pulseModeWidget_peakPowerButton_ParameterSettingsButton_3, "name": "iconLabel", "type": "QLabel", "visible": 1}
+centralWidget_pw500_QPushButton_2 = {"container": centralWidget_QFrame_3, "name": "pw500", "type": "QPushButton", "visible": 1}
+centralWidget_Fragmentation_QPushButton_2 = {"container": centralWidget_QFrame_3, "name": "Fragmentation", "type": "QPushButton", "visible": 1}
+centralWidget_Enucleation_QPushButton_2 = {"container": centralWidget_QFrame_3, "name": "Enucleation", "type": "QPushButton", "visible": 1}
+centralWidget_mainWidget_QWidget_2 = {"container": centralWidget_QFrame_3, "name": "mainWidget", "type": "QWidget", "visible": 1}
+centralWidget_OKButton_QPushButton_2 = {"container": centralWidget_QFrame_4, "name": "OKButton", "type": "QPushButton", "visible": 1}
+centralWidget_Cleaning_QPushButton_2 = {"container": centralWidget_QFrame_3, "name": "Cleaning", "type": "QPushButton", "visible": 1}
+centralWidget_pw750_QPushButton = {"container": centralWidget_QFrame_3, "name": "pw750", "type": "QPushButton", "visible": 1}
+centralWidget_pw1000_QPushButton = {"container": centralWidget_QFrame_3, "name": "pw1000", "type": "QPushButton", "visible": 1}
+
+
 
 
 o_ScreenSwitcher = {"type": "ScreenSwitcher", "unnamed": 1, "visible": 1}
@@ -887,3 +898,4 @@ fiberIdleTimeoutNumberPicker_pbIncrement_QPushButton = {"container": fiberIdleTi
 fiberIdleTimeoutNumberPicker_pbDecrement_QPushButton = {"container": fiberIdleTimeoutFrame_fiberIdleTimeoutNumberPicker_NumberPicker, "name": "pbDecrement", "type": "QPushButton", "visible": 1}
 fiberIdleTimeoutNumberPicker_lbValue_QLabel = {"container": fiberIdleTimeoutFrame_fiberIdleTimeoutNumberPicker_NumberPicker, "name": "lbValue", "type": "QLabel", "visible": 1}
 
+>>>>>>> origin/main
