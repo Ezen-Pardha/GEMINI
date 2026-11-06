@@ -203,11 +203,7 @@ def main():
 
     # LOGIN
 
-    sendEvent(
-        "QMoveEvent",
-        waitForObject(names.o_ScreenSwitcher),
-        45, 176, 662, 188
-    )
+    
 
     clickButton(
         waitForObject(names.numpad_pushButton_8_NumpadButton)

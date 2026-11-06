@@ -5,6 +5,7 @@ from common import *
 def main():
 
     enter_login_pin()
+    dismiss_fiber_verification_warning()
 
     clickButton(waitForObject(names.homeScreen_settingsButton_QPushButton))
     clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))

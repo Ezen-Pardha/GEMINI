@@ -3,6 +3,8 @@
         <summary/>
         <description/>
     </information>
-    <testsettings/>
+    <testsettings>
+        <logScreenshotOnFail>true</logScreenshotOnFail>
+    </testsettings>
     <passwords/>
 </testconfig>

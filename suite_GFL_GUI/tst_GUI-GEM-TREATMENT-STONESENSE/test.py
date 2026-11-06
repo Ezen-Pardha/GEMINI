@@ -4,6 +4,8 @@ import names
 from common import *
 
 def main():
+    
+    
     enter_login_pin()
     test.log("SVV TAG GUI-TRT-077: Stone Sense Button Enabled in STANDBY State")
     navigateto_Treatmentscreen_stone_QuickStart()
