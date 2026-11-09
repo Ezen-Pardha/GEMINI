@@ -1455,4 +1455,53 @@ def find_device_ini(runtime_path):
     return ini_path
 
 
->>>>>>> origin/main
+def verify_economyA_type():
+    test.log("Checking System Type")
+
+    clickButton(
+        waitForObject(names.homeScreen_settingsButton_QPushButton)
+    )
+
+    clickTab(
+        waitForObject(names.settingsScreen_tbSystemInfo_TabWidget),
+        "LOGS"
+    )
+
+    clickButton(
+        waitForObject(names.settingsScreen_pbService_QPushButton)
+    )
+
+    for _ in range(5):
+        clickButton(
+            waitForObject(names.numpad_pushButton_9_NumpadButton)
+        )
+
+    system_type_label = waitForObject(
+        names.staticVersions_3_systemTypeVersion_QLabel
+    )
+
+    actual_type = str(system_type_label.text).strip()
+
+    test.log("Actual System Type: {}".format(actual_type))
+
+    if actual_type.replace(" ", "").lower() == "economya":
+        test.passes("System Type is Economy A")
+        return True
+
+    message = "Incorrect Economy: Expected Economy A, found {}".format(
+        actual_type
+    )
+
+    test.fail(message)
+
+    try:
+        QMessageBox.warning(
+            None,
+            "Incorrect Economy",
+            message
+        )
+    except Exception:
+        test.log("Unable to show QMessageBox; see failure log above")
+
+    return False
+
