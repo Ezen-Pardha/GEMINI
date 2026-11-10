@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<VerificationPoint version="5" type="Visual">
+    <Description/>
+    <Verification object="tabBarLeftPedalPresets_USER_PRESETS_TabItem">
+        <visual>
+            <ui version="1.0">
+                <execution>
+                    <state>
+                        <element id="1a1a340c413" class="TabItem" namespace="QTabWidgetExt">
+                            <image type="PNG">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</image>
+                            <superclass>
+                                <class>QtGUIObject</class>
+                                <class>GUIObject</class>
+                            </superclass>
+                            <abstractProperties>
+                                <visual isTopLevel="1"/>
+                                <geometry isRelative="0">
+                                    <x>213</x>
+                                    <y>393</y>
+                                    <height>40</height>
+                                    <width>179</width>
+                                </geometry>
+                            </abstractProperties>
+                            <properties>
+                                <property name="type">
+                                    <string>TabItem</string>
+                                </property>
+                                <property name="text">
+                                    <string>USER PRESETS</string>
+                                </property>
+                                <property name="index">
+                                    <string>1</string>
+                                </property>
+                                <property name="enabled">
+                                    <string>true</string>
+                                </property>
+                            </properties>
+                        </element>
+                    </state>
+                </execution>
+            </ui>
+            <check type="identifying"/>
+            <check type="content"/>
+            <check type="screenshot">
+                <PropertyVerification element-id="1a1a340c413"/>
+            </check>
+        </visual>
+    </Verification>
+</VerificationPoint>

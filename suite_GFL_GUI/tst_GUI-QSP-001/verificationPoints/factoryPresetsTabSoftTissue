@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<VerificationPoint type="Visual" version="5">
+    <Description/>
+    <Verification object="tabBarLeftPedalPresets_SOFT_TISSUE_PRESETS_TabItem">
+        <visual>
+            <ui version="1.0">
+                <execution>
+                    <state>
+                        <element class="TabItem" id="1a1a340c413" namespace="QTabWidgetExt">
+                            <image type="PNG">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</image>
+                            <superclass>
+                                <class>QtGUIObject</class>
+                                <class>GUIObject</class>
+                            </superclass>
+                            <abstractProperties>
+                                <visual isTopLevel="1"/>
+                                <geometry isRelative="0">
+                                    <x>22</x>
+                                    <y>393</y>
+                                    <height>40</height>
+                                    <width>232</width>
+                                </geometry>
+                            </abstractProperties>
+                            <properties>
+                                <property name="type">
+                                    <string>TabItem</string>
+                                </property>
+                                <property name="index">
+                                    <string>0</string>
+                                </property>
+                                <property name="text">
+                                    <string>SOFT TISSUE PRESETS</string>
+                                </property>
+                                <property name="enabled">
+                                    <string>true</string>
+                                </property>
+                            </properties>
+                        </element>
+                    </state>
+                </execution>
+            </ui>
+            <check type="identifying"/>
+            <check type="content"/>
+            <check type="screenshot">
+                <PropertyVerification element-id="1a1a340c413"/>
+            </check>
+        </visual>
+    </Verification>
+</VerificationPoint>
