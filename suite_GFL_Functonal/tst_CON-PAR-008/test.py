@@ -74,10 +74,10 @@ from common import *
 def main():
 
     enter_login_pin()
-
+    dismiss_fiber_verification_warning()
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
 
-    # Select MRP pulse mode
+    """Select MRP pulse mode"""
     mouseClick(
         waitForObject(names.modeButton_nameLabel_QLabel),
         68, 22,
@@ -94,7 +94,7 @@ def main():
     increment_button = names.frequencyWidget_incrementButton_QPushButton
     decrement_button = names.frequencyWidget_decrementButton_QPushButton
 
-    # Read the displayed frequency
+    """Read the displayed frequency"""
     def read_frequency():
         value = waitForObjectExists(frequency_object).displayedValue
         return float(str(value).strip())
@@ -116,14 +116,14 @@ def main():
 
         return read_frequency()
 
-    # Verify the frequency control
+    """Verify the frequency control"""
     test.compare(
         waitForObjectExists(frequency_object).contextMenuPolicy,
         1,
         "Frequency control is available in MRP pulse mode"
     )
 
-    # Decrement until the minimum frequency of 1 Hz is reached
+    """Decrement until the minimum frequency of 1 Hz is reached"""
     actual_frequency = read_frequency()
     decrement_count = 0
     max_decrement_count = 500
@@ -154,7 +154,7 @@ def main():
             str(actual_frequency) + " Hz"
         )
 
-    # Verify minimum frequency
+    """Verify minimum frequency"""
     actual_frequency = read_frequency()
 
     if abs(actual_frequency - 1.0) < 0.001:
@@ -169,44 +169,90 @@ def main():
         )
         return
 
-    # Increment until the maximum frequency of 400 Hz is reached
     increment_count = 0
     max_increment_count = 500
-
-    while actual_frequency < 400.0 and increment_count < max_increment_count:
-
+    target_frequency = 400.0
+    
+    while actual_frequency < target_frequency and increment_count < max_increment_count:
+    
+        try:
+            increment_button_object = findObject(increment_button)
+    
+            if not increment_button_object.visible:
+                test.fail(
+                    "ERROR: Frequency range is not reached. "
+                    "Expected: " + str(target_frequency) +
+                    " Hz, Actual: " + str(actual_frequency) +
+                    " Hz. Increment button disappeared."
+                )
+                return
+    
+        except LookupError:
+            test.fail(
+                "ERROR: Frequency range is not reached. "
+                "Expected: " + str(target_frequency) +
+                " Hz, Actual: " + str(actual_frequency) +
+                " Hz. Increment button disappeared."
+            )
+            return
+    
+        if not increment_button_object.enabled:
+            test.fail(
+                "ERROR: Frequency range is not reached. "
+                "Expected: " + str(target_frequency) +
+                " Hz, Actual: " + str(actual_frequency) +
+                " Hz. Increment button is disabled."
+            )
+            return
+    
         previous_frequency = actual_frequency
-
-        clickButton(waitForObject(increment_button))
-
+    
+        clickButton(increment_button_object)
+    
         actual_frequency = wait_for_frequency_change(
             previous_frequency, "increase"
         )
-
+    
         if actual_frequency <= previous_frequency:
             test.fail(
-                "Frequency did not increase after clicking increment. "
+                "ERROR: Frequency range is not reached. "
                 "Previous: " + str(previous_frequency) +
-                " Hz, Actual: " + str(actual_frequency) + " Hz"
+                " Hz, Actual: " + str(actual_frequency) +
+                " Hz"
             )
             return
-
-        if actual_frequency > 400.0:
+    
+        if actual_frequency > target_frequency:
             test.fail(
-                "Frequency exceeded the maximum of 400 Hz. "
-                "Actual: " + str(actual_frequency) + " Hz"
+                "ERROR: Frequency exceeded the maximum of " +
+                str(target_frequency) + " Hz. Actual: " +
+                str(actual_frequency) + " Hz"
             )
             return
-
+    
         increment_count += 1
-
+    
         test.log(
             "PASS: Frequency increased from " +
             str(previous_frequency) + " Hz to " +
             str(actual_frequency) + " Hz"
         )
-
-    # Verify maximum frequency
+    
+    if actual_frequency < target_frequency:
+        test.fail(
+            "ERROR: Frequency range is not reached. "
+            "Expected: " + str(target_frequency) +
+            " Hz, Actual: " + str(actual_frequency) +
+            " Hz"
+        )
+        return
+    
+    test.log(
+        "PASS: Frequency range reached successfully. "
+        "Final frequency: " + str(actual_frequency) + " Hz"
+    )
+    
+    """Verify maximum frequency"""
     actual_frequency = read_frequency()
 
     if abs(actual_frequency - 400.0) < 0.001:

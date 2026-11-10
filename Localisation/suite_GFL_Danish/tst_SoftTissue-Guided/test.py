@@ -99,8 +99,6 @@ def load_danish_strings():
         sheet = workbook[SHEET_NAME]
         excel_strings = {}
 
-        # Column B = English
-        # Column F = Danish
 
         for row in sheet.iter_rows(
             min_row=2,

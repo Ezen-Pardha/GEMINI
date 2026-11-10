@@ -5,12 +5,12 @@ from common import *
 def main():
 
     enter_login_pin()
-
+    dismiss_fiber_verification_warning()
     clickButton(waitForObject(names.homeScreen_settingsButton_QPushButton))
     clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
 
-    # Select MRP pulse mode
+    """Select MRP pulse mode"""
 
     mouseClick(waitForObject(names.modeButton_nameLabel_QLabel), 114, 39, Qt.NoModifier, Qt.LeftButton)
     clickButton(waitForObject(names.centralWidget_MRP_QPushButton))
@@ -31,7 +31,7 @@ def main():
         value = waitForObjectExists(value_object).displayedValue
         return float(str(value).strip())
 
-    # Verify the initial setting
+    """Verify the initial setting"""
     actual_value = read_pulse_energy()
 
     if abs(actual_value - expected_values[0]) < 0.001:
@@ -46,12 +46,12 @@ def main():
         )
         return
 
-    # Verify each subsequent discrete setting
+    """Verify each subsequent discrete setting"""
     for expected_value in expected_values[1:]:
 
         clickButton(waitForObject(increment_button))
 
-        # Wait for the displayed value to update
+        """Wait for the displayed value to update"""
         snooze(1)
 
         actual_value = read_pulse_energy()

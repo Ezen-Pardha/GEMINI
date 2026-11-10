@@ -528,3 +528,5 @@ centralWidget_MessageLabel_QLabel_2 = {"container": centralWidget_QFrame_2, "nam
 centralWidget_TitleLabel_QLabel_3 = {"container": centralWidget_QFrame, "name": "TitleLabel", "type": "QLabel", "visible": 1}
 centralWidget_MessageLabel_QLabel_3 = {"container": centralWidget_QFrame, "name": "MessageLabel", "type": "QLabel", "visible": 1}
 centralWidget_CancelButton_QPushButton_3 = {"container": centralWidget_QFrame, "name": "CancelButton", "type": "QPushButton", "visible": 1}
+stoneAssistantModeScreen_fiberFrame_QFrame = {"container": stoneAssistantModeScreen_StoneAssistantModeScreen, "name": "fiberFrame", "type": "QFrame", "visible": 1}
+fiberFrame_label_QLabel = {"container": stoneAssistantModeScreen_fiberFrame_QFrame, "name": "label", "type": "QLabel", "visible": 1}

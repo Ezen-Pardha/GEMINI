@@ -1,216 +1,371 @@
+
 # -*- coding: utf-8 -*-
 
 import names
 import openpyxl
+import os
 import re
+import html
 
 
-EXCEL_PATH = "/home/ntc/Test_Automation_Gemini/Localisation/Suite_GFL_English/tst_LoginScreen-Logoff/testdata/Gemini strings.xlsx"
 
-verified_strings = set()
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+EXCEL_PATH = os.path.abspath(
+    os.path.join(
+        TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
+
+SHEET_NAME = "settings"
+ENGLISH_COLUMN = 2
+RESULT_SHEET = "Verification Results"
+
+verified_results = []
 
 
-def normalize(text):
 
-    if text is None:
+STRING_OBJECTS = {
+    "SYSTEM": [
+        "wdSystemSettingsLayout_0_QLabel"
+    ],
+
+    "SYSTEM SETTINGS": [
+        "systemsettingframe_label_QLabel"
+    ],
+
+    "SCREEN BRIGHTNESS": [
+        "systemsettingframe_lbBrightnessName_QLabel"
+    ],
+
+    "VOLUME": [
+        "systemsettingframe_lbVolumeName_QLabel"
+    ],
+
+    "AIMING BEAM SETTINGS": [
+        "aimingbeamsettingframe_label_2_QLabel"
+    ],
+
+    "MODE": [
+        "aimingbeamsettingframe_lbAimingBeamDefaultModeName_QLabel"
+    ],
+
+    "ENABLED": [
+        "aimingbeamsettingframe_gbAimingBeamDefaultLevel_QWidget"
+    ],
+
+    "DISABLED": [
+        "aimingbeamsettingframe_gbAimingBeamDefaultLevel_QWidget"
+    ],
+
+    "INTENSITY LEVEL": [
+        "aimingbeamsettingframe_gbAimingBeamDefaultLevel_QWidget"
+    ],
+
+    "BACK": [
+        "settingsScreen_pbBack_QPushButton"
+    ]
+}
+
+
+
+def normalize(value):
+
+    if value is None:
         return ""
 
-    text = str(text)
-    text = re.sub(r"<[^>]+>", " ", text)
-    text = " ".join(text.split())
-    text = re.sub(r"\s*<\s*", " < ", text)
-    text = re.sub(r"\s*>\s*", " > ", text)
+    value = html.unescape(str(value))
+    value = re.sub(r"<[^>]+>", "", value)
+    value = re.sub(r"\s+", " ", value)
 
-    return text.casefold()
+    return value.strip().casefold()
 
 
-def get_all_texts(obj):
-
-    texts = []
-
-    try:
-        if not obj.visible:
-            return texts
-    except:
-        pass
-
-    try:
-        value = str(obj.text).strip()
-
-        if value:
-            value = re.sub(r"<[^>]+>", " ", value)
-            value = " ".join(value.split())
-
-            if value:
-                texts.append(value)
-
-    except:
-        pass
-
-    try:
-        value = str(obj.title).strip()
-
-        if value:
-            value = re.sub(r"<[^>]+>", " ", value)
-            value = " ".join(value.split())
-
-            if value:
-                texts.append(value)
-
-    except:
-        pass
-
-    try:
-        for child in object.children(obj):
-            texts.extend(get_all_texts(child))
-    except:
-        pass
-
-    return texts
 
 
 def load_english_strings():
 
-    workbook = openpyxl.load_workbook(EXCEL_PATH, data_only=True)
-    sheet = workbook.active
+    if not os.path.exists(EXCEL_PATH):
+        test.fail("Excel file not found: " + EXCEL_PATH)
+        return set()
 
-    strings = {}
-
-    for row in sheet.iter_rows(min_row=2, values_only=True):
-
-        if len(row) < 2:
-            continue
-
-        english = row[0]
-
-        if english is None:
-            continue
-
-        english = str(english).strip()
-
-        if not english:
-            continue
-
-        key = normalize(english)
-
-        if key not in strings:
-            strings[key] = english
-
-    return list(strings.values())
-
-
-def verify_screen(root_object, screen_name):
-
-    global verified_strings
-
-    excel_strings = load_english_strings()
-    screen_texts = get_all_texts(root_object)
-
-    unique_texts = set()
-
-    for text in screen_texts:
-
-        normalized = normalize(text)
-
-        if normalized:
-            unique_texts.add(normalized)
-
-    for screen_text in unique_texts:
-
-        matches = []
-
-        for english in excel_strings:
-
-            excel_normalized = normalize(english)
-
-            if screen_text == excel_normalized:
-                matches.append(english)
-
-            elif len(excel_normalized) >= 4 and excel_normalized in screen_text:
-                matches.append(english)
-
-        matches.sort(
-            key=lambda x: len(normalize(x)),
-            reverse=True
+    try:
+        workbook = openpyxl.load_workbook(
+            EXCEL_PATH,
+            data_only=True
         )
 
-        for english in matches:
+        if SHEET_NAME not in workbook.sheetnames:
+            workbook.close()
+            test.fail("Settings worksheet not found in Excel")
+            return set()
 
-            key = normalize(english)
+        worksheet = workbook[SHEET_NAME]
 
-            if key in verified_strings:
-                continue
+        reference_strings = set()
 
-            verified_strings.add(key)
+        for row in range(1, worksheet.max_row + 1):
 
-            test.passes(english)
+            value = worksheet.cell(
+                row=row,
+                column=ENGLISH_COLUMN
+            ).value
 
+            value = normalize(value)
+
+            if value:
+                reference_strings.add(value)
+
+        workbook.close()
+
+        return reference_strings
+
+    except Exception as error:
+        test.fail("Excel reading error: {}".format(error))
+        return set()
+
+
+
+
+def read_text(obj):
+
+    values = []
+
+    properties = [
+        "text",
+        "title",
+        "windowTitle",
+        "accessibleName",
+        "accessibleDescription",
+        "toolTip",
+        "currentText"
+    ]
+
+    for prop in properties:
+
+        try:
+            value = obj.property(prop)
+
+            if value is not None and str(value).strip():
+                values.append(str(value))
+
+        except:
+            pass
+
+        try:
+            value = getattr(obj, prop)
+
+            if callable(value):
+                value = value()
+
+            if value is not None and str(value).strip():
+                values.append(str(value))
+
+        except:
+            pass
+
+    return values
+
+
+
+
+def collect_text(obj, result, depth=0):
+
+    if depth > 15:
+        return
+
+    for value in read_text(obj):
+
+        normalized = normalize(value)
+
+        if normalized:
+            result.add(normalized)
+
+    try:
+        children = obj.children()
+
+        for child in children:
+            collect_text(child, result, depth + 1)
+
+    except:
+        pass
+
+
+
+def verify_string(expected, object_names, reference_strings):
+
+    actual_text = set()
+
+    for object_name in object_names:
+
+        try:
+            obj = waitForObjectExists(
+                getattr(names, object_name)
+            )
+
+            collect_text(obj, actual_text)
+
+        except Exception:
+            pass
+
+    expected_normalized = normalize(expected)
+
+    if expected_normalized in actual_text:
+
+        test.passes(
+            "English string verified: {}".format(expected)
+        )
+
+        result = "PASS"
+
+    else:
+
+        test.fail(
+            "English string not verified: {}".format(expected)
+        )
+
+        result = "FAIL"
+
+    if expected_normalized not in reference_strings:
+        test.log(
+            "Reference missing in Excel: {}".format(expected)
+        )
+
+    verified_results.append([
+        "SYSTEM",
+        expected,
+        result
+    ])
+
+
+# --------------------------------------------------
+# VERIFY SYSTEM SETTINGS SCREEN
+# --------------------------------------------------
+
+def verify_system_screen(reference_strings):
+
+    global verified_results
+
+    verified_results = []
+
+    for expected, object_names in STRING_OBJECTS.items():
+
+        verify_string(
+            expected,
+            object_names,
+            reference_strings
+        )
+
+
+# --------------------------------------------------
+# SAVE RESULTS TO EXCEL
+# --------------------------------------------------
+
+def save_results_to_excel():
+
+    try:
+
+        workbook = openpyxl.load_workbook(EXCEL_PATH)
+
+        if RESULT_SHEET in workbook.sheetnames:
+            del workbook[RESULT_SHEET]
+
+        worksheet = workbook.create_sheet(RESULT_SHEET)
+
+        worksheet.append([
+            "Screen",
+            "English String",
+            "Result"
+        ])
+
+        for result in verified_results:
+            worksheet.append(result)
+
+        total = len(verified_results)
+
+        passed = sum(
+            1 for row in verified_results
+            if row[2] == "PASS"
+        )
+
+        failed = total - passed
+
+        worksheet.append([])
+        worksheet.append(["VERIFICATION SUMMARY"])
+        worksheet.append(["Total Checked", total])
+        worksheet.append(["PASS", passed])
+        worksheet.append(["FAIL", failed])
+
+        worksheet.column_dimensions["A"].width = 20
+        worksheet.column_dimensions["B"].width = 35
+        worksheet.column_dimensions["C"].width = 15
+
+        workbook.save(EXCEL_PATH)
+        workbook.close()
+
+        test.log("Excel verification results saved successfully")
+
+    except Exception as error:
+
+        test.fail(
+            "Unable to save Excel results: {}".format(error)
+        )
+
+
+# --------------------------------------------------
+# MAIN
+# --------------------------------------------------
 
 def main():
 
-    # LOGIN
+    reference_strings = load_english_strings()
 
-    sendEvent(
-        "QMoveEvent",
-        waitForObject(names.o_ScreenSwitcher),
-        36,
-        202,
-        504,
-        215
+    # Login
+    clickButton(
+        waitForObject(names.numpad_pushButton_8_NumpadButton)
+    )
+    clickButton(
+        waitForObject(names.numpad_pushButton_8_NumpadButton)
+    )
+    clickButton(
+        waitForObject(names.numpad_pushButton_8_NumpadButton)
+    )
+    clickButton(
+        waitForObject(names.numpad_pushButton_8_NumpadButton)
     )
 
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-
-    clickButton(waitForObject(names.mainFrame_okButton_QPushButton))
-
-    verify_screen(
-        waitForObject(names.o_ScreenSwitcher),
-        "Home Screen"
+    clickButton(
+        waitForObject(names.mainFrame_okButton_QPushButton)
     )
 
+    snooze(2)
 
-    # OPEN SETTINGS
-
+    # Open Settings
     clickButton(
         waitForObject(names.homeScreen_settingsButton_QPushButton)
     )
 
-    verify_screen(
-        waitForObject(names.o_ScreenSwitcher),
-        "Settings Screen"
+    snooze(2)
+
+    # Select SYSTEM tab
+    clickTab(
+        waitForObject(names.settingsScreen_tbSystemInfo_TabWidget),
+        "SYSTEM"
     )
 
+    snooze(2)
 
-    # BRIGHTNESS
+    # Verify screen strings
+    verify_system_screen(reference_strings)
 
-    mouseClick(
-        waitForObject(names.systemsettingframe_lbBrightnessName_QLabel),
-        10,
-        22,
-        Qt.NoModifier,
-        Qt.LeftButton
+    # Click Back after verification
+    clickButton(
+        waitForObject(names.settingsScreen_pbBack_QPushButton)
     )
 
-    verify_screen(
-        waitForObject(names.o_ScreenSwitcher),
-        "Settings after Brightness click"
-    )
-
-
-    # AIMING BEAM
-
-    mouseClick(
-        waitForObject(names.aimingbeamsettingframe_lbAimingBeamDefaultModeName_QLabel),
-        483,
-        5,
-        Qt.NoModifier,
-        Qt.LeftButton
-    )
-
-    verify_screen(
-        waitForObject(names.o_ScreenSwitcher),
-        "Settings after Aiming Beam click"
-    )
+    # Save Excel results
+    save_results_to_excel()
