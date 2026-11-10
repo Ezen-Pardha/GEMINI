@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<VerificationPoint version="5" type="Visual">
+    <Description/>
+    <Verification object="tabBarSystemInfo_LOGS_TabItem">
+        <visual>
+            <ui version="1.0">
+                <execution>
+                    <state>
+                        <element class="TabItem" namespace="QTabWidgetExt" id="1a1a6647212">
+                            <image type="PNG">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</image>
+                            <superclass>
+                                <class>QtGUIObject</class>
+                                <class>GUIObject</class>
+                            </superclass>
+                            <abstractProperties>
+                                <visual isTopLevel="1"/>
+                                <geometry isRelative="0">
+                                    <x>1005</x>
+                                    <y>350</y>
+                                    <height>65</height>
+                                    <width>252</width>
+                                </geometry>
+                            </abstractProperties>
+                            <properties>
+                                <property name="index">
+                                    <string>4</string>
+                                </property>
+                                <property name="text">
+                                    <string>LOGS</string>
+                                </property>
+                                <property name="enabled">
+                                    <string>true</string>
+                                </property>
+                                <property name="type">
+                                    <string>TabItem</string>
+                                </property>
+                            </properties>
+                        </element>
+                    </state>
+                </execution>
+            </ui>
+            <check type="identifying"/>
+            <check type="content"/>
+            <check type="screenshot">
+                <PropertyVerification element-id="1a1a6647212"/>
+            </check>
+        </visual>
+    </Verification>
+</VerificationPoint>

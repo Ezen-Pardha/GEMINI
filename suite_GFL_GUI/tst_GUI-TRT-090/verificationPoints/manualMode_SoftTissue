@@ -1,0 +1,1603 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<VerificationPoint type="Visual" version="5">
+    <Description/>
+    <Verification object="treatmentScreen_topBar_TopBar">
+        <visual>
+            <ui version="1.0">
+                <execution>
+                    <state>
+                        <element class="TopBar" id="1a19d9a714b">
+                            <image type="PNG">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</image>
+                            <superclass>
+                                <class>QFrame</class>
+                                <class>QWidget</class>
+                                <class>QObject</class>
+                            </superclass>
+                            <abstractProperties>
+                                <visual isTopLevel="1"/>
+                                <geometry isRelative="0">
+                                    <x>5</x>
+                                    <y>275</y>
+                                    <height>61</height>
+                                    <width>1280</width>
+                                </geometry>
+                            </abstractProperties>
+                            <properties>
+                                <property name="fullScreen">
+                                    <string>false</string>
+                                </property>
+                                <property name="isActiveWindow">
+                                    <string>true</string>
+                                </property>
+                                <property name="statusTip"/>
+                                <property name="layoutDirection">
+                                    <string>0</string>
+                                </property>
+                                <property name="frameShadow">
+                                    <string>16</string>
+                                </property>
+                                <property name="tabletTracking">
+                                    <string>false</string>
+                                </property>
+                                <property name="styleSheet"/>
+                                <property name="windowFilePath"/>
+                                <property name="minimized">
+                                    <string>false</string>
+                                </property>
+                                <property name="focusPolicy">
+                                    <string>0</string>
+                                </property>
+                                <property name="enabled">
+                                    <string>true</string>
+                                </property>
+                                <property name="frameWidth">
+                                    <string>0</string>
+                                </property>
+                                <property name="accessibleDescription"/>
+                                <property name="midLineWidth">
+                                    <string>0</string>
+                                </property>
+                                <property name="whatsThis"/>
+                                <property name="windowIconText"/>
+                                <property name="windowTitle"/>
+                                <property name="windowModality">
+                                    <string>0</string>
+                                </property>
+                                <property name="maximized">
+                                    <string>false</string>
+                                </property>
+                                <property name="focus">
+                                    <string>false</string>
+                                </property>
+                                <property name="toolTipDuration">
+                                    <string>-1</string>
+                                </property>
+                                <property name="frameShape">
+                                    <string>0</string>
+                                </property>
+                                <property name="isDemoMode">
+                                    <string>false</string>
+                                </property>
+                                <property name="lineWidth">
+                                    <string>1</string>
+                                </property>
+                                <property name="windowOpacity">
+                                    <string>1</string>
+                                </property>
+                                <property name="autoFillBackground">
+                                    <string>false</string>
+                                </property>
+                                <property name="toolTip"/>
+                            </properties>
+                            <identifyingProperties>
+                                <property name="objectName">
+                                    <string>topBar</string>
+                                </property>
+                                <property name="accessibleName"/>
+                            </identifyingProperties>
+                            <children>
+                                <element class="ProfileBox" id="1a19d9a714c">
+                                    <superclass>
+                                        <class>QFrame</class>
+                                        <class>QWidget</class>
+                                        <class>QObject</class>
+                                    </superclass>
+                                    <abstractProperties>
+                                        <visual isTopLevel="0"/>
+                                        <geometry isRelative="0">
+                                            <x>5</x>
+                                            <y>275</y>
+                                            <height>61</height>
+                                            <width>1280</width>
+                                        </geometry>
+                                    </abstractProperties>
+                                    <properties>
+                                        <property name="fullScreen">
+                                            <string>false</string>
+                                        </property>
+                                        <property name="isActiveWindow">
+                                            <string>true</string>
+                                        </property>
+                                        <property name="statusTip"/>
+                                        <property name="layoutDirection">
+                                            <string>0</string>
+                                        </property>
+                                        <property name="frameShadow">
+                                            <string>16</string>
+                                        </property>
+                                        <property name="tabletTracking">
+                                            <string>false</string>
+                                        </property>
+                                        <property name="styleSheet"/>
+                                        <property name="windowFilePath"/>
+                                        <property name="minimized">
+                                            <string>false</string>
+                                        </property>
+                                        <property name="focusPolicy">
+                                            <string>0</string>
+                                        </property>
+                                        <property name="enabled">
+                                            <string>true</string>
+                                        </property>
+                                        <property name="frameWidth">
+                                            <string>0</string>
+                                        </property>
+                                        <property name="accessibleDescription"/>
+                                        <property name="midLineWidth">
+                                            <string>0</string>
+                                        </property>
+                                        <property name="whatsThis"/>
+                                        <property name="windowIconText"/>
+                                        <property name="windowTitle">
+                                            <string>Frame</string>
+                                        </property>
+                                        <property name="windowModality">
+                                            <string>0</string>
+                                        </property>
+                                        <property name="maximized">
+                                            <string>false</string>
+                                        </property>
+                                        <property name="focus">
+                                            <string>false</string>
+                                        </property>
+                                        <property name="toolTipDuration">
+                                            <string>-1</string>
+                                        </property>
+                                        <property name="frameShape">
+                                            <string>0</string>
+                                        </property>
+                                        <property name="lineWidth">
+                                            <string>1</string>
+                                        </property>
+                                        <property name="windowOpacity">
+                                            <string>1</string>
+                                        </property>
+                                        <property name="autoFillBackground">
+                                            <string>false</string>
+                                        </property>
+                                        <property name="toolTip"/>
+                                    </properties>
+                                    <identifyingProperties>
+                                        <property name="objectName">
+                                            <string>profileBar</string>
+                                        </property>
+                                        <property name="accessibleName"/>
+                                    </identifyingProperties>
+                                    <children>
+                                        <element class="QLabel" id="1a19d9a714d">
+                                            <superclass>
+                                                <class>QFrame</class>
+                                                <class>QWidget</class>
+                                                <class>QObject</class>
+                                            </superclass>
+                                            <abstractProperties>
+                                                <visual isTopLevel="0"/>
+                                                <geometry isRelative="0">
+                                                    <x>91</x>
+                                                    <y>275</y>
+                                                    <height>60</height>
+                                                    <width>98</width>
+                                                </geometry>
+                                            </abstractProperties>
+                                            <properties>
+                                                <property name="fullScreen">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="isActiveWindow">
+                                                    <string>true</string>
+                                                </property>
+                                                <property name="indent">
+                                                    <string>-1</string>
+                                                </property>
+                                                <property name="statusTip"/>
+                                                <property name="layoutDirection">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="frameShadow">
+                                                    <string>16</string>
+                                                </property>
+                                                <property name="scaledContents">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="tabletTracking">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="styleSheet"/>
+                                                <property name="windowFilePath"/>
+                                                <property name="selectedText"/>
+                                                <property name="minimized">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="focusPolicy">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="enabled">
+                                                    <string>true</string>
+                                                </property>
+                                                <property name="accessibleDescription"/>
+                                                <property name="frameWidth">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="midLineWidth">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="whatsThis"/>
+                                                <property name="text">
+                                                    <string>PROFILE:</string>
+                                                </property>
+                                                <property name="textFormat">
+                                                    <string>2</string>
+                                                </property>
+                                                <property name="windowIconText"/>
+                                                <property name="windowTitle"/>
+                                                <property name="wordWrap">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="windowModality">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="maximized">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="focus">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="toolTipDuration">
+                                                    <string>-1</string>
+                                                </property>
+                                                <property name="frameShape">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="lineWidth">
+                                                    <string>1</string>
+                                                </property>
+                                                <property name="hasSelectedText">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="windowOpacity">
+                                                    <string>1</string>
+                                                </property>
+                                                <property name="margin">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="autoFillBackground">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="toolTip"/>
+                                                <property name="openExternalLinks">
+                                                    <string>false</string>
+                                                </property>
+                                            </properties>
+                                            <identifyingProperties>
+                                                <property name="objectName">
+                                                    <string>captionLabel</string>
+                                                </property>
+                                                <property name="accessibleName"/>
+                                            </identifyingProperties>
+                                        </element>
+                                        <element class="QLabel" id="1a19d9a714e">
+                                            <superclass>
+                                                <class>QFrame</class>
+                                                <class>QWidget</class>
+                                                <class>QObject</class>
+                                            </superclass>
+                                            <abstractProperties>
+                                                <visual isTopLevel="0"/>
+                                                <geometry isRelative="0">
+                                                    <x>195</x>
+                                                    <y>275</y>
+                                                    <height>60</height>
+                                                    <width>114</width>
+                                                </geometry>
+                                            </abstractProperties>
+                                            <properties>
+                                                <property name="fullScreen">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="isActiveWindow">
+                                                    <string>true</string>
+                                                </property>
+                                                <property name="indent">
+                                                    <string>-1</string>
+                                                </property>
+                                                <property name="statusTip"/>
+                                                <property name="layoutDirection">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="frameShadow">
+                                                    <string>16</string>
+                                                </property>
+                                                <property name="scaledContents">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="tabletTracking">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="styleSheet"/>
+                                                <property name="windowFilePath"/>
+                                                <property name="selectedText"/>
+                                                <property name="minimized">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="focusPolicy">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="enabled">
+                                                    <string>true</string>
+                                                </property>
+                                                <property name="accessibleDescription"/>
+                                                <property name="frameWidth">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="midLineWidth">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="whatsThis"/>
+                                                <property name="text">
+                                                    <string>DEFAULT</string>
+                                                </property>
+                                                <property name="textFormat">
+                                                    <string>2</string>
+                                                </property>
+                                                <property name="windowIconText"/>
+                                                <property name="windowTitle"/>
+                                                <property name="wordWrap">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="windowModality">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="maximized">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="focus">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="toolTipDuration">
+                                                    <string>-1</string>
+                                                </property>
+                                                <property name="frameShape">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="lineWidth">
+                                                    <string>1</string>
+                                                </property>
+                                                <property name="hasSelectedText">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="windowOpacity">
+                                                    <string>1</string>
+                                                </property>
+                                                <property name="margin">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="autoFillBackground">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="toolTip"/>
+                                                <property name="openExternalLinks">
+                                                    <string>false</string>
+                                                </property>
+                                            </properties>
+                                            <identifyingProperties>
+                                                <property name="objectName">
+                                                    <string>nameLabel</string>
+                                                </property>
+                                                <property name="accessibleName"/>
+                                            </identifyingProperties>
+                                        </element>
+                                    </children>
+                                </element>
+                                <element class="TitleBar" id="1a19d9a714f">
+                                    <superclass>
+                                        <class>QFrame</class>
+                                        <class>QWidget</class>
+                                        <class>QObject</class>
+                                    </superclass>
+                                    <abstractProperties>
+                                        <visual isTopLevel="0"/>
+                                        <geometry isRelative="0">
+                                            <x>5</x>
+                                            <y>275</y>
+                                            <height>61</height>
+                                            <width>1280</width>
+                                        </geometry>
+                                    </abstractProperties>
+                                    <properties>
+                                        <property name="fullScreen">
+                                            <string>false</string>
+                                        </property>
+                                        <property name="isActiveWindow">
+                                            <string>true</string>
+                                        </property>
+                                        <property name="statusTip"/>
+                                        <property name="layoutDirection">
+                                            <string>0</string>
+                                        </property>
+                                        <property name="frameShadow">
+                                            <string>16</string>
+                                        </property>
+                                        <property name="tabletTracking">
+                                            <string>false</string>
+                                        </property>
+                                        <property name="styleSheet"/>
+                                        <property name="windowFilePath"/>
+                                        <property name="minimized">
+                                            <string>false</string>
+                                        </property>
+                                        <property name="focusPolicy">
+                                            <string>0</string>
+                                        </property>
+                                        <property name="enabled">
+                                            <string>true</string>
+                                        </property>
+                                        <property name="frameWidth">
+                                            <string>1</string>
+                                        </property>
+                                        <property name="accessibleDescription"/>
+                                        <property name="midLineWidth">
+                                            <string>0</string>
+                                        </property>
+                                        <property name="whatsThis"/>
+                                        <property name="windowIconText"/>
+                                        <property name="windowTitle">
+                                            <string>Frame</string>
+                                        </property>
+                                        <property name="windowModality">
+                                            <string>0</string>
+                                        </property>
+                                        <property name="maximized">
+                                            <string>false</string>
+                                        </property>
+                                        <property name="focus">
+                                            <string>false</string>
+                                        </property>
+                                        <property name="toolTipDuration">
+                                            <string>-1</string>
+                                        </property>
+                                        <property name="frameShape">
+                                            <string>0</string>
+                                        </property>
+                                        <property name="lineWidth">
+                                            <string>0</string>
+                                        </property>
+                                        <property name="windowOpacity">
+                                            <string>1</string>
+                                        </property>
+                                        <property name="autoFillBackground">
+                                            <string>false</string>
+                                        </property>
+                                        <property name="toolTip"/>
+                                    </properties>
+                                    <identifyingProperties>
+                                        <property name="objectName">
+                                            <string>titleBar</string>
+                                        </property>
+                                        <property name="accessibleName"/>
+                                    </identifyingProperties>
+                                    <children>
+                                        <element class="QLabel" id="1a19d9a7150">
+                                            <superclass>
+                                                <class>QFrame</class>
+                                                <class>QWidget</class>
+                                                <class>QObject</class>
+                                            </superclass>
+                                            <abstractProperties>
+                                                <visual isTopLevel="0"/>
+                                                <geometry isRelative="0">
+                                                    <x>736</x>
+                                                    <y>275</y>
+                                                    <height>30</height>
+                                                    <width>8</width>
+                                                </geometry>
+                                            </abstractProperties>
+                                            <properties>
+                                                <property name="fullScreen">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="isActiveWindow">
+                                                    <string>true</string>
+                                                </property>
+                                                <property name="indent">
+                                                    <string>-1</string>
+                                                </property>
+                                                <property name="statusTip"/>
+                                                <property name="layoutDirection">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="frameShadow">
+                                                    <string>16</string>
+                                                </property>
+                                                <property name="scaledContents">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="tabletTracking">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="styleSheet"/>
+                                                <property name="windowFilePath"/>
+                                                <property name="selectedText"/>
+                                                <property name="minimized">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="focusPolicy">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="enabled">
+                                                    <string>true</string>
+                                                </property>
+                                                <property name="accessibleDescription"/>
+                                                <property name="frameWidth">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="midLineWidth">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="whatsThis"/>
+                                                <property name="text"/>
+                                                <property name="textFormat">
+                                                    <string>2</string>
+                                                </property>
+                                                <property name="windowIconText"/>
+                                                <property name="windowTitle"/>
+                                                <property name="wordWrap">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="windowModality">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="maximized">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="focus">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="toolTipDuration">
+                                                    <string>-1</string>
+                                                </property>
+                                                <property name="frameShape">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="lineWidth">
+                                                    <string>1</string>
+                                                </property>
+                                                <property name="hasSelectedText">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="windowOpacity">
+                                                    <string>1</string>
+                                                </property>
+                                                <property name="margin">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="autoFillBackground">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="toolTip"/>
+                                                <property name="openExternalLinks">
+                                                    <string>false</string>
+                                                </property>
+                                            </properties>
+                                            <identifyingProperties>
+                                                <property name="objectName">
+                                                    <string>lbDemo</string>
+                                                </property>
+                                                <property name="accessibleName"/>
+                                            </identifyingProperties>
+                                        </element>
+                                        <element class="QFrame" id="1a19d9a7151">
+                                            <superclass>
+                                                <class>QWidget</class>
+                                                <class>QObject</class>
+                                            </superclass>
+                                            <abstractProperties>
+                                                <visual isTopLevel="0"/>
+                                                <geometry isRelative="0">
+                                                    <x>1115</x>
+                                                    <y>275</y>
+                                                    <height>50</height>
+                                                    <width>150</width>
+                                                </geometry>
+                                            </abstractProperties>
+                                            <properties>
+                                                <property name="fullScreen">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="isActiveWindow">
+                                                    <string>true</string>
+                                                </property>
+                                                <property name="statusTip"/>
+                                                <property name="layoutDirection">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="frameShadow">
+                                                    <string>32</string>
+                                                </property>
+                                                <property name="tabletTracking">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="styleSheet"/>
+                                                <property name="windowFilePath"/>
+                                                <property name="minimized">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="focusPolicy">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="enabled">
+                                                    <string>true</string>
+                                                </property>
+                                                <property name="frameWidth">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="accessibleDescription"/>
+                                                <property name="midLineWidth">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="whatsThis"/>
+                                                <property name="windowIconText"/>
+                                                <property name="windowTitle"/>
+                                                <property name="windowModality">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="maximized">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="focus">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="toolTipDuration">
+                                                    <string>-1</string>
+                                                </property>
+                                                <property name="frameShape">
+                                                    <string>6</string>
+                                                </property>
+                                                <property name="lineWidth">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="windowOpacity">
+                                                    <string>1</string>
+                                                </property>
+                                                <property name="autoFillBackground">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="toolTip"/>
+                                            </properties>
+                                            <identifyingProperties>
+                                                <property name="objectName">
+                                                    <string>frIndicators</string>
+                                                </property>
+                                                <property name="accessibleName"/>
+                                            </identifyingProperties>
+                                            <children>
+                                                <element class="QLabel" id="1a19d9a7152">
+                                                    <superclass>
+                                                        <class>QFrame</class>
+                                                        <class>QWidget</class>
+                                                        <class>QObject</class>
+                                                    </superclass>
+                                                    <abstractProperties>
+                                                        <visual isTopLevel="0"/>
+                                                        <geometry isRelative="0">
+                                                            <x>1115</x>
+                                                            <y>275</y>
+                                                            <height>50</height>
+                                                            <width>50</width>
+                                                        </geometry>
+                                                    </abstractProperties>
+                                                    <properties>
+                                                        <property name="fullScreen">
+                                                            <string>false</string>
+                                                        </property>
+                                                        <property name="isActiveWindow">
+                                                            <string>true</string>
+                                                        </property>
+                                                        <property name="indent">
+                                                            <string>-1</string>
+                                                        </property>
+                                                        <property name="statusTip"/>
+                                                        <property name="layoutDirection">
+                                                            <string>0</string>
+                                                        </property>
+                                                        <property name="frameShadow">
+                                                            <string>16</string>
+                                                        </property>
+                                                        <property name="scaledContents">
+                                                            <string>false</string>
+                                                        </property>
+                                                        <property name="tabletTracking">
+                                                            <string>false</string>
+                                                        </property>
+                                                        <property name="styleSheet"/>
+                                                        <property name="windowFilePath"/>
+                                                        <property name="selectedText"/>
+                                                        <property name="minimized">
+                                                            <string>false</string>
+                                                        </property>
+                                                        <property name="focusPolicy">
+                                                            <string>0</string>
+                                                        </property>
+                                                        <property name="enabled">
+                                                            <string>true</string>
+                                                        </property>
+                                                        <property name="accessibleDescription"/>
+                                                        <property name="frameWidth">
+                                                            <string>0</string>
+                                                        </property>
+                                                        <property name="midLineWidth">
+                                                            <string>0</string>
+                                                        </property>
+                                                        <property name="whatsThis"/>
+                                                        <property name="text"/>
+                                                        <property name="textFormat">
+                                                            <string>2</string>
+                                                        </property>
+                                                        <property name="windowIconText"/>
+                                                        <property name="windowTitle"/>
+                                                        <property name="wordWrap">
+                                                            <string>false</string>
+                                                        </property>
+                                                        <property name="windowModality">
+                                                            <string>0</string>
+                                                        </property>
+                                                        <property name="maximized">
+                                                            <string>false</string>
+                                                        </property>
+                                                        <property name="focus">
+                                                            <string>false</string>
+                                                        </property>
+                                                        <property name="toolTipDuration">
+                                                            <string>-1</string>
+                                                        </property>
+                                                        <property name="frameShape">
+                                                            <string>0</string>
+                                                        </property>
+                                                        <property name="lineWidth">
+                                                            <string>1</string>
+                                                        </property>
+                                                        <property name="hasSelectedText">
+                                                            <string>false</string>
+                                                        </property>
+                                                        <property name="windowOpacity">
+                                                            <string>1</string>
+                                                        </property>
+                                                        <property name="margin">
+                                                            <string>0</string>
+                                                        </property>
+                                                        <property name="autoFillBackground">
+                                                            <string>false</string>
+                                                        </property>
+                                                        <property name="toolTip"/>
+                                                        <property name="openExternalLinks">
+                                                            <string>false</string>
+                                                        </property>
+                                                    </properties>
+                                                    <identifyingProperties>
+                                                        <property name="objectName">
+                                                            <string>lbWirelessPedalStateIcon</string>
+                                                        </property>
+                                                        <property name="accessibleName"/>
+                                                    </identifyingProperties>
+                                                </element>
+                                                <element class="QLabel" id="1a19d9a7153">
+                                                    <superclass>
+                                                        <class>QFrame</class>
+                                                        <class>QWidget</class>
+                                                        <class>QObject</class>
+                                                    </superclass>
+                                                    <abstractProperties>
+                                                        <visual isTopLevel="0"/>
+                                                        <geometry isRelative="0">
+                                                            <x>1215</x>
+                                                            <y>275</y>
+                                                            <height>50</height>
+                                                            <width>50</width>
+                                                        </geometry>
+                                                    </abstractProperties>
+                                                    <properties>
+                                                        <property name="fullScreen">
+                                                            <string>false</string>
+                                                        </property>
+                                                        <property name="isActiveWindow">
+                                                            <string>true</string>
+                                                        </property>
+                                                        <property name="indent">
+                                                            <string>-1</string>
+                                                        </property>
+                                                        <property name="statusTip"/>
+                                                        <property name="layoutDirection">
+                                                            <string>0</string>
+                                                        </property>
+                                                        <property name="frameShadow">
+                                                            <string>16</string>
+                                                        </property>
+                                                        <property name="scaledContents">
+                                                            <string>false</string>
+                                                        </property>
+                                                        <property name="tabletTracking">
+                                                            <string>false</string>
+                                                        </property>
+                                                        <property name="styleSheet"/>
+                                                        <property name="windowFilePath"/>
+                                                        <property name="selectedText"/>
+                                                        <property name="minimized">
+                                                            <string>false</string>
+                                                        </property>
+                                                        <property name="focusPolicy">
+                                                            <string>0</string>
+                                                        </property>
+                                                        <property name="enabled">
+                                                            <string>true</string>
+                                                        </property>
+                                                        <property name="accessibleDescription"/>
+                                                        <property name="frameWidth">
+                                                            <string>0</string>
+                                                        </property>
+                                                        <property name="midLineWidth">
+                                                            <string>0</string>
+                                                        </property>
+                                                        <property name="whatsThis"/>
+                                                        <property name="text"/>
+                                                        <property name="textFormat">
+                                                            <string>2</string>
+                                                        </property>
+                                                        <property name="windowIconText"/>
+                                                        <property name="windowTitle"/>
+                                                        <property name="wordWrap">
+                                                            <string>false</string>
+                                                        </property>
+                                                        <property name="windowModality">
+                                                            <string>0</string>
+                                                        </property>
+                                                        <property name="maximized">
+                                                            <string>false</string>
+                                                        </property>
+                                                        <property name="focus">
+                                                            <string>false</string>
+                                                        </property>
+                                                        <property name="toolTipDuration">
+                                                            <string>-1</string>
+                                                        </property>
+                                                        <property name="frameShape">
+                                                            <string>0</string>
+                                                        </property>
+                                                        <property name="lineWidth">
+                                                            <string>1</string>
+                                                        </property>
+                                                        <property name="hasSelectedText">
+                                                            <string>false</string>
+                                                        </property>
+                                                        <property name="windowOpacity">
+                                                            <string>1</string>
+                                                        </property>
+                                                        <property name="margin">
+                                                            <string>0</string>
+                                                        </property>
+                                                        <property name="autoFillBackground">
+                                                            <string>false</string>
+                                                        </property>
+                                                        <property name="toolTip"/>
+                                                        <property name="openExternalLinks">
+                                                            <string>false</string>
+                                                        </property>
+                                                    </properties>
+                                                    <identifyingProperties>
+                                                        <property name="objectName">
+                                                            <string>lbTreatmentStateIcon</string>
+                                                        </property>
+                                                        <property name="accessibleName"/>
+                                                    </identifyingProperties>
+                                                </element>
+                                            </children>
+                                        </element>
+                                        <element class="QLabel" id="1a19d9a7154">
+                                            <superclass>
+                                                <class>QFrame</class>
+                                                <class>QWidget</class>
+                                                <class>QObject</class>
+                                            </superclass>
+                                            <abstractProperties>
+                                                <visual isTopLevel="0"/>
+                                                <geometry isRelative="0">
+                                                    <x>537</x>
+                                                    <y>275</y>
+                                                    <height>50</height>
+                                                    <width>36</width>
+                                                </geometry>
+                                            </abstractProperties>
+                                            <properties>
+                                                <property name="fullScreen">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="isActiveWindow">
+                                                    <string>true</string>
+                                                </property>
+                                                <property name="indent">
+                                                    <string>-1</string>
+                                                </property>
+                                                <property name="statusTip"/>
+                                                <property name="layoutDirection">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="frameShadow">
+                                                    <string>16</string>
+                                                </property>
+                                                <property name="scaledContents">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="tabletTracking">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="styleSheet"/>
+                                                <property name="windowFilePath"/>
+                                                <property name="selectedText"/>
+                                                <property name="minimized">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="focusPolicy">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="enabled">
+                                                    <string>true</string>
+                                                </property>
+                                                <property name="accessibleDescription"/>
+                                                <property name="frameWidth">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="midLineWidth">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="whatsThis"/>
+                                                <property name="text"/>
+                                                <property name="textFormat">
+                                                    <string>2</string>
+                                                </property>
+                                                <property name="windowIconText"/>
+                                                <property name="windowTitle"/>
+                                                <property name="wordWrap">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="windowModality">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="maximized">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="focus">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="toolTipDuration">
+                                                    <string>-1</string>
+                                                </property>
+                                                <property name="frameShape">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="lineWidth">
+                                                    <string>1</string>
+                                                </property>
+                                                <property name="hasSelectedText">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="windowOpacity">
+                                                    <string>1</string>
+                                                </property>
+                                                <property name="margin">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="autoFillBackground">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="toolTip"/>
+                                                <property name="openExternalLinks">
+                                                    <string>false</string>
+                                                </property>
+                                            </properties>
+                                            <identifyingProperties>
+                                                <property name="objectName">
+                                                    <string>iconLabel</string>
+                                                </property>
+                                                <property name="accessibleName"/>
+                                            </identifyingProperties>
+                                        </element>
+                                        <element class="QLabel" id="1a19d9a7155">
+                                            <superclass>
+                                                <class>QFrame</class>
+                                                <class>QWidget</class>
+                                                <class>QObject</class>
+                                            </superclass>
+                                            <abstractProperties>
+                                                <visual isTopLevel="0"/>
+                                                <geometry isRelative="0">
+                                                    <x>578</x>
+                                                    <y>275</y>
+                                                    <height>30</height>
+                                                    <width>158</width>
+                                                </geometry>
+                                            </abstractProperties>
+                                            <properties>
+                                                <property name="fullScreen">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="isActiveWindow">
+                                                    <string>true</string>
+                                                </property>
+                                                <property name="indent">
+                                                    <string>-1</string>
+                                                </property>
+                                                <property name="statusTip"/>
+                                                <property name="layoutDirection">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="frameShadow">
+                                                    <string>16</string>
+                                                </property>
+                                                <property name="scaledContents">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="tabletTracking">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="styleSheet"/>
+                                                <property name="windowFilePath"/>
+                                                <property name="selectedText"/>
+                                                <property name="minimized">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="focusPolicy">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="enabled">
+                                                    <string>true</string>
+                                                </property>
+                                                <property name="accessibleDescription"/>
+                                                <property name="frameWidth">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="midLineWidth">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="whatsThis"/>
+                                                <property name="text">
+                                                    <string>SOFT TISSUE</string>
+                                                </property>
+                                                <property name="textFormat">
+                                                    <string>2</string>
+                                                </property>
+                                                <property name="windowIconText"/>
+                                                <property name="windowTitle"/>
+                                                <property name="wordWrap">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="windowModality">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="maximized">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="focus">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="toolTipDuration">
+                                                    <string>-1</string>
+                                                </property>
+                                                <property name="frameShape">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="lineWidth">
+                                                    <string>1</string>
+                                                </property>
+                                                <property name="hasSelectedText">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="windowOpacity">
+                                                    <string>1</string>
+                                                </property>
+                                                <property name="margin">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="autoFillBackground">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="toolTip"/>
+                                                <property name="openExternalLinks">
+                                                    <string>false</string>
+                                                </property>
+                                            </properties>
+                                            <identifyingProperties>
+                                                <property name="objectName">
+                                                    <string>titleLabel</string>
+                                                </property>
+                                                <property name="accessibleName"/>
+                                            </identifyingProperties>
+                                        </element>
+                                        <element class="QLabel" id="1a19d9a7156">
+                                            <superclass>
+                                                <class>QFrame</class>
+                                                <class>QWidget</class>
+                                                <class>QObject</class>
+                                            </superclass>
+                                            <abstractProperties>
+                                                <visual isTopLevel="0"/>
+                                                <geometry isRelative="0">
+                                                    <x>578</x>
+                                                    <y>305</y>
+                                                    <height>30</height>
+                                                    <width>158</width>
+                                                </geometry>
+                                            </abstractProperties>
+                                            <properties>
+                                                <property name="fullScreen">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="isActiveWindow">
+                                                    <string>true</string>
+                                                </property>
+                                                <property name="indent">
+                                                    <string>-1</string>
+                                                </property>
+                                                <property name="statusTip"/>
+                                                <property name="layoutDirection">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="frameShadow">
+                                                    <string>16</string>
+                                                </property>
+                                                <property name="scaledContents">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="tabletTracking">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="styleSheet">
+                                                    <string>COLOR: #FF8C00;</string>
+                                                </property>
+                                                <property name="windowFilePath"/>
+                                                <property name="selectedText"/>
+                                                <property name="minimized">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="focusPolicy">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="enabled">
+                                                    <string>true</string>
+                                                </property>
+                                                <property name="accessibleDescription"/>
+                                                <property name="frameWidth">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="midLineWidth">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="whatsThis"/>
+                                                <property name="text">
+                                                    <string>&lt;html>&lt;head/>&lt;body>&lt;p>&lt;span style=" font-weight:600;">CUSTOM&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+                                                </property>
+                                                <property name="textFormat">
+                                                    <string>2</string>
+                                                </property>
+                                                <property name="windowIconText"/>
+                                                <property name="windowTitle"/>
+                                                <property name="wordWrap">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="windowModality">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="maximized">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="focus">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="toolTipDuration">
+                                                    <string>-1</string>
+                                                </property>
+                                                <property name="frameShape">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="lineWidth">
+                                                    <string>1</string>
+                                                </property>
+                                                <property name="hasSelectedText">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="windowOpacity">
+                                                    <string>1</string>
+                                                </property>
+                                                <property name="margin">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="autoFillBackground">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="toolTip"/>
+                                                <property name="openExternalLinks">
+                                                    <string>false</string>
+                                                </property>
+                                            </properties>
+                                            <identifyingProperties>
+                                                <property name="objectName">
+                                                    <string>lbCustomLabel</string>
+                                                </property>
+                                                <property name="accessibleName"/>
+                                            </identifyingProperties>
+                                        </element>
+                                    </children>
+                                </element>
+                                <element class="ButtonsBar" id="1a19d9a7157">
+                                    <superclass>
+                                        <class>QFrame</class>
+                                        <class>QWidget</class>
+                                        <class>QObject</class>
+                                    </superclass>
+                                    <abstractProperties>
+                                        <visual isTopLevel="0"/>
+                                        <geometry isRelative="0">
+                                            <x>5</x>
+                                            <y>275</y>
+                                            <height>61</height>
+                                            <width>1280</width>
+                                        </geometry>
+                                    </abstractProperties>
+                                    <properties>
+                                        <property name="fullScreen">
+                                            <string>false</string>
+                                        </property>
+                                        <property name="isActiveWindow">
+                                            <string>true</string>
+                                        </property>
+                                        <property name="statusTip"/>
+                                        <property name="layoutDirection">
+                                            <string>0</string>
+                                        </property>
+                                        <property name="frameShadow">
+                                            <string>16</string>
+                                        </property>
+                                        <property name="tabletTracking">
+                                            <string>false</string>
+                                        </property>
+                                        <property name="styleSheet"/>
+                                        <property name="windowFilePath"/>
+                                        <property name="minimized">
+                                            <string>false</string>
+                                        </property>
+                                        <property name="focusPolicy">
+                                            <string>0</string>
+                                        </property>
+                                        <property name="enabled">
+                                            <string>true</string>
+                                        </property>
+                                        <property name="frameWidth">
+                                            <string>0</string>
+                                        </property>
+                                        <property name="accessibleDescription"/>
+                                        <property name="midLineWidth">
+                                            <string>0</string>
+                                        </property>
+                                        <property name="whatsThis"/>
+                                        <property name="windowIconText"/>
+                                        <property name="windowTitle">
+                                            <string>Frame</string>
+                                        </property>
+                                        <property name="windowModality">
+                                            <string>0</string>
+                                        </property>
+                                        <property name="maximized">
+                                            <string>false</string>
+                                        </property>
+                                        <property name="focus">
+                                            <string>false</string>
+                                        </property>
+                                        <property name="toolTipDuration">
+                                            <string>-1</string>
+                                        </property>
+                                        <property name="frameShape">
+                                            <string>0</string>
+                                        </property>
+                                        <property name="lineWidth">
+                                            <string>1</string>
+                                        </property>
+                                        <property name="windowOpacity">
+                                            <string>1</string>
+                                        </property>
+                                        <property name="autoFillBackground">
+                                            <string>false</string>
+                                        </property>
+                                        <property name="toolTip"/>
+                                    </properties>
+                                    <identifyingProperties>
+                                        <property name="objectName">
+                                            <string>buttonsBar</string>
+                                        </property>
+                                        <property name="accessibleName"/>
+                                    </identifyingProperties>
+                                    <children>
+                                        <element class="QPushButton" id="1a19d9a7158">
+                                            <superclass>
+                                                <class>QAbstractButton</class>
+                                                <class>QWidget</class>
+                                                <class>QObject</class>
+                                            </superclass>
+                                            <abstractProperties>
+                                                <visual isTopLevel="0"/>
+                                                <geometry isRelative="0">
+                                                    <x>5</x>
+                                                    <y>275</y>
+                                                    <height>61</height>
+                                                    <width>61</width>
+                                                </geometry>
+                                            </abstractProperties>
+                                            <properties>
+                                                <property name="fullScreen">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="flat">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="isActiveWindow">
+                                                    <string>true</string>
+                                                </property>
+                                                <property name="statusTip"/>
+                                                <property name="checked">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="layoutDirection">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="default">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="tabletTracking">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="styleSheet"/>
+                                                <property name="windowFilePath"/>
+                                                <property name="checkable">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="autoRepeatDelay">
+                                                    <string>300</string>
+                                                </property>
+                                                <property name="minimized">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="focusPolicy">
+                                                    <string>11</string>
+                                                </property>
+                                                <property name="enabled">
+                                                    <string>true</string>
+                                                </property>
+                                                <property name="accessibleDescription"/>
+                                                <property name="whatsThis"/>
+                                                <property name="text"/>
+                                                <property name="windowIconText"/>
+                                                <property name="windowTitle"/>
+                                                <property name="down">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="autoRepeat">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="windowModality">
+                                                    <string>0</string>
+                                                </property>
+                                                <property name="autoExclusive">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="maximized">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="focus">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="toolTipDuration">
+                                                    <string>-1</string>
+                                                </property>
+                                                <property name="windowOpacity">
+                                                    <string>1</string>
+                                                </property>
+                                                <property name="autoFillBackground">
+                                                    <string>false</string>
+                                                </property>
+                                                <property name="toolTip"/>
+                                                <property name="autoRepeatInterval">
+                                                    <string>100</string>
+                                                </property>
+                                                <property name="autoDefault">
+                                                    <string>false</string>
+                                                </property>
+                                            </properties>
+                                            <identifyingProperties>
+                                                <property name="objectName">
+                                                    <string>homeButton</string>
+                                                </property>
+                                                <property name="accessibleName"/>
+                                            </identifyingProperties>
+                                        </element>
+                                    </children>
+                                </element>
+                            </children>
+                        </element>
+                    </state>
+                </execution>
+            </ui>
+            <check type="identifying">
+                <PropertyVerification element-id="1a19d9a714b">
+                    <VerifyProperty type="equal" name="objectName"/>
+                </PropertyVerification>
+                <PropertyVerification element-id="1a19d9a714c">
+                    <VerifyProperty type="equal" name="objectName"/>
+                </PropertyVerification>
+                <PropertyVerification element-id="1a19d9a714d">
+                    <VerifyProperty type="equal" name="objectName"/>
+                </PropertyVerification>
+                <PropertyVerification element-id="1a19d9a714e">
+                    <VerifyProperty type="equal" name="objectName"/>
+                </PropertyVerification>
+                <PropertyVerification element-id="1a19d9a714f">
+                    <VerifyProperty type="equal" name="objectName"/>
+                </PropertyVerification>
+                <PropertyVerification element-id="1a19d9a7150">
+                    <VerifyProperty type="equal" name="objectName"/>
+                </PropertyVerification>
+                <PropertyVerification element-id="1a19d9a7151">
+                    <VerifyProperty type="equal" name="objectName"/>
+                </PropertyVerification>
+                <PropertyVerification element-id="1a19d9a7152">
+                    <VerifyProperty type="equal" name="objectName"/>
+                </PropertyVerification>
+                <PropertyVerification element-id="1a19d9a7153">
+                    <VerifyProperty type="equal" name="objectName"/>
+                </PropertyVerification>
+                <PropertyVerification element-id="1a19d9a7154">
+                    <VerifyProperty type="equal" name="objectName"/>
+                </PropertyVerification>
+                <PropertyVerification element-id="1a19d9a7155">
+                    <VerifyProperty type="equal" name="objectName"/>
+                </PropertyVerification>
+                <PropertyVerification element-id="1a19d9a7156">
+                    <VerifyProperty type="equal" name="objectName"/>
+                </PropertyVerification>
+                <PropertyVerification element-id="1a19d9a7157">
+                    <VerifyProperty type="equal" name="objectName"/>
+                </PropertyVerification>
+                <PropertyVerification element-id="1a19d9a7158">
+                    <VerifyProperty type="equal" name="objectName"/>
+                </PropertyVerification>
+            </check>
+            <check type="content">
+                <PropertyVerification element-id="1a19d9a714b">
+                    <VerifyProperty type="equal" name="statusTip"/>
+                    <VerifyProperty type="equal" name="enabled"/>
+                    <VerifyProperty type="equal" name="whatsThis"/>
+                    <VerifyProperty type="equal" name="toolTip"/>
+                </PropertyVerification>
+                <PropertyVerification element-id="1a19d9a714c">
+                    <VerifyProperty type="equal" name="statusTip"/>
+                    <VerifyProperty type="equal" name="enabled"/>
+                    <VerifyProperty type="equal" name="whatsThis"/>
+                    <VerifyProperty type="equal" name="toolTip"/>
+                </PropertyVerification>
+                <PropertyVerification element-id="1a19d9a714d">
+                    <VerifyProperty type="equal" name="statusTip"/>
+                    <VerifyProperty type="equal" name="enabled"/>
+                    <VerifyProperty type="equal" name="whatsThis"/>
+                    <VerifyProperty type="equal" name="text"/>
+                    <VerifyProperty type="equal" name="toolTip"/>
+                </PropertyVerification>
+                <PropertyVerification element-id="1a19d9a714e">
+                    <VerifyProperty type="equal" name="statusTip"/>
+                    <VerifyProperty type="equal" name="enabled"/>
+                    <VerifyProperty type="equal" name="whatsThis"/>
+                    <VerifyProperty type="equal" name="text"/>
+                    <VerifyProperty type="equal" name="toolTip"/>
+                </PropertyVerification>
+                <PropertyVerification element-id="1a19d9a714f">
+                    <VerifyProperty type="equal" name="statusTip"/>
+                    <VerifyProperty type="equal" name="enabled"/>
+                    <VerifyProperty type="equal" name="whatsThis"/>
+                    <VerifyProperty type="equal" name="toolTip"/>
+                </PropertyVerification>
+                <PropertyVerification element-id="1a19d9a7150">
+                    <VerifyProperty type="equal" name="statusTip"/>
+                    <VerifyProperty type="equal" name="enabled"/>
+                    <VerifyProperty type="equal" name="whatsThis"/>
+                    <VerifyProperty type="equal" name="text"/>
+                    <VerifyProperty type="equal" name="toolTip"/>
+                </PropertyVerification>
+                <PropertyVerification element-id="1a19d9a7151">
+                    <VerifyProperty type="equal" name="statusTip"/>
+                    <VerifyProperty type="equal" name="enabled"/>
+                    <VerifyProperty type="equal" name="whatsThis"/>
+                    <VerifyProperty type="equal" name="toolTip"/>
+                </PropertyVerification>
+                <PropertyVerification element-id="1a19d9a7152">
+                    <VerifyProperty type="equal" name="statusTip"/>
+                    <VerifyProperty type="equal" name="enabled"/>
+                    <VerifyProperty type="equal" name="whatsThis"/>
+                    <VerifyProperty type="equal" name="text"/>
+                    <VerifyProperty type="equal" name="toolTip"/>
+                </PropertyVerification>
+                <PropertyVerification element-id="1a19d9a7153">
+                    <VerifyProperty type="equal" name="statusTip"/>
+                    <VerifyProperty type="equal" name="enabled"/>
+                    <VerifyProperty type="equal" name="whatsThis"/>
+                    <VerifyProperty type="equal" name="text"/>
+                    <VerifyProperty type="equal" name="toolTip"/>
+                </PropertyVerification>
+                <PropertyVerification element-id="1a19d9a7154">
+                    <VerifyProperty type="equal" name="statusTip"/>
+                    <VerifyProperty type="equal" name="enabled"/>
+                    <VerifyProperty type="equal" name="whatsThis"/>
+                    <VerifyProperty type="equal" name="text"/>
+                    <VerifyProperty type="equal" name="toolTip"/>
+                </PropertyVerification>
+                <PropertyVerification element-id="1a19d9a7155">
+                    <VerifyProperty type="equal" name="statusTip"/>
+                    <VerifyProperty type="equal" name="enabled"/>
+                    <VerifyProperty type="equal" name="whatsThis"/>
+                    <VerifyProperty type="equal" name="text"/>
+                    <VerifyProperty type="equal" name="toolTip"/>
+                </PropertyVerification>
+                <PropertyVerification element-id="1a19d9a7156">
+                    <VerifyProperty type="equal" name="statusTip"/>
+                    <VerifyProperty type="equal" name="enabled"/>
+                    <VerifyProperty type="equal" name="whatsThis"/>
+                    <VerifyProperty type="equal" name="text"/>
+                    <VerifyProperty type="equal" name="toolTip"/>
+                </PropertyVerification>
+                <PropertyVerification element-id="1a19d9a7157">
+                    <VerifyProperty type="equal" name="statusTip"/>
+                    <VerifyProperty type="equal" name="enabled"/>
+                    <VerifyProperty type="equal" name="whatsThis"/>
+                    <VerifyProperty type="equal" name="toolTip"/>
+                </PropertyVerification>
+                <PropertyVerification element-id="1a19d9a7158">
+                    <VerifyProperty type="equal" name="statusTip"/>
+                    <VerifyProperty type="equal" name="checked"/>
+                    <VerifyProperty type="equal" name="enabled"/>
+                    <VerifyProperty type="equal" name="whatsThis"/>
+                    <VerifyProperty type="equal" name="text"/>
+                    <VerifyProperty type="equal" name="toolTip"/>
+                </PropertyVerification>
+            </check>
+            <check type="screenshot">
+                <PropertyVerification element-id="1a19d9a714b"/>
+                <PropertyVerification element-id="1a19d9a714c"/>
+                <PropertyVerification element-id="1a19d9a714d"/>
+                <PropertyVerification element-id="1a19d9a714e"/>
+                <PropertyVerification element-id="1a19d9a714f"/>
+                <PropertyVerification element-id="1a19d9a7150"/>
+                <PropertyVerification element-id="1a19d9a7151"/>
+                <PropertyVerification element-id="1a19d9a7152"/>
+                <PropertyVerification element-id="1a19d9a7153"/>
+                <PropertyVerification element-id="1a19d9a7154"/>
+                <PropertyVerification element-id="1a19d9a7155"/>
+                <PropertyVerification element-id="1a19d9a7156"/>
+                <PropertyVerification element-id="1a19d9a7157"/>
+                <PropertyVerification element-id="1a19d9a7158"/>
+            </check>
+        </visual>
+    </Verification>
+</VerificationPoint>
