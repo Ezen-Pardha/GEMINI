@@ -4,6 +4,9 @@ import names
 from common import *
 
 def main():
+    test.log("SVV TAG POP-PKP-001:Peak Power Selection Popup Low Button")
+    enter_login_pin()
+    verify_economy_type()
     runtime_path = os.path.expanduser(
         "/home/ezen/29October/latest Build (no Buttons bar)/build-gemini-Desktop-Debug/"
     )
@@ -45,6 +48,7 @@ def main():
     clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_8))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
     test.passes("Manual treatment screen is verified") 
+    test.vp("peakPowerMode")
     test.vp("treatmentScreen")
     mouseClick(waitForObject(names.modeButton_nameLabel_QLabel, 126880), 54, 12, Qt.NoModifier, Qt.LeftButton)
     clickButton(waitForObject(names.centralWidget_Square_QPushButton))
@@ -61,6 +65,8 @@ def main():
     test.passes("Right Pedal regular pulse button verified")
     test.imagePresent("rightPeakPower")
     test.passes("Right Pedal PeakPower button is verified")
+     
+    test.log("SVV TAG POP-PKP-001:Peak Power Selection Popup Low Button")
     
     test.log("SVV TAG POP-PKP-002:Peak Power Selection Popup Medium Button")
     clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
@@ -78,6 +84,8 @@ def main():
     clickButton(waitForObject(names.centralWidget_pw250_QPushButton_2))
     test.imagePresent("rightpeakPowerMedium", { "occurrence": 2 })
     test.passes("Right peak power Medium button is verified ")
+   
+    
     
     test.log("SVV TAG POP-PKP-003:Peak Power Selection Popup High Button")
     clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))

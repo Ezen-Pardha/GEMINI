@@ -19,7 +19,7 @@ EXCEL_PATH = os.path.abspath(
 )
 
 SHEET_NAME = "Soft Tissue-Guided"
-DUTCH_COLUMN = 6  # Column G; use 4 for column E
+DUTCH_COLUMN = 6  
 
 
 def normalize(text):

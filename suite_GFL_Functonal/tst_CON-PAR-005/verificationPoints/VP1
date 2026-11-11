@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<VerificationPoint type="Screenshot" version="4">
+    <Description/>
+    <Verification object="pulseEnergyWidget_incrementButton_QPushButton" options="12" type="PNG">
+        iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAMAAAANIilAAAAA7VBMVEUjNTokNjslNzwmNzwmOD0nOT4oOj8pOz8rPEEsPUIuP0QvQEUzREk6Sk89TVE+TlI/TlM/T1NAUFRBUVVDUldHVlpKWV1MWl5RX2NSYWRYZmpjcHNlcXVodHhyfYB7hol+iYyDjZCGkJOIkpSKk5aOl5qPmJuRmp2WnqGXn6KXoKKbo6Wlra+mra+utbayuLq5v8C8wcO9w8TFysvHzM3IzM7N0dLQ09XT19jV2NnX29vc39/e4eLg4uPq7Ozr7e3t7u/v8fHw8vLx8vPy8/Pz9PT19fb29/f4+fn5+fr6+vr8/f39/f3+/v7////8wPSiAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAA0klEQVRIie3U1Q4CMRCF4eKyuLu7y+K66GLz/o9DCCzhtocrQv/7L9M0nTImEol+IpP+CxzxGnDcKznx2f1d0wVj+bpsBdCTy0TrVswOY1LbcQeMiTpJSD8xDVI2HJ8mORzTcVqWYEzqvOrnfS5vTJdVJWREMdG2HsTxTanyjf7E55oHnXxV8gETiNVZ1s27IBreD7OSjtNqeNNPA3/CEx+7CX6q4UbUguJDMYzs1ANfFgWfGbJMVscFB/c1v+qNMlaQMlZLcm7SZxJ0zSKR6B+7A/ieOPHrQrrmAAAAAElFTkSuQmCC
+        <Mask/>
+    </Verification>
+</VerificationPoint>

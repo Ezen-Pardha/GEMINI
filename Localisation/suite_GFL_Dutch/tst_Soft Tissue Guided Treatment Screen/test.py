@@ -17,7 +17,6 @@ EXCEL_PATH = os.path.abspath(
 )
 
 
-# EXCEL_PATH = "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Dutch/tst_Home Screen/testdata/Gemini Split strings.xlsx"
 
 SHEET_NAME = "Treatment Modes"
 LANGUAGE_COLUMN = 6
@@ -178,7 +177,6 @@ def verify_visible_strings(
     runtime_texts = []
     visited = set()
 
-    # Collect text from every supplied object and its descendants.
     for obj in objects:
         if obj is not None:
             runtime_texts.extend(
@@ -314,10 +312,6 @@ def main():
         164, 27, Qt.NoModifier, Qt.LeftButton
     )
 
-    # mouseClick(
-    #     waitForObject(names.averagePowerWidget_nameLabel_QLabel_2),
-    #     30, 10, Qt.NoModifier, Qt.LeftButton
-    # )
 
     mouseClick(
         waitForObject(names.pulseModeWidget_buttonsWidget_QWidget),

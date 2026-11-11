@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<VerificationPoint type="Screenshot" version="4">
+    <Description/>
+    <Verification object="frequencyWidget_decrementButton_QPushButton" options="12" type="PNG">
+        iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAMAAAANIilAAAAA9lBMVEUjNTokNjslNzwmNzwmOD0nOT4oOj8pOz8rPEEsPUItP0MvQEUzREk5Sk49TVE/TlM/T1NAUFRDUldHVlpKWV1MWl5SYGRSYWRYZWlib3JlcXVndHdodHhxfIB6hYh+iIuDjZCFj5KHkZSIkpSKk5aNlpmPmJuRmp2UnZ+Xn6KXoKKZoqSbo6WkrK6lra+ttLaxuLm4vsC7wMK+xMW/xMbFysvHzM3IzM7Jzc7N0dLQ09XS1tfU19jW2tvc39/e4eLf4uLq7Ozr7e3s7u7v8fHw8vLx8vPy8/Pz9PT09fX29/f3+Pj4+fn5+fr8/f39/f3+/v7///9M4/CsAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAAw0lEQVRIie3SVRLCUAxG4UBLobRYcXd3d3cn+98MrOHnieGe928yk4RIJBL9VGYLbiV3AJ/rKHRh7GwcByCVjOb6OcKsPdTcMmNYD7euDGI91mYGsRofMozTszuKteL8whg2e8rLG2NY9pU2Dwaxt3ZgBrFc3r1gTK7KHccWI7N7opgkZ2qBbpvIpKXGJxR/Tp3o7/H3pEjngmMlWMcxqf78GcakeHKrB4rJpGenNxQT2ZKTHoxJjlZxTFbtCywSif6iNy42OwScJjLmAAAAAElFTkSuQmCC
+        <Mask/>
+    </Verification>
+</VerificationPoint>

@@ -138,8 +138,6 @@ def load_czech_excel(excel_path):
 
     sheet = workbook[SHEET_NAME]
 
-    # Column B = English
-    # Column E = Czech
     czech_data = {}
 
     for row in sheet.iter_rows(
@@ -397,9 +395,6 @@ def main():
             names.stoneAssistantModeScreen_StoneAssistantModeScreen
         )
 
-        # VERIFY SCREEN STRINGS
-        # Numeric-containing strings are ignored.
-        # All other collected strings must exist in Czech Excel.
 
         verify_screen_strings(
             stone,
