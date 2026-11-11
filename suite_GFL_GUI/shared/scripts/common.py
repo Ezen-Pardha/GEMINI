@@ -1,9 +1,11 @@
+
 from squish import *
 import test
 import names
 import os
 import datetime
 import subprocess
+import re
 
 def capture_screenshot(description="screenshot", category="GUI"):
     """Capture only the active window and save it under Screenshots/GUI or Screenshots/VP."""
@@ -769,6 +771,8 @@ def _preset_object_exists(object_name, timeout=1000):
         return False
 
 
+
+
 def navigate_to_preset_category(category):
     """Open USER PRESETS and select a category without reopening Settings unnecessarily."""
     category = category.strip().upper()
@@ -1323,5 +1327,181 @@ def verify_economy_type():
     except Exception:
         test.log("Unable to show QMessageBox; see failure log above")
  
+    return False
+def verify_economyc_type():
+
+
+    test.log("Checking System Type")
+
+    clickButton(
+        waitForObject(names.homeScreen_settingsButton_QPushButton)
+    )
+
+    clickTab(
+        waitForObject(names.settingsScreen_tbSystemInfo_TabWidget),
+        "LOGS"
+    )
+
+    clickButton(
+        waitForObject(names.settingsScreen_pbService_QPushButton)
+    )
+    snooze(2)
+    test.compare(str(waitForObjectExists(names.centralWidget_titleLabel_QLabel).text), "Version Not Supported")    
+    clickButton(waitForObject(names.centralWidget_okButton_QPushButton))
+    for _ in range(4):
+        clickButton(
+            waitForObject(names.numpad_pushButton_9_NumpadButton)
+        )
+    
+    system_type_label = waitForObject(
+        names.staticVersions_3_systemTypeVersion_QLabel
+    )
+
+    actual_type = str(system_type_label.text).strip()
+
+    test.log("Actual System Type: {}".format(actual_type))
+
+    if actual_type.replace(" ", "").lower() == "economyc":
+
+        test.passes("System Type is Economy C")
+        return True
+
+    message = "Incorrect Economy: Expected Economy C, found {}".format(
+        actual_type
+    )
+
+    test.fail(message)
+
+    try:
+        QMessageBox.warning(
+            None,
+            "Incorrect Economy",
+            message
+        )
+    except Exception:
+        test.log("Unable to show QMessageBox; see failure log above")
+
+    return False
+def configure_system_type(new_type, runtime_path):
+    """
+    Public helper called by Squish test cases.
+    """
+
+    test.log("Starting system type configuration")
+
+    ini_path = update_system_type(new_type, runtime_path)
+
+    test.log("System type configuration completed")
+    return ini_path
+def update_system_type(new_type, runtime_path):
+    """
+    Update systemType to A, B, or C in the specified device.ini.
+    """
+
+    new_type = str(new_type).strip().upper()
+
+    if new_type not in ("A", "B", "C"):
+        raise ValueError(
+            "Invalid system type '{}'. Use A, B, or C.".format(
+                new_type
+            )
+        )
+
+    ini_path = find_device_ini(runtime_path)
+
+    with open(ini_path, "r") as file:
+        content = file.read()
+
+    pattern = r"(?m)^(\s*systemType\s*=\s*).*$"
+
+    updated_content, count = re.subn(
+        pattern,
+        lambda match: match.group(1) + new_type,
+        content
+    )
+
+    if count != 1:
+        raise ValueError(
+            "Expected exactly one systemType entry in '{}'; found {}."
+            .format(ini_path, count)
+        )
+
+    with open(ini_path, "w") as file:
+        file.write(updated_content)
+
+    test.log(
+        "Updated systemType to {} in {}".format(
+            new_type, ini_path
+        )
+    )
+
+    return ini_path
+def find_device_ini(runtime_path):
+    """
+    Validate and return the device.ini path provided by the test case.
+    """
+    file_path = runtime_path + "/bin/media/mmcblk1p1/factory/device.ini"
+    
+    ini_path = os.path.abspath(
+        os.path.expanduser(file_path)
+    )
+
+    if not os.path.isfile(ini_path):
+        raise FileNotFoundError(
+            "Runtime device.ini not found: {}".format(ini_path)
+        )
+
+    test.log("Selected device.ini: {}".format(ini_path))
+    return ini_path
+
+
+def verify_economyA_type():
+    test.log("Checking System Type")
+
+    clickButton(
+        waitForObject(names.homeScreen_settingsButton_QPushButton)
+    )
+
+    clickTab(
+        waitForObject(names.settingsScreen_tbSystemInfo_TabWidget),
+        "LOGS"
+    )
+
+    clickButton(
+        waitForObject(names.settingsScreen_pbService_QPushButton)
+    )
+
+    for _ in range(5):
+        clickButton(
+            waitForObject(names.numpad_pushButton_9_NumpadButton)
+        )
+
+    system_type_label = waitForObject(
+        names.staticVersions_3_systemTypeVersion_QLabel
+    )
+
+    actual_type = str(system_type_label.text).strip()
+
+    test.log("Actual System Type: {}".format(actual_type))
+
+    if actual_type.replace(" ", "").lower() == "economya":
+        test.passes("System Type is Economy A")
+        return True
+
+    message = "Incorrect Economy: Expected Economy A, found {}".format(
+        actual_type
+    )
+
+    test.fail(message)
+
+    try:
+        QMessageBox.warning(
+            None,
+            "Incorrect Economy",
+            message
+        )
+    except Exception:
+        test.log("Unable to show QMessageBox; see failure log above")
+
     return False
 

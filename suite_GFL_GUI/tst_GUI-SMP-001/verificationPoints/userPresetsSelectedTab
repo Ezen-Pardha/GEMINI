@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<VerificationPoint type="Visual" version="5">
+    <Description/>
+    <Verification object="tabBarSystemInfo_USER_PRESETS_TabItem">
+        <visual>
+            <ui version="1.0">
+                <execution>
+                    <state>
+                        <element class="TabItem" namespace="QTabWidgetExt" id="1a1a69c8c46">
+                            <image type="PNG">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</image>
+                            <superclass>
+                                <class>QtGUIObject</class>
+                                <class>GUIObject</class>
+                            </superclass>
+                            <abstractProperties>
+                                <visual isTopLevel="1"/>
+                                <geometry isRelative="0">
+                                    <x>509</x>
+                                    <y>350</y>
+                                    <height>65</height>
+                                    <width>248</width>
+                                </geometry>
+                            </abstractProperties>
+                            <properties>
+                                <property name="type">
+                                    <string>TabItem</string>
+                                </property>
+                                <property name="text">
+                                    <string>USER
+PRESETS</string>
+                                </property>
+                                <property name="enabled">
+                                    <string>true</string>
+                                </property>
+                                <property name="index">
+                                    <string>2</string>
+                                </property>
+                            </properties>
+                        </element>
+                    </state>
+                </execution>
+            </ui>
+            <check type="identifying"/>
+            <check type="content"/>
+            <check type="screenshot">
+                <PropertyVerification element-id="1a1a69c8c46"/>
+            </check>
+        </visual>
+    </Verification>
+</VerificationPoint>

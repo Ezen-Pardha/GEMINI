@@ -498,3 +498,252 @@ def verify_economyc_type():
         test.log("Unable to show QMessageBox; see failure log above")
 
     return False
+
+
+def back_to_homescreen_from_servicemode():
+    clickButton(waitForObject(names.buttonsBar_backButton_QPushButton))
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_2))
+    
+    
+def  left_Minimal_Carbonization ():
+    mouseClick(
+        waitForObject(names.modeButton_nameLabel_QLabel),
+        35, 51, Qt.NoModifier, Qt.LeftButton
+    )
+    clickButton(
+        waitForObject(names.centralWidget_Cleaning_QPushButton)
+    )
+    clickButton(
+        waitForObject(names.centralWidget_DisableButton_QPushButton)
+    )
+
+
+
+
+
+def find_device_ini(runtime_path):
+    """
+    Validate and return the device.ini path provided by the test case.
+    """
+    file_path = runtime_path + "/bin/media/mmcblk1p1/factory/device.ini"
+    
+    ini_path = os.path.abspath(
+        os.path.expanduser(file_path)
+    )
+
+    if not os.path.isfile(ini_path):
+        raise FileNotFoundError(
+            "Runtime device.ini not found: {}".format(ini_path)
+        )
+
+    test.log("Selected device.ini: {}".format(ini_path))
+    return ini_path
+
+
+def update_system_type(new_type, runtime_path):
+    """
+    Update systemType to A, B, or C in the specified device.ini.
+    """
+
+    new_type = str(new_type).strip().upper()
+
+    if new_type not in ("A", "B", "C"):
+        raise ValueError(
+            "Invalid system type '{}'. Use A, B, or C.".format(
+                new_type
+            )
+        )
+
+    ini_path = find_device_ini(runtime_path)
+
+    with open(ini_path, "r") as file:
+        content = file.read()
+
+    pattern = r"(?m)^(\s*systemType\s*=\s*).*$"
+
+    updated_content, count = re.subn(
+        pattern,
+        lambda match: match.group(1) + new_type,
+        content
+    )
+
+    if count != 1:
+        raise ValueError(
+            "Expected exactly one systemType entry in '{}'; found {}."
+            .format(ini_path, count)
+        )
+
+    with open(ini_path, "w") as file:
+        file.write(updated_content)
+
+    test.log(
+        "Updated systemType to {} in {}".format(
+            new_type, ini_path
+        )
+    )
+
+    return ini_path
+
+
+def configure_system_type(new_type, runtime_path):
+    """
+    Public helper called by Squish test cases.
+    """
+
+    test.log("Starting system type configuration")
+
+    ini_path = update_system_type(new_type, runtime_path)
+
+    test.log("System type configuration completed")
+    return ini_path
+
+  
+def verify_economy_type():
+
+    test.log("Checking System Type")
+    clickButton(
+        waitForObject(
+            names.homeScreen_settingsButton_QPushButton
+        )
+    )
+
+    clickTab(
+        waitForObject(
+            names.settingsScreen_tbSystemInfo_TabWidget
+        ),
+        "LOGS"
+    )
+
+    clickButton(
+        waitForObject(
+            names.settingsScreen_pbService_QPushButton
+        )
+    )
+
+    for _ in range(5):
+        clickButton(
+            waitForObject(
+                names.numpad_pushButton_9_NumpadButton
+            )
+        )
+    system_type_label = waitForObject(
+        names.staticVersions_3_systemTypeVersion_QLabel
+    )
+
+    actual_type = str(
+        system_type_label.text
+    ).strip()
+
+    test.log(
+        "Actual System Type: {}".format(actual_type)
+    )
+    
+    result = common.compare_display_string(
+        "Localization",
+        "A5",
+        actual_type,
+        "Verify System Type"
+    )
+
+    if result:
+        test.passes(
+            "System Type verification passed"
+        )
+    else:
+        test.fail(
+            "System Type verification failed"
+        )
+    mouseClick(
+        waitForObject(
+            names.staticVersions_3_systemTypeVersion_QLabel
+        ),
+        57,
+        17,
+        Qt.NoModifier,
+        Qt.LeftButton
+    )
+
+    clickButton(
+        waitForObject(
+            names.buttonsBar_backButton_QPushButton
+        )
+    )
+
+    clickButton(
+        waitForObject(
+            names.buttonsBar_homeButton_QPushButton
+        )
+    )
+    return result
+
+
+def verify_economyc_type():
+
+    test.log("Checking System Type")
+
+    clickButton(
+        waitForObject(names.homeScreen_settingsButton_QPushButton)
+    )
+
+    clickTab(
+        waitForObject(names.settingsScreen_tbSystemInfo_TabWidget),
+        "LOGS"
+    )
+
+    clickButton(
+        waitForObject(names.settingsScreen_pbService_QPushButton)
+    )
+    snooze(2)
+    test.compare(str(waitForObjectExists(names.centralWidget_titleLabel_QLabel).text), "Version Not Supported")
+    
+    clickButton(waitForObject(names.centralWidget_okButton_QPushButton))
+    for _ in range(4):
+        clickButton(
+            waitForObject(names.numpad_pushButton_9_NumpadButton)
+        )
+    
+    system_type_label = waitForObject(
+        names.staticVersions_3_systemTypeVersion_QLabel
+    )
+
+    actual_type = str(system_type_label.text).strip()
+
+    test.log("Actual System Type: {}".format(actual_type))
+
+    if actual_type.replace(" ", "").lower() == "economyc":
+
+        test.passes("System Type is Economy C")
+        return True
+
+    message = "Incorrect Economy: Expected Economy C, found {}".format(
+        actual_type
+    )
+
+    test.fail(message)
+
+    try:
+        QMessageBox.warning(
+            None,
+            "Incorrect Economy",
+            message
+        )
+    except Exception:
+        test.log("Unable to show QMessageBox; see failure log above")
+
+    return False
+
+def left_fragmentation_pulse():
+    mouseClick(waitForObject(names.modeButton_nameLabel_QLabel), 35, 42, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.centralWidget_Fragmentation_QPushButton))
+    clickButton(waitForObject(names.centralWidget_DisableButton_QPushButton))
+
+
+
+def left_dusting_pulse():
+    mouseClick(waitForObject(names.modeButton_nameLabel_QLabel), 48, 48, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.centralWidget_Dusting_QPushButton))
+    clickButton(waitForObject(names.centralWidget_DisableButton_QPushButton))
+
+
+
+
