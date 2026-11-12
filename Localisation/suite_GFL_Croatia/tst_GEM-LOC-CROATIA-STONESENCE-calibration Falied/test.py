@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import names
+import croatian_localization as loc
 import openpyxl
 import re
 import os
@@ -18,6 +19,13 @@ EXCEL_PATH = os.path.abspath(
     )
 )
 
+<<<<<<< HEAD
+EXCEL_PATH = loc.EXCEL_PATH
+
+
+def normalize(text):
+    return loc.normalize(text)
+=======
 SHEET_NAME = "Stone-Guided"
 ENGLISH_COLUMN = 2
 CROATIAN_COLUMN = 4
@@ -38,6 +46,7 @@ def normalize(text):
     text = re.sub(r"\s*>\s*", ">", text)
 
     return text.strip().casefold()
+>>>>>>> afaf95eb9524d0398baf7cef49b0e422af595ff6
 
 
 def load_croatian_strings():
@@ -110,6 +119,10 @@ def load_croatian_strings():
 
     return translations
 
+<<<<<<< HEAD
+def load_croatian_strings():
+    return loc.translated_rows()
+=======
 
 def get_object_text(obj):
     texts = []
@@ -149,10 +162,15 @@ def collect_screen_text(obj, collected=None, visited=None, depth=0):
 
     if obj is None or depth > 30:
         return collected
+>>>>>>> afaf95eb9524d0398baf7cef49b0e422af595ff6
 
     try:
         object_id = id(obj)
 
+<<<<<<< HEAD
+def verify_screen(root_object, screen_name):
+    return loc.verify_screen(root_object, screen_name, globals())
+=======
         if object_id in visited:
             return collected
 
@@ -293,6 +311,7 @@ def verify_screen(root_object, screen_name):
         test.passes(
             "All loaded Croatian translations matched."
         )
+>>>>>>> afaf95eb9524d0398baf7cef49b0e422af595ff6
 
 
 def main():

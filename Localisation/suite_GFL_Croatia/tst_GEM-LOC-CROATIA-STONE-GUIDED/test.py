@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import names
+import croatian_localization as loc
 import openpyxl
 import os
 import re
@@ -14,20 +15,17 @@ import html
 
 TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-EXCEL_PATH = os.path.abspath(
-    os.path.join(
-        TESTCASE_DIR,
-        "..",
-        "shared",
-        "testdata",
-        "Gemini Split strings.xlsx"
-    )
-)
+EXCEL_PATH = loc.EXCEL_PATH
 
-SHEET_NAME = "Stone-Guided"
+SHEET_NAME = "Stone"
 
+<<<<<<< HEAD
+ENGLISH_COLUMN = 2       # Column B
+CROATIAN_COLUMN = 4      # Column I
+=======
 ENGLISH_COLUMN = 2
 CROATIAN_COLUMN = 4
+>>>>>>> afaf95eb9524d0398baf7cef49b0e422af595ff6
 
 
 # --------------------------------------------------
@@ -35,6 +33,9 @@ CROATIAN_COLUMN = 4
 # --------------------------------------------------
 
 def normalize(text):
+<<<<<<< HEAD
+    return loc.normalize(text)
+=======
 
     if text is None:
         return ""
@@ -49,9 +50,18 @@ def normalize(text):
 
     # Normalize spaces around comparison symbols
     text = re.sub(r"\s*([<>])\s*", r"\1", text)
+>>>>>>> afaf95eb9524d0398baf7cef49b0e422af595ff6
 
     return text.strip()
 
+<<<<<<< HEAD
+def load_croatian_strings():
+    return loc.translated_rows()
+
+
+def get_object_text(obj):
+    texts = []
+=======
 
 # --------------------------------------------------
 # GET ALL TEXTS FROM SCREEN
@@ -99,6 +109,7 @@ def main():
     clickButton(
         waitForObject(names.numpad_pushButton_8_NumpadButton)
     )
+>>>>>>> afaf95eb9524d0398baf7cef49b0e422af595ff6
 
     clickButton(
         waitForObject(names.numpad_pushButton_8_NumpadButton)
@@ -140,6 +151,10 @@ def main():
         waitForObject(names.buttonsFrame_acceptButton_QPushButton)
     )
 
+<<<<<<< HEAD
+def collect_screen_text(obj, collected=None, visited=None, depth=0):
+    return loc.collect_texts(obj, object.children)
+=======
     clickButton(
         waitForObject(names.settingsScreen_pbBack_QPushButton)
     )
@@ -196,6 +211,7 @@ def main():
     # --------------------------------------------------
     # READ EXCEL
     # --------------------------------------------------
+>>>>>>> afaf95eb9524d0398baf7cef49b0e422af595ff6
 
     if not os.path.exists(EXCEL_PATH):
 
@@ -217,6 +233,10 @@ def main():
     # LOAD CROATIAN TRANSLATIONS
     # --------------------------------------------------
 
+<<<<<<< HEAD
+def validate_croatian_strings(translations, screen_candidates):
+    return loc.verify_texts(list(screen_candidates.values()), "Stone Guided", test)
+=======
     expected_strings = {}
 
     for row in sheet.iter_rows(min_row=2, values_only=True):
@@ -250,6 +270,7 @@ def main():
     # --------------------------------------------------
     # VERIFY ONLY SCREEN STRINGS
     # --------------------------------------------------
+>>>>>>> afaf95eb9524d0398baf7cef49b0e422af595ff6
 
     verified_strings = set()
 
@@ -261,7 +282,16 @@ def main():
 
             if text not in verified_strings:
 
+<<<<<<< HEAD
+    loc.select_croatian(globals())
+
+    # Open Stone Assistant.
+    clickButton(
+        waitForObject(names.homeScreen_pbStoneAssistant_QToolButton)
+    )
+=======
                 english = expected_strings[text]
+>>>>>>> afaf95eb9524d0398baf7cef49b0e422af595ff6
 
                 test.passes(
                     "Verified: " + english + " -> " + text
@@ -276,10 +306,16 @@ def main():
 
     if verified_strings:
 
+<<<<<<< HEAD
+    # Compare the screen screenshot if the screenshot checkpoint
+    # is configured in this test case.
+    test.vp("Verify Stone Guided Screen")
+=======
         test.passes(
             "Total Croatian strings verified: " +
             str(len(verified_strings))
         )
+>>>>>>> afaf95eb9524d0398baf7cef49b0e422af595ff6
 
     else:
 

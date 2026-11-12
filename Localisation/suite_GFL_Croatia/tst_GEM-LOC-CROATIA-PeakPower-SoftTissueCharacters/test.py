@@ -2,20 +2,14 @@
 # -*- coding: utf-8 -*-
 
 import names
+import croatian_localization as loc
 import openpyxl
 import re
 import os
 
 TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
  
-EXCEL_PATH = os.path.abspath(
-    os.path.join( TESTCASE_DIR,
-        "..",
-        "shared",
-        "testdata",
-        "Gemini Split strings.xlsx"
-    )
-)
+EXCEL_PATH = loc.EXCEL_PATH
 
 
 
@@ -52,96 +46,14 @@ def normalize_text(value):
 
 
 def get_croatian_text(sheet, english_text):
-
-    search_text = normalize_text(
-        english_text
-    )
-
-    for row in sheet.iter_rows(
-        min_row=1,
-        min_col=ENGLISH_COLUMN,
-        max_col=CROATIAN_COLUMN
-    ):
-
-        # Column B = English
-        english_value = row[0].value
-
-        if normalize_text(
-            english_value
-        ) == search_text:
-
-            # Column D = Croatian
-            croatian_value = row[
-                CROATIAN_COLUMN - ENGLISH_COLUMN
-            ].value
-
-            if croatian_value is None:
-                #
-                # test.fail(
-                #     "Croatian translation is empty for: "
-                #     + english_text
-                # )
-
-                return ""
-
-            return str(
-                croatian_value
-            ).strip()
-
-    # test.fail(
-    #     "English text not found in Excel Column B: "
-    #     + english_text
-    # )
-
-    return ""
+    return loc.expected_text(english_text, "Treatment Modes")
 
 
 
 
-def verify_text(
-    sheet,
-    object_name,
-    english_text,
-    description
-):
-
-    # Wait before every verification
-    snooze(6)
-
-    obj = waitForObjectExists(
-        getattr(names, object_name)
-    )
-
-    actual_text = str(
-        obj.text
-    ).strip()
-
-    expected_text = get_croatian_text(
-        sheet,
-        english_text
-    )
-
-    actual_normalized = normalize_text(
-        actual_text
-    )
-
-    expected_normalized = normalize_text(
-        expected_text
-    )
-
-    # test.log(
-    #     "{} | Expected Croatian: [{}] | Actual: [{}]".format(
-    #         description,
-    #         expected_text,
-    #         actual_text
-    #     )
-    # )
-
-    test.compare(
-        actual_normalized,
-        expected_normalized,
-        description + " - Croatian text verification"
-    )
+def verify_text(sheet, object_name, english_text, description):
+    return loc.verify_object(getattr(names, object_name), english_text, description,
+                             globals(), "Treatment Modes")
 
 
 
@@ -329,7 +241,7 @@ def main():
     verify_text(
         sheet,
         "centralWidget_lbTitle_QLabel",
-        "Peak Power",
+        "SELECT PEAK POWER",
         "Peak Power title"
     )
 
@@ -466,7 +378,7 @@ def main():
     verify_text(
         sheet,
         "centralWidget_acceptButton_QPushButton",
-        "Accept",
+        "OK",
         "Accept button"
     )
 

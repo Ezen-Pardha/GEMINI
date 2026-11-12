@@ -2,22 +2,18 @@
 # -*- coding: utf-8 -*-
 
 import names
+import croatian_localization as loc
 import openpyxl
 import re
 import os
 
 TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-EXCEL_PATH = os.path.abspath(
-    os.path.join(
-        TESTCASE_DIR,
-        "..",
-        "shared",
-        "testdata",
-        "Gemini Split strings.xlsx"
-    )
-)
+EXCEL_PATH = loc.EXCEL_PATH
 
+<<<<<<< HEAD
+SHEET_NAME = "Soft tissue"
+=======
 SHEET_NAME = "Stone-Guided"
 ENGLISH_COLUMN = 1
 CROATIAN_COLUMN = 4
@@ -78,6 +74,7 @@ def load_croatian_strings():
 
             english = str(english).strip()
             croatian = str(croatian).strip()
+>>>>>>> afaf95eb9524d0398baf7cef49b0e422af595ff6
 
             if normalize(english) and normalize(croatian):
                 translations[english] = croatian
@@ -289,6 +286,12 @@ def main():
         )
     )
 
+<<<<<<< HEAD
+        soft_tissue = waitForObject(
+            names.softTissueAssistantModeScreen_SoftTissueAssistantModeScreen
+        )
+        loc.verify_screen(soft_tissue, "Soft Tissue Guided", globals())
+=======
     clickButton(
         waitForObject(
             names.hardnessFrame_largeHardnessButton_QPushButton
@@ -322,6 +325,7 @@ def main():
         croatian_translations,
         screen_candidates
     )
+>>>>>>> afaf95eb9524d0398baf7cef49b0e422af595ff6
 
 
 def cleanup():

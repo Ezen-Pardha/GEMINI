@@ -2,12 +2,16 @@
 # -*- coding: utf-8 -*-
 
 import names
+import croatian_localization as loc
 import openpyxl
 import re
 import os
 
 TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
+<<<<<<< HEAD
+EXCEL_PATH = loc.EXCEL_PATH
+=======
 EXCEL_PATH = os.path.abspath(
     os.path.join(
         TESTCASE_DIR,
@@ -17,9 +21,14 @@ EXCEL_PATH = os.path.abspath(
         "Gemini Split strings.xlsx"
     )
 )
+>>>>>>> afaf95eb9524d0398baf7cef49b0e422af595ff6
 
 SHEET_NAME = "Treatment Logs"
 
+<<<<<<< HEAD
+def normalize(text):
+    return loc.normalize(text)
+=======
 # Zero-based Excel column indexes
 ENGLISH_COLUMN = 1       # Column B
 CROATIAN_COLUMN = 3      # Column D
@@ -37,6 +46,7 @@ def normalize(text):
     text = " ".join(text.split())
 
     return text.strip().casefold()
+>>>>>>> afaf95eb9524d0398baf7cef49b0e422af595ff6
 
 
 def get_object_text(obj):
@@ -102,6 +112,14 @@ def get_screen_candidates(obj, depth=0, visited=None):
     except Exception:
         children = []
 
+<<<<<<< HEAD
+def load_croatian_strings():
+    return loc.translated_rows()
+
+
+def verify_screen(root_object, screen_name):
+    return loc.verify_screen(root_object, screen_name, globals())
+=======
     child_texts = []
 
     for child in children:
@@ -313,6 +331,7 @@ def verify_treatment_logs():
                 len(matched)
             )
         )
+>>>>>>> afaf95eb9524d0398baf7cef49b0e422af595ff6
 
 
 def main():
