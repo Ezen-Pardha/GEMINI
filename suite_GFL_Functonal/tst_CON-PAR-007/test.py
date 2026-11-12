@@ -6,7 +6,10 @@ def main():
 
     enter_login_pin()
     dismiss_fiber_verification_warning()
+<<<<<<< HEAD
 
+=======
+>>>>>>> afaf95eb9524d0398baf7cef49b0e422af595ff6
     clickButton(waitForObject(names.homeScreen_settingsButton_QPushButton))
     clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))

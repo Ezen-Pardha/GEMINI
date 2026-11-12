@@ -1,24 +1,55 @@
+
 # -*- coding: utf-8 -*-
 
 import names
 import openpyxl
 import re
+import os
 
 
-EXCEL_PATH = "/home/ntc/Test_Automation_Gemini/Localisation/Suite_GFL_English/tst_LoginScreen-Logoff/testdata/Gemini strings.xlsx"
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+EXCEL_PATH = os.path.abspath(
+    os.path.join(
+        TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
+
+TREATMENT_SHEET = "Treatment Modes"
+HOME_SHEET = "Home Screen"
+GLOBAL_SHEET = "GUI Strings"
+
+TRACE_ID = "TM"
+
+
+UI_ALIASES = {
+    "uses remaining": "fiber uses remaining"
+}
+
 
 
 def normalize(text):
+
     if text is None:
         return ""
 
     text = str(text)
-    text = re.sub(r"<[^>]+>", " ", text)
-    text = " ".join(text.split())
-    text = re.sub(r"\s*<\s*", " < ", text)
-    text = re.sub(r"\s*>\s*", " > ", text)
 
-    return text.casefold()
+    text = re.sub(r"<[^>]+>", " ", text)
+
+    text = text.replace("™", "")
+    text = text.replace("®", "")
+
+    text = text.replace("μ", "µ")
+
+    text = " ".join(text.split())
+
+    return text.casefold().strip()
+
 
 
 def get_all_texts(obj):
@@ -32,56 +63,97 @@ def get_all_texts(obj):
         pass
 
     try:
+
         value = obj.text
 
-        if value is not None:
-            value = str(value).strip()
+        if value is not None and str(value).strip():
+            texts.append(str(value).strip())
 
-            if value:
-                texts.append(value)
     except:
         pass
 
     try:
+
         value = obj.title
 
-        if value is not None:
-            value = str(value).strip()
+        if value is not None and str(value).strip():
+            texts.append(str(value).strip())
 
-            if value:
-                texts.append(value)
     except:
         pass
 
+    # Get child objects
     try:
+
         for child in object.children(obj):
-            texts.extend(get_all_texts(child))
+
+            texts.extend(
+                get_all_texts(child)
+            )
+
     except:
         pass
 
     return texts
 
 
-def load_english_strings():
 
-    workbook = openpyxl.load_workbook(
-        EXCEL_PATH,
-        data_only=True
-    )
-
-    sheet = workbook.active
+def read_sheet_strings(workbook, sheet_name, trace_filter=None,
+                       only_empty_trace=False):
 
     strings = {}
+
+    if sheet_name not in workbook.sheetnames:
+
+        test.fail(
+            "Worksheet not found: " + sheet_name
+        )
+
+        return strings
+
+    sheet = workbook[sheet_name]
+
+    headers = next(
+        sheet.iter_rows(
+            min_row=1,
+            max_row=1,
+            values_only=True
+        )
+    )
+
+    trace_column = None
+    english_column = None
+
+    for index, header in enumerate(headers):
+
+        if header is None:
+            continue
+
+        header = str(header).strip().casefold()
+
+        if header == "gui spec trace ids":
+            trace_column = index
+
+        elif header == "english":
+            english_column = index
+
+    if english_column is None:
+
+        test.fail(
+            "English column not found in " + sheet_name
+        )
+
+        return strings
 
     for row in sheet.iter_rows(
         min_row=2,
         values_only=True
     ):
 
-        if not row:
+        if len(row) <= english_column:
             continue
 
-        english = row[0]
+        english = row[english_column]
 
         if english is None:
             continue
@@ -91,89 +163,378 @@ def load_english_strings():
         if not english:
             continue
 
+        # Read trace ID
+        trace_value = ""
+
+        if trace_column is not None and len(row) > trace_column:
+            trace_value = row[trace_column]
+
+        trace_ids = []
+
+        if trace_value:
+
+            trace_ids = [
+                item.strip().upper()
+                for item in str(trace_value).split(",")
+            ]
+
+        # Filter selected trace IDs
+        if trace_filter is not None:
+
+            if not any(
+                trace in trace_ids
+                for trace in trace_filter
+            ):
+                continue
+
+        # Read only globally untagged strings
+        if only_empty_trace:
+
+            if trace_ids:
+                continue
+
         key = normalize(english)
 
-        if key not in strings:
-            strings[key] = english
+        if key and key not in strings:
 
-    workbook.close()
+            strings[key] = english
 
     return strings
 
 
+
+def load_english_strings():
+
+    if not os.path.exists(EXCEL_PATH):
+
+        test.fail(
+            "Excel file not found: " + EXCEL_PATH
+        )
+
+        return {}
+
+    try:
+
+        workbook = openpyxl.load_workbook(
+            EXCEL_PATH,
+            data_only=True,
+            read_only=True
+        )
+
+        strings = {}
+
+        # 1. Treatment Modes strings
+        treatment_strings = read_sheet_strings(
+            workbook,
+            TREATMENT_SHEET,
+            trace_filter=[TRACE_ID]
+        )
+
+        strings.update(treatment_strings)
+
+        # 2. Shared header strings from Home Screen
+        home_strings = read_sheet_strings(
+            workbook,
+            HOME_SHEET
+        )
+
+        strings.update(home_strings)
+
+        # 3. Untagged global strings
+        global_strings = read_sheet_strings(
+            workbook,
+            GLOBAL_SHEET,
+            only_empty_trace=True
+        )
+
+        strings.update(global_strings)
+
+        workbook.close()
+
+        test.log(
+            "Treatment Modes strings: " +
+            str(len(treatment_strings))
+        )
+
+        test.log(
+            "Home Screen strings: " +
+            str(len(home_strings))
+        )
+
+        test.log(
+            "Global strings: " +
+            str(len(global_strings))
+        )
+
+        return strings
+
+    except Exception as error:
+
+        test.fail(
+            "Excel reading error: " + str(error)
+        )
+
+        return {}
+
+
+
+def find_excel_match(ui_text, excel_strings):
+
+    ui_key = normalize(ui_text)
+
+    if not ui_key:
+        return []
+
+    # Ignore numeric-only values
+    if not any(char.isalpha() for char in ui_key):
+        return []
+
+    # 1. Exact matching
+    if ui_key in excel_strings:
+
+        return [
+            excel_strings[ui_key]
+        ]
+
+    # 2. Explicit aliases for split UI labels
+    if ui_key in UI_ALIASES:
+
+        alias_key = normalize(
+            UI_ALIASES[ui_key]
+        )
+
+        if alias_key in excel_strings:
+
+            return [
+                excel_strings[alias_key]
+            ]
+
+
+    if re.search(r"\d", ui_key):
+
+        cleaned = re.sub(
+            r"\d+(?:[.,]\d+)?",
+            " ",
+            ui_key
+        )
+
+        cleaned = " ".join(cleaned.split())
+
+        if not cleaned:
+            return []
+
+        # Check the remaining complete phrase
+        if cleaned in excel_strings:
+
+            return [
+                excel_strings[cleaned]
+            ]
+
+        # Check individual remaining words
+        words = cleaned.split()
+
+        matches = []
+
+        for word in words:
+
+            if word in excel_strings:
+
+                matches.append(
+                    excel_strings[word]
+                )
+
+            else:
+                return []
+
+        return matches
+
+    words = ui_key.split()
+
+    if len(words) > 1:
+
+        matches = []
+
+        for word in words:
+
+            if word in excel_strings:
+
+                matches.append(
+                    excel_strings[word]
+                )
+
+            else:
+
+                matches = []
+                break
+
+        if matches:
+            return matches
+
+    # No exact match
+    return []
+
+
+
 def verify_treatment_screen():
 
-    test.log("========== TREATMENT SCREEN ENGLISH VERIFICATION ==========")
-
-    excel_strings = load_english_strings()
+    test.log(
+        "========== TREATMENT SCREEN ENGLISH VERIFICATION =========="
+    )
 
     test.log(
-        "English strings loaded from Excel: " +
+        "Excel worksheet: " + TREATMENT_SHEET
+    )
+
+    test.log(
+        "Trace ID: " + TRACE_ID
+    )
+
+    # Load Excel strings
+    excel_strings = load_english_strings()
+
+    if not excel_strings:
+
+        test.fail(
+            "No English strings loaded from Excel."
+        )
+
+        return
+
+    test.log(
+        "Total English reference strings: " +
         str(len(excel_strings))
     )
 
-    root = waitForObject(names.o_ScreenSwitcher)
+    # Get current screen
+    try:
 
+        root = waitForObject(
+            names.o_ScreenSwitcher
+        )
+
+    except Exception as error:
+
+        test.fail(
+            "Treatment Screen object not found: " +
+            str(error)
+        )
+
+        return
+
+    # Capture visible UI strings
     screen_texts = get_all_texts(root)
 
-    test.log(
-        "UI text objects found: " +
-        str(len(screen_texts))
-    )
-
-    found_matches = set()
+    # Normalize and remove duplicates
+    ui_strings = {}
 
     for text in screen_texts:
 
-        normalized_ui = normalize(text)
+        key = normalize(text)
 
-        if not normalized_ui:
+        if not key:
             continue
 
-        for excel_key, excel_text in excel_strings.items():
+        # Ignore numeric-only values
+        if not any(char.isalpha() for char in key):
+            continue
 
-            if normalized_ui == excel_key:
+        if key not in ui_strings:
 
-                if excel_key not in found_matches:
-
-                    found_matches.add(excel_key)
-
-                    test.passes(
-                        "English string verified: " +
-                        excel_text
-                    )
-
-                break
-
-            elif len(excel_key) >= 4 and excel_key in normalized_ui:
-
-                if excel_key not in found_matches:
-
-                    found_matches.add(excel_key)
-
-                    test.passes(
-                        "English string verified: " +
-                        excel_text
-                    )
-
-                break
+            ui_strings[key] = text
 
     test.log(
-        "Total English strings verified: " +
-        str(len(found_matches))
+        "Unique visible UI strings captured: " +
+        str(len(ui_strings))
     )
 
-    if len(found_matches) == 0:
+    passed = 0
+    failed = 0
+    skipped = 0
 
-        test.fail(
-            "No English strings from Excel were found on the Treatment Screen."
+    # Verify visible UI strings only
+    for ui_key, ui_text in sorted(ui_strings.items()):
+
+        matches = find_excel_match(
+            ui_text,
+            excel_strings
         )
 
-    test.log("===========================================================")
+        if matches:
+
+            passed += 1
+
+            test.passes(
+                "PASS: " + ui_text +
+                " | Excel: " + ", ".join(matches)
+            )
+
+        else:
+
+            if re.search(r"\d", ui_key):
+
+                skipped += 1
+
+                test.log(
+                    "SKIP: Dynamic UI value: " + ui_text
+                )
+
+            else:
+
+                failed += 1
+
+                test.fail(
+                    "FAIL: Visible UI string not found in Excel: " +
+                    ui_text
+                )
+
+    # Final summary
+    total = passed + failed
+
+    test.log(
+        "========== FINAL VERIFICATION SUMMARY =========="
+    )
+
+    test.log(
+        "Worksheet: " + TREATMENT_SHEET
+    )
+
+    test.log(
+        "Total visible strings checked: " + str(total)
+    )
+
+    test.log(
+        "PASS: " + str(passed)
+    )
+
+    test.log(
+        "FAIL: " + str(failed)
+    )
+
+    test.log(
+        "SKIP: " + str(skipped)
+    )
+
+    test.log(
+        "=================================================="
+    )
+
+    if failed == 0:
+
+        test.log(
+            "RESULT: All checked visible English strings matched Excel."
+        )
+
+    else:
+
+        test.log(
+            "RESULT: Some visible English strings were not found in Excel."
+        )
+
 
 
 def main():
 
+    # Login
     sendEvent(
         "QMoveEvent",
         waitForObject(names.o_ScreenSwitcher),
@@ -183,29 +544,13 @@ def main():
         218
     )
 
-    clickButton(
-        waitForObject(
-            names.numpad_pushButton_8_NumpadButton
-        )
-    )
+    for i in range(4):
 
-    clickButton(
-        waitForObject(
-            names.numpad_pushButton_8_NumpadButton
+        clickButton(
+            waitForObject(
+                names.numpad_pushButton_8_NumpadButton
+            )
         )
-    )
-
-    clickButton(
-        waitForObject(
-            names.numpad_pushButton_8_NumpadButton
-        )
-    )
-
-    clickButton(
-        waitForObject(
-            names.numpad_pushButton_8_NumpadButton
-        )
-    )
 
     clickButton(
         waitForObject(
@@ -241,6 +586,7 @@ def main():
         Qt.LeftButton
     )
 
+    
     clickButton(
         waitForObject(
             names.quickStartScreen_pbContinue_QPushButton
@@ -314,9 +660,5 @@ def main():
         Qt.LeftButton
     )
 
-    # ONLY HERE we verify the Treatment Screen
-    # verify_treatment_screen()
-    #
-    # test.vp(
-    #     "Verify Treatment Screen English Strings"
-    # )
+    # Verify visible Treatment Screen strings
+    verify_treatment_screen()

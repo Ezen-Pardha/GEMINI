@@ -6,7 +6,11 @@ from common import *
 def main():
     
     runtime_path = os.path.expanduser(
+<<<<<<< HEAD
         "/home/ezen/Gemini_v1"
+=======
+        "/home/ezen/29October/latest Build (no Buttons bar)/build-gemini-Desktop-Debug/"
+>>>>>>> afaf95eb9524d0398baf7cef49b0e422af595ff6
     )
  
     configure_system_type(
@@ -38,8 +42,14 @@ def main():
     
     snooze(5)
     
+<<<<<<< HEAD
     test.passes("Bravo AUT restart command executed successfully")   
     enter_login_pin() 
+=======
+    test.passes("Bravo AUT restart command executed successfully")
+
+    enter_login_pin()
+>>>>>>> afaf95eb9524d0398baf7cef49b0e422af595ff6
     verify_economyc_type()
     test.log("SVV TAG POP-PKP-001:Peak Power Selection Popup Low Button")
     clickButton(waitForObject(names.buttonsBar_backButton_QPushButton))

@@ -17,7 +17,6 @@ EXCEL_PATH = os.path.abspath(
 )
 
 
-# EXCEL_PATH = "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Dutch/tst_Home Screen/testdata/Gemini Split strings.xlsx"
 SHEET_NAME = "Treatment Modes"
 
 
@@ -228,10 +227,6 @@ def main():
         )
         return
 
-    # LOAD Dutch TRANSLATIONS
-    # Column A = Trace ID
-    # Column B = English
-    # Column E = Dutch
 
     excel_strings = {}
 

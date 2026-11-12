@@ -15,7 +15,6 @@ EXCEL_PATH = os.path.abspath(
     )
 )
 
-# EXCEL_PATH = "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Czech/tst_Home Screen/testdata/Gemini Split strings.xlsx"
 
 
 def normalize(text):

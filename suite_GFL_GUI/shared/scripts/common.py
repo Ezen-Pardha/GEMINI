@@ -1331,7 +1331,11 @@ def verify_economy_type():
     return False
 def verify_economyc_type():
 
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> afaf95eb9524d0398baf7cef49b0e422af595ff6
     test.log("Checking System Type")
 
     clickButton(
@@ -1348,7 +1352,11 @@ def verify_economyc_type():
     )
     snooze(2)
     test.compare(str(waitForObjectExists(names.centralWidget_titleLabel_QLabel).text), "Version Not Supported")    
+<<<<<<< HEAD
     clickButton(waitForObject(names.centralWidget_okButton_QPushButton_4))
+=======
+    clickButton(waitForObject(names.centralWidget_okButton_QPushButton))
+>>>>>>> afaf95eb9524d0398baf7cef49b0e422af595ff6
     for _ in range(4):
         clickButton(
             waitForObject(names.numpad_pushButton_9_NumpadButton)
@@ -1455,6 +1463,7 @@ def find_device_ini(runtime_path):
     test.log("Selected device.ini: {}".format(ini_path))
     return ini_path
 
+<<<<<<< HEAD
 def navigate_service_mode():
     enter_login_pin()
     clickButton(waitForObject(names.homeScreen_settingsButton_QPushButton))
@@ -1518,4 +1527,56 @@ def navigate_service_mode():
         return
  
    
+=======
+
+def verify_economyA_type():
+    test.log("Checking System Type")
+
+    clickButton(
+        waitForObject(names.homeScreen_settingsButton_QPushButton)
+    )
+
+    clickTab(
+        waitForObject(names.settingsScreen_tbSystemInfo_TabWidget),
+        "LOGS"
+    )
+
+    clickButton(
+        waitForObject(names.settingsScreen_pbService_QPushButton)
+    )
+
+    for _ in range(5):
+        clickButton(
+            waitForObject(names.numpad_pushButton_9_NumpadButton)
+        )
+
+    system_type_label = waitForObject(
+        names.staticVersions_3_systemTypeVersion_QLabel
+    )
+
+    actual_type = str(system_type_label.text).strip()
+
+    test.log("Actual System Type: {}".format(actual_type))
+
+    if actual_type.replace(" ", "").lower() == "economya":
+        test.passes("System Type is Economy A")
+        return True
+
+    message = "Incorrect Economy: Expected Economy A, found {}".format(
+        actual_type
+    )
+
+    test.fail(message)
+
+    try:
+        QMessageBox.warning(
+            None,
+            "Incorrect Economy",
+            message
+        )
+    except Exception:
+        test.log("Unable to show QMessageBox; see failure log above")
+
+    return False
+>>>>>>> afaf95eb9524d0398baf7cef49b0e422af595ff6
 

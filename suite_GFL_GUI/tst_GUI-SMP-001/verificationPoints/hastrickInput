@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<VerificationPoint version="5" type="Visual">
+    <Description/>
+    <Verification object="inputFrame_passcodeInput_QLineEdit">
+        <visual>
+            <ui version="1.0">
+                <execution>
+                    <state>
+                        <element class="QLineEdit" id="1a1a66f9659">
+                            <image type="PNG">iVBORw0KGgoAAAANSUhEUgAAAPAAAABpCAYAAAAEPK4ZAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAFdUlEQVR4nO3dP2gUWxiG8Xcme3YdVrESg6tYCBY2gk1ABS1sIgRSCBbBQju1sVKwsLK0EQsRbIRoQCtFJJWKGAQJCCKo3a6ChSaIaBw2M5lzi9wEk934797snI88PxDMmcPyBXk8M5uFRJ8/f/bqwjkn55wqlYqiKFIURd22AVgF3nt575XnubIsU5ZlXfdVli8455QkieI4XvUhAXS3cGhWq1VVq1UVRaE0TTtCXlJpkiSq1+vECwQmjmPV63UlSbJ0feEvSZKoVqv1fDAAv69Wqy2JOJbmb5uJF7ChVqvJOSfp34CXH8sAwrbQbOyc45kXMCaOYznn5gMGYI9zTtHc3JznBAbsKYpCMR/QAGyKokiR977rJ7EAhI97Z8AwAgYMI2DAMAIGDCNgwDACBgwjYMAwAgYMI2DAMAIGDCNgwDACBgwjYMAwAgYMI2DAMAIGDCNgwDACBgwjYMAwAgYMI2DAMAIGDCNgwDACDtj58+cXf9Hzj38OHDhQ9mgIBAEHbOvWrX+0jrWHgANGwPgVAg4YAeNXCDhg27Zt+6N1rD0EHLBNmzapVqt1rHMCYwEBl2hiYkLPnz9XURQr7mk0Gh1rPwv4w4cPunXr1v8yH8JHwCW6cuWKBgYG1N/fr2PHjmlsbEzT09NL9iyP1TmnzZs3L349OzurR48e6dy5c9q9e7cajYZGRkY0MzPTk+8B5aqUPcBa9ubNG0nSp0+fNDo6qtHRUcVxrIGBAQ0ODurw4cMdJ3Cj0VCz2dT4+LjGx8f18OFDffv2reO1W62Wdu3a1ZPvA+XhF3yXxHuv9evX6/v37z/dF0WRfvwnWv71Sh48eKDBwcH/PCfCxi10Sd69e/fLeCV1xPq7/982m82/GQvGEHBJ3r59u6qv32q1VvX1EQaegUsSRZEOHTqkqakpTU1NaXp6Wmma/m+vzwm8NvAMHJCZmZnFmK9fv66rV6+uuHf//v16/Pix+vr6ejghQsMtdEDq9bq2b9+ujRs36ubNmz/d+/TpU128eLFHkyFUnMCBmZ2d1b59+zQ5Oblkvdu7z319fXry5In27t3byxEREE7gwJw9e7YjXmn+Qx9RFC1Zm5ub08jIiL58+dKr8RAYAg7IvXv3dPny5Y71PXv26PTp0xoeHu641mw2dfLkyV6MhwARcCDev3+v48ePd7125swZSdKFCxc6TmFJGhsb040bN1Z1PoSJZ+AA5HmugwcPamJiouNaf3+/Wq2WqtWqJGl4eFh3797t2Ldhwwa9ePFCO3bsWPV5EQ5O4ADcv39fz54963rt1KlTi/FK86dwN1+/ftWlS5dWZT4EzCMIr1+/9kePHvVxHHtJXpJft26d//jxY8feoaGhxT2S/M6dO/2dO3dKmBplI+DAvHr1yh85csRHUeRPnDjRdc/k5KSX5Lds2eKvXbvmsyzr8ZQIBc/AgXr58qXq9fqKz7S3b9/W0NCQkiTp8WQICQEDhvEmFmAYAQOGETBgGAEDhhEwYBgBA4YRMGAYAQOGETBgGAEDhhEwYBgBA4YRMGAYAQOGETBgGAEDhhEwYBgBA4YRMGAYAQOGETBgGAEDhhEwYBgBA4YRMGAYAQOGETBgGAEDhhEwYBgBA4YRMGAYAQOGETBgGAEDhhEwYBgBA4bF3vuyZwDwF7z3BAxY5b1XnOd52XMA+At5nivOsqzsOQD8hSzL5gMuiqLsWQD8gaIo5gOWpDRNy54HwB9YaDaW5o/idrtd6kAAfk+73dbCo+/iz4HTNCViIHDtdnvJHXPlx4tpmirPcyVJojjmMx5AKIqiUJqmWv6mc2X5xizLlGWZnHNyzqlSqSiKIkVR1LNhgbXOey/vvfI8X2yym38A5/3JVpnAQOAAAAAASUVORK5CYII=</image>
+                            <superclass>
+                                <class>QWidget</class>
+                                <class>QObject</class>
+                            </superclass>
+                            <abstractProperties>
+                                <visual isTopLevel="1"/>
+                                <geometry isRelative="0">
+                                    <x>456</x>
+                                    <y>408</y>
+                                    <height>105</height>
+                                    <width>240</width>
+                                </geometry>
+                            </abstractProperties>
+                            <properties>
+                                <property name="autoFillBackground">
+                                    <string>false</string>
+                                </property>
+                                <property name="redoAvailable">
+                                    <string>false</string>
+                                </property>
+                                <property name="windowTitle"/>
+                                <property name="cursorMoveStyle">
+                                    <string>0</string>
+                                </property>
+                                <property name="frame">
+                                    <string>true</string>
+                                </property>
+                                <property name="undoAvailable">
+                                    <string>false</string>
+                                </property>
+                                <property name="windowIconText"/>
+                                <property name="selectedText"/>
+                                <property name="clearButtonEnabled">
+                                    <string>false</string>
+                                </property>
+                                <property name="toolTipDuration">
+                                    <string>-1</string>
+                                </property>
+                                <property name="enabled">
+                                    <string>true</string>
+                                </property>
+                                <property name="toolTip"/>
+                                <property name="readOnly">
+                                    <string>false</string>
+                                </property>
+                                <property name="placeholderText"/>
+                                <property name="layoutDirection">
+                                    <string>0</string>
+                                </property>
+                                <property name="minimized">
+                                    <string>false</string>
+                                </property>
+                                <property name="focus">
+                                    <string>true</string>
+                                </property>
+                                <property name="windowFilePath"/>
+                                <property name="styleSheet"/>
+                                <property name="whatsThis"/>
+                                <property name="maxLength">
+                                    <string>32767</string>
+                                </property>
+                                <property name="text">
+                                    <string>*</string>
+                                </property>
+                                <property name="focusPolicy">
+                                    <string>11</string>
+                                </property>
+                                <property name="statusTip"/>
+                                <property name="fullScreen">
+                                    <string>false</string>
+                                </property>
+                                <property name="windowModality">
+                                    <string>0</string>
+                                </property>
+                                <property name="isActiveWindow">
+                                    <string>true</string>
+                                </property>
+                                <property name="displayText">
+                                    <string>*</string>
+                                </property>
+                                <property name="acceptableInput">
+                                    <string>true</string>
+                                </property>
+                                <property name="windowOpacity">
+                                    <string>1</string>
+                                </property>
+                                <property name="accessibleDescription"/>
+                                <property name="cursorPosition">
+                                    <string>1</string>
+                                </property>
+                                <property name="tabletTracking">
+                                    <string>false</string>
+                                </property>
+                                <property name="hasSelectedText">
+                                    <string>false</string>
+                                </property>
+                                <property name="inputMask"/>
+                                <property name="echoMode">
+                                    <string>0</string>
+                                </property>
+                                <property name="maximized">
+                                    <string>false</string>
+                                </property>
+                                <property name="modified">
+                                    <string>false</string>
+                                </property>
+                            </properties>
+                            <identifyingProperties>
+                                <property name="accessibleName"/>
+                                <property name="objectName">
+                                    <string>passcodeInput</string>
+                                </property>
+                            </identifyingProperties>
+                        </element>
+                    </state>
+                </execution>
+            </ui>
+            <check type="identifying">
+                <PropertyVerification element-id="1a1a66f9659">
+                    <VerifyProperty type="equal" name="objectName"/>
+                </PropertyVerification>
+            </check>
+            <check type="content">
+                <PropertyVerification element-id="1a1a66f9659">
+                    <VerifyProperty type="equal" name="enabled"/>
+                    <VerifyProperty type="equal" name="toolTip"/>
+                    <VerifyProperty type="equal" name="whatsThis"/>
+                    <VerifyProperty type="equal" name="text"/>
+                    <VerifyProperty type="equal" name="statusTip"/>
+                </PropertyVerification>
+            </check>
+            <check type="screenshot">
+                <PropertyVerification element-id="1a1a66f9659"/>
+            </check>
+        </visual>
+    </Verification>
+</VerificationPoint>

@@ -4,10 +4,24 @@ import names
 import croatian_localization as loc
 import openpyxl
 import re
+import os
 
 
+<<<<<<< HEAD
 EXCEL_PATH = loc.EXCEL_PATH
+=======
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+>>>>>>> afaf95eb9524d0398baf7cef49b0e422af595ff6
 
+EXCEL_PATH = os.path.abspath(
+    os.path.join(
+        TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
 def normalize(text):
     return loc.normalize(text)
 

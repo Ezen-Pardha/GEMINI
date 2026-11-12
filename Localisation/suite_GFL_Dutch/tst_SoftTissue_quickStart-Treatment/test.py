@@ -17,9 +17,6 @@ EXCEL_PATH = os.path.abspath(
 )
 
 
-# EXCEL_PATH = "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Dutch/tst_Home Screen/testdata/Gemini Split strings.xlsx"
-
-
 def normalize(text):
     if text is None:
         return ""
@@ -226,9 +223,6 @@ def main():
         test.fail("FAIL: Unable to load Excel: " + str(error))
         return
 
-    # LOAD Dutch STRINGS FROM EXCEL
-    # Column B = English
-    # Column E = Dutch
 
     excel_strings = {}
 

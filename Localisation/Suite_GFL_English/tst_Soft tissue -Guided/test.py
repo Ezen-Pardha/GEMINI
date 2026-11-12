@@ -1,23 +1,71 @@
+
 # -*- coding: utf-8 -*-
 
 import names
 import openpyxl
 import re
+import os
 
-EXCEL_PATH = "/home/ntc/Test_Automation_Gemini/Localisation/Suite_GFL_English/tst_LoginScreen-Logoff/testdata/Gemini strings.xlsx"
 
-verified_strings = set()
+
+TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+EXCEL_PATH = os.path.abspath(
+    os.path.join(
+        TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
+
+SHEET_NAME = "Soft Tissue-Guided"
+ENGLISH_COLUMN = 2
+
+
 
 def normalize(text):
-    if text is None:
-        return ""
-    text = re.sub(r"<[^>]+>", " ", str(text))
+
+    text = str(text or "")
+
+    text = re.sub(
+        r"<br\s*/?>",
+        " ",
+        text,
+        flags=re.IGNORECASE
+    )
+
+    text = re.sub(r"<[^>]+>", "", text)
+
+    text = text.replace("\u00a0", " ")
+
     text = " ".join(text.split())
-    text = re.sub(r"\s*<\s*", " < ", text)
-    text = re.sub(r"\s*>\s*", " > ", text)
-    return text.casefold()
+
+    return text.strip().casefold()
+
+
+
+
+def ignore_text(text):
+
+    text = normalize(text)
+
+    if not text:
+        return True
+
+    if re.fullmatch(r"[-_=.<>/%µμ:+]+", text):
+        return True
+
+    if re.fullmatch(r"[\d\s.,:+\-/<>=%µμ]+", text):
+        return True
+
+    return False
+
+
 
 def get_all_texts(obj):
+
     texts = []
 
     try:
@@ -26,112 +74,314 @@ def get_all_texts(obj):
     except:
         pass
 
-    try:
-        value = str(obj.text).strip()
-        if value:
-            value = re.sub(r"<[^>]+>", " ", value)
-            value = " ".join(value.split())
-            if value:
-                texts.append(value)
-    except:
-        pass
+    for attr in ("text", "title"):
+
+        try:
+            value = getattr(obj, attr)
+
+            if value is not None:
+
+                value = str(value).strip()
+
+                if value and value.lower() not in (
+                    "none",
+                    "null"
+                ):
+                    texts.append(value)
+
+        except:
+            pass
 
     try:
-        value = str(obj.title).strip()
-        if value:
-            value = re.sub(r"<[^>]+>", " ", value)
-            value = " ".join(value.split())
-            if value:
-                texts.append(value)
-    except:
-        pass
 
-    try:
         for child in object.children(obj):
-            texts.extend(get_all_texts(child))
+
+            texts.extend(
+                get_all_texts(child)
+            )
+
     except:
         pass
 
     return texts
 
+
+
 def load_english_strings():
-    workbook = openpyxl.load_workbook(EXCEL_PATH, data_only=True)
-    sheet = workbook.active
-    strings = {}
 
-    for row in sheet.iter_rows(min_row=2, values_only=True):
-        if len(row) < 2:
-            continue
+    workbook = openpyxl.load_workbook(
+        EXCEL_PATH,
+        data_only=True,
+        read_only=True
+    )
 
-        english = row[0]
+    try:
 
-        if english is None:
-            continue
+        if SHEET_NAME not in workbook.sheetnames:
 
-        english = str(english).strip()
+            test.fail(
+                "Worksheet not found: " + SHEET_NAME
+            )
 
-        if not english:
-            continue
+            return {}
 
-        key = normalize(english)
+        sheet = workbook[SHEET_NAME]
 
-        if key not in strings:
-            strings[key] = english
+        excel_strings = {}
 
-    return list(strings.values())
+        for row in sheet.iter_rows(
+            min_row=2,
+            values_only=True
+        ):
 
-def verify_screen(root_object):
-    excel_strings = load_english_strings()
-    screen_texts = get_all_texts(root_object)
-
-    unique_texts = set()
-
-    for text in screen_texts:
-        normalized = normalize(text)
-        if normalized:
-            unique_texts.add(normalized)
-
-    for screen_text in unique_texts:
-        matches = []
-
-        for english in excel_strings:
-            excel_text = normalize(english)
-
-            if screen_text == excel_text:
-                matches.append(english)
-
-            elif len(excel_text) >= 4 and excel_text in screen_text:
-                matches.append(english)
-
-        matches.sort(key=lambda x: len(normalize(x)), reverse=True)
-
-        for english in matches:
-            key = normalize(english)
-
-            if key in verified_strings:
+            if len(row) < ENGLISH_COLUMN:
                 continue
 
-            verified_strings.add(key)
-            test.passes(english)
+            english_value = row[ENGLISH_COLUMN - 1]
+
+            if english_value is None:
+                continue
+
+            english = str(english_value).strip()
+
+            if ignore_text(english):
+                continue
+
+            key = normalize(english)
+
+            if key and key not in excel_strings:
+
+                excel_strings[key] = english
+
+        test.log(
+            "Total English strings loaded: {}".format(
+                len(excel_strings)
+            )
+        )
+
+        return excel_strings
+
+    finally:
+
+        workbook.close()
+
+
+
+
+def is_string_present(expected, actual_texts):
+
+    expected = normalize(expected)
+
+    if not expected:
+        return False
+
+
+    for actual in actual_texts:
+
+        actual = normalize(actual)
+
+        if not actual:
+            continue
+
+        # Exact match
+        if expected == actual:
+            return True
+
+        pattern = (
+            r"(?<!\w)"
+            + re.escape(expected)
+            + r"(?!\w)"
+        )
+
+        if re.search(pattern, actual):
+            return True
+
+    return False
+
+
+
 
 def main():
-    sendEvent("QMoveEvent", waitForObject(names.o_ScreenSwitcher), 26, 197, 805, 217)
 
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
+    if not os.path.exists(EXCEL_PATH):
 
-    clickButton(waitForObject(names.mainFrame_okButton_QPushButton))
-    verify_screen(waitForObject(names.o_ScreenSwitcher))
+        test.fail(
+            "Excel file not found: " + EXCEL_PATH
+        )
 
-    clickButton(waitForObject(names.homeScreen_pbSoftTissueAssistant_QToolButton))
-    verify_screen(waitForObject(names.o_ScreenSwitcher))
+        return
 
-    
-    test.vp("Verify soft tissue guided screen")
+    excel_strings = load_english_strings()
+
+    if not excel_strings:
+
+        test.fail("No English strings found in Excel")
+
+        return
+
+    # LOGIN
+ 
+
+    clickButton(
+        waitForObject(names.numpad_pushButton_8_NumpadButton)
+    )
+
+    clickButton(
+        waitForObject(names.numpad_pushButton_8_NumpadButton)
+    )
+
+    clickButton(
+        waitForObject(names.numpad_pushButton_8_NumpadButton)
+    )
+
+    clickButton(
+        waitForObject(names.numpad_pushButton_8_NumpadButton)
+    )
+
+    clickButton(
+        waitForObject(names.mainFrame_okButton_QPushButton)
+    )
+
+    snooze(2)
+
+   
+  
+
+    clickButton(
+        waitForObject(
+            names.homeScreen_pbSoftTissueAssistant_QToolButton
+        )
+    )
+
+    snooze(1)
+
+    mouseClick(
+        waitForObject(
+            names.gbSoftTissueProcedures_lbSoftTissueProcedures_QLabel
+        ),
+        516, 9,
+        Qt.NoModifier,
+        Qt.LeftButton
+    )
+
+    mouseClick(
+        waitForObject(
+            names.softTissueAssistantModeScreen_gbSoftTissueProcedures_QFrame
+        ),
+        166, 197,
+        Qt.NoModifier,
+        Qt.LeftButton
+    )
+
+    mouseClick(
+        waitForObject(
+            names.softTissueAssistantModeScreen_gbBphProcedures_QFrame
+        ),
+        439, 14,
+        Qt.NoModifier,
+        Qt.LeftButton
+    )
+
+    mouseClick(
+        waitForObject(
+            names.softTissueAssistantModeScreen_gbBphProcedures_QFrame
+        ),
+        633, 11,
+        Qt.NoModifier,
+        Qt.LeftButton
+    )
+
+    snooze(1)
+
+   
+
+    soft_tissue = waitForObject(
+        names.softTissueAssistantModeScreen_SoftTissueAssistantModeScreen
+    )
+
+    actual_texts = get_all_texts(soft_tissue)
 
 
 
-    mouseClick(waitForObject(names.softTissueAssistantModeScreen_wdTabWidgets_QWidget), 150, 3, Qt.NoModifier, Qt.LeftButton)
-    verify_screen(waitForObject(names.o_ScreenSwitcher))
+    test.log("")
+    test.log("========== ACTUAL SCREEN TEXTS ==========")
+
+    for text in sorted(set(actual_texts)):
+
+        test.log(
+            "SCREEN TEXT: {}".format(text)
+        )
+
+    test.log("=========================================")
+
+  
+
+    total_pass = 0
+    total_fail = 0
+
+    test.log("")
+    test.log("======================================")
+    test.log("ENGLISH SOFT TISSUE STRING VERIFICATION")
+    test.log("======================================")
+
+    for key, english in sorted(excel_strings.items()):
+
+        if is_string_present(english, actual_texts):
+
+            test.passes(
+                "PASS: English string verified: {}".format(
+                    english
+                )
+            )
+
+            total_pass += 1
+
+        else:
+
+            test.fail(
+                "FAIL: English string not found on screen: {}".format(
+                    english
+                )
+            )
+
+            total_fail += 1
+
+    # --------------------------------------------------
+    # SUMMARY
+    # --------------------------------------------------
+
+    test.log("")
+    test.log("======================================")
+    test.log("ENGLISH LOCALIZATION SUMMARY")
+    test.log("======================================")
+
+    test.log(
+        "Total Excel strings: {}".format(
+            len(excel_strings)
+        )
+    )
+
+    test.log(
+        "Total PASS: {}".format(total_pass)
+    )
+
+    test.log(
+        "Total FAIL: {}".format(total_fail)
+    )
+
+    if total_fail > 0:
+
+        test.fail(
+            "ENGLISH SOFT TISSUE VALIDATION FAILED: "
+            "{} strings not found".format(total_fail)
+        )
+
+    else:
+
+        test.passes(
+            "ENGLISH SOFT TISSUE VALIDATION PASSED: "
+            "{} strings verified".format(total_pass)
+        )
+
+
+main()
