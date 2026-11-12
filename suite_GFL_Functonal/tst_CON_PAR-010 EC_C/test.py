@@ -9,7 +9,6 @@ def main():
 
     enter_login_pin()
     dismiss_fiber_verification_warning()
-
     verify_economyc_type()
 
     """Navigate to manual screen"""

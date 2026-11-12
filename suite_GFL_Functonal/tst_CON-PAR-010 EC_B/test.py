@@ -9,10 +9,7 @@ def main():
     enter_login_pin()
     dismiss_fiber_verification_warning()
     snooze(2)
-
     verify_economy_type()
-    
-   
     clickButton(waitForObject(names.buttonsBar_backButton_QPushButton))
     clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))

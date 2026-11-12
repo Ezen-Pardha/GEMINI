@@ -53,7 +53,6 @@ def main():
     """Step 1: Login"""
     enter_login_pin()
     dismiss_fiber_verification_warning()
-
     """Step 2: Navigate to Expert mode"""
     clickButton(
         waitForObject(names.gbExpert_expertButton_QPushButton)
