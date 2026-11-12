@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import names
+import croatian_localization as loc
 import openpyxl
 import re
 import os
@@ -8,33 +9,15 @@ import os
 
 TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-EXCEL_PATH = os.path.abspath(
-    os.path.join(
-        TESTCASE_DIR,
-        "..",
-        "shared",
-        "testdata",
-        "Gemini Split strings.xlsx"
-    )
-)
+EXCEL_PATH = loc.EXCEL_PATH
 
 ENGLISH_COLUMN = 2
 CROATIA_COLUMN = 4
-SHEET_NAME = "Soft tissue"
+SHEET_NAME = "GUI Strings"
 
 
 def normalize(text):
-    if text is None:
-        return ""
-
-    text = str(text)
-    text = re.sub(r"<[^>]+>", " ", text)
-    text = " ".join(text.split())
-
-    text = re.sub(r"\s*<\s*", " < ", text)
-    text = re.sub(r"\s*>\s*", " > ", text)
-
-    return text.strip().casefold()
+    return loc.normalize(text)
 
 
 def load_excel():
@@ -96,57 +79,7 @@ def get_CROATIA_values(excel_lookup, english_text):
 
 
 def verify_text(excel_lookup, object_name, english_text, description):
-    try:
-        obj = waitForObjectExists(object_name, 10000)
-        actual_value = getattr(obj, "text", "")
-
-        if actual_value is None:
-            actual_value = ""
-
-        actual = str(actual_value).strip()
-
-    except Exception as e:
-        test.fail(
-            description + " | Unable to read UI object: " + str(e)
-        )
-        return
-
-    expected_values = get_CROATIA_values(excel_lookup, english_text)
-
-    if not expected_values:
-        test.fail(
-            description
-            + " | English string not found in Excel Column B: "
-            + english_text
-        )
-        return
-
-    actual_normalized = normalize(actual)
-
-    for expected in expected_values:
-        expected_normalized = normalize(expected)
-
-        if actual_normalized == expected_normalized:
-            test.compare(
-                actual_normalized,
-                expected_normalized,
-                description
-                + " | English: "
-                + english_text
-                + " | CROATIA: "
-                + expected
-            )
-            return
-
-    test.fail(
-        description
-        + " | Expected CROATIA value from Excel Column "
-        + str(CROATIA_COLUMN)
-        + ": "
-        + " / ".join(expected_values)
-        + " | Actual UI text: "
-        + actual
-    )
+    return loc.verify_object(object_name, english_text, description, globals())
 
 
 def get_central_widget():

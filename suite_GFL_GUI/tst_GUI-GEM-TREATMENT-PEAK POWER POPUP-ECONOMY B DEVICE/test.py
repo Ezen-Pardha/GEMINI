@@ -5,7 +5,7 @@ from common import *
 
 def main():
     runtime_path = os.path.expanduser(
-        "/home/ezen/29October/latest Build (no Buttons bar)/build-gemini-Desktop-Debug/"
+        "/home/ezen/Gemini_v1"
     )
  
     configure_system_type(

@@ -897,5 +897,12 @@ fiberIdleTimeoutFrame_fiberIdleTimeoutNumberPicker_NumberPicker = {"container": 
 fiberIdleTimeoutNumberPicker_pbIncrement_QPushButton = {"container": fiberIdleTimeoutFrame_fiberIdleTimeoutNumberPicker_NumberPicker, "name": "pbIncrement", "type": "QPushButton", "visible": 1}
 fiberIdleTimeoutNumberPicker_pbDecrement_QPushButton = {"container": fiberIdleTimeoutFrame_fiberIdleTimeoutNumberPicker_NumberPicker, "name": "pbDecrement", "type": "QPushButton", "visible": 1}
 fiberIdleTimeoutNumberPicker_lbValue_QLabel = {"container": fiberIdleTimeoutFrame_fiberIdleTimeoutNumberPicker_NumberPicker, "name": "lbValue", "type": "QLabel", "visible": 1}
+centralWidget_okButton_QPushButton_4 = {"container": centralWidget_QFrame_3, "name": "okButton", "type": "QPushButton", "visible": 1}
 
->>>>>>> origin/main
+
+pulseModeWidget_saveButton_QPushButton_4 = {"container": modeWidget_PulseModeWidget_PulseModeWidget_2, "name": "saveButton", "type": "QPushButton", "visible": 1}
+centralWidget_pbName_QPushButton_2 = {"container": centralWidget_QFrame_4, "name": "pbName", "type": "QPushButton", "visible": 1}
+centralWidget_PulseModeWidget_PulseModeWidget_2 = {"container": centralWidget_QFrame_4, "name": "PulseModeWidget", "type": "PulseModeWidget", "visible": 1}
+pulseModeWidget_saveButton_QPushButton_5 = {"container": centralWidget_PulseModeWidget_PulseModeWidget_2, "name": "saveButton", "type": "QPushButton", "visible": 1}
+centralWidget_softTissueButton_QPushButton_2 = {"container": centralWidget_QFrame_5, "name": "softTissueButton", "type": "QPushButton", "visible": 1}
+centralWidget_titleLabel_QLabel_3 = {"container": centralWidget_QFrame_4, "name": "titleLabel", "type": "QLabel", "visible": 1}

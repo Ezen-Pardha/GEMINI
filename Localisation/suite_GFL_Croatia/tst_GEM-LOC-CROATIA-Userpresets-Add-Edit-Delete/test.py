@@ -2,88 +2,25 @@
 # -*- coding: utf-8 -*-
 
 import names
+import croatian_localization as loc
 import openpyxl
 import re
 import os
 
 TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
  
-EXCEL_PATH = os.path.abspath(
-    os.path.join( TESTCASE_DIR,
-        "..",
-        "shared",
-        "testdata",
-        "Gemini Split strings.xlsx"
-    )
-)
+EXCEL_PATH = loc.EXCEL_PATH
 
 
  
 def normalize_localization(text):
-
-    if text is None:
-        return ""
-
-    text = str(text)
-
-    # Remove HTML tags
-    text = re.sub(r"<[^>]+>", "", text)
-
-    # Remove escaped/newline characters
-    text = text.replace("\\n", "")
-    text = text.replace("\n", "")
-    text = text.replace("\r", "")
-
-    # Remove all whitespace so:
-    # PROSJEČNA
-    # SNAGA
-    # becomes PROSJEČNASNAGA
-    text = re.sub(r"\s+", "", text)
-
-    return text.casefold()
+    return loc.comparison_key(text)
 
 
 
 
 def load_croatian_strings():
-
-    
-    
-
-    workbook = openpyxl.load_workbook(
-        EXCEL_PATH,
-        data_only=True
-    )
-
-    sheet = workbook.active
-
-    excel_strings = []
-
-    for row_number in range(2, sheet.max_row + 1):
-
-        english = sheet.cell(
-            row=row_number,
-            column=2
-        ).value
-
-        croatian = sheet.cell(
-            row=row_number,
-            column=4
-        ).value
-
-        if english is not None and croatian is not None:
-
-            excel_strings.append({
-                "english": str(english),
-                "croatian": str(croatian),
-                "row": row_number
-            })
-
-    workbook.close()
-
-    
-
-    return excel_strings
+    return loc.translated_rows()
 
 
 

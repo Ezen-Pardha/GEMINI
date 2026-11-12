@@ -1,23 +1,15 @@
 # -*- coding: utf-8 -*-
 
 import names
+import croatian_localization as loc
 import openpyxl
 import re
 
 
-EXCEL_PATH = "/home/ezen/Test_Automation_Gemini/Localisation/suite_GFL_Croatia/tst_GEM-LOC-CROATIA-STONE-GUIDED/testdata/Gemini strings.xlsx"
+EXCEL_PATH = loc.EXCEL_PATH
 
 def normalize(text):
-    if text is None:
-        return ""
-
-    text = str(text)
-    text = re.sub(r"<[^>]+>", " ", text)
-    text = " ".join(text.split())
-    text = re.sub(r"\s*<\s*", " < ", text)
-    text = re.sub(r"\s*>\s*", " > ", text)
-
-    return text.casefold()
+    return loc.normalize(text)
 
 
 def get_all_texts(obj):
@@ -67,99 +59,11 @@ def get_all_texts(obj):
 
 
 def load_croatian_strings():
-
-    workbook = openpyxl.load_workbook(EXCEL_PATH, data_only=True)
-    sheet = workbook.active
-
-    strings = {}
-
-    for row in sheet.iter_rows(min_row=2, values_only=True):
-
-        if len(row) < 9:
-            continue
-
-        english = row[1]
-        croatian = row[8]
-
-        if english is None or croatian is None:
-            continue
-
-        english = str(english).strip()
-        croatian = str(croatian).strip()
-
-        if not english or not croatian:
-            continue
-
-        normalized = normalize(croatian)
-
-        
-        if normalized not in strings:
-            strings[normalized] = {
-                "english": english,
-                "croatian": croatian
-            }
-
-    return list(strings.values())
+    return loc.translated_rows()
 
 
 def verify_screen(root_object, screen_name):
-
-    excel_strings = load_croatian_strings()
-
-    screen_texts = get_all_texts(root_object)
-
-    
-    unique_texts = {}
-    
-    for text in screen_texts:
-
-        text = text.strip()
-
-        if not text:
-            continue
-
-        normalized = normalize(text)
-
-        if normalized not in unique_texts:
-            unique_texts[normalized] = text
-
-    # Keep only one result for each Croatian translation
-    verified = set()
-
-    for screen_normalized, screen_text in unique_texts.items():
-
-        matches = []
-
-        for item in excel_strings:
-
-            excel_normalized = normalize(item["croatian"])
-
-            # Exact match
-            if screen_normalized == excel_normalized:
-                matches.append(item)
-
-            # Match strings contained inside combined UI text
-            elif len(excel_normalized) >= 4 and excel_normalized in screen_normalized:
-                matches.append(item)
-
-        # Longest strings first
-        matches.sort(
-            key=lambda x: len(normalize(x["croatian"])),
-            reverse=True
-        )
-
-        for item in matches:
-
-            key = normalize(item["croatian"])
-
-            if key in verified:
-                continue
-
-            verified.add(key)
-
-            test.passes(
-                item["english"] + " -> " + item["croatian"]
-            )
+    return loc.verify_screen(root_object, screen_name, globals())
 
 
 def main():

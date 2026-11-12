@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import names
+import croatian_localization as loc
 import openpyxl
 import re
 import os
@@ -9,17 +10,9 @@ import os
 
 TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-EXCEL_PATH = os.path.abspath(
-    os.path.join(
-        TESTCASE_DIR,
-        "..",
-        "shared",
-        "testdata",
-        "Gemini Split strings.xlsx"
-    )
-)
+EXCEL_PATH = loc.EXCEL_PATH
 
-SHEET_NAME = "Soft Tissue-Guided"
+SHEET_NAME = "Soft tissue"
 
 
 def get_all_texts(obj):
@@ -144,38 +137,10 @@ def main():
             Qt.LeftButton
         )
 
-        # Get text from Soft Tissue screen
         soft_tissue = waitForObject(
             names.softTissueAssistantModeScreen_SoftTissueAssistantModeScreen
         )
-
-        actual_texts = get_all_texts(soft_tissue)
-
-        # Remove duplicate strings
-        actual_texts = list(set(actual_texts))
-
-        # Compare visible Croatian strings with Excel
-        for text in actual_texts:
-
-            for row in sheet.iter_rows(
-                min_row=2,
-                values_only=True
-            ):
-
-                if len(row) < 2:
-                    continue
-
-                if row[0] is None or row[1] is None:
-                    continue
-
-                english = str(row[0]).strip()
-                croatian = str(row[3]).strip()
-
-                if croatian == text.strip():
-                    test.passes(
-                        english + " -> " + croatian
-                    )
-                    break
+        loc.verify_screen(soft_tissue, "Soft Tissue Guided", globals())
 
     except Exception as e:
         test.fail("Localization validation error: " + str(e))
