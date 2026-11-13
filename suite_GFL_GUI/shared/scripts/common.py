@@ -1331,11 +1331,7 @@ def verify_economy_type():
     return False
 def verify_economyc_type():
 
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> afaf95eb9524d0398baf7cef49b0e422af595ff6
     test.log("Checking System Type")
 
     clickButton(
@@ -1352,11 +1348,11 @@ def verify_economyc_type():
     )
     snooze(2)
     test.compare(str(waitForObjectExists(names.centralWidget_titleLabel_QLabel).text), "Version Not Supported")    
-<<<<<<< HEAD
+
     clickButton(waitForObject(names.centralWidget_okButton_QPushButton_4))
-=======
+
     clickButton(waitForObject(names.centralWidget_okButton_QPushButton))
->>>>>>> afaf95eb9524d0398baf7cef49b0e422af595ff6
+
     for _ in range(4):
         clickButton(
             waitForObject(names.numpad_pushButton_9_NumpadButton)
@@ -1463,7 +1459,7 @@ def find_device_ini(runtime_path):
     test.log("Selected device.ini: {}".format(ini_path))
     return ini_path
 
-<<<<<<< HEAD
+
 def navigate_service_mode():
     enter_login_pin()
     clickButton(waitForObject(names.homeScreen_settingsButton_QPushButton))
@@ -1527,7 +1523,7 @@ def navigate_service_mode():
         return
  
    
-=======
+
 
 def verify_economyA_type():
     test.log("Checking System Type")
@@ -1578,5 +1574,5 @@ def verify_economyA_type():
         test.log("Unable to show QMessageBox; see failure log above")
 
     return False
->>>>>>> afaf95eb9524d0398baf7cef49b0e422af595ff6
+
 

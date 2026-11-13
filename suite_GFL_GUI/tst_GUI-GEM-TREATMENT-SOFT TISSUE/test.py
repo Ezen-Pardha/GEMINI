@@ -14,7 +14,7 @@ def main():
     clickButton(waitForObject(names.softTissueAssistantModeScreen_pbContinue_QPushButton))
     test.imagePresent("Procedure Edit")
     test.log("Treatment screen Procedure Edit button verified")
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
     
     test.log("SVV TAG GUI-TRT-086: Soft Tissue-->Guided mode to have procedure Edit Button in Top Banner")
      
