@@ -528,3 +528,16 @@ centralWidget_MessageLabel_QLabel_2 = {"container": centralWidget_QFrame_2, "nam
 centralWidget_TitleLabel_QLabel_3 = {"container": centralWidget_QFrame, "name": "TitleLabel", "type": "QLabel", "visible": 1}
 centralWidget_MessageLabel_QLabel_3 = {"container": centralWidget_QFrame, "name": "MessageLabel", "type": "QLabel", "visible": 1}
 centralWidget_CancelButton_QPushButton_3 = {"container": centralWidget_QFrame, "name": "CancelButton", "type": "QPushButton", "visible": 1}
+<<<<<<< HEAD
+
+# Stable treatment selectors: the recorded generic aliases above are redefined
+# for the preset editor. These names always refer to the left treatment pedal.
+croatiaTreatment_averagePowerWidget = {"container": modeWidget_PulseModeWidget_PulseModeWidget, "name": "averagePowerWidget", "type": "ParameterWithEnumerableValueWidget", "visible": 1}
+croatiaTreatment_averagePowerName_QLabel = {"container": croatiaTreatment_averagePowerWidget, "name": "nameLabel", "type": "QLabel", "visible": 1}
+croatiaTreatment_averagePowerUnits_QLabel = {"container": croatiaTreatment_averagePowerWidget, "name": "unitsOfMeasureLabel", "type": "QLabel", "visible": 1}
+bottomBar_fiberUsesFrame_ParameterValueBottomBarWidget = {"container": treatmentScreen_bottomBar_QFrame, "name": "fiberUsesFrame", "type": "ParameterValueBottomBarWidget", "visible": 1}
+fiberUsesFrame_nameLabel_QLabel = {"container": bottomBar_fiberUsesFrame_ParameterValueBottomBarWidget, "name": "nameLabel", "type": "QLabel", "visible": 1}
+=======
+stoneAssistantModeScreen_fiberFrame_QFrame = {"container": stoneAssistantModeScreen_StoneAssistantModeScreen, "name": "fiberFrame", "type": "QFrame", "visible": 1}
+fiberFrame_label_QLabel = {"container": stoneAssistantModeScreen_fiberFrame_QFrame, "name": "label", "type": "QLabel", "visible": 1}
+>>>>>>> afaf95eb9524d0398baf7cef49b0e422af595ff6

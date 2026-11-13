@@ -396,9 +396,6 @@ def main():
             names.stoneAssistantModeScreen_StoneAssistantModeScreen
         )
 
-        # VERIFY SCREEN STRINGS
-        # Numeric-containing strings are ignored.
-        # All other collected strings must exist in Poland Excel.
 
         verify_screen_strings(
             stone,

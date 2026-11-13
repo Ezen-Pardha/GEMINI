@@ -140,8 +140,6 @@ def load_Denmark_excel(excel_path):
 
     sheet = workbook[SHEET_NAME]
 
-    # Column B = English
-    # Column E = Denmark
     Denmark_data = {}
 
     for row in sheet.iter_rows(
@@ -399,9 +397,6 @@ def main():
             names.stoneAssistantModeScreen_StoneAssistantModeScreen
         )
 
-        # VERIFY SCREEN STRINGS
-        # Numeric-containing strings are ignored.
-        # All other collected strings must exist in Denmark Excel.
 
         verify_screen_strings(
             stone,
