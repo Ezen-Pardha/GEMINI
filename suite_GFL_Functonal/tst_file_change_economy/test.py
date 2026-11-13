@@ -5,7 +5,7 @@ def main():
     """Change the path of the to the File Build Path Where You Had Downloaded"""
     
     runtime_path = os.path.expanduser(
-        "~/Downloads/WORK/Gemini_GFL_2.5_Codebase_8May2026/"
+        "~/home/ntc/gemini0ct28/"
         "build-gemini-Desktop-Debug"
     )
     

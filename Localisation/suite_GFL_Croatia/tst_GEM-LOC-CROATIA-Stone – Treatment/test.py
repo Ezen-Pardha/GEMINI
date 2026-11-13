@@ -1,35 +1,20 @@
 # -*- coding: utf-8 -*-
 
 import names
+import croatian_localization as loc
 import openpyxl
 import re
 import os
 
 TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-EXCEL_PATH = os.path.abspath(
-    os.path.join(
-        TESTCASE_DIR,
-        "..",
-        "shared",
-        "testdata",
-        "Gemini Split strings.xlsx"
-    )
-)
+EXCEL_PATH = loc.EXCEL_PATH
 
 verified_strings = set()
 
 
 def normalize(text):
-    if text is None:
-        return ""
-
-    text = re.sub(r"<[^>]+>", " ", str(text))
-    text = " ".join(text.split())
-    text = re.sub(r"\s*<\s*", " < ", text)
-    text = re.sub(r"\s*>\s*", " > ", text)
-
-    return text.casefold()
+    return loc.normalize(text)
 
 
 def get_all_texts(obj):
@@ -75,117 +60,11 @@ def get_all_texts(obj):
 
 
 def load_croatian_strings():
-    workbook = openpyxl.load_workbook(
-        EXCEL_PATH,
-        data_only=True,
-        read_only=True
-    )
-
-    try:
-        sheet = workbook.active
-        strings = {}
-
-        for row in sheet.iter_rows(min_row=2, values_only=True):
-
-            if len(row) < 4:
-                continue
-
-            english = row[1]
-            croatian = row[3]
-
-            if english is None or croatian is None:
-                continue
-
-            english = str(english).strip()
-            croatian = str(croatian).strip()
-
-            if not english or not croatian:
-                continue
-
-            key = normalize(croatian)
-
-            if key and key not in strings:
-                strings[key] = {
-                    "english": english,
-                    "croatian": croatian
-                }
-
-        return list(strings.values())
-
-    finally:
-        workbook.close()
+    return loc.translated_rows()
 
 
 def verify_screen(root_object, screen_name):
-    excel_strings = load_croatian_strings()
-    screen_texts = get_all_texts(root_object)
-
-    unique_texts = {}
-
-    for text in screen_texts:
-        normalized = normalize(text)
-
-        if normalized:
-            unique_texts.setdefault(normalized, text.strip())
-
-    matched_count = 0
-    missing_count = 0
-
-    for normalized, screen_text in unique_texts.items():
-
-        matches = []
-
-        for item in excel_strings:
-            excel_text = normalize(item["croatian"])
-
-            if normalized == excel_text:
-                matches.append(item)
-
-            elif len(excel_text) >= 4 and excel_text in normalized:
-                matches.append(item)
-
-        matches.sort(
-            key=lambda item: len(normalize(item["croatian"])),
-            reverse=True
-        )
-
-        if matches:
-            for item in matches:
-                key = normalize(item["croatian"])
-
-                if key in verified_strings:
-                    continue
-
-                verified_strings.add(key)
-
-                test.passes(
-                    "{} | PASS: {} -> {}".format(
-                        screen_name,
-                        item["english"],
-                        item["croatian"]
-                    )
-                )
-
-                matched_count += 1
-
-        else:
-            test.fail(
-                "{} | FAIL: Visible string missing from Croatian Excel: {}".format(
-                    screen_name,
-                    screen_text
-                )
-            )
-
-            missing_count += 1
-
-    test.log(
-        "{} | Total screen strings: {} | Matched: {} | Missing: {}".format(
-            screen_name,
-            len(unique_texts),
-            matched_count,
-            missing_count
-        )
-    )
+    return loc.verify_screen(root_object, screen_name, globals())
 
 
 def main():

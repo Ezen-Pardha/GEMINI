@@ -34,7 +34,7 @@ def main():
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
     test.vp("Manual Treatment Screen")
 
-    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton))
+    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_4))
     test.log("Preset popup opened")
 
     mouseClick(
@@ -56,8 +56,10 @@ def main():
     )
     clickButton(waitForObject(names.centralWidget_pbClose_QPushButton))
 
-    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_2))
-    test.vp("Right Preset Popup")
+    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_4))
+
+    test.imagePresent("leftPresetPopup")
+    
     clickButton(waitForObject(names.centralWidget_pbClose_QPushButton))
     test.log("Right Preset Popup verification executed")
 
@@ -71,7 +73,7 @@ def main():
     )
     clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
-    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton))
+    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_4))
 
     sendEvent("QMoveEvent", waitForObject(names.o_ScreenSwitcher), 0, -38, 1285, 256)
 
@@ -141,7 +143,7 @@ def main():
     test.log("SVV TAG POP-SAV-003: Save Preset Popup Pulse Energy Adjustment")
     clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
-    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton))
+    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_4))
     mouseDrag(
         waitForObject(names.indexPicker_valuePicker_IntervalSlider_8),
         88, 27, 114, 13, 1, Qt.LeftButton
@@ -152,7 +154,7 @@ def main():
     clickButton(waitForObject(names.centralWidget_pbClose_QPushButton))
     clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
-    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton))
+    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_4))
     mouseDrag(
         waitForObject(names.indexPicker_valuePicker_IntervalSlider_9),
         76, 22, 53, 10, 1, Qt.LeftButton
@@ -164,7 +166,7 @@ def main():
     clickButton(waitForObject(names.centralWidget_pbClose_QPushButton))
     clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
-    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton))
+    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_4))
 
     mouseClick(
         waitForObject(names.peakPowerButton_iconLabel_QLabel),
@@ -214,7 +216,7 @@ def main():
     setWindowState(waitForObject(names.o_ScreenSwitcher), WindowState.Normal)
     clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
-    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton, 45222))
+    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_4, 45222))
 
     verify_image(
         "Close button",
@@ -227,7 +229,7 @@ def main():
     clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
     test.log("SVV TAG POP-SAV-008: Save Preset Popup Save Button")
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
-    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton, 40615))
+    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_4, 40615))
     verify_image(
         "Popup Save Button ",
         "Save button image is available on the Preset popup",
@@ -238,7 +240,7 @@ def main():
     clickButton(waitForObject(names.centralWidget_pbClose_QPushButton))
     clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
-    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton, 46063))
+    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_4, 46063))
     test.compare(str(waitForObjectExists(names.centralWidget_pbName_QPushButton).text), "Enter preset name")
     clickButton(waitForObject(names.centralWidget_pbClose_QPushButton))
    
@@ -253,7 +255,7 @@ def main():
         waitForObject(names.leftPedalWidget_wdPresetTabs_TabWidget, 90840),
         479, 33, Qt.NoModifier, Qt.LeftButton
     )
-    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton))
+    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_4))
     test.log("Save Preset popup opened for left preset")
     clickButton(waitForObject(names.centralWidget_pbName_QPushButton))
     type(waitForObject(names.keyboardPopup_wdEdit_WdLineEdit), "leftpresetone")
@@ -262,13 +264,25 @@ def main():
         99, 54, Qt.NoModifier, Qt.LeftButton
     )
     test.vp("Left preset save")
-    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_3))
-    clickButton(waitForObject(names.centralWidget_softTissueButton_QPushButton))
 
-    test.log("SVV TAG POP-SAV-011: Save Preset Popup Text Field Default")
+    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_3))
+    
+    test.compare(str(waitForObjectExists(names.centralWidget_titleLabel_QLabel_3).text), "Manual Mode Save Preset")
+    clickButton(waitForObject(names.centralWidget_softTissueButton_QPushButton))
     clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
+    clickButton(waitForObject(names.homeScreen_settingsButton_QPushButton))
+    clickTab(waitForObject(names.settingsScreen_tbSystemInfo_TabWidget), "USER\nPRESETS")
+    clickTab(waitForObject(names.wdPresetsLayout_tbPresetsForSettings_TabWidget), "SOFT TISSUE")
+    mouseClick(waitForObjectItem(names.tabSettingsPresetsUserSoftTissuePresets_presetListView_PresetListView, "_1"), 237, 62, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.settingsScreen_deletePresetButton_QPushButton))
+    mouseClick(waitForObjectItem(names.tabSettingsPresetsUserSoftTissuePresets_presetListView_PresetListView, "_1"), 443, 20, Qt.NoModifier, Qt.LeftButton)
+    clickButton(waitForObject(names.buttonsFrame_acceptButton_QPushButton_4))
+    clickButton(waitForObject(names.settingsScreen_deletePresetButton_QPushButton))
+  
+    test.log("SVV TAG POP-SAV-011: Save Preset Popup Text Field Default")
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_8))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
-    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton))
+    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_4))
 
     verify_text(
         names.centralWidget_pbName_QPushButton,
@@ -281,7 +295,7 @@ def main():
     clickButton(waitForObject(names.centralWidget_pbClose_QPushButton))
     clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
-    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton, 81784))
+    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_4, 81784))
     clickButton(waitForObject(names.centralWidget_pbName_QPushButton))
     type(waitForObject(names.keyboardPopup_wdEdit_WdLineEdit), "Preset one")
     mouseClick(
@@ -305,7 +319,7 @@ def main():
     clickButton(waitForObject(names.centralWidget_pbClose_QPushButton))
     clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
-    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton))
+    clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_4))
     clickButton(waitForObject(names.centralWidget_pbName_QPushButton))
     type(waitForObject(names.keyboardPopup_wdEdit_WdLineEdit), "preset two")
     mouseClick(

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import names
+import croatian_localization as loc
 import re
 import unicodedata
 from openpyxl import load_workbook
@@ -8,14 +9,7 @@ import os
 
 TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
  
-EXCEL_PATH = os.path.abspath(
-    os.path.join( TESTCASE_DIR,
-        "..",
-        "shared",
-        "testdata",
-        "Gemini Split strings.xlsx"
-    )
-)
+EXCEL_PATH = loc.EXCEL_PATH
 
 
 
@@ -93,6 +87,7 @@ def load_dutch_strings():
             data_only=True
         )
         sheet = workbook["Treatment Modes"]
+        sheet.reset_dimensions()
 
         dutch_strings = {}
 

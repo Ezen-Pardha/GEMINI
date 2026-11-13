@@ -1,11 +1,12 @@
      # -*- coding: utf-8 -*-
 
 import names
+import croatian_localization as loc
 import openpyxl
 import re
 
+EXCEL_PATH = loc.EXCEL_PATH
 
-EXCEL_PATH = "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Croatia/tst_GEM-LOC-CROATIA-STONE-GUIDED/testdata/Gemini strings.xlsx"
 
 
 VERIFIED_RESULTS = set()
@@ -26,6 +27,7 @@ def normalize(text):
     text = re.sub(r"\s*>\s*", " > ", text)
 
     return text.casefold()
+    return loc.normalize(text)
 
 
 def get_all_texts(obj):

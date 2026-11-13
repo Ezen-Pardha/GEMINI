@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import names
+import croatian_localization as loc
 import openpyxl
 import re
 import os
@@ -9,30 +10,13 @@ import os
 
 TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-EXCEL_PATH = os.path.abspath(
-    os.path.join(
-        TESTCASE_DIR,
-        "..",
-        "shared",
-        "testdata",
-        "Gemini Split strings.xlsx"
-    )
-)
+EXCEL_PATH = loc.EXCEL_PATH
 
 SHEET_NAME = "Treatment Modes"
 
 
 def normalize(text):
-    if text is None:
-        return ""
-
-    text = str(text)
-    text = re.sub(r"<[^>]+>", " ", text)
-    text = " ".join(text.split())
-    text = re.sub(r"\s*<\s*", " < ", text)
-    text = re.sub(r"\s*>\s*", " > ", text)
-
-    return text.casefold()
+    return loc.normalize(text)
 
 
 def get_all_texts(obj):
@@ -81,132 +65,11 @@ def get_all_texts(obj):
 
 
 def load_croatian_strings():
-
-    if not os.path.isfile(EXCEL_PATH):
-        test.fail("Excel file not found: " + EXCEL_PATH)
-        return []
-
-    workbook = None
-    strings = {}
-
-    try:
-        workbook = openpyxl.load_workbook(
-            EXCEL_PATH,
-            data_only=True,
-            read_only=True
-        )
-
-        if SHEET_NAME not in workbook.sheetnames:
-            test.fail(
-                "Excel sheet not found: " + SHEET_NAME +
-                ". Available sheets: " + ", ".join(workbook.sheetnames)
-            )
-            return []
-
-        sheet = workbook[SHEET_NAME]
-
-        for row in sheet.iter_rows(min_row=2, values_only=True):
-
-            if len(row) < 9:
-                continue
-
-            english = row[1]
-            croatian = row[3]
-
-            if english is None or croatian is None:
-                continue
-
-            english = str(english).strip()
-            croatian = str(croatian).strip()
-
-            if not english or not croatian:
-                continue
-
-            normalized = normalize(croatian)
-
-            if normalized not in strings:
-                strings[normalized] = {
-                    "english": english,
-                    "croatian": croatian
-                }
-
-    except Exception as e:
-        test.fail("Error reading Croatian Excel strings: " + str(e))
-
-    finally:
-        if workbook is not None:
-            workbook.close()
-
-    return list(strings.values())
+    return loc.translated_rows()
 
 
 def verify_screen(root_object, screen_name):
-
-    excel_strings = load_croatian_strings()
-
-    if not excel_strings:
-        test.fail(
-            "No Croatian strings loaded for screen: " + screen_name
-        )
-        return
-
-    screen_texts = get_all_texts(root_object)
-
-    # Remove duplicate UI text
-    unique_texts = {}
-
-    for text in screen_texts:
-
-        text = text.strip()
-
-        if not text:
-            continue
-
-        normalized = normalize(text)
-
-        if normalized not in unique_texts:
-            unique_texts[normalized] = text
-
-    # Prevent duplicate results within this screen
-    verified = set()
-
-    for screen_normalized in unique_texts:
-
-        matches = []
-
-        for item in excel_strings:
-
-            excel_normalized = normalize(item["croatian"])
-
-            # Exact match
-            if screen_normalized == excel_normalized:
-                matches.append(item)
-
-            # Combined UI text
-            elif (
-                len(excel_normalized) >= 4
-                and excel_normalized in screen_normalized
-            ):
-                matches.append(item)
-
-        # Longest strings first
-        matches.sort(
-            key=lambda x: len(normalize(x["croatian"])),
-            reverse=True
-        )
-
-        for item in matches:
-
-            key = normalize(item["croatian"])
-
-            if key in verified:
-                continue
-
-            verified.add(key)
-
-            test.passes(
-                item["english"] + " -> " + item["croatian"]
-            )
+    return loc.verify_screen(root_object, screen_name, globals())
 
 
 def main():
