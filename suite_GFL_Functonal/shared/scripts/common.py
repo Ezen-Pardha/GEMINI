@@ -132,11 +132,19 @@ def enter_login_pin():
     """Enter PIN 8888."""
     test.log("Entering login PIN 8888")
 
-    for index in range(4):
-        click_and_report(
-            names.numpad_pushButton_8_NumpadButton,
-            "Enter PIN digit 8 ({} of 4)".format(index + 1)
+    try:
+        for _ in range(4):
+            clickButton(
+                waitForObject(names.numpad_pushButton_8_NumpadButton)
+            )
+
+        test.passes("PASS: Login PIN 8888 entered successfully")
+
+    except Exception as error:
+        test.fail(
+            "FAIL: Unable to enter login PIN 8888. " + str(error)
         )
+        raise
 
 
 def dismiss_fiber_verification_warning():
