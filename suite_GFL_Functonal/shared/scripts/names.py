@@ -240,3 +240,8 @@ centralWidget_titleLabel_QLabel = {"container": centralWidget_QFrame, "name": "t
 centralWidget_Fragmentation_QPushButton = {"container": centralWidget_QFrame_2, "name": "Fragmentation", "type": "QPushButton", "visible": 1}
 centralWidget_Dusting_QPushButton = {"container": centralWidget_QFrame_2, "name": "Dusting", "type": "QPushButton", "visible": 1}
 
+centralWidget_iconLabel_QLabel = {"container": centralWidget_QFrame, "name": "iconLabel", "type": "QLabel", "visible": 1}
+centralWidget_codeLabel_QLabel = {"container": centralWidget_QFrame, "name": "codeLabel", "type": "QLabel", "visible": 1}
+centralWidget_messageLabel_QLabel = {"container": centralWidget_QFrame, "name": "messageLabel", "type": "QLabel", "visible": 1}
+pulseModeWidget_peakPowerButton_ParameterSettingsButton = {"container": modeWidget_PulseModeWidget_PulseModeWidget, "name": "peakPowerButton", "type": "ParameterSettingsButton", "visible": 1}
+peakPowerButton_iconLabel_QLabel = {"container": pulseModeWidget_peakPowerButton_ParameterSettingsButton, "name": "iconLabel", "type": "QLabel", "visible": 1}
