@@ -16,8 +16,7 @@ def main():
     clickButton(waitForObject(names.hardnessFrame_smallHardnessButton_QPushButton))
     test.log("Guided modes Location, FlowRate, Hardness is selected")
     clickButton(waitForObject(names.stoneAssistantModeScreen_continueButton_QPushButton))
-    mouseClick(waitForObject(names.topBar_buttonsBar_ButtonsBar_4), 619, 41, Qt.NoModifier, Qt.LeftButton)
-    test.log("Guided Treatment Screen is verified")
+    test.log("Guided Treatment Screen is verified") 
     clickButton(waitForObject(names.treatmentCharacteristicsBar_pbEdit_QPushButton))
     test.compare(str(waitForObjectExists(names.centralWidget_titleLabel_QLabel).text), "STONE CHARACTERISTICS")
     if object.exists(names.centralWidget_titleLabel_QLabel):
@@ -30,12 +29,10 @@ def main():
     else:
         test.log("Stone Characteristics popup is not present")
     clickButton(waitForObject(names.centralWidget_acceptButton_QPushButton))
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
-    
+   
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
      
     test.log("SVV TAG GUI-TRT-084: EDIT Stone Characteristics in Top Banner")
-    
-    
     clickButton(waitForObject(names.homeScreen_pbStoneAssistant_QToolButton))
     test.log("Guided modes Treatment screen verified")
     clickButton(waitForObject(names.locationFrame_kidneyPcnlLocationButton_QPushButton))
@@ -43,7 +40,7 @@ def main():
     clickButton(waitForObject(names.hardnessFrame_smallHardnessButton_QPushButton))
     test.log("Guided modes Location, FlowRate, Hardness is selected")
     clickButton(waitForObject(names.stoneAssistantModeScreen_continueButton_QPushButton))
-    mouseClick(waitForObject(names.topBar_buttonsBar_ButtonsBar_4), 619, 41, Qt.NoModifier, Qt.LeftButton)
+    mouseClick(waitForObject(names.topBar_buttonsBar_ButtonsBar), 619, 41, Qt.NoModifier, Qt.LeftButton)
     test.log("Guided Treatment Screen is verified")
     clickButton(waitForObject(names.treatmentCharacteristicsBar_pbEdit_QPushButton))
     test.compare(str(waitForObjectExists(names.centralWidget_titleLabel_QLabel).text), "STONE CHARACTERISTICS")
