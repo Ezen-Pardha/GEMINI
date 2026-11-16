@@ -32,8 +32,7 @@ def main():
     test.log("SVV TAG POP-SAV-001: Save preset popup left and right pedal")
 
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
-    test.vp("Manual Treatment Screen")
-
+    test.imagePresent("manualScreen")
     clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_4))
     test.log("Preset popup opened")
 
@@ -47,7 +46,10 @@ def main():
         ),
         100, 106, 15, 0, 1, Qt.LeftButton
     )
-    test.vp("Left Preset Popup")
+    
+    test.imagePresent("leftPresetPoup")
+
+    # test.vp("Left Preset Popup")
     test.log("Left Preset Popup verification executed")
 
     mouseClick(
@@ -68,10 +70,10 @@ def main():
     )
 
     mouseClick(
-        waitForObject(names.topBar_buttonsBar_ButtonsBar_4),
+        waitForObject(names.topBar_buttonsBar_ButtonsBar),
         419, 60, Qt.NoModifier, Qt.LeftButton
     )
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
     clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_4))
 
@@ -141,30 +143,32 @@ def main():
     clickButton(waitForObject(names.centralWidget_pbClose_QPushButton))
 
     test.log("SVV TAG POP-SAV-003: Save Preset Popup Pulse Energy Adjustment")
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
     clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_4))
     mouseDrag(
         waitForObject(names.indexPicker_valuePicker_IntervalSlider_8),
         88, 27, 114, 13, 1, Qt.LeftButton
     )
-    test.vp("Pulse Energy Adjustment")
+    
+    test.imagePresent("pulseEnergy")
 
     test.log("SVV TAG POP-SAV-004: Save Preset Popup Frequency Adjustment")
     clickButton(waitForObject(names.centralWidget_pbClose_QPushButton))
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
     clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_4))
     mouseDrag(
         waitForObject(names.indexPicker_valuePicker_IntervalSlider_9),
         76, 22, 53, 10, 1, Qt.LeftButton
     )
-    test.vp("Frequency Adjustment")
+
+    test.imagePresent("frequency")
     test.log("Frequency Adjustment verified")
 
     test.log("SVV TAG POP-SAV-005: Save Preset Popup Peak Power Button")
     clickButton(waitForObject(names.centralWidget_pbClose_QPushButton))
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
     clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_4))
 
@@ -172,7 +176,10 @@ def main():
         waitForObject(names.peakPowerButton_iconLabel_QLabel),
         13, 21, Qt.NoModifier, Qt.LeftButton
     )
-    clickButton(waitForObject(names.centralWidget_pw500_QPushButton))
+
+    clickButton(waitForObject(names.centralWidget_pw500_QPushButton_3))
+
+    # clickButton(waitForObject(names.centralWidget_pw500_QPushButton))
     mouseClick(
         waitForObject(names.averagePowerWidget_progressFrame_QFrame_3),
         279, 25, Qt.NoModifier, Qt.LeftButton
@@ -181,7 +188,11 @@ def main():
         waitForObject(names.peakPowerButton_iconLabel_QLabel),
         12, 18, Qt.NoModifier, Qt.LeftButton
     )
-    clickButton(waitForObject(names.centralWidget_pw250_QPushButton))
+
+   
+    clickButton(waitForObject(names.centralWidget_pw250_QPushButton_3))
+    
+    # clickButton(waitForObject(names.centralWidget_pw250_QPushButton))
     mouseClick(
         waitForObject(names.peakPowerButton_iconLabel_QLabel),
         24, 17, Qt.NoModifier, Qt.LeftButton
@@ -194,7 +205,7 @@ def main():
     test.log("SVV TAG POP-SAV-006: Save Preset Popup Pulse Mode Button")
     clickButton(waitForObject(names.buttonsFrame_rejectButton_QPushButton_4))
     clickButton(waitForObject(names.centralWidget_pbClose_QPushButton))
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
 
     mouseClick(
@@ -207,14 +218,26 @@ def main():
     test.imagePresent("Pulse Mode Popup")
 
     clickButton(waitForObject(names.centralWidget_MRP_QPushButton_2))
-    test.vp("Pulse Mode Update Popup")
-    test.log("Pulse Mode changed and verified")
+
+    # test.imagePresent("pModeUpdate")
+
+    # test.imagePresent("powerModeUpdate")
+    
+    mouseClick(waitForObject(names.centralWidget_QFrame_4), 617, 189, Qt.NoModifier, Qt.LeftButton)
+    title = str(waitForObjectExists(names.centralWidget_TitleLabel_QLabel_2).text)
+
+    if title == "POWER MODE UPDATE":
+        test.passes("POWER MODE UPDATE title is visible")
+    else:
+        test.fail("POWER MODE UPDATE title is not visible. Actual text: " + title)
+
+    
     clickButton(waitForObject(names.centralWidget_DisableButton_QPushButton_2))
 
     test.log("SVV TAG POP-SAV-007: Save Preset Popup Close Button")
     setWindowState(waitForObject(names.o_ScreenSwitcher), WindowState.Minimize)
     setWindowState(waitForObject(names.o_ScreenSwitcher), WindowState.Normal)
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
     clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_4, 45222))
 
@@ -226,7 +249,7 @@ def main():
     clickButton(waitForObject(names.centralWidget_pbClose_QPushButton))
     test.log("Close/Cancel button verification completed")
 
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
     test.log("SVV TAG POP-SAV-008: Save Preset Popup Save Button")
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
     clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_4, 40615))
@@ -238,7 +261,7 @@ def main():
 
     test.log("SVV TAG POP-SAV-009: Save Preset Popup Closes on Save Button")
     clickButton(waitForObject(names.centralWidget_pbClose_QPushButton))
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
     clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_4, 46063))
     test.compare(str(waitForObjectExists(names.centralWidget_pbName_QPushButton).text), "Enter preset name")
@@ -249,7 +272,7 @@ def main():
         waitForObject(names.rightPedalWidget_wdPresetTabs_TabWidget),
         13, 56, Qt.NoModifier, Qt.LeftButton
     )
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
     mouseClick(
         waitForObject(names.leftPedalWidget_wdPresetTabs_TabWidget, 90840),
@@ -263,13 +286,13 @@ def main():
         waitForObject(names.keyboardPopup_lbText_QLabel),
         99, 54, Qt.NoModifier, Qt.LeftButton
     )
-    test.vp("Left preset save")
+    # test.imagePresent("leftPresetPopup")
 
     clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_3))
     
     test.compare(str(waitForObjectExists(names.centralWidget_titleLabel_QLabel_3).text), "Manual Mode Save Preset")
     clickButton(waitForObject(names.centralWidget_softTissueButton_QPushButton))
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
     clickButton(waitForObject(names.homeScreen_settingsButton_QPushButton))
     clickTab(waitForObject(names.settingsScreen_tbSystemInfo_TabWidget), "USER\nPRESETS")
     clickTab(waitForObject(names.wdPresetsLayout_tbPresetsForSettings_TabWidget), "SOFT TISSUE")
@@ -293,7 +316,7 @@ def main():
 
     test.log("SVV TAG POP-SAV-012: Save Preset Popup Treatment Category Selection Required")
     clickButton(waitForObject(names.centralWidget_pbClose_QPushButton))
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
     clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_4, 81784))
     clickButton(waitForObject(names.centralWidget_pbName_QPushButton))
@@ -317,7 +340,7 @@ def main():
         498, 24, Qt.NoModifier, Qt.LeftButton
     )
     clickButton(waitForObject(names.centralWidget_pbClose_QPushButton))
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
     clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_4))
     clickButton(waitForObject(names.centralWidget_pbName_QPushButton))

@@ -148,8 +148,7 @@ def main():
     test.log("Starting Economy B and Frequency Test")
 
     runtime_path = os.path.expanduser(
-        "~/Downloads/WORK/Gemini_GFL_2.5_Codebase_8May2026/"
-        "build-gemini-Desktop-Debug"
+        "/home/ezen/Gemini_v1"
     )
 
     common.configure_system_type(

@@ -607,83 +607,42 @@ def configure_system_type(new_type, runtime_path):
 
   
 def verify_economy_type():
-
     test.log("Checking System Type")
     clickButton(
-        waitForObject(
-            names.homeScreen_settingsButton_QPushButton
-        )
+        waitForObject(names.homeScreen_settingsButton_QPushButton)
     )
-
     clickTab(
-        waitForObject(
-            names.settingsScreen_tbSystemInfo_TabWidget
-        ),
+        waitForObject(names.settingsScreen_tbSystemInfo_TabWidget),
         "LOGS"
     )
-
     clickButton(
-        waitForObject(
-            names.settingsScreen_pbService_QPushButton
-        )
+        waitForObject(names.settingsScreen_pbService_QPushButton)
     )
-
     for _ in range(5):
         clickButton(
-            waitForObject(
-                names.numpad_pushButton_9_NumpadButton
-            )
+            waitForObject(names.numpad_pushButton_9_NumpadButton)
         )
     system_type_label = waitForObject(
         names.staticVersions_3_systemTypeVersion_QLabel
     )
-
-    actual_type = str(
-        system_type_label.text
-    ).strip()
-
-    test.log(
-        "Actual System Type: {}".format(actual_type)
+    actual_type = str(system_type_label.text).strip()
+    test.log("Actual System Type: {}".format(actual_type))
+    if actual_type.replace(" ", "").lower() == "economyb":
+        test.passes("System Type is Economy B")
+        return True
+    message = "Incorrect Economy: Expected Economy B, found {}".format(
+        actual_type
     )
-    
-    result = common.compare_display_string(
-        "Localization",
-        "A5",
-        actual_type,
-        "Verify System Type"
-    )
-
-    if result:
-        test.passes(
-            "System Type verification passed"
+    test.fail(message)
+    try:
+        QMessageBox.warning(
+            None,
+            "Incorrect Economy",
+            message
         )
-    else:
-        test.fail(
-            "System Type verification failed"
-        )
-    mouseClick(
-        waitForObject(
-            names.staticVersions_3_systemTypeVersion_QLabel
-        ),
-        57,
-        17,
-        Qt.NoModifier,
-        Qt.LeftButton
-    )
-
-    clickButton(
-        waitForObject(
-            names.buttonsBar_backButton_QPushButton
-        )
-    )
-
-    clickButton(
-        waitForObject(
-            names.buttonsBar_homeButton_QPushButton
-        )
-    )
-    return result
-
+    except Exception:
+        test.log("Unable to show QMessageBox; see failure log above")
+    return False
 
 def verify_economyc_type():
 

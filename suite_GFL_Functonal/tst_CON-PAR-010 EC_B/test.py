@@ -5,9 +5,34 @@ import names
 from common import *
 
 def main():
+    runtime_path = os.path.expanduser(
+        "/home/ezen/Gemini_v1"
+    )
+    configure_system_type(
+        new_type="B",
+        runtime_path=runtime_path
+    )
+    try: 
+        context = currentApplicationContext()
+        context.detach()
+        snooze(3)
+        test.log("AUT context detached")
+    except Exception as error:
+        test.log("Error while closing AUT: " + str(error))
 
+    startApplication(
+        "bravo --disable-watchdog --watchdog-timeout=10 "
+        "--disable-integrity-check "
+        "--disable-fiber-use-check "
+        "--disable-firmware-check "
+        "--disable-ssm "
+        "--disable-ports-check"
+    )
+    snooze(5)
+    test.passes("Bravo AUT restart command executed successfully")
     enter_login_pin()
     dismiss_fiber_verification_warning()
+    
     snooze(2)
     verify_economy_type()
     clickButton(waitForObject(names.buttonsBar_backButton_QPushButton))

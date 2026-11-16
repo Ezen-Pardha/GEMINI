@@ -649,8 +649,6 @@ pulseModeWidget_buttonsWidget_QWidget_3 = {"container": centralWidget_PulseModeW
 keyboardPopup_a_KeyButton = {"container": keyboardPopup_KeyboardPopup, "text": "a", "type": "KeyButton", "unnamed": 1, "visible": 1}
 topBar_buttonsBar_ButtonsBar_9 = {"container": settingsScreen_topBar_TopBar, "name": "buttonsBar", "type": "ButtonsBar", "visible": 1}
 buttonsBar_homeButton_QPushButton_9 = {"container": topBar_buttonsBar_ButtonsBar_8, "name": "homeButton", "type": "QPushButton", "visible": 1}
-<<<<<<< HEAD
-=======
 frame_disabledModeButton_AimingBeamModeButton = {"container": centralWidget_frame_QFrame, "name": "disabledModeButton", "type": "AimingBeamModeButton", "visible": 1}
 centralWidget_buttonsFrame_QFrame_7 = {"container": centralWidget_QFrame_3, "name": "buttonsFrame", "type": "QFrame", "visible": 1}
 buttonsFrame_acceptButton_QPushButton_5 = {"container": centralWidget_buttonsFrame_QFrame_7, "name": "acceptButton", "type": "QPushButton", "visible": 1}
@@ -675,7 +673,7 @@ peakPowerButton_nameLabel_QLabel_2 = {"container": pulseModeWidget_peakPowerButt
 centralWidget_okButton_QPushButton_3 = {"container": centralWidget_QFrame_4, "name": "okButton", "type": "QPushButton", "visible": 1}
 keyboardPopup_A_KeyButton = {"container": keyboardPopup_KeyboardPopup, "text": "A", "type": "KeyButton", "unnamed": 1, "visible": 1}
 keyboardPopup_A_KeyButton_2 = {"aboveWidget": keyboardPopup_A_KeyButton, "container": keyboardPopup_KeyboardPopup, "type": "KeyButton", "unnamed": 1, "visible": 1}
->>>>>>> afaf95eb9524d0398baf7cef49b0e422af595ff6
+
 systemsettingframe_pbDecreaseVolume_QPushButton = {"container": wdSystemSettingsLayout_systemsettingframe_QFrame, "name": "pbDecreaseVolume", "type": "QPushButton", "visible": 1}
 systemsettingframe_pbIncreaseVolume_QPushButton = {"container": wdSystemSettingsLayout_systemsettingframe_QFrame, "name": "pbDecreaseVolume", "type": "QPushButton", "visible": 1}
 systemsettingframe_pbIncreaseVolume_QPushButton_2 = {"container": wdSystemSettingsLayout_systemsettingframe_QFrame, "name": "pbIncreaseVolume", "type": "QPushButton", "visible": 1}
@@ -736,12 +734,11 @@ peakPowerButton_iconLabel_QLabel_2 = {"container": pulseModeWidget_peakPowerButt
 frequencyWidgetEmission_unitsOfMeasureLabel_QLabel = {"container": pulseModeWidget_frequencyWidgetEmission_ParameterWithBoundedValueWidget_2, "name": "unitsOfMeasureLabel", "type": "QLabel", "visible": 1}
 pulseModeWidget_peakPowerButton_ParameterSettingsButton_3 = {"container": modeWidget_PulseModeWidget_PulseModeWidget, "name": "peakPowerButton", "type": "ParameterSettingsButton", "visible": 1}
 peakPowerButton_nameLabel_QLabel_3 = {"container": pulseModeWidget_peakPowerButton_ParameterSettingsButton_3, "name": "nameLabel", "type": "QLabel", "visible": 1}
-<<<<<<< HEAD
-=======
+
 peakPowerButton_iconLabel_QLabel_3 = {"container": pulseModeWidget_peakPowerButton_ParameterSettingsButton_3, "name": "iconLabel", "type": "QLabel", "visible": 1}
 centralWidget_pw500_QPushButton_2 = {"container": centralWidget_QFrame_3, "name": "pw500", "type": "QPushButton", "visible": 1}
 centralWidget_pw1000_QPushButton = {"container": centralWidget_QFrame_3, "name": "pw1000", "type": "QPushButton", "visible": 1}
->>>>>>> afaf95eb9524d0398baf7cef49b0e422af595ff6
+
 
 peakPowerButton_iconLabel_QLabel_3 = {"container": pulseModeWidget_peakPowerButton_ParameterSettingsButton_3, "name": "iconLabel", "type": "QLabel", "visible": 1}
 centralWidget_pw500_QPushButton_2 = {"container": centralWidget_QFrame_3, "name": "pw500", "type": "QPushButton", "visible": 1}
@@ -930,7 +927,7 @@ fiberIdleTimeoutFrame_fiberIdleTimeoutNumberPicker_NumberPicker = {"container": 
 fiberIdleTimeoutNumberPicker_pbIncrement_QPushButton = {"container": fiberIdleTimeoutFrame_fiberIdleTimeoutNumberPicker_NumberPicker, "name": "pbIncrement", "type": "QPushButton", "visible": 1}
 fiberIdleTimeoutNumberPicker_pbDecrement_QPushButton = {"container": fiberIdleTimeoutFrame_fiberIdleTimeoutNumberPicker_NumberPicker, "name": "pbDecrement", "type": "QPushButton", "visible": 1}
 fiberIdleTimeoutNumberPicker_lbValue_QLabel = {"container": fiberIdleTimeoutFrame_fiberIdleTimeoutNumberPicker_NumberPicker, "name": "lbValue", "type": "QLabel", "visible": 1}
-<<<<<<< HEAD
+
 centralWidget_okButton_QPushButton_4 = {"container": centralWidget_QFrame_3, "name": "okButton", "type": "QPushButton", "visible": 1}
 
 
@@ -940,7 +937,7 @@ centralWidget_PulseModeWidget_PulseModeWidget_2 = {"container": centralWidget_QF
 pulseModeWidget_saveButton_QPushButton_5 = {"container": centralWidget_PulseModeWidget_PulseModeWidget_2, "name": "saveButton", "type": "QPushButton", "visible": 1}
 centralWidget_softTissueButton_QPushButton_2 = {"container": centralWidget_QFrame_5, "name": "softTissueButton", "type": "QPushButton", "visible": 1}
 centralWidget_titleLabel_QLabel_3 = {"container": centralWidget_QFrame_4, "name": "titleLabel", "type": "QLabel", "visible": 1}
-=======
+
 
 o_ScreenSwitcher = {"type": "ScreenSwitcher", "unnamed": 1, "visible": 1}
 loginScreen_LoginScreen = {"name": "LoginScreen", "type": "LoginScreen", "visible": 1, "window": o_ScreenSwitcher}
@@ -1274,4 +1271,10 @@ calibrationPopupDialog_pbMiddleButton_QPushButton = {"container": calibrationPop
 calibrationPopupDialog_pMessageFrame_QFrame = {"container": calibrationPopupDialog_CalibrationPopupDialog, "name": "pMessageFrame", "type": "QFrame", "visible": 1}
 pMessageFrame_pCalibrationSuccessFrame_CalibrationSuccessDialog = {"container": calibrationPopupDialog_pMessageFrame_QFrame, "name": "pCalibrationSuccessFrame", "type": "CalibrationSuccessDialog", "visible": 1}
 pCalibrationSuccessFrame_pOKButton_QPushButton = {"container": pMessageFrame_pCalibrationSuccessFrame_CalibrationSuccessDialog, "name": "pOKButton", "type": "QPushButton", "visible": 1}
->>>>>>> afaf95eb9524d0398baf7cef49b0e422af595ff6
+
+centralWidget_pw500_QPushButton_3 = {"container": centralWidget_QFrame_4, "name": "pw500", "type": "QPushButton", "visible": 1}
+centralWidget_pw125_QPushButton_3 = {"container": centralWidget_QFrame_4, "name": "pw125", "type": "QPushButton", "visible": 1}
+pulseModeWidget_peakPowerButton_ParameterSettingsButton_4 = {"container": centralWidget_PulseModeWidget_PulseModeWidget, "name": "peakPowerButton", "type": "ParameterSettingsButton", "visible": 1}
+peakPowerButton_nameLabel_QLabel_4 = {"container": pulseModeWidget_peakPowerButton_ParameterSettingsButton_4, "name": "nameLabel", "type": "QLabel", "visible": 1}
+centralWidget_pw250_QPushButton_3 = {"container": centralWidget_QFrame_4, "name": "pw250", "type": "QPushButton", "visible": 1}
+centralWidget_TitleLabel_QLabel_2 = {"container": centralWidget_QFrame_4, "name": "TitleLabel", "type": "QLabel", "visible": 1}

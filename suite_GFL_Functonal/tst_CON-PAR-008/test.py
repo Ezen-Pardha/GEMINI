@@ -63,7 +63,7 @@
 #     clickButton(waitForObject(names.frequencyWidget_incrementButton_QPushButton))
 #     clickButton(waitForObject(names.frequencyWidget_incrementButton_QPushButton))
 
-# -*- coding: utf-8 -*-
+
     # Decrement frequency until 1 Hz is reached
    # -*- coding: utf-8 -*-
 
