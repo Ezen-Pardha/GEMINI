@@ -7,6 +7,12 @@ import names
 
 def verify_treatment_screen():
     try:
+
+        setWindowState(waitForObject(names.o_ScreenSwitcher), WindowState.Minimize)
+        setWindowState(waitForObject(names.o_ScreenSwitcher), WindowState.Normal)
+        
+        # clickButton(waitForObject(names.stoneSenseFrame_pbStoneSense_QPushButton))
+
         treatment_button = waitForObjectExists(
             names.stoneSenseFrame_pbStoneSense_QPushButton
         )

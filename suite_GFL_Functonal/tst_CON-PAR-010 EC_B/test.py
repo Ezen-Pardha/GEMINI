@@ -36,7 +36,10 @@ def main():
     snooze(2)
     verify_economy_type()
     clickButton(waitForObject(names.buttonsBar_backButton_QPushButton))
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
+
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_3))
+    
+    # clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
 
     mouseClick(

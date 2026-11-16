@@ -9,7 +9,7 @@ def main():
     clickButton(waitForObject(names.mainFrame_okButton_QPushButton))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
     mouseClick(waitForObject(names.peakPowerButton_iconLabel_QLabel), 11, 20, Qt.NoModifier, Qt.LeftButton)
-    clickButton(waitForObject(names.buttonsFrame_rejectButton_QPushButton_2))
+    clickButton(waitForObject(names.buttonsFrame_rejectButton_QPushButton))
     test.fail("No peakpower values are avalible in build")
 
     

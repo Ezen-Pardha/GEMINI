@@ -7,6 +7,10 @@ import names
 
 def verify_calibration_popup():
     try:
+
+        # mouseClick(waitForObject(names.pMessageFrame_pInitiateCalibrationFrame_InitiateCalibrationDialog), 1165, 99, Qt.NoModifier, Qt.LeftButton)
+        test.compare(waitForObjectExists(names.pInitiateCalibrationFrame_pAnimationIconLabel_QLabel).visible, True)
+
         waitForObject(names.pInitiateCalibrationFrame_pAnimationIconLabel_QLabel)
         test.passes("PASS: StoneSense calibration popup is displayed.")
         return True

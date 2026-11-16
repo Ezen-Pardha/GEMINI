@@ -2,7 +2,8 @@
 
 import names
 import re
-
+from common import *
+import os
 ECONOMY_C_PEAK_POWER = {
     "Standard": [125, 250, 500, 750, 1000],
     "MRP": [500, 750, 1000],
@@ -215,14 +216,51 @@ def verifyDisabledModePeakPower(mode_key, peak_power_object, pedal_name):
 
 
 def main():
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.mainFrame_okButton_QPushButton))
+    runtime_path = os.path.expanduser(
+        "/home/ezen/Gemini_v1"
+    )
+    configure_system_type(
+        new_type="C",
+        runtime_path=runtime_path
+    )
+    try: 
+        context = currentApplicationContext()
+        context.detach()
+        snooze(3)
+        test.log("AUT context detached")
+    except Exception as error:
+        test.log("Error while closing AUT: " + str(error))
+
+    startApplication(
+        "bravo --disable-watchdog --watchdog-timeout=10 "
+        "--disable-integrity-check "
+        "--disable-fiber-use-check "
+        "--disable-firmware-check "
+        "--disable-ssm "
+        "--disable-ports-check"
+    )
     snooze(5)
-    clickButton(waitForObject(names.centralWidget_okButton_QPushButton))
+    test.passes("Bravo AUT restart command executed successfully")
+    enter_login_pin()
+    dismiss_fiber_verification_warning()
+    
+    snooze(2)
+    verify_economyc_type()
+    clickButton(waitForObject(names.buttonsBar_backButton_QPushButton))
+
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_3))
+    
+    # clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
+
+    # clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
+    # clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
+    # clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
+    # clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
+    # clickButton(waitForObject(names.mainFrame_okButton_QPushButton))
+    # snooze(5)
+    # clickButton(waitForObject(names.centralWidget_okButton_QPushButton))
+    # clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
     
     left_modes = inspectAvailableModes( names.modeButton_nameLabel_QLabel, "LEFT", 74, 33,)
     
@@ -329,3 +367,10 @@ def main():
     
     
     clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
+    runtime_path = os.path.expanduser(
+        "/home/ezen/Gemini_v1"
+    )
+    configure_system_type(
+        new_type="B",
+        runtime_path=runtime_path
+    )

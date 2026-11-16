@@ -180,9 +180,10 @@ def main():
         )
     )
     
+
     clickButton(
         waitForObject(
-            names.buttonsBar_homeButton_QPushButton
+            names.buttonsBar_homeButton_QPushButton_3
         )
     )
     common.navigate_to_expert_screen()
