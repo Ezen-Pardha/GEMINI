@@ -9,7 +9,7 @@ def main():
 
     # Change Economy Type to C and restart AUT
     runtime_path = os.path.expanduser(
-        "/home/ntc/Downloads/Gemini"
+        "/home/ezen/Gemini_v1/"
     )
 
     configure_system_type(
@@ -61,7 +61,7 @@ def main():
     # test.passes("PASS: Dusting pulse peak power level verification completed")
     
     runtime_path = os.path.expanduser(
-        "/home/ntc/Downloads/Gemini"
+        "/home/ezen/Gemini_v1/"
     )
 
     configure_system_type(

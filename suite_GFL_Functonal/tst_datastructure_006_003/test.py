@@ -287,7 +287,7 @@ def inspectPeakPower(peak_power_object):
         test.fail("Peak Power extraction failed: {}".format(error)) 
         return None
 
-def (mode_button_object):
+def checkMode(mode_button_object):
     mode_label = waitForObjectExists(mode_button_object)
     selected_mode = str(mode_label.text).strip()
 
@@ -297,7 +297,7 @@ def (mode_button_object):
 def getValues():
 
     try:
-        selected_mode = (names.modeButton_nameLabel_QLabel)
+        selected_mode = checkMode(names.modeButton_nameLabel_QLabel)
         
         if selected_mode.strip().upper() == "REGULAR PULSE":
             test.passes("Successful Confirmation of Preset is in Mode: {}".format(selected_mode))

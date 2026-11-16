@@ -74,8 +74,10 @@ def main():
     # --------------------------------------------------
     # Keep the recorded configuration-selection actions.
     try:
+
+
         mouseDrag(
-            waitForObject(names.indexPicker_valuePicker_IntervalSlider_2),
+            waitForObject(names.indexPicker_valuePicker_IntervalSlider_5),
             59, 27, -156, -9,
             1,
             Qt.LeftButton
@@ -83,7 +85,7 @@ def main():
         snooze(1)
 
         mouseDrag(
-            waitForObject(names.indexPicker_valuePicker_IntervalSlider_2),
+            waitForObject(names.indexPicker_valuePicker_IntervalSlider_5),
             48, 26, -45, -3,
             1,
             Qt.LeftButton
@@ -125,9 +127,10 @@ def main():
     reset_count = 0
 
     while current_frequency > 1 and reset_count < 2500:
+        
         clickButton(
             waitForObject(
-                names.frequencyWidget_decrementButton_QPushButton
+                names.frequencyWidget_decrementButton_QPushButton_2
             )
         )
         snooze(1)

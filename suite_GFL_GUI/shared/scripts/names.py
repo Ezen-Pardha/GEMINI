@@ -1278,3 +1278,5 @@ pulseModeWidget_peakPowerButton_ParameterSettingsButton_4 = {"container": centra
 peakPowerButton_nameLabel_QLabel_4 = {"container": pulseModeWidget_peakPowerButton_ParameterSettingsButton_4, "name": "nameLabel", "type": "QLabel", "visible": 1}
 centralWidget_pw250_QPushButton_3 = {"container": centralWidget_QFrame_4, "name": "pw250", "type": "QPushButton", "visible": 1}
 centralWidget_TitleLabel_QLabel_2 = {"container": centralWidget_QFrame_4, "name": "TitleLabel", "type": "QLabel", "visible": 1}
+frequencyWidget_incrementButton_QPushButton_2 = {"container": pulseModeWidget_frequencyWidget_ParameterSettingsWidget_2, "name": "incrementButton", "type": "QPushButton", "visible": 1}
+

@@ -18,8 +18,10 @@ def verify_frequency_range():
         "Expected maximum frequency: {} Hz".format(expected_max)
     )
 
+    # test.compare(str(waitForObjectExists(names.valueDrum_Cylinder_2).displayedValue), "5")
+
     frequency_drum = waitForObject(
-        names.valueDrum_Cylinder_3
+        names.valueDrum_Cylinder_2
     )
 
     try:

@@ -36,7 +36,7 @@ def main():
     verify_economy_type()
 
     clickButton(waitForObject(names.buttonsBar_backButton_QPushButton))
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_3))
         
     clickButton(
         waitForObject(names.gbExpert_expertButton_QPushButton)

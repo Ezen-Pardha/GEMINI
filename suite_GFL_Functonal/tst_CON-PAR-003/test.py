@@ -92,9 +92,13 @@ def main():
     # STEP 3: Configure Standard Pulse Mode
     # --------------------------------------------------
     try:
+
+        # mouseClick(waitForObject(names.indexPicker_valuePicker_IntervalSlider_5), 76, 37, Qt.NoModifier, Qt.LeftButton)
+        # mouseClick(waitForObject(names.indexPicker_valuePicker_IntervalSlider_5), 76, 31, Qt.NoModifier, Qt.LeftButton)
+
         mouseDrag(
             waitForObject(
-                names.indexPicker_valuePicker_IntervalSlider_2
+                names.indexPicker_valuePicker_IntervalSlider_5
             ),
             59, 27, -156, -9,
             1,
@@ -104,7 +108,7 @@ def main():
 
         mouseDrag(
             waitForObject(
-                names.indexPicker_valuePicker_IntervalSlider_2
+                names.indexPicker_valuePicker_IntervalSlider_5
             ),
             48, 26, -45, -3,
             1,
@@ -176,9 +180,11 @@ def main():
 
     while current_frequency > 1 and reset_count < 2500:
 
+        
+
         clickButton(
             waitForObject(
-                names.frequencyWidget_decrementButton_QPushButton
+                names.frequencyWidget_decrementButton_QPushButton_2
             )
         )
         snooze(1)

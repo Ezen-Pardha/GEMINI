@@ -42,8 +42,8 @@ def main():
     clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
     clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
     clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.mainFrame_okButton_QPushButton))
-    clickButton(waitForObject(names.centralWidget_okButton_QPushButton))
+    clickButton(waitForObject(names.mainFrame_okButton_QPushButton))    
+    # clickButton(waitForObject(names.centralWidget_okButton_QPushButton))
 
     test.vp("homeScreen")
 
@@ -57,6 +57,9 @@ def main():
     
     checkAveragePower(EXPECTED_AVERAGE_POWERS[0])
     for expected_watts in EXPECTED_AVERAGE_POWERS[1:]:
+
+        clickButton(waitForObject(names.frequencyWidget_incrementButton_QPushButton))
+
         clickButton(waitForObject(frequency_increment_button))
         snooze(3)
         checkAveragePower(expected_watts)
