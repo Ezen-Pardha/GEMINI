@@ -61,7 +61,7 @@ def right_pulse_energy():
     for _ in range(6):
         clickButton(
             waitForObject(
-                names.pulseEnergyWidget_incrementButton_QPushButton_2
+                names.frequencyWidget_incrementButton_QPushButton_2
             )
         )
         snooze(0.3)

@@ -11,7 +11,7 @@ def main():
 
     # Change Economy Type to C and restart AUT
     runtime_path = os.path.expanduser(
-        "/home/ntc/Downloads/Gemini"
+        "/home/ezen/Gemini_v1/"
     )
 
     configure_system_type(
@@ -141,7 +141,7 @@ def main():
         )
 
     runtime_path = os.path.expanduser(
-        "/home/ntc/Downloads/Gemini"
+        "/home/ezen/Gemini_v1/"
     )
 
     configure_system_type(

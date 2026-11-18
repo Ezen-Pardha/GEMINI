@@ -92,7 +92,7 @@ def main():
 
     frequency_object = names.valueDrum_Cylinder_2
     increment_button = names.frequencyWidget_incrementButton_QPushButton
-    decrement_button = names.frequencyWidget_decrementButton_QPushButton
+    decrement_button = names.frequencyWidget_decrementButton_QPushButton_2
 
     """Read the displayed frequency"""
     def read_frequency():
@@ -131,6 +131,8 @@ def main():
     while actual_frequency > 1.0 and decrement_count < max_decrement_count:
 
         previous_frequency = actual_frequency
+
+        # clickButton(waitForObject(names.frequencyWidget_decrementButton_QPushButton_2))
 
         clickButton(waitForObject(decrement_button))
 

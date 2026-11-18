@@ -1351,7 +1351,7 @@ def verify_economyc_type():
 
     clickButton(waitForObject(names.centralWidget_okButton_QPushButton_4))
 
-    clickButton(waitForObject(names.centralWidget_okButton_QPushButton))
+    # clickButton(waitForObject(names.centralWidget_okButton_QPushButton))
 
     for _ in range(4):
         clickButton(

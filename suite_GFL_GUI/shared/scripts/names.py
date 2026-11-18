@@ -1310,3 +1310,5 @@ wirelessTxUpdatePanel_VersionLabel_QLabel = {"container": firmwareUpdateTab_wire
 softwareUpdateTab_proceduresLabel_QLabel = {"container": qt_tabwidget_stackedwidget_softwareUpdateTab_QWidget, "name": "proceduresLabel", "type": "QLabel", "visible": 1}
 softwareUpdateTab_proceduresUpdatePanel_UpdatePanel = {"container": qt_tabwidget_stackedwidget_softwareUpdateTab_QWidget, "name": "proceduresUpdatePanel", "type": "UpdatePanel", "visible": 1}
 proceduresUpdatePanel_VersionLabel_QLabel = {"container": softwareUpdateTab_proceduresUpdatePanel_UpdatePanel, "name": "VersionLabel", "type": "QLabel", "visible": 1}
+frequencyWidget_incrementButton_QPushButton_2 = {"container": pulseModeWidget_frequencyWidget_ParameterSettingsWidget_2, "name": "incrementButton", "type": "QPushButton", "visible": 1}
+

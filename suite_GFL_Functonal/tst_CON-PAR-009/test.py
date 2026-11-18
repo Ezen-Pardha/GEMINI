@@ -129,9 +129,10 @@ def main():
     """Step 3: Configure Standard Pulse Mode"""
 
     try:
+
         mouseDrag(
             waitForObject(
-                names.indexPicker_valuePicker_IntervalSlider_2
+                names.indexPicker_valuePicker_IntervalSlider_5
             ),
             59, 27, -156, -9,
             1,
@@ -141,7 +142,7 @@ def main():
 
         mouseDrag(
             waitForObject(
-                names.indexPicker_valuePicker_IntervalSlider_2
+                names.indexPicker_valuePicker_IntervalSlider_5
             ),
             48, 26, -45, -3,
             1,
@@ -192,8 +193,11 @@ def main():
     while current_frequency > 1 and reset_count < 500:
 
         try:
+
+            # clickButton(waitForObject(names.frequencyWidget_decrementButton_QPushButton_2))
+
             decrement_button = waitForObject(
-                names.frequencyWidget_decrementButton_QPushButton
+                names.frequencyWidget_decrementButton_QPushButton_2
             )
 
             if not decrement_button.enabled:

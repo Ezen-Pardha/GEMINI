@@ -140,7 +140,7 @@ def main():
     verify_economyc_type()
     mouseClick(waitForObject(names.staticVersions_3_systemTypeVersion_QLabel), 57, 17, Qt.NoModifier, Qt.LeftButton)
     clickButton(waitForObject(names.buttonsBar_backButton_QPushButton))
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_3))
     navigate_to_expert_screen()
     left_Minimal_Carbonization()
     increment_frequency()

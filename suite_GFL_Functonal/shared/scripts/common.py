@@ -513,6 +513,7 @@ def back_to_homescreen_from_servicemode():
     clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_3))
         
     
+    
 def  left_Minimal_Carbonization ():
     mouseClick(
         waitForObject(names.modeButton_nameLabel_QLabel),
