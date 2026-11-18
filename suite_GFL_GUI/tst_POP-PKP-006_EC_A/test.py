@@ -283,8 +283,7 @@ def main():
     test.log("Starting Peak Power Verification")
 
     runtime_path = os.path.expanduser(
-        "~/Downloads/WORK/Gemini_GFL_2.5_Codebase_8May2026/"
-        "build-gemini-Desktop-Debug"
+        "/home/ezen/Gemini_v2/"
     )
 
     configure_system_type(
@@ -315,8 +314,12 @@ def main():
     enter_login_pin()
     test.passes("PASS: Login completed")
     verify_economyA_type()
-    clickButton(waitForObject(names.buttonsBar_backButton_QPushButton))
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_2)) 
+
+    clickButton(waitForObject(names.buttonsBar_backButton_QPushButton_4))
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_8))
+
+    # clickButton(waitForObject(names.buttonsBar_backButton_QPushButton))
+    # clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_2)) 
     verify_peak_power_levels()
 
     test.log(

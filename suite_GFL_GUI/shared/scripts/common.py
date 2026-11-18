@@ -1445,7 +1445,7 @@ def find_device_ini(runtime_path):
     """
     Validate and return the device.ini path provided by the test case.
     """
-    file_path = runtime_path + "/bin/media/mmcblk1p1/factory/device.ini"
+    file_path = runtime_path + "/media/mmcblk1p1/factory/device.ini"
     
     ini_path = os.path.abspath(
         os.path.expanduser(file_path)
@@ -1574,5 +1574,22 @@ def verify_economyA_type():
         test.log("Unable to show QMessageBox; see failure log above")
 
     return False
+    
+def navigate_to_settings():
+    test.log("========== GO TO SETTINGS ==========")
+ 
+    click_and_report(
+        names.homeScreen_settingsButton_QPushButton,
+        "Open Settings"
+    )
+ 
+ 
+def return_home_from_settings():
+    test.log("========== RETURN HOME FROM SETTINGS ==========")
+ 
+    click_and_report(
+        names.buttonsBar_homeButton_QPushButton_8,
+        "Return home from Settings"
+    )
 
 

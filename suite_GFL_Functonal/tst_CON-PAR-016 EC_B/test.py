@@ -4,7 +4,10 @@ from common import *
 
 
 def main():
-
+    
+    startApplication("bravo --disable-watchdog --watchdog-timeout=10 --disable-integrity-check " + 
+                     "--disable-fiber-use-check --disable-firmware-check --disable-ssm --disable-ports-check")
+    
     enter_login_pin()
     dismiss_fiber_verification_warning()
 

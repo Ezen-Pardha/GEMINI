@@ -42,8 +42,11 @@ def main():
     else:
         test.fail("FAIL: Demo Mode ON button is inactive")
     
-    clickButton(waitForObject(names.buttonsBar_backButton_QPushButton))
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
+    clickButton(waitForObject(names.buttonsBar_backButton_QPushButton_4))
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_8))
+
+    # clickButton(waitForObject(names.buttonsBar_backButton_QPushButton))
+    # clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
     test.log("Navigating back to Home Screen")
     snooze(2)
     test.ocrTextPresent("HOME - DEMO")
@@ -76,8 +79,8 @@ def main():
     else:
         test.fail("FAIL: Demo Mode is active")
     
-    clickButton(waitForObject(names.buttonsBar_backButton_QPushButton))
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
+    clickButton(waitForObject(names.buttonsBar_backButton_QPushButton_4))
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_8))
     test.log("Navigating back to Home Screen")
     snooze(2)
     test.ocrTextPresent("HOME")

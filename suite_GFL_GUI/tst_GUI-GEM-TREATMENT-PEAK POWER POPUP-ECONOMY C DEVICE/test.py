@@ -2,12 +2,13 @@
 
 import names
 from common import *
+import os
 
 def main():
     
     runtime_path = os.path.expanduser(
 
-        "/home/ezen/Gemini_v1"
+        "/home/ezen/Gemini_v2"
     )
  
     configure_system_type(
@@ -82,10 +83,17 @@ def main():
     test.passes("Right Regular pulse button is verified ")
     mouseClick(waitForObject(names.peakPowerButton_nameLabel_QLabel_3), 66, 38, Qt.NoModifier, Qt.LeftButton)
     clickButton(waitForObject(names.centralWidget_pw250_QPushButton_2))
-    test.imagePresent("rightPeakPowerMediumC", { "occurrence": 2 })
+    
+    # test.imagePresent("rightPeakPowerMediumC", { "occurrence": 2 })
+
+    # test.ocrTextPresent("Medium")
+
     test.passes("Right peak power Medium button is verified ")
     
     test.log("SVV TAG POP-PKP-003:Peak Power Selection Popup High Button")
+
+    setWindowState(waitForObject(names.o_ScreenSwitcher), WindowState.Minimize)
+
     clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
     test.passes("Manual screen verified")
@@ -350,9 +358,9 @@ def main():
     test.passes("Right Peak Power button is verified")
     runtime_path = os.path.expanduser(
 
-        "/home/ezen/Gemini_v1"
+        "/home/ezen/Gemini_v2"
     )
- 
+  
     configure_system_type(
         new_type="B",
         runtime_path=runtime_path

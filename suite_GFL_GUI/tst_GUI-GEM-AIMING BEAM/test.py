@@ -3,6 +3,8 @@ from common import *
 import names
 
 def main():
+    
+    
     enter_login_pin()
 
     clickButton(waitForObject(names.homeScreen_pbSoftTissueQuickStart_QToolButton))
