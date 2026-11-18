@@ -20,6 +20,7 @@ EXCEL_PATH = os.path.abspath(
 
 
 
+# EXCEL_PATH = "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Czech/tst_Home Screen/testdata/Gemini Split strings.xlsx"
 SHEET_NAME = "Treatment Modes"
 ENGLISH_COLUMN = 1
 Denmark_COLUMN = 5
@@ -417,6 +418,8 @@ def main():
         if not key:
             continue
 
+        # Keep combined strings available for matching,
+        # but do not automatically report them as missing.
         if " " in text:
             if key not in seen_combined:
                 seen_combined.add(key)
@@ -439,6 +442,8 @@ def main():
         else:
             missing_strings[key] = candidate
 
+    # MATCH COMBINED CANDIDATES THAT REPRESENT EXCEL STRINGS.
+    # This supports phrases split over multiple UI elements.
 
     for candidate in combined_candidates:
         key = normalize(candidate)

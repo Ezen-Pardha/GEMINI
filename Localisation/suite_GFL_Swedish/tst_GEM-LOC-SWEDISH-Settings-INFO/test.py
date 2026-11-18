@@ -137,4 +137,4 @@ def main():
     snooze(1)
     a += texts(r)
     verify(a)
-    test.vp("infoScreenVerification")
+    test.vp("Info Screen Verification ")
