@@ -129,8 +129,7 @@ def main():
     test.log("Starting Economy C and Frequency Test")
 
     runtime_path = os.path.expanduser(
-        "~/Downloads/WORK/Gemini_GFL_2.5_Codebase_8May2026/"
-        "build-gemini-Desktop-Debug"
+        "/home/ezen/Gemini_v1"
     )
 
     common.configure_system_type(
@@ -161,9 +160,16 @@ def main():
     common.verify_economyc_type()
     mouseClick(waitForObject(names.staticVersions_3_systemTypeVersion_QLabel), 57, 17, Qt.NoModifier, Qt.LeftButton)
     clickButton(waitForObject(names.buttonsBar_backButton_QPushButton))
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_3))
     common.navigate_to_expert_screen()
     common.left_fragmentation_pulse()
     increment_frequency()    
     test.log("Economy C and Frequency Test Completed")
+    runtime_path = os.path.expanduser(
+        "/home/ezen/Gemini_v1"
+    )
+    common.configure_system_type(
+        new_type="B",
+        runtime_path=runtime_path
+    )
     

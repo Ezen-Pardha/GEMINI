@@ -7,7 +7,10 @@ def main():
     enter_login_pin()
     dismiss_fiber_verification_warning()
     clickButton(waitForObject(names.homeScreen_settingsButton_QPushButton))
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
+
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_3))
+
+    # clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
 
     """Select MRP pulse mode"""

@@ -673,6 +673,7 @@ peakPowerButton_nameLabel_QLabel_2 = {"container": pulseModeWidget_peakPowerButt
 centralWidget_okButton_QPushButton_3 = {"container": centralWidget_QFrame_4, "name": "okButton", "type": "QPushButton", "visible": 1}
 keyboardPopup_A_KeyButton = {"container": keyboardPopup_KeyboardPopup, "text": "A", "type": "KeyButton", "unnamed": 1, "visible": 1}
 keyboardPopup_A_KeyButton_2 = {"aboveWidget": keyboardPopup_A_KeyButton, "container": keyboardPopup_KeyboardPopup, "type": "KeyButton", "unnamed": 1, "visible": 1}
+
 systemsettingframe_pbDecreaseVolume_QPushButton = {"container": wdSystemSettingsLayout_systemsettingframe_QFrame, "name": "pbDecreaseVolume", "type": "QPushButton", "visible": 1}
 systemsettingframe_pbIncreaseVolume_QPushButton = {"container": wdSystemSettingsLayout_systemsettingframe_QFrame, "name": "pbDecreaseVolume", "type": "QPushButton", "visible": 1}
 systemsettingframe_pbIncreaseVolume_QPushButton_2 = {"container": wdSystemSettingsLayout_systemsettingframe_QFrame, "name": "pbIncreaseVolume", "type": "QPushButton", "visible": 1}
@@ -733,9 +734,11 @@ peakPowerButton_iconLabel_QLabel_2 = {"container": pulseModeWidget_peakPowerButt
 frequencyWidgetEmission_unitsOfMeasureLabel_QLabel = {"container": pulseModeWidget_frequencyWidgetEmission_ParameterWithBoundedValueWidget_2, "name": "unitsOfMeasureLabel", "type": "QLabel", "visible": 1}
 pulseModeWidget_peakPowerButton_ParameterSettingsButton_3 = {"container": modeWidget_PulseModeWidget_PulseModeWidget, "name": "peakPowerButton", "type": "ParameterSettingsButton", "visible": 1}
 peakPowerButton_nameLabel_QLabel_3 = {"container": pulseModeWidget_peakPowerButton_ParameterSettingsButton_3, "name": "nameLabel", "type": "QLabel", "visible": 1}
+
 peakPowerButton_iconLabel_QLabel_3 = {"container": pulseModeWidget_peakPowerButton_ParameterSettingsButton_3, "name": "iconLabel", "type": "QLabel", "visible": 1}
 centralWidget_pw500_QPushButton_2 = {"container": centralWidget_QFrame_3, "name": "pw500", "type": "QPushButton", "visible": 1}
 centralWidget_pw1000_QPushButton = {"container": centralWidget_QFrame_3, "name": "pw1000", "type": "QPushButton", "visible": 1}
+
 
 peakPowerButton_iconLabel_QLabel_3 = {"container": pulseModeWidget_peakPowerButton_ParameterSettingsButton_3, "name": "iconLabel", "type": "QLabel", "visible": 1}
 centralWidget_pw500_QPushButton_2 = {"container": centralWidget_QFrame_3, "name": "pw500", "type": "QPushButton", "visible": 1}
@@ -924,6 +927,17 @@ fiberIdleTimeoutFrame_fiberIdleTimeoutNumberPicker_NumberPicker = {"container": 
 fiberIdleTimeoutNumberPicker_pbIncrement_QPushButton = {"container": fiberIdleTimeoutFrame_fiberIdleTimeoutNumberPicker_NumberPicker, "name": "pbIncrement", "type": "QPushButton", "visible": 1}
 fiberIdleTimeoutNumberPicker_pbDecrement_QPushButton = {"container": fiberIdleTimeoutFrame_fiberIdleTimeoutNumberPicker_NumberPicker, "name": "pbDecrement", "type": "QPushButton", "visible": 1}
 fiberIdleTimeoutNumberPicker_lbValue_QLabel = {"container": fiberIdleTimeoutFrame_fiberIdleTimeoutNumberPicker_NumberPicker, "name": "lbValue", "type": "QLabel", "visible": 1}
+
+centralWidget_okButton_QPushButton_4 = {"container": centralWidget_QFrame_3, "name": "okButton", "type": "QPushButton", "visible": 1}
+
+
+pulseModeWidget_saveButton_QPushButton_4 = {"container": modeWidget_PulseModeWidget_PulseModeWidget_2, "name": "saveButton", "type": "QPushButton", "visible": 1}
+centralWidget_pbName_QPushButton_2 = {"container": centralWidget_QFrame_4, "name": "pbName", "type": "QPushButton", "visible": 1}
+centralWidget_PulseModeWidget_PulseModeWidget_2 = {"container": centralWidget_QFrame_4, "name": "PulseModeWidget", "type": "PulseModeWidget", "visible": 1}
+pulseModeWidget_saveButton_QPushButton_5 = {"container": centralWidget_PulseModeWidget_PulseModeWidget_2, "name": "saveButton", "type": "QPushButton", "visible": 1}
+centralWidget_softTissueButton_QPushButton_2 = {"container": centralWidget_QFrame_5, "name": "softTissueButton", "type": "QPushButton", "visible": 1}
+centralWidget_titleLabel_QLabel_3 = {"container": centralWidget_QFrame_4, "name": "titleLabel", "type": "QLabel", "visible": 1}
+
 
 o_ScreenSwitcher = {"type": "ScreenSwitcher", "unnamed": 1, "visible": 1}
 loginScreen_LoginScreen = {"name": "LoginScreen", "type": "LoginScreen", "visible": 1, "window": o_ScreenSwitcher}
@@ -1257,3 +1271,44 @@ calibrationPopupDialog_pbMiddleButton_QPushButton = {"container": calibrationPop
 calibrationPopupDialog_pMessageFrame_QFrame = {"container": calibrationPopupDialog_CalibrationPopupDialog, "name": "pMessageFrame", "type": "QFrame", "visible": 1}
 pMessageFrame_pCalibrationSuccessFrame_CalibrationSuccessDialog = {"container": calibrationPopupDialog_pMessageFrame_QFrame, "name": "pCalibrationSuccessFrame", "type": "CalibrationSuccessDialog", "visible": 1}
 pCalibrationSuccessFrame_pOKButton_QPushButton = {"container": pMessageFrame_pCalibrationSuccessFrame_CalibrationSuccessDialog, "name": "pOKButton", "type": "QPushButton", "visible": 1}
+
+centralWidget_pw500_QPushButton_3 = {"container": centralWidget_QFrame_4, "name": "pw500", "type": "QPushButton", "visible": 1}
+centralWidget_pw125_QPushButton_3 = {"container": centralWidget_QFrame_4, "name": "pw125", "type": "QPushButton", "visible": 1}
+pulseModeWidget_peakPowerButton_ParameterSettingsButton_4 = {"container": centralWidget_PulseModeWidget_PulseModeWidget, "name": "peakPowerButton", "type": "ParameterSettingsButton", "visible": 1}
+peakPowerButton_nameLabel_QLabel_4 = {"container": pulseModeWidget_peakPowerButton_ParameterSettingsButton_4, "name": "nameLabel", "type": "QLabel", "visible": 1}
+centralWidget_pw250_QPushButton_3 = {"container": centralWidget_QFrame_4, "name": "pw250", "type": "QPushButton", "visible": 1}
+centralWidget_TitleLabel_QLabel_2 = {"container": centralWidget_QFrame_4, "name": "TitleLabel", "type": "QLabel", "visible": 1}
+qt_tabwidget_tabbar_QTabBar = {"name": "qt_tabwidget_tabbar", "type": "QTabBar", "visible": 1, "window": o_ScreenSwitcher}
+qt_tabwidget_tabbar_SYSTEM_CONFIGURATION_TabItem = {"container": qt_tabwidget_tabbar_QTabBar, "text": "SYSTEM CONFIGURATION", "type": "TabItem"}
+systemConfigurationTab_rfidReadPowerLabel_QLabel = {"container": qt_tabwidget_stackedwidget_systemConfigurationTab_QWidget, "name": "rfidReadPowerLabel", "type": "QLabel", "visible": 1}
+systemConfigurationTab_fiberIdleTimeoutLabel_QLabel = {"container": qt_tabwidget_stackedwidget_systemConfigurationTab_QWidget, "name": "fiberIdleTimeoutLabel", "type": "QLabel", "visible": 1}
+qt_tabwidget_tabbar_SOFTWARE_UPDATE_TabItem = {"container": qt_tabwidget_tabbar_QTabBar, "text": "SOFTWARE UPDATE", "type": "TabItem"}
+qt_tabwidget_stackedwidget_softwareUpdateTab_QWidget = {"container": qt_tabwidget_stackedwidget_QStackedWidget, "name": "softwareUpdateTab", "type": "QWidget", "visible": 1}
+softwareUpdateTab_applicationLabel_QLabel = {"container": qt_tabwidget_stackedwidget_softwareUpdateTab_QWidget, "name": "applicationLabel", "type": "QLabel", "visible": 1}
+softwareUpdateTab_applicationUpdatePanel_UpdatePanel = {"container": qt_tabwidget_stackedwidget_softwareUpdateTab_QWidget, "name": "applicationUpdatePanel", "type": "UpdatePanel", "visible": 1}
+applicationUpdatePanel_VersionLabel_QLabel = {"container": softwareUpdateTab_applicationUpdatePanel_UpdatePanel, "name": "VersionLabel", "type": "QLabel", "visible": 1}
+softwareUpdateTab_staticVersions_2_QFrame = {"container": qt_tabwidget_stackedwidget_softwareUpdateTab_QWidget, "name": "staticVersions_2", "type": "QFrame", "visible": 1}
+staticVersions_2_kernelLabel_QLabel = {"container": softwareUpdateTab_staticVersions_2_QFrame, "name": "kernelLabel", "type": "QLabel", "visible": 1}
+staticVersions_2_kernelVersion_QLabel = {"container": softwareUpdateTab_staticVersions_2_QFrame, "name": "kernelVersion", "type": "QLabel", "visible": 1}
+staticVersions_2_deviceTreeLabel_QLabel = {"container": softwareUpdateTab_staticVersions_2_QFrame, "name": "deviceTreeLabel", "type": "QLabel", "visible": 1}
+staticVersions_2_deviceTreeVersion_QLabel = {"container": softwareUpdateTab_staticVersions_2_QFrame, "name": "deviceTreeVersion", "type": "QLabel", "visible": 1}
+qt_tabwidget_tabbar_FIRMWARE_UPDATE_TabItem = {"container": qt_tabwidget_tabbar_QTabBar, "text": "FIRMWARE UPDATE", "type": "TabItem"}
+qt_tabwidget_stackedwidget_firmwareUpdateTab_QWidget = {"container": qt_tabwidget_stackedwidget_QStackedWidget, "name": "firmwareUpdateTab", "type": "QWidget", "visible": 1}
+firmwareUpdateTab_rfidLabel_QLabel = {"container": qt_tabwidget_stackedwidget_firmwareUpdateTab_QWidget, "name": "rfidLabel", "type": "QLabel", "visible": 1}
+firmwareUpdateTab_rfidUpdatePanel_UpdatePanel = {"container": qt_tabwidget_stackedwidget_firmwareUpdateTab_QWidget, "name": "rfidUpdatePanel", "type": "UpdatePanel", "visible": 1}
+rfidUpdatePanel_VersionLabel_QLabel = {"container": firmwareUpdateTab_rfidUpdatePanel_UpdatePanel, "name": "VersionLabel", "type": "QLabel", "visible": 1}
+firmwareUpdateTab_staticVersions_QFrame = {"container": qt_tabwidget_stackedwidget_firmwareUpdateTab_QWidget, "name": "staticVersions", "type": "QFrame", "visible": 1}
+staticVersions_carrierBoardLabel_QLabel = {"container": firmwareUpdateTab_staticVersions_QFrame, "name": "carrierBoardLabel", "type": "QLabel", "visible": 1}
+staticVersions_carrierBoardVersion_QLabel = {"container": firmwareUpdateTab_staticVersions_QFrame, "name": "carrierBoardVersion", "type": "QLabel", "visible": 1}
+firmwareUpdateTab_wirelessReceiverLabel_QLabel = {"container": qt_tabwidget_stackedwidget_firmwareUpdateTab_QWidget, "name": "wirelessReceiverLabel", "type": "QLabel", "visible": 1}
+firmwareUpdateTab_wirelessRfUpdatePanel_UpdatePanel = {"container": qt_tabwidget_stackedwidget_firmwareUpdateTab_QWidget, "name": "wirelessRfUpdatePanel", "type": "UpdatePanel", "visible": 1}
+wirelessRfUpdatePanel_TypeLabel_QLabel = {"container": firmwareUpdateTab_wirelessRfUpdatePanel_UpdatePanel, "name": "TypeLabel", "type": "QLabel", "visible": 1}
+wirelessRfUpdatePanel_VersionLabel_QLabel = {"container": firmwareUpdateTab_wirelessRfUpdatePanel_UpdatePanel, "name": "VersionLabel", "type": "QLabel", "visible": 1}
+firmwareUpdateTab_wirelessTxUpdatePanel_UpdatePanel = {"container": qt_tabwidget_stackedwidget_firmwareUpdateTab_QWidget, "name": "wirelessTxUpdatePanel", "type": "UpdatePanel", "visible": 1}
+wirelessTxUpdatePanel_TypeLabel_QLabel = {"container": firmwareUpdateTab_wirelessTxUpdatePanel_UpdatePanel, "name": "TypeLabel", "type": "QLabel", "visible": 1}
+wirelessTxUpdatePanel_VersionLabel_QLabel = {"container": firmwareUpdateTab_wirelessTxUpdatePanel_UpdatePanel, "name": "VersionLabel", "type": "QLabel", "visible": 1}
+softwareUpdateTab_proceduresLabel_QLabel = {"container": qt_tabwidget_stackedwidget_softwareUpdateTab_QWidget, "name": "proceduresLabel", "type": "QLabel", "visible": 1}
+softwareUpdateTab_proceduresUpdatePanel_UpdatePanel = {"container": qt_tabwidget_stackedwidget_softwareUpdateTab_QWidget, "name": "proceduresUpdatePanel", "type": "UpdatePanel", "visible": 1}
+proceduresUpdatePanel_VersionLabel_QLabel = {"container": softwareUpdateTab_proceduresUpdatePanel_UpdatePanel, "name": "VersionLabel", "type": "QLabel", "visible": 1}
+frequencyWidget_incrementButton_QPushButton_2 = {"container": pulseModeWidget_frequencyWidget_ParameterSettingsWidget_2, "name": "incrementButton", "type": "QPushButton", "visible": 1}
+

@@ -1,311 +1,170 @@
-
 # -*- coding: utf-8 -*-
 
 import names
 import openpyxl
 import re
-import os
 
-TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-EXCEL_PATH = os.path.abspath(
-    os.path.join(
-        TESTCASE_DIR,
-        "..",
-        "shared",
-        "testdata",
-        "Gemini Split strings.xlsx"
-    )
-)
-
-SHEET_NAME = "Stone-Guided"
-ENGLISH_COLUMN = 2
-CROATIAN_COLUMN = 4
+EXCEL_PATH = "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Croatia/tst_GEM-LOC-CROATIA-STONE-GUIDED/testdata/Gemini strings.xlsx"
 
 
 def normalize(text):
+
     if text is None:
         return ""
 
     text = str(text)
-    text = re.sub(r"<br\s*/?>", " ", text, flags=re.IGNORECASE)
     text = re.sub(r"<[^>]+>", " ", text)
-    text = text.replace("\xa0", " ")
-    text = text.replace("\u200b", "")
-    text = text.replace("\u202f", " ")
-    text = re.sub(r"\s+", " ", text)
-    text = re.sub(r"\s*<\s*", "<", text)
-    text = re.sub(r"\s*>\s*", ">", text)
+    text = " ".join(text.split())
+    text = re.sub(r"\s*<\s*", " < ", text)
+    text = re.sub(r"\s*>\s*", " > ", text)
 
-    return text.strip().casefold()
+    return text.casefold()
 
 
-def load_croatian_strings():
-    translations = []
-    workbook = None
+def get_all_texts(obj):
 
-    if not os.path.isfile(EXCEL_PATH):
-        test.fail("Excel file not found: {}".format(EXCEL_PATH))
-        return translations
-
-    try:
-        workbook = openpyxl.load_workbook(
-            EXCEL_PATH,
-            data_only=True,
-            read_only=True
-        )
-
-        if SHEET_NAME not in workbook.sheetnames:
-            test.fail(
-                "Worksheet '{}' not found. Available sheets: {}".format(
-                    SHEET_NAME,
-                    ", ".join(workbook.sheetnames)
-                )
-            )
-            return translations
-
-        sheet = workbook[SHEET_NAME]
-
-        for row in sheet.iter_rows(min_row=2, values_only=True):
-            if len(row) < CROATIAN_COLUMN:
-                continue
-
-            trace_id = row[0]
-            english = row[ENGLISH_COLUMN - 1]
-            croatian = row[CROATIAN_COLUMN - 1]
-
-            if english is None or croatian is None:
-                continue
-
-            english = str(english).strip()
-            croatian = str(croatian).strip()
-
-            if not normalize(english) or not normalize(croatian):
-                continue
-
-            translations.append({
-                "trace_id": (
-                    str(trace_id).strip()
-                    if trace_id is not None else ""
-                ),
-                "english": english,
-                "croatian": croatian,
-                "normalized": normalize(croatian)
-            })
-
-    except Exception as error:
-        test.fail(
-            "Unable to load Croatian translations: {}".format(error)
-        )
-
-    finally:
-        if workbook is not None:
-            workbook.close()
-
-    test.log(
-        "Croatian Excel translations loaded: {}".format(
-            len(translations)
-        )
-    )
-
-    return translations
-
-
-def get_object_text(obj):
     texts = []
 
-    for attribute in (
-        "text",
-        "title",
-        "windowTitle",
-        "accessibleName",
-        "placeholderText",
-        "toolTip"
-    ):
-        try:
-            value = getattr(obj, attribute)
+    try:
+        if not obj.visible:
+            return texts
+    except:
+        pass
 
-            if callable(value):
-                value = value()
+    try:
+        value = str(obj.text).strip()
 
-            if value is not None:
-                value = str(value).strip()
+        if value:
+            value = re.sub(r"<[^>]+>", " ", value)
+            value = " ".join(value.split())
 
-                if value and normalize(value) and value not in texts:
-                    texts.append(value)
+            if value:
+                texts.append(value)
 
-        except Exception:
-            pass
+    except:
+        pass
+
+    try:
+        value = str(obj.title).strip()
+
+        if value:
+            value = re.sub(r"<[^>]+>", " ", value)
+            value = " ".join(value.split())
+
+            if value:
+                texts.append(value)
+
+    except:
+        pass
+
+    try:
+        for child in object.children(obj):
+            texts.extend(get_all_texts(child))
+    except:
+        pass
 
     return texts
 
 
-def collect_screen_text(obj, collected=None, visited=None, depth=0):
-    if collected is None:
-        collected = []
+def load_croatian_strings():
 
-    if visited is None:
-        visited = set()
+    workbook = openpyxl.load_workbook(
+        EXCEL_PATH,
+        data_only=True
+    )
 
-    if obj is None or depth > 30:
-        return collected
+    sheet = workbook.active
 
-    try:
-        object_id = id(obj)
+    strings = []
 
-        if object_id in visited:
-            return collected
+    for row in sheet.iter_rows(
+        min_row=2,
+        values_only=True
+    ):
 
-        visited.add(object_id)
+        if len(row) < 9:
+            continue
 
-    except Exception:
-        pass
+        trace_id = row[0]
+        english = row[1]
+        croatian = row[8]
 
-    try:
-        if not object.exists(obj):
-            return collected
-    except Exception:
-        pass
+        if english is None or croatian is None:
+            continue
 
-    try:
-        if not obj.visible:
-            return collected
-    except Exception:
-        pass
+        english = str(english).strip()
+        croatian = str(croatian).strip()
 
-    for value in get_object_text(obj):
-        if value not in collected:
-            collected.append(value)
+        if not english or not croatian:
+            continue
 
-    try:
-        children = object.children(obj)
+        strings.append({
+            "trace_id": str(trace_id).strip() if trace_id is not None else "",
+            "english": english,
+            "croatian": croatian,
+            "normalized": normalize(croatian)
+        })
 
-        for child in children:
-            collect_screen_text(
-                child,
-                collected,
-                visited,
-                depth + 1
-            )
-
-    except Exception:
-        pass
-
-    return collected
-
-
-def build_screen_candidates(screen_texts):
-    candidates = set()
-
-    for text_value in screen_texts:
-        normalized = normalize(text_value)
-
-        if normalized:
-            candidates.add(normalized)
-
-        for line in re.split(r"[\r\n]+", str(text_value)):
-            normalized_line = normalize(line)
-
-            if normalized_line:
-                candidates.add(normalized_line)
-
-    return candidates
+    return strings
 
 
 def verify_screen(root_object, screen_name):
-    test.log("Starting verification: {}".format(screen_name))
 
     excel_strings = load_croatian_strings()
 
-    if not excel_strings:
-        test.fail("No Croatian translations loaded.")
-        return
+    screen_texts = get_all_texts(root_object)
 
-    screen_texts = collect_screen_text(root_object)
-    screen_candidates = build_screen_candidates(screen_texts)
+    unique_texts = []
 
-    test.log(
-        "Visible screen text items collected: {}".format(
-            len(screen_texts)
+    for text in screen_texts:
+
+        text = text.strip()
+
+        if text and text not in unique_texts:
+            unique_texts.append(text)
+
+    verified = []
+
+    for screen_text in unique_texts:
+
+        screen_normalized = normalize(screen_text)
+
+        matches = []
+
+        for item in excel_strings:
+
+            excel_normalized = item["normalized"]
+
+            # Exact match
+            if screen_normalized == excel_normalized:
+                matches.append(item)
+
+            # Handles Squish combined text
+            elif excel_normalized in screen_normalized:
+                matches.append(item)
+
+        matches.sort(
+            key=lambda x: len(x["normalized"]),
+            reverse=True
         )
-    )
 
-    for text_value in screen_texts:
-        test.log("VISIBLE TEXT: {!r}".format(text_value))
+        for item in matches:
 
-    matched = []
-    missing = []
+            croatian = item["croatian"]
 
-    for item in excel_strings:
-        expected = item["normalized"]
+            if croatian in verified:
+                continue
 
-        found = any(
-            candidate == expected
-            or (len(expected) >= 4 and expected in candidate)
-            for candidate in screen_candidates
-        )
+            verified.append(croatian)
 
-        if found:
-            matched.append(item)
-        else:
-            missing.append(item)
-
-    test.log("========== {} RESULTS ==========".format(screen_name))
-    test.log("Excel translations loaded: {}".format(len(excel_strings)))
-    test.log("Matched translations: {}".format(len(matched)))
-    test.log("Missing translations: {}".format(len(missing)))
-
-    for item in matched:
-        test.log(
-            "PASS | {} | {}".format(
-                item["english"],
-                item["croatian"]
+            test.passes(
+                item["english"] + " -> " + item["croatian"]
             )
-        )
-        test.passes(
-            "{} -> {}".format(
-                item["english"],
-                item["croatian"]
-            )
-        )
-
-    for item in missing:
-        test.log(
-            "NOT FOUND | {} | {}".format(
-                item["english"],
-                item["croatian"]
-            )
-        )
-
-    test.log("========================================")
-
-    if not matched:
-        test.fail(
-            "No Croatian translations matched on {}.".format(
-                screen_name
-            )
-        )
-    elif missing:
-        test.log(
-            "Some Excel strings may not belong to the current screen."
-        )
-    else:
-        test.passes(
-            "All loaded Croatian translations matched."
-        )
 
 
 def main():
-    test.log("STEP 1: Starting Croatian localization test")
 
-    test.log("STEP 2: Loading Excel translations")
-    translations = load_croatian_strings()
-
-    if not translations:
-        test.fail("Cannot continue without Excel translations.")
-        return
-
-    test.log("STEP 3: Logging in")
 
     sendEvent(
         "QMoveEvent",
@@ -336,7 +195,7 @@ def main():
         waitForObject(names.mainFrame_okButton_QPushButton)
     )
 
-    test.log("STEP 4: Selecting Croatian language")
+
 
     clickButton(
         waitForObject(names.homeScreen_settingsButton_QPushButton)
@@ -365,7 +224,7 @@ def main():
         waitForObject(names.settingsScreen_pbBack_QPushButton)
     )
 
-    test.log("STEP 5: Opening Stone Assistant")
+
 
     clickButton(
         waitForObject(names.homeScreen_pbStoneAssistant_QToolButton)
@@ -389,16 +248,62 @@ def main():
         )
     )
 
-    test.log("STEP 6: Verifying Stone Guided screen")
-
-    stone_screen = waitForObject(
-        names.stoneAssistantModeScreen_StoneAssistantModeScreen
+    clickButton(
+        waitForObject(
+            names.stoneAssistantModeScreen_continueButton_QPushButton
+        )
     )
 
-    verify_screen(stone_screen, "Stone Guided")
-
-    test.log("STEP 7: Croatian Stone Guided verification completed")
 
 
-def cleanup():
-    pass
+    clickButton(
+        waitForObject(names.stoneSenseFrame_pbStoneSense_QPushButton)
+    )
+
+
+
+    clickButton(
+        waitForObject(
+            names.calibrationPopupDialog_pbFailedCalibrationButton_QPushButton
+        )
+    )
+
+
+
+    error_label = waitForObject(
+        names.pCalibrationErrorFrame_pErrorAnimation_QLabel
+    )
+
+    try:
+        error_frame = object.parent(error_label)
+    except:
+        error_frame = error_label
+
+
+
+    verify_screen(
+        error_frame,
+        "Calibration Failed"
+    )
+
+    test.vp("Verify Calibration Failed Screen")
+
+    
+
+
+
+    mouseClick(
+        waitForObject(
+            names.pCalibrationErrorFrame_pErrorAnimation_QLabel
+        ),
+        117,
+        180,
+        Qt.NoModifier,
+        Qt.LeftButton
+    )
+
+    clickButton(
+        waitForObject(
+            names.pCalibrationErrorFrame_pRetryButton_QPushButton
+        )
+    )

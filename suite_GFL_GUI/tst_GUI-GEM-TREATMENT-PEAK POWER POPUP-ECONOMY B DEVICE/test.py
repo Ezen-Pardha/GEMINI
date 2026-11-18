@@ -4,13 +4,11 @@ import names
 from common import *
 
 def main():
-    test.log("SVV TAG POP-PKP-001:Peak Power Selection Popup Low Button")
-    enter_login_pin()
-    verify_economy_type()
+
     runtime_path = os.path.expanduser(
-        "/home/ezen/29October/latest Build (no Buttons bar)/build-gemini-Desktop-Debug/"
-    )
- 
+        "/home/ezen/Gemini_v1")
+
+    test.log("SVV TAG POP-PKP-001:Peak Power Selection Popup Low Button")
     configure_system_type(
         new_type="B",
         runtime_path=runtime_path
@@ -44,11 +42,20 @@ def main():
     enter_login_pin()
     verify_economy_type()
     test.log("SVV TAG POP-PKP-001:Peak Power Selection Popup Low Button")
-    clickButton(waitForObject(names.buttonsBar_backButton_QPushButton))
+    
+    clickButton(waitForObject(names.buttonsBar_backButton_QPushButton_4))
+
     clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_8))
+
+    # clickButtn(waitForObject(names.buttonsBar_homeButton_QPushButton_8))
+
+    # clickButton(waitForObject(names.buttonsBar_backButton_QPushButton))
+    # clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
     test.passes("Manual treatment screen is verified") 
+
     test.vp("peakPowerMode")
+
     test.vp("treatmentScreen")
     mouseClick(waitForObject(names.modeButton_nameLabel_QLabel, 126880), 54, 12, Qt.NoModifier, Qt.LeftButton)
     clickButton(waitForObject(names.centralWidget_Square_QPushButton))
@@ -65,11 +72,13 @@ def main():
     test.passes("Right Pedal regular pulse button verified")
     test.imagePresent("rightPeakPower")
     test.passes("Right Pedal PeakPower button is verified")
+
      
     test.log("SVV TAG POP-PKP-001:Peak Power Selection Popup Low Button")
+
     
     test.log("SVV TAG POP-PKP-002:Peak Power Selection Popup Medium Button")
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
     test.passes("Manual treatment screen is verified")   
     test.imagePresent("pulseModeButton")
@@ -83,12 +92,8 @@ def main():
     mouseClick(waitForObject(names.peakPowerButton_nameLabel_QLabel_3), 66, 38, Qt.NoModifier, Qt.LeftButton)
     clickButton(waitForObject(names.centralWidget_pw250_QPushButton_2))
     test.imagePresent("rightpeakPowerMedium", { "occurrence": 2 })
-    test.passes("Right peak power Medium button is verified ")
-   
-    
-    
     test.log("SVV TAG POP-PKP-003:Peak Power Selection Popup High Button")
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
     test.passes("Manual screen verified")
     mouseClick(waitForObject(names.modeButton_nameLabel_QLabel), 108, 44, Qt.NoModifier, Qt.LeftButton)
@@ -108,7 +113,7 @@ def main():
     
     """Peak Power Selection Popup High Button in Fragmentation pulse Mode"""
     test.log("Peak Power Selection Popup High Button in Fragmentation pulse Mode")
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
     test.passes("Manual screen verified")
     mouseClick(waitForObject(names.modeButton_nameLabel_QLabel), 89, 34, Qt.NoModifier, Qt.LeftButton)
@@ -137,7 +142,7 @@ def main():
     
     """Peak Power Selection Popup High Button in Enucleation pulse Mode"""
     test.log("Peak Power Selection Popup High Button in Enucleation pulse Mode")
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
     test.passes("Manual screen verified")
     mouseClick(waitForObject(names.modeButton_nameLabel_QLabel), 89, 34, Qt.NoModifier, Qt.LeftButton)
@@ -164,7 +169,7 @@ def main():
     test.passes("Right pedal Pulse button is verified")
     """Peak Power Selection Popup High Button in Minimal Carbonization pulse Mode"""
     test.log("Peak Power Selection Popup High Button in Minimal Carbonization pulse Mode")
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
     test.passes("Manual screen verified")
     mouseClick(waitForObject(names.modeButton_nameLabel_QLabel), 89, 34, Qt.NoModifier, Qt.LeftButton)

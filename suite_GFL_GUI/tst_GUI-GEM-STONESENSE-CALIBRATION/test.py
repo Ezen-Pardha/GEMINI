@@ -28,9 +28,7 @@ def main():
     clickButton(waitForObject(names.frame_pCancelButton_QPushButton))
     
     test.log("SVV TAG GUI-TRT-067")
-   
-   
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
     clickButton(waitForObject(names.homeScreen_pbStoneAssistant_QToolButton))
     clickButton(waitForObject(names.locationFrame_kidneyPcnlLocationButton_QPushButton))
     clickButton(waitForObject(names.flowRateFrame_lowFlowRateButton_QPushButton))
@@ -50,7 +48,7 @@ def main():
        
     mouseClick(waitForObject(names.pInitiateCalibrationFrame_frame_QFrame), 918, 194, Qt.NoModifier, Qt.LeftButton)
     clickButton(waitForObject(names.frame_pCancelButton_QPushButton))
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
     clickButton(waitForObject(names.homeScreen_pbSoftTissueAssistant_QToolButton))
     clickButton(waitForObject(names.gbSoftTissueProcedures_pbIncision_QPushButton))
     mouseDrag(waitForObject(names.softTissueAssistantModeScreen_wdTabWidgets_QWidget), 1279, 342, -18, -92, 1, Qt.LeftButton) 
@@ -65,7 +63,7 @@ def main():
         
     test.log("SVV TAG GUI-TRT-069")  
     
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
     clickButton(waitForObject(names.homeScreen_pbSoftTissueQuickStart_QToolButton))
     doubleClick(waitForObjectItem(names.tabLeftMainPresets_leftPresetsView_PresetListView, "_1"), 295, 70, Qt.NoModifier, Qt.LeftButton)
     mouseClick(waitForObjectItem(names.tabRightMainPresets_rightPresetsView_PresetListView, "_1"), 110, 40, Qt.NoModifier, Qt.LeftButton)
@@ -85,7 +83,7 @@ def main():
     test.log("SVV TAG GUI-TRT-070")  
     
    
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
     test.log("Manual Treatment screen verified")
     snooze(5)
@@ -99,7 +97,7 @@ def main():
     test.log("SVV TAG GUI-TRT-071")      
   
     mouseClick(waitForObject(names.rightPedalWidget_wdPresetTabs_TabWidget), 103, 38, Qt.NoModifier, Qt.LeftButton)
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
     clickButton(waitForObject(names.homeScreen_pbStoneQuickStart_QToolButton))
     mouseClick(waitForObjectItem(names.tabLeftMainPresets_leftPresetsView_PresetListView, "_1"), 537, 73, Qt.NoModifier, Qt.LeftButton)
     mouseClick(waitForObjectItem(names.tabRightMainPresets_rightPresetsView_PresetListView, "_1"), 309, 66, Qt.NoModifier, Qt.LeftButton)
@@ -179,9 +177,7 @@ def main():
         test.passes("Stone Disabled conform Popup is populated")
     else:
         test.fail("Stone Disabled conform Popup is not populated")
-        
- 
-    
+
     test.log("SVV TAG GUI-TRT-075") 
     clickButton(waitForObject(names.centralWidget_CancelButton_QPushButton))
     mouseClick(waitForObject(names.treatmentScreen_StoneSenseFrame_StoneSenseFrame), 168, 97, Qt.NoModifier, Qt.LeftButton)
