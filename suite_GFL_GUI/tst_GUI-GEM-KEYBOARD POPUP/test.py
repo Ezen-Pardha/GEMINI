@@ -51,14 +51,14 @@ def main():
 
     test.verify(
         waitForObjectExists(
-            names.pulseModeWidget_saveButton_QPushButton
+            names.pulseModeWidget_saveButton_QPushButton_4
         ).visible,
         "Expert screen is displayed"
     )
 
     test.log("Open Save Preset popup")
     clickButton(
-        waitForObject(names.pulseModeWidget_saveButton_QPushButton)
+        waitForObject(names.pulseModeWidget_saveButton_QPushButton_4)
     )
     snooze(1)
 

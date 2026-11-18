@@ -28,11 +28,15 @@ def verify_text(object_name, expected_text, pass_message, fail_message):
 
 def main():
     enter_login_pin()
-
+    # verify_object_exists()
     test.log("SVV TAG POP-SAV-001: Save preset popup left and right pedal")
 
     clickButton(waitForObject(names.gbExpert_expertButton_QPushButton))
-    test.imagePresent("manualScreen")
+
+    mouseClick(waitForObject(names.topBar_buttonsBar_ButtonsBar), 616, 28, Qt.NoModifier, Qt.LeftButton)
+    test.ocrTextPresent("MANUAL")
+    
+    # test.imagePresent("manualScreen")
     clickButton(waitForObject(names.pulseModeWidget_saveButton_QPushButton_4))
     test.log("Preset popup opened")
 

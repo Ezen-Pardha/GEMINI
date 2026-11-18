@@ -134,9 +134,8 @@ def enter_login_pin():
 
     try:
         for _ in range(4):
-            clickButton(
-                waitForObject(names.numpad_pushButton_8_NumpadButton)
-            )
+            
+            clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
 
         test.passes("PASS: Login PIN 8888 entered successfully")
 
