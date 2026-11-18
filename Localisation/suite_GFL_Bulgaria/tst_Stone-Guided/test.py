@@ -16,6 +16,9 @@ EXCEL_PATH = os.path.abspath(
     )
 )
 
+# EXCEL_PATH = (
+#     "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Czech/tst_Home Screen/testdata/Gemini Split strings.xlsx"
+# )
 
 SHEET_NAME = "Stone-Guided"
 
@@ -138,6 +141,8 @@ def load_Bulgaria_excel(excel_path):
 
     sheet = workbook[SHEET_NAME]
 
+    # Column B = English
+    # Column E = Bulgaria
     Bulgaria_data = {}
 
     for row in sheet.iter_rows(
@@ -395,6 +400,9 @@ def main():
             names.stoneAssistantModeScreen_StoneAssistantModeScreen
         )
 
+        # VERIFY SCREEN STRINGS
+        # Numeric-containing strings are ignored.
+        # All other collected strings must exist in Bulgaria Excel.
 
         verify_screen_strings(
             stone,

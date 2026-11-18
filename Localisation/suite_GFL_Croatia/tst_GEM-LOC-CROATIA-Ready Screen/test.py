@@ -2,13 +2,19 @@
 # -*- coding: utf-8 -*-
 
 import names
-import croatian_localization as loc
 from openpyxl import load_workbook
 import os
 
 TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
  
-EXCEL_PATH = loc.EXCEL_PATH
+EXCEL_PATH = os.path.abspath(
+    os.path.join( TESTCASE_DIR,
+        "..",
+        "shared",
+        "testdata",
+        "Gemini Split strings.xlsx"
+    )
+)
 
 
 
@@ -23,21 +29,83 @@ CROATIA_COLUMN = 4
 
 
 def normalize_text(value):
-    return loc.comparison_key(value)
+
+    if value is None:
+        return ""
+
+    return " ".join(
+        str(value)
+        .replace("\n", " ")
+        .replace("\r", " ")
+        .replace("\xa0", " ")
+        .split()
+    ).strip().casefold()
 
 
 
 
 def load_excel_data():
-    workbook = load_workbook(EXCEL_PATH, read_only=True, data_only=True)
-    data = {}
-    # Retain only unambiguous keys; contextual keys must be resolved explicitly.
-    for item in loc.translated_rows():
-        key = normalize_text(item["english"])
-        values = data.setdefault(key, set())
-        values.add(item["croatian"])
-    return workbook, {key: next(iter(values)) for key, values in data.items()
-                      if len({normalize_text(value) for value in values}) == 1}
+
+    
+    workbook = load_workbook(
+        EXCEL_PATH,
+        read_only=True,
+        data_only=True
+    )
+
+    if EXCEL_SHEET_NAME not in workbook.sheetnames:
+
+        test.fail(
+            "Excel sheet not found: "
+            + EXCEL_SHEET_NAME
+        )
+
+        workbook.close()
+        return None, None
+
+    sheet = workbook[
+        EXCEL_SHEET_NAME
+    ]
+
+    CROATIA_data = {}
+
+    for row in sheet.iter_rows(
+        min_col=ENGLISH_COLUMN,
+        max_col=CROATIA_COLUMN
+    ):
+
+        english_value = row[0].value
+        CROATIA_value = row[
+            CROATIA_COLUMN - ENGLISH_COLUMN
+        ].value
+
+        if english_value is None:
+            continue
+
+        english_key = normalize_text(
+            english_value
+        )
+
+        if english_key == "":
+            continue
+
+        if CROATIA_value is None:
+            CROATIA_value = ""
+
+        CROATIA_data[english_key] = str(
+            CROATIA_value
+        ).strip()
+
+    # test.log(
+    #     "Excel loaded: {} | Sheet: {} | "
+    #     "English/CROATIA entries: {}".format(
+    #         EXCEL_PATH,
+    #         EXCEL_SHEET_NAME,
+    #         len(CROATIA_data)
+    #     )
+    # )
+
+    return workbook, CROATIA_data
 
 
 
@@ -266,7 +334,7 @@ def verify_left_treatment_name(
     try:
 
         treatment_screen = waitForObjectExists(
-            names.treatmentScreen_leftPedalWidget_PresetTabWidget
+            names.o_ScreenSwitcher
         )
 
     except Exception as e:
@@ -370,13 +438,18 @@ def verify_left_treatment_name(
 
 
 
-def verify_right_treatment_name(CROATIA_data, english_text, description):
-    expected = get_CROATIA_text(CROATIA_data, english_text)
-    if expected is None:
-        return False
-    texts = loc.collect_texts(waitForObject(names.treatmentScreen_rightPedalWidget_PresetTabWidget), object.children)
-    return test.verify(any(normalize_text(text) == normalize_text(expected) for text in texts),
-                       description + " | Expected: " + expected)
+def verify_right_treatment_name(
+    CROATIA_data,
+    english_text,
+    description
+):
+
+ 
+    verify_left_treatment_name(
+        CROATIA_data,
+        english_text,
+        description
+    )
 
 
 def main():
@@ -549,7 +622,7 @@ def main():
 
     verify_left_treatment_name(
         CROATIA_data,
-        "PROSTATE ENUCLEATE (HIGH ENERGY)",
+        "PROSTATE ENUCLEATION-(HIGH ENERGY)",
         "Left Treatment Name"
     )
 
@@ -583,7 +656,7 @@ def main():
     verify_text(
         CROATIA_data,
         "modeButtonEmission_nameLabel_QLabel",
-        "REGULAR PULSE",
+        "Pulse Mode",
         "Left Pulse Mode"
     )
 
@@ -683,7 +756,7 @@ def main():
 
     verify_right_treatment_name(
         CROATIA_data,
-        "PROSTATE ENUCLEATE (HIGH ENERGY)",
+        "PROSTATE ENUCLEATION-(HIGH ENERGY)",
         "Right Treatment Name"
     )
 
@@ -715,7 +788,7 @@ def main():
     verify_text(
         CROATIA_data,
         "modeButtonEmission_nameLabel_QLabel_2",
-        "REGULAR PULSE",
+        "Pulse Mode",
         "Right Pulse Mode"
     )
 

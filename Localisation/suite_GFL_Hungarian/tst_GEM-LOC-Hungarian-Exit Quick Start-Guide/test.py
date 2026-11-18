@@ -474,7 +474,7 @@ def main():
             "Guided Mode Cancel Button"
         )
 
-        test.vp("quickStartGuided")
+        test.vp("Quick start Guided ")
 
         verify_text(
             sheet,

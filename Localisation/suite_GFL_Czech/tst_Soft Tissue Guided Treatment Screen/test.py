@@ -17,6 +17,7 @@ EXCEL_PATH = os.path.abspath(
 )
 
 
+# EXCEL_PATH = "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Czech/tst_Home Screen/testdata/Gemini Split strings.xlsx"
 
 SHEET_NAME = "Treatment Modes"
 LANGUAGE_COLUMN = 4
@@ -313,6 +314,10 @@ def main():
         164, 27, Qt.NoModifier, Qt.LeftButton
     )
 
+    # mouseClick(
+    #     waitForObject(names.averagePowerWidget_nameLabel_QLabel_2),
+    #     30, 10, Qt.NoModifier, Qt.LeftButton
+    # )
 
     mouseClick(
         waitForObject(names.pulseModeWidget_buttonsWidget_QWidget),
