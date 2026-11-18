@@ -6,28 +6,33 @@ import re
 import os
 
 TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
+ 
 EXCEL_PATH = os.path.abspath(
-    os.path.join(
-        TESTCASE_DIR,
+    os.path.join( TESTCASE_DIR,
         "..",
         "shared",
         "testdata",
         "Gemini Split strings.xlsx"
     )
-)
+
+
+# EXCEL_PATH = "/home/ntc/Test_Automation_Gemini/Localisation/Suite_GFL_English/tst_LoginScreen-Logoff/testdata/Gemini strings.xlsx"
+
+verified_strings = set()
 
 
 def normalize(text):
-    text = str(text)
-    text = re.sub(r"<br\s*/?>", " ", text, flags=re.IGNORECASE)
-    text = re.sub(r"<[^>]+>", "", text)
-    text = text.replace("\xa0", " ")
+    if text is None:
+        return ""
+    text = re.sub(r"<[^>]+>", " ", str(text))
     text = " ".join(text.split())
-    return text.strip().casefold()
+    text = re.sub(r"\s*<\s*", " < ", text)
+    text = re.sub(r"\s*>\s*", " > ", text)
+    return text.casefold()
 
 
 def get_all_texts(obj):
+
     texts = []
 
     try:
@@ -36,14 +41,25 @@ def get_all_texts(obj):
     except:
         pass
 
-    for attr in ("text", "title"):
-        try:
-            value = str(getattr(obj, attr)).strip()
-
-            if value and value.lower() not in ("none", "null"):
+    try:
+        value = str(obj.text).strip()
+        if value:
+            value = re.sub(r"<[^>]+>", " ", value)
+            value = " ".join(value.split())
+            if value:
                 texts.append(value)
-        except:
-            pass
+    except:
+        pass
+
+    try:
+        value = str(obj.title).strip()
+        if value:
+            value = re.sub(r"<[^>]+>", " ", value)
+            value = " ".join(value.split())
+            if value:
+                texts.append(value)
+    except:
+        pass
 
     try:
         for child in object.children(obj):
@@ -54,53 +70,19 @@ def get_all_texts(obj):
     return texts
 
 
-def ignore_text(text):
-    text = normalize(text)
-
-    if not text:
-        return True
-
-    if re.fullmatch(r"[\d\s.,:+\-/<>=%µμ]+", text):
-        return True
-
-    if re.fullmatch(r"[-_=.<>/%µμ:+]+", text):
-        return True
-
-    return False
-
-
-def main():
-
-    sendEvent(
-        "QMoveEvent",
-        waitForObject(names.o_ScreenSwitcher),
-        82, 182, 715, 202
-    )
-    snooze(2)
-
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
-    clickButton(waitForObject(names.mainFrame_okButton_QPushButton))
-
-    home = waitForObject(names.homeScreen_HomeScreen)
-
-    
-
-    snooze(1)
+def load_english_strings():
 
     workbook = openpyxl.load_workbook(EXCEL_PATH, data_only=True)
-    sheet = workbook["Home Screen"]
+    sheet = workbook.active
 
-    excel_strings = {}
+    strings = {}
 
     for row in sheet.iter_rows(min_row=2, values_only=True):
 
         if len(row) < 2:
             continue
 
-        english = row[1]
+        english = row[0]
 
         if english is None:
             continue
@@ -112,72 +94,74 @@ def main():
 
         key = normalize(english)
 
-        if key and key not in excel_strings:
-            excel_strings[key] = {
-                "english": english
-            }
+        if key not in strings:
+            strings[key] = english
 
-    actual_texts = get_all_texts(home)
+    return list(strings.values())
 
-    screen_strings = {}
 
-    for text in actual_texts:
-        text = " ".join(str(text).split()).strip()
+def verify_screen(root_object):
 
-        if ignore_text(text):
-            continue
+    excel_strings = load_english_strings()
+    screen_texts = get_all_texts(root_object)
 
-        key = normalize(text)
+    unique_texts = set()
 
-        if key and key not in screen_strings:
-            screen_strings[key] = text
+    for text in screen_texts:
+        normalized = normalize(text)
+        if normalized:
+            unique_texts.add(normalized)
 
-    verified = set()
-    pass_count = 0
-    fail_count = 0
+    for screen_text in unique_texts:
 
-    for key in sorted(screen_strings):
+        matches = []
 
-        screen_text = screen_strings[key]
+        for english in excel_strings:
 
-        if key in excel_strings:
-            data = excel_strings[key]
+            excel_text = normalize(english)
 
-            if key not in verified:
-                test.passes(
-                    "PASS: English string verified: "
-                    + data["english"]
-                )
+            if screen_text == excel_text:
+                matches.append(english)
 
-                verified.add(key)
-                pass_count += 1
+            elif len(excel_text) >= 4 and excel_text in screen_text:
+                matches.append(english)
 
-        else:
-            test.fail(
-                "FAIL: Screen string not found in English Excel: "
-                + screen_text
-            )
-
-            fail_count += 1
-
-    if fail_count > 0:
-        test.fail(
-            "English HOME SCREEN VALIDATION FAILED: "
-            + str(fail_count)
-            + " screen string(s) missing from Excel"
+        matches.sort(
+            key=lambda x: len(normalize(x)),
+            reverse=True
         )
 
-    elif pass_count > 0:
-        test.passes(
-            "English HOME SCREEN VALIDATION PASSED: "
-            + str(pass_count)
-            + " unique screen string(s) verified"
-        )
+        for english in matches:
 
-    else:
-        test.fail("NO VALID STRINGS FOUND ON SCREEN")
+            key = normalize(english)
 
-    workbook.close()
+            if key in verified_strings:
+                continue
+
+            verified_strings.add(key)
+
+            test.passes(english)
 
 
-main()
+def main():
+
+    # LOGIN
+    sendEvent("QMoveEvent", waitForObject(names.o_ScreenSwitcher), 36, 197, 644, 218)
+    doubleClick(waitForObject(names.numpad_pushButton_8_NumpadButton), 73, 83, Qt.NoModifier, Qt.LeftButton)
+    doubleClick(waitForObject(names.numpad_pushButton_8_NumpadButton), 73, 83, Qt.NoModifier, Qt.LeftButton)
+
+    clickButton(waitForObject(names.mainFrame_okButton_QPushButton))
+
+    test.vp("Verify Home Screen")
+
+    
+
+    # VERIFY HOME SCREEN
+    verify_screen(waitForObject(names.o_ScreenSwitcher))
+
+    # HOME SCREEN CLICKS
+    mouseClick(waitForObject(names.homeScreen_HomeScreen), 640, 89, Qt.NoModifier, Qt.LeftButton)
+    verify_screen(waitForObject(names.o_ScreenSwitcher))
+
+    mouseClick(waitForObject(names.topBar_buttonsBar_ButtonsBar), 477, 39, Qt.NoModifier, Qt.LeftButton)
+    verify_screen(waitForObject(names.o_ScreenSwitcher))

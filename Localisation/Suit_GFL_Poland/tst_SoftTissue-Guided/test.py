@@ -90,6 +90,9 @@ def main():
     try:
         sheet = workbook["Soft Tissue-Guided"]
 
+        # Load all Poland translations from Excel.
+        # Column B = English
+        # Column S = Poland (index 18)
 
         excel_strings = {}
 

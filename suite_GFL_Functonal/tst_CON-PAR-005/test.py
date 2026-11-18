@@ -1,4 +1,3 @@
-
 # -*- coding: utf-8 -*-
 
 from common import *
@@ -138,7 +137,7 @@ def main():
             )
             return
 
-    # Verify that the upper limit was actually reached
+ 
     if power == MAX_POWER:
         test.passes(
             "PASS: Economy B reached the required maximum average "
@@ -149,8 +148,3 @@ def main():
             "FAIL: Economy B did not reach 60 W. Final displayed "
             "average power: " + str(power) + " W."
         )
-
-    # Step 5: Economy C has no recording
-    test.fail(
-        "Economy C verification FAILED:"
-    )

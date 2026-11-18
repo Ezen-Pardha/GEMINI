@@ -19,6 +19,7 @@ EXCEL_PATH = os.path.abspath(
 )
 
 
+# EXCEL_PATH = "/home/ntc/Test_Automation_Gemini/Localisation/suite_GFL_Dutch/tst_Home Screen/testdata/Gemini Split strings.xlsx"
 SHEET_NAME = "Treatment Modes"
 ENGLISH_COLUMN = 1
 Dutch_COLUMN = 6
@@ -360,6 +361,7 @@ def main():
         test.fail("No Dutch strings loaded from Excel.")
         return
 
+    # COLLECT TREATMENT SCREEN TEXT
 
     screen = waitForObject(
         names.treatmentScreen_bottomBar_QFrame
@@ -367,6 +369,7 @@ def main():
 
     screen_candidates = get_screen_candidates(screen)
 
+    # CHECK SCREEN PARENT
 
     try:
         parent = object.parent(screen)
@@ -377,6 +380,7 @@ def main():
     except Exception:
         pass
 
+    # CHECK RECORDED OBJECTS
 
     recorded_objects = [
         names.topBar_buttonsBar_ButtonsBar,
@@ -399,6 +403,7 @@ def main():
         except Exception:
             pass
 
+    # LOAD UNIQUE INDIVIDUAL TEXT CANDIDATES
 
     individual_candidates = []
     combined_candidates = []
@@ -412,6 +417,8 @@ def main():
         if not key:
             continue
 
+        # Keep combined strings available for matching,
+        # but do not automatically report them as missing.
         if " " in text:
             if key not in seen_combined:
                 seen_combined.add(key)
@@ -434,6 +441,8 @@ def main():
         else:
             missing_strings[key] = candidate
 
+    # MATCH COMBINED CANDIDATES THAT REPRESENT EXCEL STRINGS.
+    # This supports phrases split over multiple UI elements.
 
     for candidate in combined_candidates:
         key = normalize(candidate)

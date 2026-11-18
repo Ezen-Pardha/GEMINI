@@ -95,6 +95,8 @@ def main():
 
         sheet = workbook[SHEET_NAME]
 
+        # Column B = English
+        # Column E = Czech
 
         excel_strings = {}
 

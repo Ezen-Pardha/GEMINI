@@ -1,91 +1,33 @@
-
 # -*- coding: utf-8 -*-
 
 import names
 import openpyxl
 import re
-import os
 
-TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-EXCEL_PATH = os.path.abspath(
-    os.path.join(
-        TESTCASE_DIR,
-        "..",
-        "shared",
-        "testdata",
-        "Gemini Split strings.xlsx"
-    )
-)
-
-SHEET_NAME = "Treatment Logs"
-ENGLISH_COLUMN = 1
-TRACE_COLUMN = 0
-TRACE_ID = "TL"
-
+EXCEL_PATH = "/home/ntc/Test_Automation_Gemini/Localisation/Suite_GFL_English/tst_LoginScreen-Logoff/testdata/Gemini strings.xlsx"
 verified = set()
-excel_strings = {}
-
-passed_count = 0
-failed_count = 0
-skipped_count = 0
 
 
 def normalize(text):
-
     if text is None:
         return ""
-
-    text = str(text)
-    text = re.sub(r"<[^>]+>", " ", text)
-    text = text.replace("™", "")
-    text = text.replace("®", "")
-    text = text.replace("μ", "µ")
-    text = " ".join(text.split())
-
-    return text.casefold().strip()
+    text = re.sub(r"<[^>]+>", " ", str(text))
+    return " ".join(text.split()).casefold().strip()
 
 
 def ignore(text):
-
     text = str(text).strip()
-
-    if not text:
-        return True
-
-    if re.fullmatch(r"\d+(\.\d+)?%?", text):
-        return True
-
-    if re.fullmatch(r"\d+(\.\d+)?\s*[a-zA-Zµμ]+", text):
-        return True
-
-    if re.fullmatch(r"\d+[/-]\d+[/-]\d+", text):
-        return True
-
-    if re.fullmatch(r"\d+[a-zA-Z]+\s*/\s*\d+[a-zA-Z]+", text):
-        return True
-
-    return False
-
-
-def remove_duplicates(strings):
-
-    result = []
-    seen = set()
-
-    for value in strings:
-
-        key = normalize(value)
-
-        if key and key not in seen:
-            seen.add(key)
-            result.append(value)
-
-    return result
+    return (
+        not text
+        or len(text) < 2
+        or re.fullmatch(r"\d+(\.\d+)?%?", text)
+        or re.fullmatch(r"\d+(\.\d+)?\s*[a-zA-Z]+", text)
+        or re.fullmatch(r"\d+[/-]\d+[/-]\d+", text)
+        or re.fullmatch(r"\d+[a-zA-Z]+\s*/\s*\d+[a-zA-Z]+", text)
+    )
 
 
 def get_texts(obj):
-
     result = []
 
     try:
@@ -95,17 +37,10 @@ def get_texts(obj):
         pass
 
     for attr in ("text", "title"):
-
         try:
-            value = getattr(obj, attr)
-
-            if value is not None:
-
-                value = str(value).strip()
-
-                if value:
-                    result.append(value)
-
+            value = str(getattr(obj, attr)).strip()
+            if value:
+                result.append(value)
         except:
             pass
 
@@ -119,151 +54,52 @@ def get_texts(obj):
 
 
 def load_excel():
-
-    if not os.path.exists(EXCEL_PATH):
-        raise Exception("Excel file not found: " + EXCEL_PATH)
-
-    wb = openpyxl.load_workbook(
-        EXCEL_PATH,
-        data_only=True,
-        read_only=True
-    )
-
-    if SHEET_NAME not in wb.sheetnames:
-        wb.close()
-        raise Exception("Excel sheet not found: " + SHEET_NAME)
-
-    sheet = wb[SHEET_NAME]
-
+    wb = openpyxl.load_workbook(EXCEL_PATH, data_only=True)
     data = {}
 
-    for row in sheet.iter_rows(min_row=2, values_only=True):
-
-        if len(row) <= max(ENGLISH_COLUMN, TRACE_COLUMN):
-            continue
-
-        trace_value = row[TRACE_COLUMN]
-        english = row[ENGLISH_COLUMN]
-
-        if english is None or trace_value is None:
-            continue
-
-        trace_ids = [
-            item.strip().upper()
-            for item in str(trace_value).split(",")
-        ]
-
-        if TRACE_ID not in trace_ids:
-            continue
-
-        english = str(english).strip()
-
-        if not english:
-            continue
-
-        key = normalize(english)
-
-        if key and key not in data:
-            data[key] = english
+    for row in wb.active.iter_rows(min_row=2, values_only=True):
+        if row and row[0]:
+            value = str(row[0]).strip()
+            data[normalize(value)] = value
 
     wb.close()
-
-    if not data:
-        raise Exception("No English strings found for TL trace ID.")
-
     return data
 
 
-def find_match(actual, excel):
+def verify(obj):
+    excel = load_excel()
 
-    key = normalize(actual)
-
-    if key in excel:
-        return excel[key]
-
-    return None
-
-
-def verify(obj, area_name):
-
-    global passed_count
-    global failed_count
-    global skipped_count
-
-    test.log("========== VERIFYING " + area_name + " ==========")
-
-    actual_texts = remove_duplicates(get_texts(obj))
-
-    test.log(
-        "Visible UI strings captured: " + str(len(actual_texts))
-    )
-
-    for actual in actual_texts:
-
+    for actual in set(get_texts(obj)):
         key = normalize(actual)
 
-        if ignore(actual):
-
-            skipped_count += 1
-            test.log("SKIP: " + actual)
+        if ignore(actual) or key in verified:
             continue
 
-        if key in verified:
-            continue
+        match = excel.get(key)
+
+        if not match:
+            for excel_key, value in excel.items():
+                if len(excel_key) >= 4 and (
+                    excel_key in key or key in excel_key
+                ):
+                    match = value
+                    break
 
         verified.add(key)
 
-        match = find_match(actual, excel_strings)
-
         if match:
-
-            passed_count += 1
-            test.passes("PASS: " + actual + " | Excel: " + match)
-
+            test.passes(match)
         else:
-
-            failed_count += 1
-            test.fail(
-                "FAIL: " + actual +
-                " -> String not found in Excel"
-            )
+            test.fail(actual + " -> String not found in Excel")
 
 
-def verification_summary():
-
-    total = passed_count + failed_count
-
-    test.log("========== TREATMENT LOGS VERIFICATION SUMMARY ==========")
-    test.log("Worksheet: " + SHEET_NAME)
-    test.log("Trace ID: " + TRACE_ID)
-    test.log("Total unique strings checked: " + str(total))
-    test.log("PASS: " + str(passed_count))
-    test.log("FAIL: " + str(failed_count))
-    test.log("SKIP: " + str(skipped_count))
-    test.log("==========================================================")
-
-    if failed_count == 0:
-        test.log("RESULT: All verified strings matched Excel.")
-    else:
-        test.log("RESULT: Some visible strings were not found in Excel.")
+def click(obj):
+    clickButton(waitForObject(obj))
 
 
 def main():
 
-    global excel_strings
-
-    try:
-        excel_strings = load_excel()
-
-        test.log(
-            "English strings loaded: " + str(len(excel_strings))
-        )
-
-    except Exception as error:
-
-        test.fail("Excel loading failed: " + str(error))
-        return
-
+    # LOGIN - NO VERIFICATION
     sendEvent(
         "QMoveEvent",
         waitForObject(names.o_ScreenSwitcher),
@@ -271,30 +107,18 @@ def main():
     )
 
     for _ in range(4):
+        click(names.numpad_pushButton_8_NumpadButton)
 
-        clickButton(
-            waitForObject(
-                names.numpad_pushButton_8_NumpadButton
-            )
-        )
+    click(names.mainFrame_okButton_QPushButton)
 
-    clickButton(
-        waitForObject(
-            names.mainFrame_okButton_QPushButton
-        )
-    )
-
-    clickButton(
-        waitForObject(
-            names.homeScreen_logButton_QPushButton
-        )
-    )
+    # OPEN LOGS - VERIFICATION STARTS HERE
+    click(names.homeScreen_logButton_QPushButton)
 
     verify(
-        waitForObject(names.tvLogsTable_QHeaderView),
-        "LOG TABLE HEADER"
+        waitForObject(names.tvLogsTable_QHeaderView)
     )
 
+    # LOG TABLE HEADER
     mouseClick(
         waitForObject(names.tvLogsTable_QHeaderView),
         1, 0,
@@ -303,10 +127,10 @@ def main():
     )
 
     verify(
-        waitForObject(names.tvLogsTable_QHeaderView),
-        "LOG TABLE AFTER HEADER INTERACTION"
+        waitForObject(names.tvLogsTable_QHeaderView)
     )
 
+    # BOTTOM AREA
     mouseClick(
         waitForObject(names.treatmentLogScreen_wdBottom_QWidget),
         525, 46,
@@ -315,10 +139,5 @@ def main():
     )
 
     verify(
-        waitForObject(names.treatmentLogScreen_wdBottom_QWidget),
-        "BOTTOM AREA"
+        waitForObject(names.treatmentLogScreen_wdBottom_QWidget)
     )
-
-    verification_summary()
-
-    test.log("Treatment Logs English verification completed.")

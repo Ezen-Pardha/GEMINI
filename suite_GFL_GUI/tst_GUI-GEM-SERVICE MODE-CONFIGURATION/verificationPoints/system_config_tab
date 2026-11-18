@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<VerificationPoint type="Visual" version="5">
+    <Description/>
+    <Verification object="qt_tabwidget_tabbar_SYSTEM_CONFIGURATION_TabItem">
+        <visual>
+              
+            <ui version="1.0">
+                    
+                <execution>
+                          
+                    <state>
+                                
+                        <element class="TabItem" id="1a1e64f4b6c" namespace="QTabWidgetExt">
+                                      
+                            <image type="PNG">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</image>
+                                      
+                            <superclass>
+                                            
+                                <class>QtGUIObject</class>
+                                            
+                                <class>GUIObject</class>
+                                          
+                            </superclass>
+                                      
+                            <abstractProperties>
+                                            
+                                <visual isTopLevel="1"/>
+                                            
+                                <geometry isRelative="0">
+                                                  
+                                    <x>478</x>
+                                                  
+                                    <y>351</y>
+                                                  
+                                    <height>42</height>
+                                                  
+                                    <width>234</width>
+                                                
+                                </geometry>
+                                          
+                            </abstractProperties>
+                                      
+                            <properties>
+                                            
+                                <property name="text">
+                                                  
+                                    <string>SYSTEM CONFIGURATION</string>
+                                                
+                                </property>
+                                            
+                                <property name="enabled">
+                                                  
+                                    <string>true</string>
+                                                
+                                </property>
+                                            
+                                <property name="type">
+                                                  
+                                    <string>TabItem</string>
+                                                
+                                </property>
+                                            
+                                <property name="index">
+                                                  
+                                    <string>2</string>
+                                                
+                                </property>
+                                          
+                            </properties>
+                                    
+                        </element>
+                              
+                    </state>
+                        
+                </execution>
+                  
+            </ui>
+              
+            <check type="identifying"/>
+              
+            <check type="content"/>
+              
+            <check type="geometry">
+                    
+                <PropertyVerification element-id="1a1e64f4b6c">
+                          
+                    <VerifyProperty name="x" type="equal"/>
+                          
+                    <VerifyProperty name="y" type="equal"/>
+                          
+                    <VerifyProperty name="width" type="equal"/>
+                          
+                    <VerifyProperty name="height" type="equal"/>
+                        
+                </PropertyVerification>
+                  
+            </check>
+              
+            <check type="screenshot">
+                    
+                <PropertyVerification element-id="1a1e64f4b6c"/>
+                  
+            </check>
+            
+        </visual>
+    </Verification>
+</VerificationPoint>

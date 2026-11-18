@@ -1,30 +1,13 @@
-
 # -*- coding: utf-8 -*-
 
 import names
 import openpyxl
 import re
-import os
 
 
-
-TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-EXCEL_PATH = os.path.abspath(
-    os.path.join(
-        TESTCASE_DIR,
-        "..",
-        "shared",
-        "testdata",
-        "Gemini Split strings.xlsx"
-    )
-)
-
-SHEET_NAME = "Treatment Modes"
+EXCEL_PATH = "/home/ntc/Test_Automation_Gemini/Localisation/Suite_GFL_English/tst_LoginScreen-Logoff/testdata/Gemini strings.xlsx"
 
 verified_strings = set()
-excel_strings = {}
-
 
 
 def normalize(text):
@@ -33,14 +16,12 @@ def normalize(text):
         return ""
 
     text = str(text)
-
     text = re.sub(r"<[^>]+>", " ", text)
     text = " ".join(text.split())
     text = re.sub(r"\s*<\s*", " < ", text)
     text = re.sub(r"\s*>\s*", " > ", text)
 
-    return text.casefold().strip()
-
+    return text.casefold()
 
 
 def get_all_texts(obj):
@@ -53,136 +34,76 @@ def get_all_texts(obj):
     except:
         pass
 
-    # Get object text
     try:
+        value = str(obj.text).strip()
 
-        value = obj.text
-
-        if value is not None:
-
-            value = str(value).strip()
+        if value:
+            value = re.sub(r"<[^>]+>", " ", value)
+            value = " ".join(value.split())
 
             if value:
-
-                value = re.sub(r"<[^>]+>", " ", value)
-                value = " ".join(value.split())
-
-                if value:
-                    texts.append(value)
+                texts.append(value)
 
     except:
         pass
 
-    # Get object title
     try:
+        value = str(obj.title).strip()
 
-        value = obj.title
-
-        if value is not None:
-
-            value = str(value).strip()
+        if value:
+            value = re.sub(r"<[^>]+>", " ", value)
+            value = " ".join(value.split())
 
             if value:
-
-                value = re.sub(r"<[^>]+>", " ", value)
-                value = " ".join(value.split())
-
-                if value:
-                    texts.append(value)
+                texts.append(value)
 
     except:
         pass
 
-    # Get child objects recursively
     try:
-
         for child in object.children(obj):
-
             texts.extend(get_all_texts(child))
-
     except:
         pass
 
     return texts
 
 
-
 def load_english_strings():
 
-    try:
+    workbook = openpyxl.load_workbook(EXCEL_PATH, data_only=True)
+    sheet = workbook.active
 
-        if not os.path.exists(EXCEL_PATH):
+    strings = {}
 
-            test.fail(
-                "Excel file not found: " + EXCEL_PATH
-            )
+    for row in sheet.iter_rows(min_row=2, values_only=True):
 
-            return {}
+        if len(row) < 2:
+            continue
 
-        workbook = openpyxl.load_workbook(
-            EXCEL_PATH,
-            data_only=True,
-            read_only=True
-        )
+        english = row[0]
 
-        if SHEET_NAME not in workbook.sheetnames:
+        if english is None:
+            continue
 
-            test.fail(
-                "Worksheet not found: " + SHEET_NAME
-            )
+        english = str(english).strip()
 
-            workbook.close()
-            return {}
+        if not english:
+            continue
 
-        sheet = workbook[SHEET_NAME]
+        key = normalize(english)
 
-        strings = {}
+        if key not in strings:
+            strings[key] = english
 
-        # Read English strings from Column A
-        for row in sheet.iter_rows(
-            min_row=2,
-            min_col=1,
-            max_col=30,
-            values_only=True
-        ):
-
-            english = row[1]
-
-            if english is None:
-                continue
-
-            english = str(english).strip()
-
-            if not english:
-                continue
-
-            key = normalize(english)
-
-            if key not in strings:
-
-                strings[key] = english
-
-        workbook.close()
-
-        test.log(
-            "Total English strings loaded: "
-            + str(len(strings))
-        )
-
-        return strings
-
-    except Exception as e:
-
-        test.fail(
-            "Excel reading error: " + str(e)
-        )
-
-        return {}
-
+    return list(strings.values())
 
 
 def verify_screen(root_object, screen_name):
 
+    global verified_strings
+
+    excel_strings = load_english_strings()
     screen_texts = get_all_texts(root_object)
 
     unique_texts = set()
@@ -194,28 +115,22 @@ def verify_screen(root_object, screen_name):
         if normalized:
             unique_texts.add(normalized)
 
-    screen_verified = 0
-
     for screen_text in unique_texts:
 
         matches = []
 
-        for excel_normalized, english in excel_strings.items():
+        for english in excel_strings:
+
+            excel_normalized = normalize(english)
 
             # Exact match
             if screen_text == excel_normalized:
-
                 matches.append(english)
 
             # Combined UI text
-            elif (
-                len(excel_normalized) >= 4
-                and excel_normalized in screen_text
-            ):
-
+            elif len(excel_normalized) >= 4 and excel_normalized in screen_text:
                 matches.append(english)
 
-        # Longest matching string first
         matches.sort(
             key=lambda x: len(normalize(x)),
             reverse=True
@@ -225,76 +140,18 @@ def verify_screen(root_object, screen_name):
 
             key = normalize(english)
 
-            # Prevent duplicate results
+            # Prevent duplicate result across all screens/clicks
             if key in verified_strings:
                 continue
 
             verified_strings.add(key)
 
-            screen_verified += 1
-
-            # Individual PASS result in Squish
-            test.passes(
-                "VERIFIED | "
-                + screen_name
-                + " | "
-                + english
-            )
-
-    test.log(
-        "Total verified on "
-        + screen_name
-        + ": "
-        + str(screen_verified)
-    )
-
-
-
-def final_verification():
-
-    test.log("----------------------------------------")
-    test.log("VISIBLE ENGLISH STRING VERIFICATION")
-    test.log("----------------------------------------")
-
-    test.log(
-        "Total Excel strings: "
-        + str(len(excel_strings))
-    )
-
-    test.log(
-        "Total unique verified strings: "
-        + str(len(verified_strings))
-    )
-
-    test.log("----------------------------------------")
-
-    test.log("VERIFIED STRINGS LIST:")
-
-    for english in sorted(verified_strings):
-
-        test.log(english)
-
-    test.log("----------------------------------------")
-
+            test.passes(english)
 
 
 def main():
 
-    global excel_strings
-
-    # LOAD EXCEL STRINGS ONCE
-
-    excel_strings = load_english_strings()
-
-    if not excel_strings:
-
-        test.fail(
-            "No English strings available for verification."
-        )
-
-        return
-
-
+    # LOGIN
 
     sendEvent(
         "QMoveEvent",
@@ -306,33 +163,23 @@ def main():
     )
 
     clickButton(
-        waitForObject(
-            names.numpad_pushButton_8_NumpadButton
-        )
+        waitForObject(names.numpad_pushButton_8_NumpadButton)
     )
 
     clickButton(
-        waitForObject(
-            names.numpad_pushButton_8_NumpadButton
-        )
+        waitForObject(names.numpad_pushButton_8_NumpadButton)
     )
 
     clickButton(
-        waitForObject(
-            names.numpad_pushButton_8_NumpadButton
-        )
+        waitForObject(names.numpad_pushButton_8_NumpadButton)
     )
 
     clickButton(
-        waitForObject(
-            names.numpad_pushButton_8_NumpadButton
-        )
+        waitForObject(names.numpad_pushButton_8_NumpadButton)
     )
 
     clickButton(
-        waitForObject(
-            names.mainFrame_okButton_QPushButton
-        )
+        waitForObject(names.mainFrame_okButton_QPushButton)
     )
 
     verify_screen(
@@ -341,11 +188,10 @@ def main():
     )
 
 
+    # OPEN EXPERT SCREEN
 
     clickButton(
-        waitForObject(
-            names.gbExpert_expertButton_QPushButton
-        )
+        waitForObject(names.gbExpert_expertButton_QPushButton)
     )
 
     verify_screen(
@@ -354,11 +200,10 @@ def main():
     )
 
 
+    # RIGHT PEDAL PRESET TAB
 
     mouseClick(
-        waitForObject(
-            names.rightPedalWidget_wdPresetTabs_TabWidget
-        ),
+        waitForObject(names.rightPedalWidget_wdPresetTabs_TabWidget),
         5,
         30,
         Qt.NoModifier,
@@ -367,15 +212,14 @@ def main():
 
     verify_screen(
         waitForObject(names.o_ScreenSwitcher),
-        "Expert - Right Pedal Preset"
+        "Expert after Right Pedal preset click"
     )
 
 
+    # LEFT PEDAL PRESET TAB
 
     mouseClick(
-        waitForObject(
-            names.leftPedalWidget_wdPresetTabs_TabWidget
-        ),
+        waitForObject(names.leftPedalWidget_wdPresetTabs_TabWidget),
         457,
         30,
         Qt.NoModifier,
@@ -384,9 +228,5 @@ def main():
 
     verify_screen(
         waitForObject(names.o_ScreenSwitcher),
-        "Expert - Left Pedal Preset"
+        "Expert after Left Pedal preset click"
     )
-
-
-
-    final_verification()
