@@ -510,8 +510,8 @@ def verify_economyc_type():
 
 def back_to_homescreen_from_servicemode():
     clickButton(waitForObject(names.buttonsBar_backButton_QPushButton))
-    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_2))
-    
+    clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_3))
+        
     
 def  left_Minimal_Carbonization ():
     mouseClick(

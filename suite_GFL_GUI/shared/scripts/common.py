@@ -1494,8 +1494,8 @@ def navigate_service_mode():
     
     except LookupError:
         test.fail("FAIL: Service Mode passcode screen is not displayed")
-        
-    for index in range(5):
+    snooze(2)
+    for index in range(4):
         click_and_report(
             names.numpad_pushButton_9_NumpadButton,
             "Enter service PIN digit 9, press {} of 4".format(index + 1)
