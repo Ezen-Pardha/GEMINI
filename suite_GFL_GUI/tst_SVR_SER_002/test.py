@@ -289,5 +289,3 @@ def main():
         "Failure Expected: 'Warning Popup' is not available "
         "in the application after RFID configuration changes"
     )
-    
-    

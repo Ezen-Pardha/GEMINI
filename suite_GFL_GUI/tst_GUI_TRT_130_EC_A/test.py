@@ -22,4 +22,3 @@ def main():
     clickButton(waitForObject(names.centralWidget_pw500_QPushButton_2))
     test.vp("Left_Max_Peakpower")
     test.vp("Right_Max_Peakpower")
-

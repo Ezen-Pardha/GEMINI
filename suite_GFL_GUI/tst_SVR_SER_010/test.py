@@ -8,7 +8,7 @@ except ImportError:
     import __builtin__ as pybuiltins
 
 def main():
-    
+
     navigate_service_mode()
     clickTab(waitForObject(names.serviceScreenTabWidget_QTabWidget),"SYSTEM CONFIGURATION")
     test.log("Confirming System Configuration Tab is displayed")
@@ -74,8 +74,5 @@ def main():
                 initial_text
             )
         )
-  
+
     test.fail("Failure Expected: 'Update Config' button is not available in the application")
-    
-    
-    

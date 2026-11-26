@@ -10,7 +10,7 @@ def main():
 
     mouseClick(waitForObject(names.peakPowerButton_nameLabel_QLabel), 20, 40, Qt.NoModifier, Qt.LeftButton)
     clickButton(waitForObject(names.centralWidget_pw500_QPushButton_2))
-    
+
     mouseClick(waitForObject(names.peakPowerButton_iconLabel_QLabel_3), 6, 32, Qt.NoModifier, Qt.LeftButton)
     clickButton(waitForObject(names.centralWidget_pw500_QPushButton_2))
     test.imagePresent("imageVerified Maximum Peak Power On Left and Right Side")

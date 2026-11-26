@@ -3,7 +3,7 @@
 from common import *
 
 def main():
-    
+
     navigate_service_mode()
     clickButton(waitForObject(names.userProfilesAndPresetsPanel_1_pbUserProfilesClear_QPushButton))
 
@@ -11,7 +11,7 @@ def main():
     label_obj = waitForObject(names.centralWidget_lbDialogTitle_QLabel_2)
     label_txt = str(label_obj.text)
     test.log("Popup title: " + label_txt)
-       
+
     snooze(2)
 
     test.compare(str(waitForObjectExists(names.centralWidget_lbDialogTitle_QLabel_2).text), "Clear User Profiles and Presets")

@@ -278,6 +278,3 @@ def main():
     clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton))
 
     clickButton(waitForObject(names.buttonsBar_homeButton_QPushButton_4))
-    
-    
-    

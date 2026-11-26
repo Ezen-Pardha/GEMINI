@@ -24,7 +24,7 @@ def main():
     mouseDrag(waitForObject(names.indexPicker_valuePicker_IntervalSlider_2), 67, 31, 328, -14, 1, Qt.LeftButton)
 
     if test.vp("exitGuidedPopup"):
-        test.fail("Failure Expected: Program doesn't display the “frequency too High” popup when StoneSense is enabled," + 
+        test.fail("Failure Expected: Program doesn't display the “frequency too High” popup when StoneSense is enabled," +
                   "instead there is a EXIT GUIDED POPUP ")
 
     clickButton(waitForObject(names.centralWidget_CancelButton_QPushButton))

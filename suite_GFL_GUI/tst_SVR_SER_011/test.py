@@ -9,9 +9,8 @@ def main():
     #test.compare(waitForObjectExists(names.qt_tabwidget_tabbar_SOFTWARE_UPDATE_TabItem).text, "SOFTWARE UPDATE")
 
     if test.compare(waitForObjectExists(names.qt_tabwidget_tabbar_SOFTWARE_UPDATE_TabItem).text, "SOFTWARE UPDATE"):
-        
+
         test.passes("screen verified")
     else:
-        
-        test.fail("screen verification failed")
 
+        test.fail("screen verification failed")

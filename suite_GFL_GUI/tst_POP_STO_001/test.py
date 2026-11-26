@@ -5,7 +5,7 @@ from squish import *
 
 
 def main():
-    
+
     clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
     clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
     clickButton(waitForObject(names.numpad_pushButton_8_NumpadButton))
@@ -21,7 +21,7 @@ def main():
     clickButton(waitForObject(names.locationFrame_kidneyPcnlLocationButton_QPushButton))
     clickButton(waitForObject(names.flowRateFrame_lowFlowRateButton_QPushButton))
     clickButton(waitForObject(names.hardnessFrame_smallHardnessButton_QPushButton))
-    
+
     snooze(2)
     if test.vp("stoneGuided_Characteristics"):
         snooze(2)

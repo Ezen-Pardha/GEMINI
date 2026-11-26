@@ -64,9 +64,3 @@ def main():
         )
      
     test.fail("Failure Expected: 'Update Config' button is not available in the application")
-        
-        
-        
-        
-        
-        
