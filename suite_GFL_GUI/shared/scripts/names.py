@@ -231,7 +231,7 @@ mainFrame_pbAccept_QPushButton = {"container": dateTimePicker_mainFrame_QFrame, 
 buttonsFrame_rejectButton_QPushButton_3 = {"container": centralWidget_buttonsFrame_QFrame_4, "name": "rejectButton", "type": "QPushButton", "visible": 1}
 topBar_TopBar = {"name": "topBar", "type": "TopBar", "visible": 1, "window": o_ScreenSwitcher}
 topBar_buttonsBar_ButtonsBar_8 = {"container": topBar_TopBar, "name": "buttonsBar", "type": "ButtonsBar", "visible": 1}
-buttonsBar_backButton_QPushButton = {"container": topBar_buttonsBar_ButtonsBar_8, "name": "backButton", "type": "QPushButton", "visible": 1}
+buttonsBar_backButton_QPushButton = {"container": topBar_buttonsBar_ButtonsBar, "name": "backButton", "type": "QPushButton", "visible": 1}
 wdLeftPedalTreatmentLayout_qt_tabwidget_stackedwidget_QStackedWidget = {"container": qt_tabwidget_stackedwidget_wdLeftPedalTreatmentLayout_QWidget, "name": "qt_tabwidget_stackedwidget", "type": "QStackedWidget", "visible": 1}
 qt_tabwidget_stackedwidget_tabLeftMainPresets_QWidget = {"container": wdLeftPedalTreatmentLayout_qt_tabwidget_stackedwidget_QStackedWidget, "name": "tabLeftMainPresets", "type": "QWidget", "visible": 1}
 tabLeftMainPresets_nextPageButton_QPushButton = {"container": qt_tabwidget_stackedwidget_tabLeftMainPresets_QWidget, "name": "nextPageButton", "type": "QPushButton", "visible": 1}
@@ -832,9 +832,6 @@ gbSystemInformation_lbSystemSerialNumberName_QLabel = {"container": wdSystemInfo
 gbSystemInformation_lbLanguageSettingsName_QLabel = {"container": wdSystemInfoLayout_gbSystemInformation_QGroupBox, "name": "lbLanguageSettingsName", "type": "QLabel", "visible": 1}
 gbSystemInformation_lbLanguageSettingsValue_QLabel = {"container": wdSystemInfoLayout_gbSystemInformation_QGroupBox, "name": "lbLanguageSettingsValue", "type": "QLabel", "visible": 1}
 
-
-
-
 o_ScreenSwitcher = {"type": "ScreenSwitcher", "unnamed": 1, "visible": 1}
 loginScreen_LoginScreen = {"name": "LoginScreen", "type": "LoginScreen", "visible": 1, "window": o_ScreenSwitcher}
 loginScreen_mainFrame_QFrame = {"container": loginScreen_LoginScreen, "name": "mainFrame", "type": "QFrame", "visible": 1}
@@ -1245,7 +1242,7 @@ bottomBar_stateSwitch_StateSwitch = {"container": treatmentScreen_bottomBar_QFra
 stateSwitch_readyButton_QPushButton = {"container": bottomBar_stateSwitch_StateSwitch, "name": "readyButton", "type": "QPushButton", "visible": 1}
 loginScreen_header_TopBar = {"container": loginScreen_LoginScreen, "name": "header", "type": "TopBar", "visible": 1}
 header_buttonsBar_ButtonsBar = {"container": loginScreen_header_TopBar, "name": "buttonsBar", "type": "ButtonsBar", "visible": 1}
-buttonsBar_backButton_QPushButton = {"container": header_buttonsBar_ButtonsBar, "name": "backButton", "type": "QPushButton", "visible": 1}
+buttonsBar_backButton_QPushButton = {"container": topBar_buttonsBar_ButtonsBar, "name": "backButton", "type": "QPushButton", "visible": 1}
 buttonsBar_backButton_QPushButton_2 = {"container": header_buttonsBar_ButtonsBar, "name": "backButton", "type": "QPushButton", "visible": 1}
 buttonsBar_backButton_QPushButton_3 = {"container": header_buttonsBar_ButtonsBar, "name": "backButton", "type": "QPushButton", "visible": 1}
 settingsScreen_tabBarSystemInfo_TabBar = {"container": settingsScreen_SettingsScreen, "name": "tabBarSystemInfo", "type": "TabBar", "visible": 1}
@@ -1312,3 +1309,8 @@ softwareUpdateTab_proceduresUpdatePanel_UpdatePanel = {"container": qt_tabwidget
 proceduresUpdatePanel_VersionLabel_QLabel = {"container": softwareUpdateTab_proceduresUpdatePanel_UpdatePanel, "name": "VersionLabel", "type": "QLabel", "visible": 1}
 frequencyWidget_incrementButton_QPushButton_2 = {"container": pulseModeWidget_frequencyWidget_ParameterSettingsWidget_2, "name": "incrementButton", "type": "QPushButton", "visible": 1}
 
+centralWidget_QFrame_6 = {"name": "centralWidget", "type": "QFrame", "visible": 1, "window": o_WarningDialog}
+centralWidget_messageLabel_QLabel_2 = {"container": centralWidget_QFrame_6, "name": "messageLabel", "type": "QLabel", "visible": 1}
+centralWidget_okButton_QPushButton_5 = {"container": centralWidget_QFrame_6, "name": "okButton", "type": "QPushButton", "visible": 1}
+centralWidget_lbDialogTitle_QLabel_2 = {"container": centralWidget_QFrame_3, "name": "lbDialogTitle", "type": "QLabel", "visible": 1}
+centralWidget_questionLabel_QLabel_2 = {"container": centralWidget_QFrame_3, "name": "questionLabel", "type": "QLabel", "visible": 1}

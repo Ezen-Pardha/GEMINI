@@ -480,7 +480,7 @@ def navigate_system_date_time():
 
 
 def navigate_stone_quick_start_presets():
-    test.log("========== STONE QUICK START PRESETS ==========")
+    test.log("STONE QUICK START PRESETS")
 
     # Login
     enter_login_pin()
@@ -556,10 +556,6 @@ def click_and_report(object_name, description):
         )
         raise
 
-
-# --------------------------------------------------
-# MOUSE CLICK AND REPORT RESULT
-# --------------------------------------------------
 
 def mouse_click_and_report(
     object_name, x, y, description
@@ -1168,13 +1164,9 @@ def move_treatment_screen_sliders_to_both_extremes():
         "Verify visually that each slider reached its endpoint."
     )
 
-# ============================================================
-# COMPLETE RECORDED NAVIGATION FLOW
-# Uses the object names and order supplied for the current test.
-# ============================================================
 
 def navigate_complete_recorded_flow():
-    test.log("========== START COMPLETE RECORDED NAVIGATION FLOW ==========")
+    test.log("START COMPLETE RECORDED NAVIGATION FLOW")
 
     # Login PIN: 8888
     enter_login_pin()
@@ -1208,7 +1200,7 @@ def navigate_complete_recorded_flow():
         waitForObject(names.quickStartScreen_tbRightPedalTreatment_TabWidget, 20000),
         "SELECT RIGHT PEDAL TREATMENT"
     )
-    click_and_report(names.buttonsBar_homeButton_QPushButton_5,
+    click_and_report(names.buttonsBar_homeButton_QPushButton,
                      "Return home from Soft Tissue Quick Start")
 
     # Soft Tissue Assistant
