@@ -10,7 +10,7 @@ TESTCASE_DIR = os.path.dirname(os.path.abspath(__file__))
 EXCEL_PATH = os.path.abspath(
     os.path.join( TESTCASE_DIR,
         "..",
-        "shared",
+        "tst_Home Screen",
         "testdata",
         "Gemini Split strings.xlsx"
     )
@@ -142,7 +142,7 @@ def load_Bulgaria_excel(excel_path):
     sheet = workbook[SHEET_NAME]
 
     # Column B = English
-    # Column E = Bulgaria
+    # Column C = Bulgarian
     Bulgaria_data = {}
 
     for row in sheet.iter_rows(

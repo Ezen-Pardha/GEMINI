@@ -14,6 +14,7 @@ EXCEL_PATH = os.path.abspath(
         "testdata",
         "Gemini Split strings.xlsx"
     )
+)
 
 
 # EXCEL_PATH = "/home/ntc/Test_Automation_Gemini/Localisation/Suite_GFL_English/tst_LoginScreen-Logoff/testdata/Gemini strings.xlsx"
