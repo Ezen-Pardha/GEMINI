@@ -1,0 +1,683 @@
+2026-11-26T19:27:49	START     	Start 'suite_GFL_Functonal'   	Test 'suite_GFL_Functonal' started
+2026-11-26T19:27:49	START_TEST_CASE	Start 'tst_CON_PAR_007'       	Test 'tst_CON_PAR_007' started (tst_CON_PAR_007)
+2026-11-26T19:27:49	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:133: Entering login PIN 8888	
+2026-11-26T19:27:50	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:140: PASS: Login PIN 8888 entered successfully	
+2026-11-26T19:27:51	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:125: PASS: Handle fiber verification warning	
+2026-11-26T19:27:51	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:59: PASS: Confirm fiber verification warning	
+2026-11-26T19:28:12	ERROR     	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_007/test.py:11: Script Error (Screenshot in "/home/ezen/Test_Automation_Gemini/suite_GFL_Functonal/execution-results/20261126T192628Z/squish-xml/suite_GFL_Functonal/tst_CON_PAR_007/errorImages/error_1.png")	LookupError: Object 'buttonsBar_homeButton_QPushButton_3' not found. Could not match properties:\n    container for object name: '{container={container={container={name='ProfilesScreen' type='ProfilesScreen' visible='1' window=:o_ScreenSwitcher} name='topBar' type='TopBar' visible='1'} name='buttonsBar' type='ButtonsBar' visible='1'} name='homeButton' type='QPushButton' visible='1'}'\n    container for object name: '{container={container={name='ProfilesScreen' type='ProfilesScreen' visible='1' window=:o_ScreenSwitcher} name='topBar' type='TopBar' visible='1'} name='buttonsBar' type='ButtonsBar' visible='1'}'\n    container for object name: '{container={name='ProfilesScreen' type='ProfilesScreen' visible='1' window=:o_ScreenSwitcher} name='topBar' type='TopBar' visible='1'}'\n    type for object name: '{name='ProfilesScreen' type='ProfilesScreen' visible='1' window=:o_ScreenSwitcher}'
+2026-11-26T19:28:12	END_TEST_CASE	End 'tst_CON_PAR_007'         	End of test 'tst_CON_PAR_007'
+2026-11-26T19:28:13	START_TEST_CASE	Start 'tst_CON_PAR_008'       	Test 'tst_CON_PAR_008' started (tst_CON_PAR_008)
+2026-11-26T19:28:13	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:133: Entering login PIN 8888	
+2026-11-26T19:28:14	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:140: PASS: Login PIN 8888 entered successfully	
+2026-11-26T19:28:15	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:125: PASS: Handle fiber verification warning	
+2026-11-26T19:28:15	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:59: PASS: Confirm fiber verification warning	
+2026-11-26T19:28:19	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:120: Comparison	'1' and '1' are equal (Frequency control is available in MRP pulse mode)
+2026-11-26T19:28:20	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:153: PASS: Frequency decreased from 10.0 Hz to 9.0 Hz	
+2026-11-26T19:28:20	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:153: PASS: Frequency decreased from 9.0 Hz to 8.0 Hz	
+2026-11-26T19:28:21	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:153: PASS: Frequency decreased from 8.0 Hz to 7.0 Hz	
+2026-11-26T19:28:21	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:153: PASS: Frequency decreased from 7.0 Hz to 6.0 Hz	
+2026-11-26T19:28:21	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:153: PASS: Frequency decreased from 6.0 Hz to 5.0 Hz	
+2026-11-26T19:28:22	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:153: PASS: Frequency decreased from 5.0 Hz to 4.0 Hz	
+2026-11-26T19:28:22	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:153: PASS: Frequency decreased from 4.0 Hz to 3.0 Hz	
+2026-11-26T19:28:22	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:153: PASS: Frequency decreased from 3.0 Hz to 2.0 Hz	
+2026-11-26T19:28:23	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:153: PASS: Frequency decreased from 2.0 Hz to 1.0 Hz	
+2026-11-26T19:28:23	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:163: Minimum MRP pulse frequency verified: 1 Hz	
+2026-11-26T19:28:24	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 1.0 Hz to 2.0 Hz	
+2026-11-26T19:28:24	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 2.0 Hz to 3.0 Hz	
+2026-11-26T19:28:24	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 3.0 Hz to 4.0 Hz	
+2026-11-26T19:28:25	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 4.0 Hz to 5.0 Hz	
+2026-11-26T19:28:25	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 5.0 Hz to 6.0 Hz	
+2026-11-26T19:28:26	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 6.0 Hz to 7.0 Hz	
+2026-11-26T19:28:26	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 7.0 Hz to 8.0 Hz	
+2026-11-26T19:28:26	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 8.0 Hz to 9.0 Hz	
+2026-11-26T19:28:27	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 9.0 Hz to 10.0 Hz	
+2026-11-26T19:28:27	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 10.0 Hz to 11.0 Hz	
+2026-11-26T19:28:27	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 11.0 Hz to 12.0 Hz	
+2026-11-26T19:28:28	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 12.0 Hz to 13.0 Hz	
+2026-11-26T19:28:28	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 13.0 Hz to 14.0 Hz	
+2026-11-26T19:28:28	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 14.0 Hz to 15.0 Hz	
+2026-11-26T19:28:29	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 15.0 Hz to 16.0 Hz	
+2026-11-26T19:28:29	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 16.0 Hz to 17.0 Hz	
+2026-11-26T19:28:29	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 17.0 Hz to 18.0 Hz	
+2026-11-26T19:28:30	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 18.0 Hz to 19.0 Hz	
+2026-11-26T19:28:30	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 19.0 Hz to 20.0 Hz	
+2026-11-26T19:28:31	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 20.0 Hz to 22.0 Hz	
+2026-11-26T19:28:31	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 22.0 Hz to 24.0 Hz	
+2026-11-26T19:28:31	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 24.0 Hz to 26.0 Hz	
+2026-11-26T19:28:32	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 26.0 Hz to 28.0 Hz	
+2026-11-26T19:28:32	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 28.0 Hz to 30.0 Hz	
+2026-11-26T19:28:32	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 30.0 Hz to 32.0 Hz	
+2026-11-26T19:28:33	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 32.0 Hz to 34.0 Hz	
+2026-11-26T19:28:33	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 34.0 Hz to 36.0 Hz	
+2026-11-26T19:28:33	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 36.0 Hz to 38.0 Hz	
+2026-11-26T19:28:34	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 38.0 Hz to 40.0 Hz	
+2026-11-26T19:28:34	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 40.0 Hz to 45.0 Hz	
+2026-11-26T19:28:34	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 45.0 Hz to 50.0 Hz	
+2026-11-26T19:28:35	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 50.0 Hz to 55.0 Hz	
+2026-11-26T19:28:35	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 55.0 Hz to 60.0 Hz	
+2026-11-26T19:28:36	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 60.0 Hz to 65.0 Hz	
+2026-11-26T19:28:36	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 65.0 Hz to 70.0 Hz	
+2026-11-26T19:28:36	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 70.0 Hz to 75.0 Hz	
+2026-11-26T19:28:37	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 75.0 Hz to 80.0 Hz	
+2026-11-26T19:28:37	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 80.0 Hz to 85.0 Hz	
+2026-11-26T19:28:37	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 85.0 Hz to 90.0 Hz	
+2026-11-26T19:28:38	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 90.0 Hz to 95.0 Hz	
+2026-11-26T19:28:38	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 95.0 Hz to 100.0 Hz	
+2026-11-26T19:28:38	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 100.0 Hz to 120.0 Hz	
+2026-11-26T19:28:39	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 120.0 Hz to 140.0 Hz	
+2026-11-26T19:28:39	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 140.0 Hz to 160.0 Hz	
+2026-11-26T19:28:40	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 160.0 Hz to 180.0 Hz	
+2026-11-26T19:28:40	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 180.0 Hz to 200.0 Hz	
+2026-11-26T19:28:40	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 200.0 Hz to 220.0 Hz	
+2026-11-26T19:28:41	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 220.0 Hz to 240.0 Hz	
+2026-11-26T19:28:41	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 240.0 Hz to 260.0 Hz	
+2026-11-26T19:28:41	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 260.0 Hz to 280.0 Hz	
+2026-11-26T19:28:42	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 280.0 Hz to 300.0 Hz	
+2026-11-26T19:28:42	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 300.0 Hz to 320.0 Hz	
+2026-11-26T19:28:42	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:237: PASS: Frequency increased from 320.0 Hz to 340.0 Hz	
+2026-11-26T19:28:43	FAIL      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_008/test.py:202: ERROR: Frequency range is not reached. Expected: 400.0 Hz, Actual: 340.0 Hz. Increment button is disabled. (Screenshot in "/home/ezen/Test_Automation_Gemini/suite_GFL_Functonal/execution-results/20261126T192628Z/squish-xml/suite_GFL_Functonal/tst_CON_PAR_008/failedImages/failed_1.png")	
+2026-11-26T19:28:43	END_TEST_CASE	End 'tst_CON_PAR_008'         	End of test 'tst_CON_PAR_008'
+2026-11-26T19:28:43	START_TEST_CASE	Start 'tst_CON_PAR_009'       	Test 'tst_CON_PAR_009' started (tst_CON_PAR_009)
+2026-11-26T19:28:44	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:133: Entering login PIN 8888	
+2026-11-26T19:28:44	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:140: PASS: Login PIN 8888 entered successfully	
+2026-11-26T19:28:45	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:125: PASS: Handle fiber verification warning	
+2026-11-26T19:28:45	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:59: PASS: Confirm fiber verification warning	
+2026-11-26T19:28:46	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:92: Home screen is displayed.	
+2026-11-26T19:28:49	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:121: Manual/Expert navigation button selected.	
+2026-11-26T19:28:52	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:169: Total frequency values to verify: 57	
+2026-11-26T19:28:52	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:174: Frequency ranges to verify:	
+2026-11-26T19:28:52	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:175: 1-20 Hz in 1 Hz increments.	
+2026-11-26T19:28:52	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:176: 20-40 Hz in 2 Hz increments.	
+2026-11-26T19:28:52	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:177: 40-100 Hz in 5 Hz increments.	
+2026-11-26T19:28:52	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:178: 100-400 Hz in 20 Hz increments.	
+2026-11-26T19:29:01	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:243: Frequency reset to 1 Hz.	
+2026-11-26T19:29:01	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 1 Hz | Actual: 1.0 Hz	
+2026-11-26T19:29:01	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 1 Hz -> 2 Hz	
+2026-11-26T19:29:03	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 2 Hz | Actual: 2.0 Hz	
+2026-11-26T19:29:03	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 2 Hz -> 3 Hz	
+2026-11-26T19:29:04	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 3 Hz | Actual: 3.0 Hz	
+2026-11-26T19:29:04	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 3 Hz -> 4 Hz	
+2026-11-26T19:29:05	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 4 Hz | Actual: 4.0 Hz	
+2026-11-26T19:29:05	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 4 Hz -> 5 Hz	
+2026-11-26T19:29:06	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 5 Hz | Actual: 5.0 Hz	
+2026-11-26T19:29:06	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 5 Hz -> 6 Hz	
+2026-11-26T19:29:07	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 6 Hz | Actual: 6.0 Hz	
+2026-11-26T19:29:07	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 6 Hz -> 7 Hz	
+2026-11-26T19:29:08	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 7 Hz | Actual: 7.0 Hz	
+2026-11-26T19:29:08	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 7 Hz -> 8 Hz	
+2026-11-26T19:29:09	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 8 Hz | Actual: 8.0 Hz	
+2026-11-26T19:29:09	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 8 Hz -> 9 Hz	
+2026-11-26T19:29:10	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 9 Hz | Actual: 9.0 Hz	
+2026-11-26T19:29:10	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 9 Hz -> 10 Hz	
+2026-11-26T19:29:11	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 10 Hz | Actual: 10.0 Hz	
+2026-11-26T19:29:11	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 10 Hz -> 11 Hz	
+2026-11-26T19:29:12	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 11 Hz | Actual: 11.0 Hz	
+2026-11-26T19:29:12	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 11 Hz -> 12 Hz	
+2026-11-26T19:29:13	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 12 Hz | Actual: 12.0 Hz	
+2026-11-26T19:29:13	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 12 Hz -> 13 Hz	
+2026-11-26T19:29:14	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 13 Hz | Actual: 13.0 Hz	
+2026-11-26T19:29:14	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 13 Hz -> 14 Hz	
+2026-11-26T19:29:15	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 14 Hz | Actual: 14.0 Hz	
+2026-11-26T19:29:15	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 14 Hz -> 15 Hz	
+2026-11-26T19:29:16	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 15 Hz | Actual: 15.0 Hz	
+2026-11-26T19:29:16	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 15 Hz -> 16 Hz	
+2026-11-26T19:29:17	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 16 Hz | Actual: 16.0 Hz	
+2026-11-26T19:29:17	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 16 Hz -> 17 Hz	
+2026-11-26T19:29:18	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 17 Hz | Actual: 17.0 Hz	
+2026-11-26T19:29:18	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 17 Hz -> 18 Hz	
+2026-11-26T19:29:20	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 18 Hz | Actual: 18.0 Hz	
+2026-11-26T19:29:20	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 18 Hz -> 19 Hz	
+2026-11-26T19:29:21	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 19 Hz | Actual: 19.0 Hz	
+2026-11-26T19:29:21	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 19 Hz -> 20 Hz	
+2026-11-26T19:29:22	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 20 Hz | Actual: 20.0 Hz	
+2026-11-26T19:29:22	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:304: PASS: Frequency range 1-20 Hz verified in 1 Hz increments.	
+2026-11-26T19:29:22	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 20 Hz -> 22 Hz	
+2026-11-26T19:29:23	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 22 Hz | Actual: 22.0 Hz	
+2026-11-26T19:29:23	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 22 Hz -> 24 Hz	
+2026-11-26T19:29:24	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 24 Hz | Actual: 24.0 Hz	
+2026-11-26T19:29:24	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 24 Hz -> 26 Hz	
+2026-11-26T19:29:25	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 26 Hz | Actual: 26.0 Hz	
+2026-11-26T19:29:25	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 26 Hz -> 28 Hz	
+2026-11-26T19:29:26	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 28 Hz | Actual: 28.0 Hz	
+2026-11-26T19:29:26	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 28 Hz -> 30 Hz	
+2026-11-26T19:29:27	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 30 Hz | Actual: 30.0 Hz	
+2026-11-26T19:29:27	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 30 Hz -> 32 Hz	
+2026-11-26T19:29:28	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 32 Hz | Actual: 32.0 Hz	
+2026-11-26T19:29:28	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 32 Hz -> 34 Hz	
+2026-11-26T19:29:29	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 34 Hz | Actual: 34.0 Hz	
+2026-11-26T19:29:29	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 34 Hz -> 36 Hz	
+2026-11-26T19:29:30	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 36 Hz | Actual: 36.0 Hz	
+2026-11-26T19:29:30	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 36 Hz -> 38 Hz	
+2026-11-26T19:29:31	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 38 Hz | Actual: 38.0 Hz	
+2026-11-26T19:29:31	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 38 Hz -> 40 Hz	
+2026-11-26T19:29:32	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 40 Hz | Actual: 40.0 Hz	
+2026-11-26T19:29:32	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:310: PASS: Frequency range 20-40 Hz verified in 2 Hz increments.	
+2026-11-26T19:29:32	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 40 Hz -> 45 Hz	
+2026-11-26T19:29:33	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 45 Hz | Actual: 45.0 Hz	
+2026-11-26T19:29:33	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 45 Hz -> 50 Hz	
+2026-11-26T19:29:34	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 50 Hz | Actual: 50.0 Hz	
+2026-11-26T19:29:34	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 50 Hz -> 55 Hz	
+2026-11-26T19:29:35	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 55 Hz | Actual: 55.0 Hz	
+2026-11-26T19:29:35	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 55 Hz -> 60 Hz	
+2026-11-26T19:29:36	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 60 Hz | Actual: 60.0 Hz	
+2026-11-26T19:29:36	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 60 Hz -> 65 Hz	
+2026-11-26T19:29:37	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 65 Hz | Actual: 65.0 Hz	
+2026-11-26T19:29:37	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 65 Hz -> 70 Hz	
+2026-11-26T19:29:38	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 70 Hz | Actual: 70.0 Hz	
+2026-11-26T19:29:38	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 70 Hz -> 75 Hz	
+2026-11-26T19:29:39	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 75 Hz | Actual: 75.0 Hz	
+2026-11-26T19:29:39	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 75 Hz -> 80 Hz	
+2026-11-26T19:29:40	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 80 Hz | Actual: 80.0 Hz	
+2026-11-26T19:29:40	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 80 Hz -> 85 Hz	
+2026-11-26T19:29:41	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 85 Hz | Actual: 85.0 Hz	
+2026-11-26T19:29:41	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 85 Hz -> 90 Hz	
+2026-11-26T19:29:42	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 90 Hz | Actual: 90.0 Hz	
+2026-11-26T19:29:42	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 90 Hz -> 95 Hz	
+2026-11-26T19:29:43	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 95 Hz | Actual: 95.0 Hz	
+2026-11-26T19:29:43	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 95 Hz -> 100 Hz	
+2026-11-26T19:29:44	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 100 Hz | Actual: 100.0 Hz	
+2026-11-26T19:29:44	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:316: PASS: Frequency range 40-100 Hz verified in 5 Hz increments.	
+2026-11-26T19:29:44	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 100 Hz -> 120 Hz	
+2026-11-26T19:29:45	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 120 Hz | Actual: 120.0 Hz	
+2026-11-26T19:29:45	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 120 Hz -> 140 Hz	
+2026-11-26T19:29:46	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 140 Hz | Actual: 140.0 Hz	
+2026-11-26T19:29:46	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 140 Hz -> 160 Hz	
+2026-11-26T19:29:47	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 160 Hz | Actual: 160.0 Hz	
+2026-11-26T19:29:47	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 160 Hz -> 180 Hz	
+2026-11-26T19:29:48	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 180 Hz | Actual: 180.0 Hz	
+2026-11-26T19:29:48	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 180 Hz -> 200 Hz	
+2026-11-26T19:29:49	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 200 Hz | Actual: 200.0 Hz	
+2026-11-26T19:29:49	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 200 Hz -> 220 Hz	
+2026-11-26T19:29:50	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 220 Hz | Actual: 220.0 Hz	
+2026-11-26T19:29:50	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 220 Hz -> 240 Hz	
+2026-11-26T19:29:52	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 240 Hz | Actual: 240.0 Hz	
+2026-11-26T19:29:52	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 240 Hz -> 260 Hz	
+2026-11-26T19:29:53	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:26: PASS: Frequency verified. Expected: 260 Hz | Actual: 260.0 Hz	
+2026-11-26T19:29:53	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:255: Checking frequency transition: 260 Hz -> 280 Hz	
+2026-11-26T19:29:54	FAIL      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:32: FAIL: Frequency mismatch. Expected: 280 Hz | Actual: 300.0 Hz (Screenshot in "/home/ezen/Test_Automation_Gemini/suite_GFL_Functonal/execution-results/20261126T192628Z/squish-xml/suite_GFL_Functonal/tst_CON_PAR_009/failedImages/failed_1.png")	
+2026-11-26T19:29:54	FAIL      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_009/test.py:295: ERROR: Frequency test stopped while checking 280 Hz. (Screenshot in "/home/ezen/Test_Automation_Gemini/suite_GFL_Functonal/execution-results/20261126T192628Z/squish-xml/suite_GFL_Functonal/tst_CON_PAR_009/failedImages/failed_2.png")	
+2026-11-26T19:29:54	END_TEST_CASE	End 'tst_CON_PAR_009'         	End of test 'tst_CON_PAR_009'
+2026-11-26T19:29:55	START_TEST_CASE	Start 'tst_CON_PAR_013'       	Test 'tst_CON_PAR_013' started (tst_CON_PAR_013)
+2026-11-26T19:29:55	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:133: Entering login PIN 8888	
+2026-11-26T19:29:56	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:140: PASS: Login PIN 8888 entered successfully	
+2026-11-26T19:29:57	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:125: PASS: Handle fiber verification warning	
+2026-11-26T19:29:57	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:59: PASS: Confirm fiber verification warning	
+2026-11-26T19:29:58	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_013/test.py:43: CW Mode selected successfully.	
+2026-11-26T19:29:59	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_013/test.py:57: Initial CW power: 10.0 W	
+2026-11-26T19:29:59	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_013/test.py:76: Checking CW power increment 1: 10.0 W -> 15.0 W	
+2026-11-26T19:30:00	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_013/test.py:120: PASS: CW power increment verified. Previous: 10.0 W | Expected: 15.0 W | Actual: 15.0 W	
+2026-11-26T19:30:00	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_013/test.py:76: Checking CW power increment 2: 15.0 W -> 20.0 W	
+2026-11-26T19:30:00	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_013/test.py:120: PASS: CW power increment verified. Previous: 15.0 W | Expected: 20.0 W | Actual: 20.0 W	
+2026-11-26T19:30:00	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_013/test.py:76: Checking CW power increment 3: 20.0 W -> 25.0 W	
+2026-11-26T19:30:01	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_013/test.py:120: PASS: CW power increment verified. Previous: 20.0 W | Expected: 25.0 W | Actual: 25.0 W	
+2026-11-26T19:30:01	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_013/test.py:76: Checking CW power increment 4: 25.0 W -> 30.0 W	
+2026-11-26T19:30:01	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_013/test.py:120: PASS: CW power increment verified. Previous: 25.0 W | Expected: 30.0 W | Actual: 30.0 W	
+2026-11-26T19:30:01	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_013/test.py:76: Checking CW power increment 5: 30.0 W -> 35.0 W	
+2026-11-26T19:30:02	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_013/test.py:120: PASS: CW power increment verified. Previous: 30.0 W | Expected: 35.0 W | Actual: 35.0 W	
+2026-11-26T19:30:02	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_013/test.py:76: Checking CW power increment 6: 35.0 W -> 40.0 W	
+2026-11-26T19:30:02	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_013/test.py:120: PASS: CW power increment verified. Previous: 35.0 W | Expected: 40.0 W | Actual: 40.0 W	
+2026-11-26T19:30:02	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_013/test.py:76: Checking CW power increment 7: 40.0 W -> 45.0 W	
+2026-11-26T19:30:03	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_013/test.py:120: PASS: CW power increment verified. Previous: 40.0 W | Expected: 45.0 W | Actual: 45.0 W	
+2026-11-26T19:30:03	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_013/test.py:76: Checking CW power increment 8: 45.0 W -> 50.0 W	
+2026-11-26T19:30:03	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_013/test.py:120: PASS: CW power increment verified. Previous: 45.0 W | Expected: 50.0 W | Actual: 50.0 W	
+2026-11-26T19:30:03	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_013/test.py:76: Checking CW power increment 9: 50.0 W -> 55.0 W	
+2026-11-26T19:30:04	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_013/test.py:120: PASS: CW power increment verified. Previous: 50.0 W | Expected: 55.0 W | Actual: 55.0 W	
+2026-11-26T19:30:04	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_013/test.py:76: Checking CW power increment 10: 55.0 W -> 60.0 W	
+2026-11-26T19:30:04	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_013/test.py:120: PASS: CW power increment verified. Previous: 55.0 W | Expected: 60.0 W | Actual: 60.0 W	
+2026-11-26T19:30:04	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_013/test.py:140: SUCCESS: CW Mode power increments verified successfully. The power increased by 5 W for all 10 increments.	
+2026-11-26T19:30:04	END_TEST_CASE	End 'tst_CON_PAR_013'         	End of test 'tst_CON_PAR_013'
+2026-11-26T19:30:05	START_TEST_CASE	Start 'tst_CON_PAR_015'       	Test 'tst_CON_PAR_015' started (tst_CON_PAR_015)
+2026-11-26T19:30:05	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:133: Entering login PIN 8888	
+2026-11-26T19:30:06	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:140: PASS: Login PIN 8888 entered successfully	
+2026-11-26T19:30:07	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:125: PASS: Handle fiber verification warning	
+2026-11-26T19:30:07	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:59: PASS: Confirm fiber verification warning	
+2026-11-26T19:30:10	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_015/test.py:28: PASS: Pulse energy verified. Expected: 2 J | Actual: 2.0 J	
+2026-11-26T19:30:11	FAIL      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_015/test.py:35: FAIL: Pulse energy mismatch. Expected: 3 J | Actual: 2.0 J (Screenshot in "/home/ezen/Test_Automation_Gemini/suite_GFL_Functonal/execution-results/20261126T192628Z/squish-xml/suite_GFL_Functonal/tst_CON_PAR_015/failedImages/failed_1.png")	
+2026-11-26T19:30:11	END_TEST_CASE	End 'tst_CON_PAR_015'         	End of test 'tst_CON_PAR_015'
+2026-11-26T19:30:11	START_TEST_CASE	Start 'tst_CON_PAR_010_EC_B'  	Test 'tst_CON_PAR_010_EC_B' started (tst_CON_PAR_010_EC_B)
+2026-11-26T19:30:12	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:601: Starting system type configuration	
+2026-11-26T19:30:12	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:547: Selected device.ini: /home/ezen/Gemini_v1/bin/media/mmcblk1p1/factory/device.ini	
+2026-11-26T19:30:12	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:587: Updated systemType to B in /home/ezen/Gemini_v1/bin/media/mmcblk1p1/factory/device.ini	
+2026-11-26T19:30:12	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:605: System type configuration completed	
+2026-11-26T19:30:15	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_010_EC_B/test.py:19: AUT context detached	
+2026-11-26T19:30:20	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_010_EC_B/test.py:32: Bravo AUT restart command executed successfully	
+2026-11-26T19:30:20	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:133: Entering login PIN 8888	
+2026-11-26T19:30:20	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:140: PASS: Login PIN 8888 entered successfully	
+2026-11-26T19:30:21	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:125: PASS: Handle fiber verification warning	
+2026-11-26T19:30:21	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:59: PASS: Confirm fiber verification warning	
+2026-11-26T19:30:23	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:610: Checking System Type	
+2026-11-26T19:30:25	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:629: Actual System Type: Economy C	
+2026-11-26T19:30:25	FAIL      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:636: Incorrect Economy: Expected Economy B, found Economy C (Screenshot in "/home/ezen/Test_Automation_Gemini/suite_GFL_Functonal/execution-results/20261126T192628Z/squish-xml/suite_GFL_Functonal/tst_CON_PAR_010_EC_B/failedImages/failed_1.png")	
+2026-11-26T19:30:25	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:644: Unable to show QMessageBox; see failure log above	
+2026-11-26T19:30:46	ERROR     	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_010_EC_B/test.py:40: Script Error (Screenshot in "/home/ezen/Test_Automation_Gemini/suite_GFL_Functonal/execution-results/20261126T192628Z/squish-xml/suite_GFL_Functonal/tst_CON_PAR_010_EC_B/errorImages/error_1.png")	LookupError: Object 'buttonsBar_homeButton_QPushButton_3' not found. Could not match properties:\n    container for object name: '{container={container={container={name='ProfilesScreen' type='ProfilesScreen' visible='1' window=:o_ScreenSwitcher} name='topBar' type='TopBar' visible='1'} name='buttonsBar' type='ButtonsBar' visible='1'} name='homeButton' type='QPushButton' visible='1'}'\n    container for object name: '{container={container={name='ProfilesScreen' type='ProfilesScreen' visible='1' window=:o_ScreenSwitcher} name='topBar' type='TopBar' visible='1'} name='buttonsBar' type='ButtonsBar' visible='1'}'\n    container for object name: '{container={name='ProfilesScreen' type='ProfilesScreen' visible='1' window=:o_ScreenSwitcher} name='topBar' type='TopBar' visible='1'}'\n    type for object name: '{name='ProfilesScreen' type='ProfilesScreen' visible='1' window=:o_ScreenSwitcher}'
+2026-11-26T19:30:46	END_TEST_CASE	End 'tst_CON_PAR_010_EC_B'    	End of test 'tst_CON_PAR_010_EC_B'
+2026-11-26T19:30:47	START_TEST_CASE	Start 'tst_CON_PAR_010_EC_C'  	Test 'tst_CON_PAR_010_EC_C' started (tst_CON_PAR_010_EC_C)
+2026-11-26T19:30:47	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:601: Starting system type configuration	
+2026-11-26T19:30:47	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:547: Selected device.ini: /home/ezen/Gemini_v1/bin/media/mmcblk1p1/factory/device.ini	
+2026-11-26T19:30:47	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:587: Updated systemType to C in /home/ezen/Gemini_v1/bin/media/mmcblk1p1/factory/device.ini	
+2026-11-26T19:30:47	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:605: System type configuration completed	
+2026-11-26T19:30:50	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_010_EC_C/test.py:22: AUT context detached	
+2026-11-26T19:30:56	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_010_EC_C/test.py:35: Bravo AUT restart command executed successfully	
+2026-11-26T19:30:56	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:133: Entering login PIN 8888	
+2026-11-26T19:30:56	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:140: PASS: Login PIN 8888 entered successfully	
+2026-11-26T19:30:57	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:125: PASS: Handle fiber verification warning	
+2026-11-26T19:30:57	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:59: PASS: Confirm fiber verification warning	
+2026-11-26T19:30:57	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:649: Checking System Type	
+2026-11-26T19:31:01	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:664: Comparison	'Version Not Supported' and 'Version Not Supported' are equal
+2026-11-26T19:31:01	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:678: Actual System Type: Economy C	
+2026-11-26T19:31:01	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:682: System Type is Economy C	
+2026-11-26T19:31:22	ERROR     	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_010_EC_C/test.py:43: Script Error (Screenshot in "/home/ezen/Test_Automation_Gemini/suite_GFL_Functonal/execution-results/20261126T192628Z/squish-xml/suite_GFL_Functonal/tst_CON_PAR_010_EC_C/errorImages/error_1.png")	LookupError: Object 'buttonsBar_homeButton_QPushButton_3' not found. Could not match properties:\n    container for object name: '{container={container={container={name='ProfilesScreen' type='ProfilesScreen' visible='1' window=:o_ScreenSwitcher} name='topBar' type='TopBar' visible='1'} name='buttonsBar' type='ButtonsBar' visible='1'} name='homeButton' type='QPushButton' visible='1'}'\n    container for object name: '{container={container={name='ProfilesScreen' type='ProfilesScreen' visible='1' window=:o_ScreenSwitcher} name='topBar' type='TopBar' visible='1'} name='buttonsBar' type='ButtonsBar' visible='1'}'\n    container for object name: '{container={name='ProfilesScreen' type='ProfilesScreen' visible='1' window=:o_ScreenSwitcher} name='topBar' type='TopBar' visible='1'}'\n    type for object name: '{name='ProfilesScreen' type='ProfilesScreen' visible='1' window=:o_ScreenSwitcher}'
+2026-11-26T19:31:22	END_TEST_CASE	End 'tst_CON_PAR_010_EC_C'    	End of test 'tst_CON_PAR_010_EC_C'
+2026-11-26T19:31:23	START_TEST_CASE	Start 'tst_CON_PAR_012_EC_B'  	Test 'tst_CON_PAR_012_EC_B' started (tst_CON_PAR_012_EC_B)
+2026-11-26T19:31:23	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:601: Starting system type configuration	
+2026-11-26T19:31:23	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:547: Selected device.ini: /home/ezen/Gemini_v1/bin/media/mmcblk1p1/factory/device.ini	
+2026-11-26T19:31:23	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:587: Updated systemType to B in /home/ezen/Gemini_v1/bin/media/mmcblk1p1/factory/device.ini	
+2026-11-26T19:31:23	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:605: System type configuration completed	
+2026-11-26T19:31:27	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_012_EC_B/test.py:20: AUT context detached	
+2026-11-26T19:31:32	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_012_EC_B/test.py:33: Bravo AUT restart command executed successfully	
+2026-11-26T19:31:32	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:133: Entering login PIN 8888	
+2026-11-26T19:31:33	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:140: PASS: Login PIN 8888 entered successfully	
+2026-11-26T19:31:33	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:125: PASS: Handle fiber verification warning	
+2026-11-26T19:31:33	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:59: PASS: Confirm fiber verification warning	
+2026-11-26T19:31:33	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:610: Checking System Type	
+2026-11-26T19:31:36	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:629: Actual System Type: Economy C	
+2026-11-26T19:31:36	FAIL      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:636: Incorrect Economy: Expected Economy B, found Economy C (Screenshot in "/home/ezen/Test_Automation_Gemini/suite_GFL_Functonal/execution-results/20261126T192628Z/squish-xml/suite_GFL_Functonal/tst_CON_PAR_012_EC_B/failedImages/failed_1.png")	
+2026-11-26T19:31:36	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:644: Unable to show QMessageBox; see failure log above	
+2026-11-26T19:31:57	ERROR     	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_012_EC_B/test.py:39: Script Error (Screenshot in "/home/ezen/Test_Automation_Gemini/suite_GFL_Functonal/execution-results/20261126T192628Z/squish-xml/suite_GFL_Functonal/tst_CON_PAR_012_EC_B/errorImages/error_1.png")	LookupError: Object 'buttonsBar_homeButton_QPushButton_3' not found. Could not match properties:\n    container for object name: '{container={container={container={name='ProfilesScreen' type='ProfilesScreen' visible='1' window=:o_ScreenSwitcher} name='topBar' type='TopBar' visible='1'} name='buttonsBar' type='ButtonsBar' visible='1'} name='homeButton' type='QPushButton' visible='1'}'\n    container for object name: '{container={container={name='ProfilesScreen' type='ProfilesScreen' visible='1' window=:o_ScreenSwitcher} name='topBar' type='TopBar' visible='1'} name='buttonsBar' type='ButtonsBar' visible='1'}'\n    container for object name: '{container={name='ProfilesScreen' type='ProfilesScreen' visible='1' window=:o_ScreenSwitcher} name='topBar' type='TopBar' visible='1'}'\n    type for object name: '{name='ProfilesScreen' type='ProfilesScreen' visible='1' window=:o_ScreenSwitcher}'
+2026-11-26T19:31:57	END_TEST_CASE	End 'tst_CON_PAR_012_EC_B'    	End of test 'tst_CON_PAR_012_EC_B'
+2026-11-26T19:31:57	START_TEST_CASE	Start 'tst_CON_PAR_012_EC_C'  	Test 'tst_CON_PAR_012_EC_C' started (tst_CON_PAR_012_EC_C)
+2026-11-26T19:31:58	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:601: Starting system type configuration	
+2026-11-26T19:31:58	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:547: Selected device.ini: /home/ezen/Gemini_v1/bin/media/mmcblk1p1/factory/device.ini	
+2026-11-26T19:31:58	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:587: Updated systemType to C in /home/ezen/Gemini_v1/bin/media/mmcblk1p1/factory/device.ini	
+2026-11-26T19:31:58	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:605: System type configuration completed	
+2026-11-26T19:32:01	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_012_EC_C/test.py:20: AUT context detached	
+2026-11-26T19:32:06	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_012_EC_C/test.py:33: Bravo AUT restart command executed successfully	
+2026-11-26T19:32:06	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:133: Entering login PIN 8888	
+2026-11-26T19:32:07	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:140: PASS: Login PIN 8888 entered successfully	
+2026-11-26T19:32:07	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:125: PASS: Handle fiber verification warning	
+2026-11-26T19:32:07	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:59: PASS: Confirm fiber verification warning	
+2026-11-26T19:32:07	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:649: Checking System Type	
+2026-11-26T19:32:11	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:664: Comparison	'Version Not Supported' and 'Version Not Supported' are equal
+2026-11-26T19:32:11	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:678: Actual System Type: Economy C	
+2026-11-26T19:32:11	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:682: System Type is Economy C	
+2026-11-26T19:32:32	ERROR     	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_012_EC_C/test.py:39: Script Error (Screenshot in "/home/ezen/Test_Automation_Gemini/suite_GFL_Functonal/execution-results/20261126T192628Z/squish-xml/suite_GFL_Functonal/tst_CON_PAR_012_EC_C/errorImages/error_1.png")	LookupError: Object 'buttonsBar_homeButton_QPushButton_3' not found. Could not match properties:\n    container for object name: '{container={container={container={name='ProfilesScreen' type='ProfilesScreen' visible='1' window=:o_ScreenSwitcher} name='topBar' type='TopBar' visible='1'} name='buttonsBar' type='ButtonsBar' visible='1'} name='homeButton' type='QPushButton' visible='1'}'\n    container for object name: '{container={container={name='ProfilesScreen' type='ProfilesScreen' visible='1' window=:o_ScreenSwitcher} name='topBar' type='TopBar' visible='1'} name='buttonsBar' type='ButtonsBar' visible='1'}'\n    container for object name: '{container={name='ProfilesScreen' type='ProfilesScreen' visible='1' window=:o_ScreenSwitcher} name='topBar' type='TopBar' visible='1'}'\n    type for object name: '{name='ProfilesScreen' type='ProfilesScreen' visible='1' window=:o_ScreenSwitcher}'
+2026-11-26T19:32:32	END_TEST_CASE	End 'tst_CON_PAR_012_EC_C'    	End of test 'tst_CON_PAR_012_EC_C'
+2026-11-26T19:32:33	START_TEST_CASE	Start 'tst_CON_PAR_005_EC_C'  	Test 'tst_CON_PAR_005_EC_C' started (tst_CON_PAR_005_EC_C)
+2026-11-26T19:32:33	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:133: Entering login PIN 8888	
+2026-11-26T19:32:34	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:140: PASS: Login PIN 8888 entered successfully	
+2026-11-26T19:32:41	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:190: Step 1: Login completed	
+2026-11-26T19:32:44	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:203: Step 2: Expert screen opened	
+2026-11-26T19:32:45	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 2.1	
+2026-11-26T19:32:45	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:38: PASS: Average Power within 2 W to 60 W: 2.1 W	
+2026-11-26T19:32:46	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 2	
+2026-11-26T19:32:46	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:38: PASS: Average Power within 2 W to 60 W: 2.0 W	
+2026-11-26T19:32:47	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 2	
+2026-11-26T19:32:47	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:38: PASS: Average Power within 2 W to 60 W: 2.0 W	
+2026-11-26T19:32:49	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 2.5	
+2026-11-26T19:32:49	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:38: PASS: Average Power within 2 W to 60 W: 2.5 W	
+2026-11-26T19:32:50	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 3	
+2026-11-26T19:32:50	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:38: PASS: Average Power within 2 W to 60 W: 3.0 W	
+2026-11-26T19:32:51	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 3.5	
+2026-11-26T19:32:51	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:38: PASS: Average Power within 2 W to 60 W: 3.5 W	
+2026-11-26T19:32:52	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 4	
+2026-11-26T19:32:52	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:38: PASS: Average Power within 2 W to 60 W: 4.0 W	
+2026-11-26T19:32:53	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 4.5	
+2026-11-26T19:32:53	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:38: PASS: Average Power within 2 W to 60 W: 4.5 W	
+2026-11-26T19:32:54	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 5	
+2026-11-26T19:32:54	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:38: PASS: Average Power within 2 W to 60 W: 5.0 W	
+2026-11-26T19:32:55	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 4.8	
+2026-11-26T19:32:55	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:38: PASS: Average Power within 2 W to 60 W: 4.8 W	
+2026-11-26T19:32:56	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 5.4	
+2026-11-26T19:32:56	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:38: PASS: Average Power within 2 W to 60 W: 5.4 W	
+2026-11-26T19:32:57	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 6	
+2026-11-26T19:32:57	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:38: PASS: Average Power within 2 W to 60 W: 6.0 W	
+2026-11-26T19:32:58	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 6.6	
+2026-11-26T19:32:58	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:38: PASS: Average Power within 2 W to 60 W: 6.6 W	
+2026-11-26T19:32:59	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 7.2	
+2026-11-26T19:32:59	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:38: PASS: Average Power within 2 W to 60 W: 7.2 W	
+2026-11-26T19:33:00	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 7.8	
+2026-11-26T19:33:00	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:38: PASS: Average Power within 2 W to 60 W: 7.8 W	
+2026-11-26T19:33:01	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 8.4	
+2026-11-26T19:33:01	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:38: PASS: Average Power within 2 W to 60 W: 8.4 W	
+2026-11-26T19:33:02	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 9	
+2026-11-26T19:33:02	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:38: PASS: Average Power within 2 W to 60 W: 9.0 W	
+2026-11-26T19:33:03	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 9.6	
+2026-11-26T19:33:03	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:38: PASS: Average Power within 2 W to 60 W: 9.6 W	
+2026-11-26T19:33:05	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:252: Step 7: Pulse Mode interaction completed	
+2026-11-26T19:33:05	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 9.8	
+2026-11-26T19:33:05	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:38: PASS: Average Power within 2 W to 60 W: 9.8 W	
+2026-11-26T19:33:07	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 10.5	
+2026-11-26T19:33:07	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:151: Frequency adjustment 1: Average Power = 10.5 W	
+2026-11-26T19:33:08	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 11.2	
+2026-11-26T19:33:08	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:151: Frequency adjustment 2: Average Power = 11.2 W	
+2026-11-26T19:33:09	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 11.9	
+2026-11-26T19:33:09	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:151: Frequency adjustment 3: Average Power = 11.9 W	
+2026-11-26T19:33:10	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 12.6	
+2026-11-26T19:33:10	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:151: Frequency adjustment 4: Average Power = 12.6 W	
+2026-11-26T19:33:11	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 13.3	
+2026-11-26T19:33:11	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:151: Frequency adjustment 5: Average Power = 13.3 W	
+2026-11-26T19:33:12	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 14	
+2026-11-26T19:33:12	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:151: Frequency adjustment 6: Average Power = 14.0 W	
+2026-11-26T19:33:13	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 15.4	
+2026-11-26T19:33:13	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:151: Frequency adjustment 7: Average Power = 15.4 W	
+2026-11-26T19:33:14	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 16.8	
+2026-11-26T19:33:14	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:151: Frequency adjustment 8: Average Power = 16.8 W	
+2026-11-26T19:33:15	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 18.2	
+2026-11-26T19:33:15	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:151: Frequency adjustment 9: Average Power = 18.2 W	
+2026-11-26T19:33:16	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 19.6	
+2026-11-26T19:33:16	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:151: Frequency adjustment 10: Average Power = 19.6 W	
+2026-11-26T19:33:17	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 21	
+2026-11-26T19:33:17	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:151: Frequency adjustment 11: Average Power = 21.0 W	
+2026-11-26T19:33:18	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 22.4	
+2026-11-26T19:33:18	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:151: Frequency adjustment 12: Average Power = 22.4 W	
+2026-11-26T19:33:19	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 23.8	
+2026-11-26T19:33:19	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:151: Frequency adjustment 13: Average Power = 23.8 W	
+2026-11-26T19:33:20	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 25.2	
+2026-11-26T19:33:20	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:151: Frequency adjustment 14: Average Power = 25.2 W	
+2026-11-26T19:33:21	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 26.6	
+2026-11-26T19:33:21	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:151: Frequency adjustment 15: Average Power = 26.6 W	
+2026-11-26T19:33:22	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 28	
+2026-11-26T19:33:22	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:151: Frequency adjustment 16: Average Power = 28.0 W	
+2026-11-26T19:33:23	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 31.5	
+2026-11-26T19:33:23	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:151: Frequency adjustment 17: Average Power = 31.5 W	
+2026-11-26T19:33:24	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 35	
+2026-11-26T19:33:24	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:151: Frequency adjustment 18: Average Power = 35.0 W	
+2026-11-26T19:33:25	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 38.5	
+2026-11-26T19:33:25	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:151: Frequency adjustment 19: Average Power = 38.5 W	
+2026-11-26T19:33:26	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 42	
+2026-11-26T19:33:26	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:151: Frequency adjustment 20: Average Power = 42.0 W	
+2026-11-26T19:33:27	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 45.5	
+2026-11-26T19:33:27	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:151: Frequency adjustment 21: Average Power = 45.5 W	
+2026-11-26T19:33:28	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 49	
+2026-11-26T19:33:28	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:151: Frequency adjustment 22: Average Power = 49.0 W	
+2026-11-26T19:33:29	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 52.5	
+2026-11-26T19:33:29	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:151: Frequency adjustment 23: Average Power = 52.5 W	
+2026-11-26T19:33:30	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 56	
+2026-11-26T19:33:30	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:151: Frequency adjustment 24: Average Power = 56.0 W	
+2026-11-26T19:33:31	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 59.5	
+2026-11-26T19:33:31	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:151: Frequency adjustment 25: Average Power = 59.5 W	
+2026-11-26T19:33:32	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:20: Displayed Average Power: 63	
+2026-11-26T19:33:32	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:101: Average Power exceeded 60 W: 63.0 W	
+2026-11-26T19:33:53	ERROR     	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/test.py:106: Script Error (Screenshot in "/home/ezen/Test_Automation_Gemini/suite_GFL_Functonal/execution-results/20261126T192628Z/squish-xml/suite_GFL_Functonal/tst_CON_PAR_005_EC_C/errorImages/error_1.png")	LookupError: Object 'frequencyWidget_decrementButton_QPushButton' not found. Could not match properties:\n    container for object name: '{container={container={container={name='centralWidget' type='QFrame' visible='1' window=:o_ScreenSwitcher} name='PulseModeWidget' type='PulseModeWidget' visible='1'} name='frequencyWidget' type='ParameterSettingsWidget' visible='1'} name='decrementButton' type='QPushButton' visible='1'}'\n    container for object name: '{container={container={name='centralWidget' type='QFrame' visible='1' window=:o_ScreenSwitcher} name='PulseModeWidget' type='PulseModeWidget' visible='1'} name='frequencyWidget' type='ParameterSettingsWidget' visible='1'}'\n    container for object name: '{container={name='centralWidget' type='QFrame' visible='1' window=:o_ScreenSwitcher} name='PulseModeWidget' type='PulseModeWidget' visible='1'}'\n    name for object name: '{name='centralWidget' type='QFrame' visible='1' window=:o_ScreenSwitcher}'
+2026-11-26T19:33:53	END_TEST_CASE	End 'tst_CON_PAR_005_EC_C'    	End of test 'tst_CON_PAR_005_EC_C'
+2026-11-26T19:33:53	START_TEST_CASE	Start 'tst_CON_PAR_001'       	Test 'tst_CON_PAR_001' started (tst_CON_PAR_001)
+2026-11-26T19:33:54	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:133: Entering login PIN 8888	
+2026-11-26T19:33:54	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:140: PASS: Login PIN 8888 entered successfully	
+2026-11-26T19:33:55	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_001/test.py:17: PASS: Home screen is displayed after login.	
+2026-11-26T19:34:20	ERROR     	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_001/test.py:56: Script Error (Screenshot in "/home/ezen/Test_Automation_Gemini/suite_GFL_Functonal/execution-results/20261126T192628Z/squish-xml/suite_GFL_Functonal/tst_CON_PAR_001/errorImages/error_1.png")	LookupError: Object 'centralWidget_label_2_QLabel' not found. Could not match properties:\n    name for object name: '{container={name='centralWidget' type='QFrame' visible='1' window=:o_ScreenSwitcher} name='label_2' type='QLabel' visible='1'}'
+2026-11-26T19:34:20	END_TEST_CASE	End 'tst_CON_PAR_001'         	End of test 'tst_CON_PAR_001'
+2026-11-26T19:34:21	START_TEST_CASE	Start 'tst_CON_PAR_002'       	Test 'tst_CON_PAR_002' started (tst_CON_PAR_002)
+2026-11-26T19:34:21	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:133: Entering login PIN 8888	
+2026-11-26T19:34:22	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:140: PASS: Login PIN 8888 entered successfully	
+2026-11-26T19:34:24	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:54: Home screen is displayed.	
+2026-11-26T19:34:25	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:67: Manual/Expert navigation button selected.	
+2026-11-26T19:34:28	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:112: Total frequency values to verify: 77	
+2026-11-26T19:34:38	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:162: Frequency reset to 1 Hz.	
+2026-11-26T19:34:38	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 1 Hz | Actual: 1.0 Hz	
+2026-11-26T19:34:38	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 1 Hz -> 2 Hz	
+2026-11-26T19:34:39	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 2 Hz | Actual: 2.0 Hz	
+2026-11-26T19:34:39	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 2 Hz -> 3 Hz	
+2026-11-26T19:34:40	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 3 Hz | Actual: 3.0 Hz	
+2026-11-26T19:34:40	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 3 Hz -> 4 Hz	
+2026-11-26T19:34:41	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 4 Hz | Actual: 4.0 Hz	
+2026-11-26T19:34:41	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 4 Hz -> 5 Hz	
+2026-11-26T19:34:42	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 5 Hz | Actual: 5.0 Hz	
+2026-11-26T19:34:42	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 5 Hz -> 6 Hz	
+2026-11-26T19:34:43	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 6 Hz | Actual: 6.0 Hz	
+2026-11-26T19:34:43	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 6 Hz -> 7 Hz	
+2026-11-26T19:34:44	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 7 Hz | Actual: 7.0 Hz	
+2026-11-26T19:34:44	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 7 Hz -> 8 Hz	
+2026-11-26T19:34:45	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 8 Hz | Actual: 8.0 Hz	
+2026-11-26T19:34:45	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 8 Hz -> 9 Hz	
+2026-11-26T19:34:46	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 9 Hz | Actual: 9.0 Hz	
+2026-11-26T19:34:46	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 9 Hz -> 10 Hz	
+2026-11-26T19:34:47	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 10 Hz | Actual: 10.0 Hz	
+2026-11-26T19:34:47	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 10 Hz -> 11 Hz	
+2026-11-26T19:34:48	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 11 Hz | Actual: 11.0 Hz	
+2026-11-26T19:34:48	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 11 Hz -> 12 Hz	
+2026-11-26T19:34:49	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 12 Hz | Actual: 12.0 Hz	
+2026-11-26T19:34:49	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 12 Hz -> 13 Hz	
+2026-11-26T19:34:50	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 13 Hz | Actual: 13.0 Hz	
+2026-11-26T19:34:50	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 13 Hz -> 14 Hz	
+2026-11-26T19:34:52	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 14 Hz | Actual: 14.0 Hz	
+2026-11-26T19:34:52	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 14 Hz -> 15 Hz	
+2026-11-26T19:34:53	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 15 Hz | Actual: 15.0 Hz	
+2026-11-26T19:34:53	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 15 Hz -> 16 Hz	
+2026-11-26T19:34:54	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 16 Hz | Actual: 16.0 Hz	
+2026-11-26T19:34:54	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 16 Hz -> 17 Hz	
+2026-11-26T19:34:55	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 17 Hz | Actual: 17.0 Hz	
+2026-11-26T19:34:55	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 17 Hz -> 18 Hz	
+2026-11-26T19:34:56	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 18 Hz | Actual: 18.0 Hz	
+2026-11-26T19:34:56	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 18 Hz -> 19 Hz	
+2026-11-26T19:34:57	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 19 Hz | Actual: 19.0 Hz	
+2026-11-26T19:34:57	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 19 Hz -> 20 Hz	
+2026-11-26T19:34:58	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 20 Hz | Actual: 20.0 Hz	
+2026-11-26T19:34:58	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 20 Hz -> 22 Hz	
+2026-11-26T19:34:59	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 22 Hz | Actual: 22.0 Hz	
+2026-11-26T19:34:59	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 22 Hz -> 24 Hz	
+2026-11-26T19:35:00	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 24 Hz | Actual: 24.0 Hz	
+2026-11-26T19:35:00	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 24 Hz -> 26 Hz	
+2026-11-26T19:35:01	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 26 Hz | Actual: 26.0 Hz	
+2026-11-26T19:35:01	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 26 Hz -> 28 Hz	
+2026-11-26T19:35:02	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 28 Hz | Actual: 28.0 Hz	
+2026-11-26T19:35:02	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 28 Hz -> 30 Hz	
+2026-11-26T19:35:03	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 30 Hz | Actual: 30.0 Hz	
+2026-11-26T19:35:03	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 30 Hz -> 32 Hz	
+2026-11-26T19:35:04	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 32 Hz | Actual: 32.0 Hz	
+2026-11-26T19:35:04	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 32 Hz -> 34 Hz	
+2026-11-26T19:35:05	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 34 Hz | Actual: 34.0 Hz	
+2026-11-26T19:35:05	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 34 Hz -> 36 Hz	
+2026-11-26T19:35:06	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 36 Hz | Actual: 36.0 Hz	
+2026-11-26T19:35:06	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 36 Hz -> 38 Hz	
+2026-11-26T19:35:07	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 38 Hz | Actual: 38.0 Hz	
+2026-11-26T19:35:07	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 38 Hz -> 40 Hz	
+2026-11-26T19:35:08	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 40 Hz | Actual: 40.0 Hz	
+2026-11-26T19:35:08	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 40 Hz -> 45 Hz	
+2026-11-26T19:35:09	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 45 Hz | Actual: 45.0 Hz	
+2026-11-26T19:35:09	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 45 Hz -> 50 Hz	
+2026-11-26T19:35:10	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 50 Hz | Actual: 50.0 Hz	
+2026-11-26T19:35:10	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 50 Hz -> 55 Hz	
+2026-11-26T19:35:11	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 55 Hz | Actual: 55.0 Hz	
+2026-11-26T19:35:11	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 55 Hz -> 60 Hz	
+2026-11-26T19:35:12	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 60 Hz | Actual: 60.0 Hz	
+2026-11-26T19:35:12	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 60 Hz -> 65 Hz	
+2026-11-26T19:35:13	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 65 Hz | Actual: 65.0 Hz	
+2026-11-26T19:35:13	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 65 Hz -> 70 Hz	
+2026-11-26T19:35:14	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 70 Hz | Actual: 70.0 Hz	
+2026-11-26T19:35:14	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 70 Hz -> 75 Hz	
+2026-11-26T19:35:15	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 75 Hz | Actual: 75.0 Hz	
+2026-11-26T19:35:15	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 75 Hz -> 80 Hz	
+2026-11-26T19:35:16	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 80 Hz | Actual: 80.0 Hz	
+2026-11-26T19:35:16	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 80 Hz -> 85 Hz	
+2026-11-26T19:35:17	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 85 Hz | Actual: 85.0 Hz	
+2026-11-26T19:35:17	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 85 Hz -> 90 Hz	
+2026-11-26T19:35:18	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 90 Hz | Actual: 90.0 Hz	
+2026-11-26T19:35:18	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 90 Hz -> 95 Hz	
+2026-11-26T19:35:19	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 95 Hz | Actual: 95.0 Hz	
+2026-11-26T19:35:19	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 95 Hz -> 100 Hz	
+2026-11-26T19:35:20	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 100 Hz | Actual: 100.0 Hz	
+2026-11-26T19:35:20	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 100 Hz -> 120 Hz	
+2026-11-26T19:35:21	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 120 Hz | Actual: 120.0 Hz	
+2026-11-26T19:35:21	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 120 Hz -> 140 Hz	
+2026-11-26T19:35:22	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 140 Hz | Actual: 140.0 Hz	
+2026-11-26T19:35:22	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 140 Hz -> 160 Hz	
+2026-11-26T19:35:23	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 160 Hz | Actual: 160.0 Hz	
+2026-11-26T19:35:23	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 160 Hz -> 180 Hz	
+2026-11-26T19:35:24	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 180 Hz | Actual: 180.0 Hz	
+2026-11-26T19:35:24	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 180 Hz -> 200 Hz	
+2026-11-26T19:35:25	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 200 Hz | Actual: 200.0 Hz	
+2026-11-26T19:35:25	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 200 Hz -> 220 Hz	
+2026-11-26T19:35:26	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 220 Hz | Actual: 220.0 Hz	
+2026-11-26T19:35:26	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 220 Hz -> 240 Hz	
+2026-11-26T19:35:27	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 240 Hz | Actual: 240.0 Hz	
+2026-11-26T19:35:27	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 240 Hz -> 260 Hz	
+2026-11-26T19:35:28	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 260 Hz | Actual: 260.0 Hz	
+2026-11-26T19:35:28	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 260 Hz -> 280 Hz	
+2026-11-26T19:35:29	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 280 Hz | Actual: 280.0 Hz	
+2026-11-26T19:35:29	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 280 Hz -> 300 Hz	
+2026-11-26T19:35:30	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 300 Hz | Actual: 300.0 Hz	
+2026-11-26T19:35:30	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 300 Hz -> 320 Hz	
+2026-11-26T19:35:31	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 320 Hz | Actual: 320.0 Hz	
+2026-11-26T19:35:31	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 320 Hz -> 340 Hz	
+2026-11-26T19:35:32	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 340 Hz | Actual: 340.0 Hz	
+2026-11-26T19:35:32	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 340 Hz -> 360 Hz	
+2026-11-26T19:35:33	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 360 Hz | Actual: 360.0 Hz	
+2026-11-26T19:35:33	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 360 Hz -> 380 Hz	
+2026-11-26T19:35:34	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 380 Hz | Actual: 380.0 Hz	
+2026-11-26T19:35:34	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 380 Hz -> 400 Hz	
+2026-11-26T19:35:35	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 400 Hz | Actual: 400.0 Hz	
+2026-11-26T19:35:35	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 400 Hz -> 500 Hz	
+2026-11-26T19:35:36	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 500 Hz | Actual: 500.0 Hz	
+2026-11-26T19:35:36	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 500 Hz -> 600 Hz	
+2026-11-26T19:35:37	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 600 Hz | Actual: 600.0 Hz	
+2026-11-26T19:35:37	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 600 Hz -> 700 Hz	
+2026-11-26T19:35:38	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 700 Hz | Actual: 700.0 Hz	
+2026-11-26T19:35:38	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 700 Hz -> 800 Hz	
+2026-11-26T19:35:39	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 800 Hz | Actual: 800.0 Hz	
+2026-11-26T19:35:39	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 800 Hz -> 900 Hz	
+2026-11-26T19:35:41	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 900 Hz | Actual: 900.0 Hz	
+2026-11-26T19:35:41	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 900 Hz -> 1000 Hz	
+2026-11-26T19:35:42	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 1000 Hz | Actual: 1000.0 Hz	
+2026-11-26T19:35:42	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 1000 Hz -> 1100 Hz	
+2026-11-26T19:35:43	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 1100 Hz | Actual: 1100.0 Hz	
+2026-11-26T19:35:43	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 1100 Hz -> 1200 Hz	
+2026-11-26T19:35:44	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 1200 Hz | Actual: 1200.0 Hz	
+2026-11-26T19:35:44	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 1200 Hz -> 1300 Hz	
+2026-11-26T19:35:45	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 1300 Hz | Actual: 1300.0 Hz	
+2026-11-26T19:35:45	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 1300 Hz -> 1400 Hz	
+2026-11-26T19:35:46	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 1400 Hz | Actual: 1400.0 Hz	
+2026-11-26T19:35:46	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 1400 Hz -> 1500 Hz	
+2026-11-26T19:35:48	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 1500 Hz | Actual: 1500.0 Hz	
+2026-11-26T19:35:48	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 1500 Hz -> 1600 Hz	
+2026-11-26T19:35:49	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 1600 Hz | Actual: 1600.0 Hz	
+2026-11-26T19:35:49	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 1600 Hz -> 1700 Hz	
+2026-11-26T19:35:50	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 1700 Hz | Actual: 1700.0 Hz	
+2026-11-26T19:35:50	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 1700 Hz -> 1800 Hz	
+2026-11-26T19:35:51	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 1800 Hz | Actual: 1800.0 Hz	
+2026-11-26T19:35:51	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 1800 Hz -> 1900 Hz	
+2026-11-26T19:35:52	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 1900 Hz | Actual: 1900.0 Hz	
+2026-11-26T19:35:52	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 1900 Hz -> 2000 Hz	
+2026-11-26T19:35:53	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 2000 Hz | Actual: 2000.0 Hz	
+2026-11-26T19:35:53	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 2000 Hz -> 2100 Hz	
+2026-11-26T19:35:54	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 2100 Hz | Actual: 2100.0 Hz	
+2026-11-26T19:35:54	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 2100 Hz -> 2200 Hz	
+2026-11-26T19:35:55	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 2200 Hz | Actual: 2200.0 Hz	
+2026-11-26T19:35:55	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 2200 Hz -> 2300 Hz	
+2026-11-26T19:35:56	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 2300 Hz | Actual: 2300.0 Hz	
+2026-11-26T19:35:56	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:174: Checking frequency transition: 2300 Hz -> 2400 Hz	
+2026-11-26T19:35:57	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:18: PASS | Expected: 2400 Hz | Actual: 2400.0 Hz	
+2026-11-26T19:35:57	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_002/test.py:203: SUCCESS: All 77 frequency values verified up to 2400 Hz.	
+2026-11-26T19:35:57	END_TEST_CASE	End 'tst_CON_PAR_002'         	End of test 'tst_CON_PAR_002'
+2026-11-26T19:35:57	START_TEST_CASE	Start 'tst_CON_PAR_003'       	Test 'tst_CON_PAR_003' started (tst_CON_PAR_003)
+2026-11-26T19:35:58	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:133: Entering login PIN 8888	
+2026-11-26T19:35:58	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/shared/scripts/common.py:140: PASS: Login PIN 8888 entered successfully	
+2026-11-26T19:36:00	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:57: PASS | Home screen is displayed.	
+2026-11-26T19:36:04	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:80: PASS | Manual/Expert navigation action completed.	
+2026-11-26T19:36:06	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:119: Configuration selection actions completed.	
+2026-11-26T19:36:06	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:146: Total expected frequency values: 77	
+2026-11-26T19:36:06	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:152: Frequency tiers: 1-20 Hz (1 Hz increments); 20-40 Hz (2 Hz increments); 40-100 Hz (5 Hz increments); 100-400 Hz (20 Hz increments); above 400 Hz (100 Hz increments).	
+2026-11-26T19:36:06	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:165: Initial displayed frequency: 10.0 Hz	
+2026-11-26T19:36:20	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:221: PASS | Frequency reset successfully to 1 Hz.	
+2026-11-26T19:36:20	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:19: PASS | Expected: 1 Hz | Actual: 1.0 Hz	
+2026-11-26T19:36:20	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:236: FREQUENCY TIER STARTED: 1-20 Hz with 1 Hz increments.	
+2026-11-26T19:36:20	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:265: Checking frequency transition: 1 Hz -> 2 Hz	
+2026-11-26T19:36:22	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:281: Frequency result | Expected: 2 Hz | Actual: 2.0 Hz	
+2026-11-26T19:36:22	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:19: PASS | Expected: 2 Hz | Actual: 2.0 Hz	
+2026-11-26T19:36:22	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:265: Checking frequency transition: 2 Hz -> 3 Hz	
+2026-11-26T19:36:23	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:281: Frequency result | Expected: 3 Hz | Actual: 3.0 Hz	
+2026-11-26T19:36:23	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:19: PASS | Expected: 3 Hz | Actual: 3.0 Hz	
+2026-11-26T19:36:23	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:265: Checking frequency transition: 3 Hz -> 4 Hz	
+2026-11-26T19:36:24	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:281: Frequency result | Expected: 4 Hz | Actual: 4.0 Hz	
+2026-11-26T19:36:24	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:19: PASS | Expected: 4 Hz | Actual: 4.0 Hz	
+2026-11-26T19:36:24	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:265: Checking frequency transition: 4 Hz -> 5 Hz	
+2026-11-26T19:36:25	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:281: Frequency result | Expected: 5 Hz | Actual: 5.0 Hz	
+2026-11-26T19:36:25	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:19: PASS | Expected: 5 Hz | Actual: 5.0 Hz	
+2026-11-26T19:36:25	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:265: Checking frequency transition: 5 Hz -> 6 Hz	
+2026-11-26T19:36:26	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:281: Frequency result | Expected: 6 Hz | Actual: 6.0 Hz	
+2026-11-26T19:36:26	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:19: PASS | Expected: 6 Hz | Actual: 6.0 Hz	
+2026-11-26T19:36:26	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:265: Checking frequency transition: 6 Hz -> 7 Hz	
+2026-11-26T19:36:27	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:281: Frequency result | Expected: 7 Hz | Actual: 7.0 Hz	
+2026-11-26T19:36:27	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:19: PASS | Expected: 7 Hz | Actual: 7.0 Hz	
+2026-11-26T19:36:27	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:265: Checking frequency transition: 7 Hz -> 8 Hz	
+2026-11-26T19:36:28	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:281: Frequency result | Expected: 8 Hz | Actual: 8.0 Hz	
+2026-11-26T19:36:28	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:19: PASS | Expected: 8 Hz | Actual: 8.0 Hz	
+2026-11-26T19:36:28	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:265: Checking frequency transition: 8 Hz -> 9 Hz	
+2026-11-26T19:36:29	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:281: Frequency result | Expected: 9 Hz | Actual: 9.0 Hz	
+2026-11-26T19:36:29	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:19: PASS | Expected: 9 Hz | Actual: 9.0 Hz	
+2026-11-26T19:36:29	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:265: Checking frequency transition: 9 Hz -> 10 Hz	
+2026-11-26T19:36:30	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:281: Frequency result | Expected: 10 Hz | Actual: 10.0 Hz	
+2026-11-26T19:36:30	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:19: PASS | Expected: 10 Hz | Actual: 10.0 Hz	
+2026-11-26T19:36:30	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:265: Checking frequency transition: 10 Hz -> 11 Hz	
+2026-11-26T19:36:31	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:281: Frequency result | Expected: 11 Hz | Actual: 11.0 Hz	
+2026-11-26T19:36:31	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:19: PASS | Expected: 11 Hz | Actual: 11.0 Hz	
+2026-11-26T19:36:31	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:265: Checking frequency transition: 11 Hz -> 12 Hz	
+2026-11-26T19:36:32	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:281: Frequency result | Expected: 12 Hz | Actual: 12.0 Hz	
+2026-11-26T19:36:32	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:19: PASS | Expected: 12 Hz | Actual: 12.0 Hz	
+2026-11-26T19:36:32	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:265: Checking frequency transition: 12 Hz -> 13 Hz	
+2026-11-26T19:36:33	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:281: Frequency result | Expected: 13 Hz | Actual: 13.0 Hz	
+2026-11-26T19:36:33	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:19: PASS | Expected: 13 Hz | Actual: 13.0 Hz	
+2026-11-26T19:36:33	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:265: Checking frequency transition: 13 Hz -> 14 Hz	
+2026-11-26T19:36:34	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:281: Frequency result | Expected: 14 Hz | Actual: 14.0 Hz	
+2026-11-26T19:36:34	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:19: PASS | Expected: 14 Hz | Actual: 14.0 Hz	
+2026-11-26T19:36:34	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:265: Checking frequency transition: 14 Hz -> 15 Hz	
+2026-11-26T19:36:35	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:281: Frequency result | Expected: 15 Hz | Actual: 15.0 Hz	
+2026-11-26T19:36:35	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:19: PASS | Expected: 15 Hz | Actual: 15.0 Hz	
+2026-11-26T19:36:35	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:265: Checking frequency transition: 15 Hz -> 16 Hz	
+2026-11-26T19:36:36	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:281: Frequency result | Expected: 16 Hz | Actual: 16.0 Hz	
+2026-11-26T19:36:36	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:19: PASS | Expected: 16 Hz | Actual: 16.0 Hz	
+2026-11-26T19:36:36	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:265: Checking frequency transition: 16 Hz -> 17 Hz	
+2026-11-26T19:36:37	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:281: Frequency result | Expected: 17 Hz | Actual: 17.0 Hz	
+2026-11-26T19:36:37	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:19: PASS | Expected: 17 Hz | Actual: 17.0 Hz	
+2026-11-26T19:36:37	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:265: Checking frequency transition: 17 Hz -> 18 Hz	
+2026-11-26T19:36:38	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:281: Frequency result | Expected: 18 Hz | Actual: 18.0 Hz	
+2026-11-26T19:36:38	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:19: PASS | Expected: 18 Hz | Actual: 18.0 Hz	
+2026-11-26T19:36:38	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:265: Checking frequency transition: 18 Hz -> 19 Hz	
+2026-11-26T19:36:39	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:281: Frequency result | Expected: 19 Hz | Actual: 19.0 Hz	
+2026-11-26T19:36:39	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:19: PASS | Expected: 19 Hz | Actual: 19.0 Hz	
+2026-11-26T19:36:39	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:265: Checking frequency transition: 19 Hz -> 20 Hz	
+2026-11-26T19:36:40	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:281: Frequency result | Expected: 20 Hz | Actual: 20.0 Hz	
+2026-11-26T19:36:40	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:19: PASS | Expected: 20 Hz | Actual: 20.0 Hz	
+2026-11-26T19:36:40	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:242: FREQUENCY TIER CHANGE: 20-40 Hz with 2 Hz increments.	
+2026-11-26T19:36:40	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:265: Checking frequency transition: 20 Hz -> 22 Hz	
+2026-11-26T19:36:41	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:281: Frequency result | Expected: 22 Hz | Actual: 22.0 Hz	
+2026-11-26T19:36:41	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:19: PASS | Expected: 22 Hz | Actual: 22.0 Hz	
+2026-11-26T19:36:41	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:265: Checking frequency transition: 22 Hz -> 24 Hz	
+2026-11-26T19:36:42	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:281: Frequency result | Expected: 24 Hz | Actual: 24.0 Hz	
+2026-11-26T19:36:42	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:19: PASS | Expected: 24 Hz | Actual: 24.0 Hz	
+2026-11-26T19:36:42	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:265: Checking frequency transition: 24 Hz -> 26 Hz	
+2026-11-26T19:36:43	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:281: Frequency result | Expected: 26 Hz | Actual: 26.0 Hz	
+2026-11-26T19:36:43	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:19: PASS | Expected: 26 Hz | Actual: 26.0 Hz	
+2026-11-26T19:36:43	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:265: Checking frequency transition: 26 Hz -> 28 Hz	
+2026-11-26T19:36:44	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:281: Frequency result | Expected: 28 Hz | Actual: 28.0 Hz	
+2026-11-26T19:36:44	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:19: PASS | Expected: 28 Hz | Actual: 28.0 Hz	
+2026-11-26T19:36:44	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:265: Checking frequency transition: 28 Hz -> 30 Hz	
+2026-11-26T19:36:45	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:281: Frequency result | Expected: 30 Hz | Actual: 30.0 Hz	
+2026-11-26T19:36:45	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:19: PASS | Expected: 30 Hz | Actual: 30.0 Hz	
+2026-11-26T19:36:45	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:265: Checking frequency transition: 30 Hz -> 32 Hz	
+2026-11-26T19:36:46	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:281: Frequency result | Expected: 32 Hz | Actual: 32.0 Hz	
+2026-11-26T19:36:46	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:19: PASS | Expected: 32 Hz | Actual: 32.0 Hz	
+2026-11-26T19:36:46	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:265: Checking frequency transition: 32 Hz -> 34 Hz	
+2026-11-26T19:36:47	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:281: Frequency result | Expected: 34 Hz | Actual: 34.0 Hz	
+2026-11-26T19:36:47	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:19: PASS | Expected: 34 Hz | Actual: 34.0 Hz	
+2026-11-26T19:36:47	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:265: Checking frequency transition: 34 Hz -> 36 Hz	
+2026-11-26T19:36:48	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:281: Frequency result | Expected: 36 Hz | Actual: 36.0 Hz	
+2026-11-26T19:36:48	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:19: PASS | Expected: 36 Hz | Actual: 36.0 Hz	
+2026-11-26T19:36:48	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:265: Checking frequency transition: 36 Hz -> 38 Hz	
+2026-11-26T19:36:49	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:281: Frequency result | Expected: 38 Hz | Actual: 38.0 Hz	
+2026-11-26T19:36:49	PASS      	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:19: PASS | Expected: 38 Hz | Actual: 38.0 Hz	
+2026-11-26T19:36:49	LOG       	/tmp/squish-gfl-zjk4kkb7/suite_GFL_Functonal/tst_CON_PAR_003/test.py:265: Checking frequency transition: 38 Hz -> 40 Hz	
+2026-11-26T19:36:50	FATAL     	Execution error               	Testsuite execution was canceled while executing tst_CON_PAR_003
+2026-11-26T19:36:50	END_TEST_CASE	                              	
+2026-11-26T19:36:50	END       	End 'suite_GFL_Functonal'     	End of test 'suite_GFL_Functonal'
+*******************************************************
+Summary:
+Number of Test Cases:	  13
+Number of Tests:	 274
+Number of Errors:	   7
+Number of Fatals:	   1
+Number of Fails:	   6
+Number of Passes:	 268
+Number of Expected Fails:	   0
+Number of Unexpected Passes:	   0
+Number of Warnings:	   0
+*******************************************************
