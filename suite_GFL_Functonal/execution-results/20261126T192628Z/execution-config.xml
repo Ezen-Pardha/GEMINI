@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<testconfig version="1.0">
+    <information>
+        <summary />
+        <description />
+    </information>
+    <testsettings><logScreenshotOnFail>true</logScreenshotOnFail><logScreenshotOnError>true</logScreenshotOnError></testsettings>
+    <passwords />
+</testconfig>
